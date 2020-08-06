@@ -1,0 +1,52 @@
+//
+//  SynopsisViewCell.swift
+//  Murder
+//
+//  Created by 马滕亚 on 2020/7/27.
+//  Copyright © 2020 m.a.c. All rights reserved.
+//
+
+import UIKit
+
+
+class SynopsisViewCell: UITableViewCell {
+    // 内容
+    @IBOutlet weak var contentLabel: UILabel!
+    // 箭头
+    @IBOutlet weak var boultBtn: UIButton!
+    
+    // cell高度
+    var cellHeight: CGFloat = 50 {
+        didSet {
+            self.frame.size.height = cellHeight
+            contentLabel.frame.size.height = cellHeight
+//            layoutIfNeeded()
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+        
+        backgroundColor = UIColor.white
+        
+        contentLabel.textColor = HexColor(LightGrayColor)
+        contentLabel.text = "「あの人と出会えることは神様の恩賜だろう。しかしあの人と愛し合うことは腐れ縁だとう。」 あなたの名前はフラ、昔あなたのお爺さんは一応役人だ、でも上司から陥れられ、一族は落ちぶれた。幼いあなたは伶人になって、家族と離れ離れになってしまった、自分の本名も覚えられない。数年後、あなたは伊勢守の上泉家に買われ、家の侍女となった。"
+        
+        self.frame.size.height = cellHeight
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+        
+//        if selected {
+//            boultBtn.isSelected = true
+//        } else {
+//            boultBtn.isSelected = false
+//
+//        }
+    }
+    
+}

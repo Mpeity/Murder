@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ThreadCardView" customModule="Murder" customModuleProvider="target">
+            <connections>
+                <outlet property="cancelBtn" destination="vqz-RG-uhn" id="QKn-mu-3Xb"/>
+                <outlet property="contentView" destination="ry7-nu-Jc0" id="2Va-e9-loO"/>
+                <outlet property="deepBtn" destination="ZOf-y3-kok" id="qAH-nR-dlI"/>
+                <outlet property="imgView" destination="DfN-iP-crg" id="Oah-Fh-qSE"/>
+                <outlet property="publicBtn" destination="crl-P9-DsV" id="RZW-4b-ucy"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="ry7-nu-Jc0">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NoV-r0-oI8">
+                    <rect key="frame" x="37.5" y="184" width="339" height="315"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thread_img" translatesAutoresizingMaskIntoConstraints="NO" id="DfN-iP-crg">
+                            <rect key="frame" x="15.5" y="14" width="308" height="214"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="214" id="7id-rO-yma"/>
+                            </constraints>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="crl-P9-DsV">
+                            <rect key="frame" x="22" y="249" width="140" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="RKA-BU-C74"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="公開"/>
+                            <connections>
+                                <action selector="publicBtnAction:" destination="-1" eventType="touchUpInside" id="KfQ-oe-Uo2"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZOf-y3-kok">
+                            <rect key="frame" x="177" y="249" width="140" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="8sP-RV-Aqf"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="深くへ調査"/>
+                            <connections>
+                                <action selector="deepBtnAction:" destination="-1" eventType="touchUpInside" id="oEc-no-8cc"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="ZOf-y3-kok" firstAttribute="width" secondItem="crl-P9-DsV" secondAttribute="width" id="2pV-09-OpE"/>
+                        <constraint firstItem="crl-P9-DsV" firstAttribute="leading" secondItem="NoV-r0-oI8" secondAttribute="leading" constant="22" id="6kJ-6a-tU6"/>
+                        <constraint firstAttribute="trailing" secondItem="DfN-iP-crg" secondAttribute="trailing" constant="15.5" id="COP-qk-5Jb"/>
+                        <constraint firstItem="ZOf-y3-kok" firstAttribute="height" secondItem="crl-P9-DsV" secondAttribute="height" id="I9a-bj-ltu"/>
+                        <constraint firstAttribute="height" constant="315" id="NSs-Cc-8Qz"/>
+                        <constraint firstItem="DfN-iP-crg" firstAttribute="leading" secondItem="NoV-r0-oI8" secondAttribute="leading" constant="15.5" id="Q2r-pB-jxL"/>
+                        <constraint firstItem="ZOf-y3-kok" firstAttribute="leading" secondItem="crl-P9-DsV" secondAttribute="trailing" constant="15" id="hum-Tm-wbs"/>
+                        <constraint firstAttribute="trailing" secondItem="ZOf-y3-kok" secondAttribute="trailing" constant="22" id="jPW-EH-LXO"/>
+                        <constraint firstAttribute="bottom" secondItem="crl-P9-DsV" secondAttribute="bottom" constant="22" id="nPI-yL-kQq"/>
+                        <constraint firstItem="DfN-iP-crg" firstAttribute="top" secondItem="NoV-r0-oI8" secondAttribute="top" constant="14" id="qz2-qi-kra"/>
+                        <constraint firstItem="ZOf-y3-kok" firstAttribute="bottom" secondItem="crl-P9-DsV" secondAttribute="bottom" id="yyX-Cp-mNY"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <integer key="value" value="15"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vqz-RG-uhn">
+                    <rect key="frame" x="190.5" y="543" width="33" height="33"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="33" id="Mda-6n-vfD"/>
+                        <constraint firstAttribute="height" constant="33" id="TMe-pd-Rbf"/>
+                    </constraints>
+                    <state key="normal" image="cancel"/>
+                    <connections>
+                        <action selector="cancelBtnAction:" destination="-1" eventType="touchUpInside" id="lLB-n7-U5s"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="vqz-RG-uhn" firstAttribute="top" secondItem="NoV-r0-oI8" secondAttribute="bottom" constant="44" id="IRr-zy-oUL"/>
+                <constraint firstItem="NoV-r0-oI8" firstAttribute="top" secondItem="f2g-qc-Cpu" secondAttribute="top" constant="140" id="NoD-nd-p1j"/>
+                <constraint firstItem="NoV-r0-oI8" firstAttribute="leading" secondItem="f2g-qc-Cpu" secondAttribute="leading" constant="37.5" id="cf5-Qn-QoC"/>
+                <constraint firstItem="vqz-RG-uhn" firstAttribute="centerX" secondItem="ry7-nu-Jc0" secondAttribute="centerX" id="eaH-zd-FSH"/>
+                <constraint firstItem="f2g-qc-Cpu" firstAttribute="trailing" secondItem="NoV-r0-oI8" secondAttribute="trailing" constant="37.5" id="wqK-rn-VYn"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="f2g-qc-Cpu"/>
+            <point key="canvasLocation" x="100.00000000000001" y="154.6875"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="cancel" width="35" height="35"/>
+        <image name="thread_img" width="268.5" height="213.5"/>
+    </resources>
+</document>

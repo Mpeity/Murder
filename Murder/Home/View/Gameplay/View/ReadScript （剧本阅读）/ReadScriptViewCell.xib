@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReadScriptCellId" rowHeight="553" id="KGk-i7-Jjw" customClass="ReadScriptViewCell" customModule="Murder" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="403" height="553"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="403" height="553"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mFk-SH-mxH">
+                        <rect key="frame" x="15" y="0.0" width="373" height="538"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <mutableString key="text">「あの人と出会えることは神様の恩賜だろう。 しかしあの人と愛し合うことは腐れ縁だとう。」 あなたの名前はフラ、昔あなたのお爺さんは一応役人だ、でも上司から陥れられ、一族は落ちぶれた。幼いあなたは伶人になって、家族と離れ離れになってしまった、自分の本名も覚えられない。数年後、あなたは伊勢守の上泉家に買われ、家の侍女となった。 上泉家では、あなたが奉仕する相手は上泉悠介だ。彼は勢力を得ない伊勢守の息、母親が早世し、幼いところ、散々酷い目にされた、家の下人までに軽蔑された。あなた自身も豊かな生活から侍女まで落とされ、自分のこととよく似ていたと思い込んだ。だから、他の者に笑われようとも、あなただけはいつも心を尽くして彼の面倒を見てきた。彼もあなたのことを頼れていた。 このまま一生過ごすと思ったが、永保六年（1074年）に転機が来た。 伊勢神宮が風日祈祭を開催する時、天皇陛下は皇室を連れて神宮に訪ねた。あなたなら当然参加できないが、ある噂でも聞いた。天皇陛下の輝夜女御が難産で死に、魂が化け物になって、天皇長女の山桜姫を傷つき、また神宮に祀ってる八咫鏡を砕けようとした。その危機一髪の時、悠介坊様が身を立ち向かい、神鏡を守った。その一瞬で、斎宮殿と大宮司様に時間を稼いでた、その隙を狙い、斎宮殿と大宮司様が化け物を祓った。「あの人と出会えることは神様の恩賜だろう。 しかしあの人と愛し合うことは腐れ縁だとう。     「あの人と出会えることは神様の恩賜だろう。 しかしあの人と愛し合うことは腐れ縁だとう。」 あなたの名前はフラ、昔あなたのお爺さんは一応役人だ、でも上司から陥れられ、一族は落ちぶれた。幼いあなたは伶人になって、家族と離れ離れになってしまった、自分の本名も覚えられない。数年後、あなたは伊勢守の上泉家に買われ、家の侍女となった。 上泉家では、あなたが奉仕する相手は上泉悠介だ。彼は勢力を得ない伊勢守の息、母親が早世し、幼いところ、散々酷い目にされた、家の下人までに軽蔑された。あなた自身も豊かな生活から侍女まで落とされ、自分のこととよく似ていたと思い込んだ。だから、他の者に笑われようとも、あなただけはいつも心を尽くして彼の面倒を見てきた。彼もあなたのことを頼れていた。 このまま一生過ごすと思ったが、永保六年（1074年）に転機が来た。 伊勢神宮が風日祈祭を開催する時、天皇陛下は皇室を連れて神宮に訪ねた。あなたなら当然参加できないが、ある噂でも聞いた。天皇陛下の輝夜女御が難産で死に、魂が化け物になって、天皇長女の山桜姫を傷つき、また神宮に祀ってる八咫鏡を砕けようとした。その危機一髪の時、悠介坊様が身を立ち向かい、神鏡を守った。その一瞬で、斎宮殿と大宮司様に時間を稼いでた、その隙を狙い、斎宮殿と大宮司様が化け物を祓った。「あの人と出会えることは神様の恩賜だろう。 しかしあの人と愛し合うことは腐れ縁だとう。</mutableString>
+                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="mFk-SH-mxH" secondAttribute="trailing" constant="15" id="frq-sz-TTa"/>
+                    <constraint firstAttribute="bottom" secondItem="mFk-SH-mxH" secondAttribute="bottom" constant="15" id="hJr-Ha-W7F"/>
+                    <constraint firstItem="mFk-SH-mxH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="lZz-Il-5bj"/>
+                    <constraint firstItem="mFk-SH-mxH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="ptX-ur-Zgq"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="textView" destination="mFk-SH-mxH" id="rKK-0v-5lh"/>
+            </connections>
+            <point key="canvasLocation" x="83.333333333333343" y="111.49553571428571"/>
+        </tableViewCell>
+    </objects>
+</document>

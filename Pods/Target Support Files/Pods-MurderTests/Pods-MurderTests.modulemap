@@ -1,0 +1,6 @@
+framework module Pods_MurderTests {
+  umbrella header "Pods-MurderTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

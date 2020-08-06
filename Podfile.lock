@@ -1,0 +1,89 @@
+PODS:
+  - AFNetworking (2.7.0):
+    - AFNetworking/NSURLConnection (= 2.7.0)
+    - AFNetworking/NSURLSession (= 2.7.0)
+    - AFNetworking/Reachability (= 2.7.0)
+    - AFNetworking/Security (= 2.7.0)
+    - AFNetworking/Serialization (= 2.7.0)
+    - AFNetworking/UIKit (= 2.7.0)
+  - AFNetworking/NSURLConnection (2.7.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.7.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.7.0)
+  - AFNetworking/Security (2.7.0)
+  - AFNetworking/Serialization (2.7.0)
+  - AFNetworking/UIKit (2.7.0):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - Alamofire (4.8.2)
+  - Bugly (2.5.0)
+  - CLToast (1.0.3)
+  - FBRetainCycleDetector (0.1.4)
+  - FTPopOverMenu_Swift (0.2.0)
+  - MJRefresh (3.2.0)
+  - MLeaksFinder (1.0.0):
+    - FBRetainCycleDetector
+  - SDCycleScrollView (1.75):
+    - SDWebImage (>= 4.0.0)
+  - SDWebImage (5.1.0):
+    - SDWebImage/Core (= 5.1.0)
+  - SDWebImage/Core (5.1.0)
+  - SnapKit (4.2.0)
+  - SVProgressHUD (2.2.5)
+  - YYKit (1.0.9):
+    - YYKit/no-arc (= 1.0.9)
+  - YYKit/no-arc (1.0.9)
+
+DEPENDENCIES:
+  - AFNetworking (~> 2.6)
+  - Alamofire
+  - Bugly
+  - CLToast
+  - FTPopOverMenu_Swift
+  - MJRefresh
+  - MLeaksFinder
+  - SDCycleScrollView (= 1.75)
+  - SDWebImage
+  - SnapKit
+  - SVProgressHUD
+  - YYKit
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFNetworking
+    - Alamofire
+    - Bugly
+    - CLToast
+    - FBRetainCycleDetector
+    - FTPopOverMenu_Swift
+    - MJRefresh
+    - MLeaksFinder
+    - SDCycleScrollView
+    - SDWebImage
+    - SnapKit
+    - SVProgressHUD
+    - YYKit
+
+SPEC CHECKSUMS:
+  AFNetworking: 8dd5f9b9691e09186393069a12cc3b5ed7c8b511
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
+  CLToast: 2e88c737d01eb44316e21ccc9ac485df8f5b35bf
+  FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
+  FTPopOverMenu_Swift: 44d95f702ef643f902c60d7e49553dfc0e874dac
+  MJRefresh: ed450d6eb9d3346a2cb033ab7eb6de090aeef437
+  MLeaksFinder: 8c435bd2f6d070af18cff082b503b21adc130fc0
+  SDCycleScrollView: 884b88f0266dd4708a0e1934975c69cb971707b1
+  SDWebImage: fb387001955223213dde14bc08c8b73f371f8d8f
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
+
+PODFILE CHECKSUM: 432215af3761f608208fb6d2f07c0b21b9040ed6
+
+COCOAPODS: 1.7.5

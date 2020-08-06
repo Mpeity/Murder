@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment version="4352" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GameplayViewController" customModule="Murder" customModuleProvider="target">
+            <connections>
+                <outlet property="bgImgView" destination="Fe2-o1-ins" id="KOS-q8-iNo"/>
+                <outlet property="scrollView" destination="f12-82-fmO" id="G7p-Tr-t4l"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f12-82-fmO">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gameplay_bg" translatesAutoresizingMaskIntoConstraints="NO" id="Fe2-o1-ins">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <color key="backgroundColor" red="0.60392156860000001" green="0.3411764706" blue="0.99607843139999996" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="Fe2-o1-ins" firstAttribute="leading" secondItem="eiY-yJ-Ucp" secondAttribute="leading" id="8DH-Uv-B7A"/>
+                        <constraint firstAttribute="bottom" secondItem="Fe2-o1-ins" secondAttribute="bottom" id="AFN-LS-myY"/>
+                        <constraint firstItem="Fe2-o1-ins" firstAttribute="top" secondItem="eiY-yJ-Ucp" secondAttribute="top" id="Muv-c7-gsw"/>
+                        <constraint firstItem="eiY-yJ-Ucp" firstAttribute="trailing" secondItem="Fe2-o1-ins" secondAttribute="trailing" id="gl8-2A-euS"/>
+                        <constraint firstAttribute="trailing" secondItem="Fe2-o1-ins" secondAttribute="trailing" id="iDu-dc-KWX"/>
+                        <constraint firstItem="eiY-yJ-Ucp" firstAttribute="bottom" secondItem="Fe2-o1-ins" secondAttribute="bottom" id="sHN-ay-3iz"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="dkv-Zk-Cz3"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="eiY-yJ-Ucp"/>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="f12-82-fmO" secondAttribute="bottom" id="F6g-0f-xn8"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="f12-82-fmO" secondAttribute="trailing" id="U7W-IJ-kAg"/>
+                <constraint firstItem="f12-82-fmO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="cB9-pT-lR7"/>
+                <constraint firstItem="f12-82-fmO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="l18-ZO-mqq"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="69.565217391304358" y="49.553571428571423"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="gameplay_bg" width="375" height="666.5"/>
+    </resources>
+</document>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DissolveView" customModule="Murder" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="i35-Ya-IuC"/>
+                <outlet property="dissolutionBtn" destination="XfB-Xu-y9s" id="GgF-v9-otV"/>
+                <outlet property="dissolutionCandelBtn" destination="FiJ-OO-fdo" id="6DY-9r-Y7n"/>
+                <outlet property="dissolutionLabel" destination="xzc-L9-flV" id="VTW-PK-86q"/>
+                <outlet property="dissolutionStartBtn" destination="a1Z-Fe-I8p" id="wV8-4E-h9x"/>
+                <outlet property="dissolutionView" destination="aTh-0S-uv8" id="U0m-Ne-YFE"/>
+                <outlet property="noDissolutionBtn" destination="gA7-69-zq0" id="KYP-8I-tE0"/>
+                <outlet property="votingLabel" destination="QTJ-65-WR9" id="TWi-LZ-aoY"/>
+                <outlet property="votingView" destination="iwa-iY-zOK" id="SJO-sl-RFI"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iwa-iY-zOK" userLabel="View(jiesantoupiao)">
+                    <rect key="frame" x="57" y="234" width="300" height="200"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XfB-Xu-y9s">
+                            <rect key="frame" x="22.5" y="138.5" width="120" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="120" id="fm2-aE-wQi"/>
+                                <constraint firstAttribute="height" constant="44" id="tFk-cG-H1Z"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="解散">
+                                <color key="titleColor" red="0.60392156860000001" green="0.3411764706" blue="0.99607843139999996" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="22"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="dissolutionBtnAction:" destination="-1" eventType="touchUpInside" id="n17-Lb-njE"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTJ-65-WR9">
+                            <rect key="frame" x="47.5" y="36" width="205" height="54"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="205" id="LKs-Sh-afs"/>
+                            </constraints>
+                            <attributedString key="attributedText">
+                                <fragment content="あるプレーヤーがルームの解散の投票を発起しました、ご同意しますか？">
+                                    <attributes>
+                                        <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <font key="NSFont" metaFont="system" size="15"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                    </attributes>
+                                </fragment>
+                            </attributedString>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gA7-69-zq0">
+                            <rect key="frame" x="157.5" y="138.5" width="120" height="44"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="解散しない">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="noDissolutionBtnAction:" destination="-1" eventType="touchUpInside" id="LNS-5m-dyb"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="QTJ-65-WR9" firstAttribute="top" secondItem="iwa-iY-zOK" secondAttribute="top" constant="36" id="3Dd-Q4-hww"/>
+                        <constraint firstAttribute="width" constant="300" id="4aj-B9-liN"/>
+                        <constraint firstAttribute="bottom" secondItem="XfB-Xu-y9s" secondAttribute="bottom" constant="17.5" id="7Jw-g4-wme"/>
+                        <constraint firstItem="XfB-Xu-y9s" firstAttribute="leading" secondItem="iwa-iY-zOK" secondAttribute="leading" constant="22.5" id="IeG-By-mc0"/>
+                        <constraint firstItem="gA7-69-zq0" firstAttribute="width" secondItem="XfB-Xu-y9s" secondAttribute="width" id="S6h-Ao-I3Z"/>
+                        <constraint firstItem="gA7-69-zq0" firstAttribute="leading" secondItem="XfB-Xu-y9s" secondAttribute="trailing" constant="15" id="Xbk-IV-evq"/>
+                        <constraint firstAttribute="height" constant="200" id="cHd-U0-Fr3"/>
+                        <constraint firstItem="gA7-69-zq0" firstAttribute="bottom" secondItem="XfB-Xu-y9s" secondAttribute="bottom" id="iVK-wf-ndN"/>
+                        <constraint firstItem="gA7-69-zq0" firstAttribute="top" secondItem="XfB-Xu-y9s" secondAttribute="top" id="j5U-iR-wbs"/>
+                        <constraint firstItem="gA7-69-zq0" firstAttribute="height" secondItem="XfB-Xu-y9s" secondAttribute="height" id="uY3-Jr-Wap"/>
+                        <constraint firstItem="QTJ-65-WR9" firstAttribute="centerX" secondItem="iwa-iY-zOK" secondAttribute="centerX" id="vbS-Z2-lHN"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <integer key="value" value="15"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aTh-0S-uv8" userLabel="View(faqijiesan)">
+                    <rect key="frame" x="57" y="234" width="300" height="200"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xzc-L9-flV">
+                            <rect key="frame" x="77.5" y="50" width="145" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="145" id="Qdf-Zh-d3L"/>
+                            </constraints>
+                            <attributedString key="attributedText">
+                                <fragment content="投票でルームを解散 がお望みですか？">
+                                    <attributes>
+                                        <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <font key="NSFont" metaFont="system" size="15"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                    </attributes>
+                                </fragment>
+                            </attributedString>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FiJ-OO-fdo">
+                            <rect key="frame" x="22.5" y="136" width="120" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="x0U-bw-hR3"/>
+                                <constraint firstAttribute="width" constant="120" id="xrS-gf-KA2"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="キャンセル">
+                                <color key="titleColor" red="0.60392156860000001" green="0.3411764706" blue="0.99607843139999996" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="22"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="dissolutionCancelBtnAvtion:" destination="-1" eventType="touchUpInside" id="arZ-9v-bbb"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a1Z-Fe-I8p">
+                            <rect key="frame" x="157.5" y="136" width="120" height="44"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="発起">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="dissolutionStartAction:" destination="-1" eventType="touchUpInside" id="T46-dt-hlp"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="a1Z-Fe-I8p" firstAttribute="height" secondItem="FiJ-OO-fdo" secondAttribute="height" id="0Jy-FT-agt"/>
+                        <constraint firstAttribute="trailing" secondItem="a1Z-Fe-I8p" secondAttribute="trailing" constant="22.5" id="7Xu-1w-Fxk"/>
+                        <constraint firstItem="a1Z-Fe-I8p" firstAttribute="leading" secondItem="FiJ-OO-fdo" secondAttribute="trailing" constant="15" id="C21-hx-CZP"/>
+                        <constraint firstItem="FiJ-OO-fdo" firstAttribute="leading" secondItem="aTh-0S-uv8" secondAttribute="leading" constant="22.5" id="FLZ-dm-jbd"/>
+                        <constraint firstItem="xzc-L9-flV" firstAttribute="centerX" secondItem="aTh-0S-uv8" secondAttribute="centerX" id="HJg-Gk-wu1"/>
+                        <constraint firstItem="a1Z-Fe-I8p" firstAttribute="width" secondItem="FiJ-OO-fdo" secondAttribute="width" id="KXB-bk-dOt"/>
+                        <constraint firstItem="xzc-L9-flV" firstAttribute="top" secondItem="aTh-0S-uv8" secondAttribute="top" constant="50" id="L6W-Rb-hEB"/>
+                        <constraint firstItem="a1Z-Fe-I8p" firstAttribute="bottom" secondItem="FiJ-OO-fdo" secondAttribute="bottom" id="SXi-2K-4QT"/>
+                        <constraint firstAttribute="bottom" secondItem="FiJ-OO-fdo" secondAttribute="bottom" constant="20" id="Y6y-Bb-KIf"/>
+                        <constraint firstItem="a1Z-Fe-I8p" firstAttribute="top" secondItem="FiJ-OO-fdo" secondAttribute="top" id="ziy-BZ-yCf"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <integer key="value" value="15"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="iwa-iY-zOK" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="0bF-i4-Gjh"/>
+                <constraint firstItem="aTh-0S-uv8" firstAttribute="top" secondItem="iwa-iY-zOK" secondAttribute="top" id="71u-yj-wSn"/>
+                <constraint firstItem="aTh-0S-uv8" firstAttribute="bottom" secondItem="iwa-iY-zOK" secondAttribute="bottom" id="Hct-lM-ELi"/>
+                <constraint firstItem="aTh-0S-uv8" firstAttribute="leading" secondItem="iwa-iY-zOK" secondAttribute="leading" id="ZkX-QW-SuN"/>
+                <constraint firstItem="aTh-0S-uv8" firstAttribute="trailing" secondItem="iwa-iY-zOK" secondAttribute="trailing" id="f8f-VR-hFV"/>
+                <constraint firstItem="iwa-iY-zOK" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="190" id="zUU-Kf-1lu"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="137.68115942028987" y="105.80357142857143"/>
+        </view>
+    </objects>
+</document>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DeleteFriendsView" customModule="Murder" customModuleProvider="target">
+            <connections>
+                <outlet property="cancelBtn" destination="NTU-1P-oVG" id="EAM-sL-rN3"/>
+                <outlet property="confirmBtn" destination="vdR-FY-6jO" id="gKi-f1-4fq"/>
+                <outlet property="contentView" destination="7AI-25-out" id="9Bc-Ng-S0d"/>
+                <outlet property="tipLabel" destination="vL1-cv-4yu" id="qeG-HI-0lh"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="7AI-25-out">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VpE-dJ-ciQ">
+                    <rect key="frame" x="57" y="254" width="300" height="200"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NTU-1P-oVG">
+                            <rect key="frame" x="22.5" y="136.5" width="120" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="N0b-cW-Qe8"/>
+                                <constraint firstAttribute="width" constant="120" id="P9K-EB-19u"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="キャンセル">
+                                <color key="titleColor" red="0.60392156860000001" green="0.3411764706" blue="0.99607843139999996" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="22"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdR-FY-6jO">
+                            <rect key="frame" x="157.5" y="136.5" width="120" height="44"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="確認">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="この友を削除しますか？" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vL1-cv-4yu">
+                            <rect key="frame" x="15" y="55" width="270" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="25" id="IYl-DI-5sC"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="vL1-cv-4yu" secondAttribute="trailing" constant="15" id="9Y6-A1-MTk"/>
+                        <constraint firstAttribute="width" constant="300" id="ETL-Ri-hHG"/>
+                        <constraint firstItem="vL1-cv-4yu" firstAttribute="top" secondItem="VpE-dJ-ciQ" secondAttribute="top" constant="55" id="LyQ-rk-nqQ"/>
+                        <constraint firstItem="vL1-cv-4yu" firstAttribute="leading" secondItem="VpE-dJ-ciQ" secondAttribute="leading" constant="15" id="Mtg-1j-1Xp"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="N4z-N8-lRy"/>
+                        <constraint firstItem="vdR-FY-6jO" firstAttribute="leading" secondItem="NTU-1P-oVG" secondAttribute="trailing" constant="15" id="R0U-fw-CDg"/>
+                        <constraint firstItem="vdR-FY-6jO" firstAttribute="bottom" secondItem="NTU-1P-oVG" secondAttribute="bottom" id="SSo-7f-uZZ"/>
+                        <constraint firstItem="vdR-FY-6jO" firstAttribute="top" secondItem="NTU-1P-oVG" secondAttribute="top" id="VCK-yH-MHP"/>
+                        <constraint firstItem="vdR-FY-6jO" firstAttribute="height" secondItem="NTU-1P-oVG" secondAttribute="height" id="WaY-9T-6Px"/>
+                        <constraint firstAttribute="bottom" secondItem="NTU-1P-oVG" secondAttribute="bottom" constant="19.5" id="cO9-f8-qP8"/>
+                        <constraint firstAttribute="trailing" secondItem="vdR-FY-6jO" secondAttribute="trailing" constant="22.5" id="d6v-vo-sRH"/>
+                        <constraint firstAttribute="height" constant="200" id="kM2-Rc-yDG"/>
+                        <constraint firstItem="NTU-1P-oVG" firstAttribute="leading" secondItem="VpE-dJ-ciQ" secondAttribute="leading" constant="22.5" id="sf5-JG-rqo"/>
+                        <constraint firstItem="vdR-FY-6jO" firstAttribute="width" secondItem="NTU-1P-oVG" secondAttribute="width" id="y1f-ne-d7t"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <integer key="value" value="15"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="VpE-dJ-ciQ" firstAttribute="centerX" secondItem="7AI-25-out" secondAttribute="centerX" id="jHQ-AO-qBb"/>
+                <constraint firstItem="VpE-dJ-ciQ" firstAttribute="top" secondItem="xZO-rf-Wj7" secondAttribute="top" constant="210" id="tyM-rI-KgX"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="xZO-rf-Wj7"/>
+            <point key="canvasLocation" x="139" y="102"/>
+        </view>
+    </objects>
+</document>
