@@ -83,11 +83,6 @@
                                 <constraint firstItem="AaC-ao-knA" firstAttribute="top" secondItem="2Bv-Ai-9fQ" secondAttribute="top" id="t32-7m-rND"/>
                                 <constraint firstItem="9Ku-nY-p53" firstAttribute="leading" secondItem="2Bv-Ai-9fQ" secondAttribute="leading" id="vjH-i1-FBd"/>
                             </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="">
-                                    <nil key="value"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K1m-GF-UOk" userLabel="roleView">
                             <rect key="frame" x="0.0" y="43" width="300" height="237"/>

@@ -26,12 +26,13 @@ class BaseNavigationViewController: UINavigationController {
         
         // 设置标题字号
 //        navigationBar.titleTextAttributes
-        if children.count>0{
-            viewController.hidesBottomBarWhenPushed = true
-            let leftItem = UIBarButtonItem(image: UIImage(named: "back_black"), style: .plain, target: self, action: #selector(backBtnAction))
-            navigationController?.navigationItem.leftBarButtonItem = leftItem
-            
-        }
+//        if children.count>0{
+//            viewController.hidesBottomBarWhenPushed = true
+//            let leftItem = UIBarButtonItem(image: UIImage(named: "back_black"), style: .plain, target: self, action: #selector(backBtnAction))
+//            navigationController?.navigationItem.leftBarButtonItem = leftItem
+//
+//        }
+        
         super.pushViewController(viewController, animated: animated)
     }
     

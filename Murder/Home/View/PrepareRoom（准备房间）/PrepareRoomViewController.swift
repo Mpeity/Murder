@@ -82,17 +82,21 @@ class PrepareRoomViewController: UIViewController {
 
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+
     }
     
-//    override var prefersStatusBarHidden: Bool {
-//        return true
-//    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+    }
     
     override var prefersStatusBarHidden: Bool {
-           return self.isStatusBarHidden
+        return true
     }
        
 

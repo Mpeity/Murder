@@ -9,8 +9,8 @@
 import UIKit
 import CLToast
 
-let email = "123"
-let password = "123"
+var email = ""
+var password = ""
 
 class LoginViewController: UIViewController,UITextFieldDelegate {
     // 邮箱图片
@@ -36,21 +36,29 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     @IBAction func registerBtnAction(_ sender: Any) {
         Log("registerBtnAction")
         self.navigationController?.pushViewController(RegisterViewController(), animated: true)
-        
-        
     }
     // MARK: - 登录按钮响应事件
     @IBAction func loginBtnAction(_ sender: Any) {
         
-        if nameTextField.text == email && passwordTextField.text == password {
-//            self.navigationController?.pushViewController(GameplayViewController(), animated: true)
-            UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
-            
+        email = nameTextField.text!
+        password = passwordTextField.text!
+                
+        if !email.isEmptyString && !password.isEmptyString {
+            loadLogin(email: email, password: password) { (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                
+                if resultDic["code"]!.isEqual(1) { // 登录成功
+                    UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+                } else {
+                  showToastCenter(msg: "パスワードが正しくありません")
+                }
+            }
         } else {
-            CLToastManager.share.cornerRadius = 25
-            CLToastManager.share.bgColor = HexColor(hex: "#000000", alpha: 0.6)
-            CLToast.cl_show(msg: "パスワードが正しくありません")
-            
+            showToastCenter(msg: "请产品定文案")
         }
         
         
@@ -152,7 +160,7 @@ extension LoginViewController {
     @objc private func forgetPasswordTapAction() {
         let vc = RegisterViewController()
         vc.isResetPassword = true
-        vc.titleString = "新規登録"
+        vc.titleString = "パスワードをレセット"
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -14,6 +14,10 @@ class SetPasswordsViewController: UIViewController {
     
     var isResetPassword: Bool = false
     
+    var email: String!
+    
+    var captcha: String!
+        
     // 输入密码视图
     @IBOutlet weak var oneView: UIView!
     // 输入密码输入框
@@ -72,18 +76,68 @@ extension SetPasswordsViewController {
 
 extension SetPasswordsViewController {
     @objc func confirmBtnAction() {
-        if isResetPassword { //重置密码 跳登录
-            let vc = LoginViewController()
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true, completion: nil)
-            
-        } else { // 设置密码 跳完善信息
-            let vc = CompleteInfoViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
+        let password = passwordTextField.text!
+        let more = moreTextField.text!
+        
+        if !password.isEmptyString && !more.isEmptyString {
+            if isResetPassword { //重置密码
+                findPassword(email: email, password: password, repassword: more, captcha: captcha) {[weak self] (result, error) in
+                    if error != nil {
+                        return
+                    }
+                    // 取到结果
+                    guard  let resultDic :[String : AnyObject] = result else { return }
+                    if resultDic["code"]!.isEqual(1) {
+                        // 跳登录
+                        let vc = LoginViewController()
+                        vc.modalPresentationStyle = .fullScreen
+                        self?.present(vc, animated: true, completion: nil)
+                    }
+                    
+                }
+                
+                
+                
+            } else { // 设置密码
+                loadRegister(email: email, password: password, repassword: more, captcha: captcha) {[weak self] (result, error) in
+                    if error != nil {
+                        return
+                    }
+                    // 取到结果
+                    guard  let resultDic :[String : AnyObject] = result else { return }
+                    
+                    if resultDic["code"]!.isEqual(1) {
+                        let data = resultDic["data"] as! [String : AnyObject]
+                        UserAccount.init(dic: data)
+                        
+                        // 跳完善信息
+                        let vc = CompleteInfoViewController()
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
+                
+            }
         }
     }
     
     @objc func leftBtnAction() {
         navigationController?.popViewController(animated: true)
     }
+}
+
+
+extension SetPasswordsViewController:UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if passwordTextField.text?.count != 0 && moreTextField.text?.count != 0 {
+            confirmBtn.backgroundColor = UIColor.lightGray
+            confirmBtn.isHighlighted = true
+            confirmBtn.isEnabled = false
+        } else {
+            confirmBtn.isHighlighted = false
+            confirmBtn.isEnabled = true
+        }
+
+    }
+    
+    
 }

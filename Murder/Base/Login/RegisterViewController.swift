@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import CLToast
 
 class RegisterViewController: UIViewController, UITextFieldDelegate {
     
-    var titleString: String?
-    var isResetPassword: Bool?
+    var titleString: String? = "新規登録"
+    
+    var isResetPassword: Bool? = false
     
 
     // 邮箱图片
@@ -40,35 +42,99 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     // 提示
     @IBOutlet weak var tipLabel: UILabel!
     
+    // 倒计时
+    var timer:Timer?
+    var count: Int = 0
+    // 获取验证码
+    var getCode: Bool = true
+    
     
     // 下一步
     @IBAction func nextBtnAction(_ sender: Any) {
-        if nameTextField.text == email {
-            nextBtnTopConstraint.constant = 100
-            codeView.isHidden = false
-            self.view.layoutIfNeeded()
+        
+        
+        let vc = SetPasswordsViewController()
+        vc.titleString = self.titleString
+        vc.captcha = self.codeTextField.text!
+        vc.isResetPassword = self.isResetPassword ?? false
+        self.navigationController?.pushViewController(vc, animated: true)
+        return
+        
+        var scene = 1
+        // 重置密码
+        if isResetPassword! {
+            scene = 2
+        }
+        
+        let email = nameTextField.text!
+        let code = codeTextField.text!
+    
+        // 获取验证码
+        if !email.isEmptyString && getCode  {
+            // 获取验证码
+            loadCaptcha(email: String(email), scene: String(scene)) {[weak self] (result, error) in
+                if error != nil {
+                    return
+                }
+                
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+            
+                if resultDic["code"]!.isEqual(1) {
+                    self?.nextBtnTopConstraint.constant = 100
+                    self?.codeView.isHidden = false
+                    self?.view.layoutIfNeeded()
+                    //  倒计时开始
+                    self?.timerFunc()
+                    self?.getCode = false
+                    
+                    
+//                    showToastCenter(msg:"認証コードは発送済です")
+                    
+                    
 
-            //  倒计时开始
+                } else {
+                    showToastCenter(msg: "メールアドレスのフォーマットが正しくありません、再度入力してくさい")
+                }
+            }
+            
+            
         }
         
         
-        if nameTextField.text == email && codeTextField.text == email {
-            let vc = SetPasswordsViewController()
-            vc.titleString = titleString
-            vc.isResetPassword = isResetPassword ?? false
-            navigationController?.pushViewController(vc, animated: true)
+        // 验证 验证码是否正确
+        if !email.isEmptyString && !code.isEmptyString {
+            checkCaptcha(email: String(email), scene: String(scene), captcha: String(code)) {[weak self] (result, error) in
+            
+                if error != nil {
+                    return
+                }
+                               
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                
+                if resultDic["code"]!.isEqual(1) {
+                    let vc = SetPasswordsViewController()
+                    vc.titleString = self?.titleString
+                    vc.captcha = self?.codeTextField.text!
+                    vc.isResetPassword = self!.isResetPassword ?? false
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
         }
-        
-        
-        
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "新規登録"
+        self.title = titleString
         setupNavigaitonBar()
         setUI()
+    }
+    
+    deinit {
+        timer?.invalidate()
+        timer = nil
     }
 
     
@@ -126,9 +192,29 @@ extension RegisterViewController {
     @objc func leftBtnAction() {
         navigationController?.popViewController(animated: true)
     }
-    
-
-    
-    
-    
 }
+
+//MARK:- 倒计时
+extension RegisterViewController {
+    
+    private func timerFunc() {
+        count = 60
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, block: {[weak self] (_) in
+            self?.countDown()
+        }, repeats: true)
+    }
+    
+    private func countDown() {
+        count -= 1
+        if count == 0 {
+            oneMoreBtn.isEnabled = true
+            oneMoreBtn.setTitle("再一次", for: .normal)
+            timer?.invalidate()
+            timer = nil
+        } else {
+            oneMoreBtn.setTitle(String("\(count)s"), for: .normal)
+            oneMoreBtn.isEnabled = false
+        }
+    }
+}
+

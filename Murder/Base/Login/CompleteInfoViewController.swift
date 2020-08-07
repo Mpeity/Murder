@@ -27,6 +27,10 @@ class CompleteInfoViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var nicknameTextfield: UITextField!
     // 立即体验
     @IBOutlet weak var commonBtn: UIButton!
+    // 性别
+    var sex: String?
+    // 头像
+    var file: String?
     
     
     override func viewDidLoad() {
@@ -91,22 +95,39 @@ extension CompleteInfoViewController {
     //MARK:- 头像选择
     @objc func photoBtnAction() {
         // 选择照片
+        
+//        head
+        
+        // 1、判断数据源是否可用
+        if !UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            return
+        }
+        // 2、创建照片选择控制器
+        let ipc = UIImagePickerController()
+        // 3、设置照片源
+        ipc.sourceType = .photoLibrary
+        // 4、设置代理
+        
+        // 弹出选择照片的控制
     }
     
     //MARK:- 女 womanBtn
     @objc func womanBtnAction() {
+        sex = "2"
+
         womanBtn.setTitleColor(HexColor(MainColor), for: .normal)
         manBtn.setTitleColor(HexColor("#CACACA"), for: .normal)
         womanBtn.layer.borderColor = HexColor(MainColor).cgColor
         manBtn.layer.borderColor = HexColor("#CACACA").cgColor
         womanBtn.setImage(UIImage(named: "logo_woman_selected"), for: .normal)
         manBtn.setImage(UIImage(named: "logo_man"), for: .normal)
-
         
     }
     
     //MARK:- 男manBtn
     @objc func manBtnAction() {
+        sex = "1"
+
         womanBtn.setTitleColor(HexColor("#CACACA"), for: .normal)
         womanBtn.layer.borderColor = HexColor("#CACACA").cgColor
         womanBtn.setImage(UIImage(named: "logo_woman"), for: .normal)
@@ -118,8 +139,43 @@ extension CompleteInfoViewController {
     
     //MARK:- 完善信息
     @objc func commonBtnAction() {
-        UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+        
+        if file!.isEmptyString {
+            showToastCenter(msg: "qqqqqqqq")
+        }
+        
+         
+        uploadImgae(file: file!) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                let dataResult = data["result"] as! [String : AnyObject]
+                let path = dataResult["path"]
+                let head = dataResult["attachment_id"]
+                
+                self?.editInfo(head: head as! String)
+            }
+        }
+        
+        
+        
+        
+        
     }
+    
+    func editInfo(head: String) {
+        let nickname = nicknameTextfield.text!
+        editInformation(key: "", nickname: String(nickname), head: head, sex: self.sex!) {[weak self] (result, error) in
+            
+            UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+            
+        }
+    }
+    
     
     
     

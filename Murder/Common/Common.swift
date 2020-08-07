@@ -11,10 +11,13 @@ import UIKit
 
 
 // MARK:- 常量
-
 let app_key = "135761428"
 let app_secret = "07834af7d1a2d0459f4c2b63bfcf5f4f"
 let redirect_uri = "http://www.520it.com"
+
+// 声网APPID
+let AgoraKit_AppId = "26527026d3744a2888d47bbf3afa42b0"
+
 
 //MARK:- bugly
 let BUGLY_APP_ID =  "7686b1c615"

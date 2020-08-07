@@ -7,6 +7,11 @@
 //
 
 import AFNetworking
+import CLToast
+
+//" https://moushao.mx5918.com"
+let BaseUrl = "http://192.168.0.191"
+
 
 enum MethodType {
     case GET
@@ -27,22 +32,37 @@ class NetworkTools: AFHTTPSessionManager {
 // MARK:- 封装请求方法
 extension NetworkTools {
     func request(urlString: String, method: MethodType, parameters: [String : AnyObject]?, finished: @escaping(_ reslut: AnyObject?, _ error: Error?) -> ()) {
+        
+        let urlStr = BaseUrl + urlString
                 
         let successCallBack = { (task: URLSessionDataTask , result: Any?) -> Void in
-            finished(result as AnyObject?, nil)
+            
+            if let resultData: [String : AnyObject]  = result as? [String : AnyObject] {
+                
+                if resultData["code"]!.isEqual(1) {
+                    
+                    finished(result as AnyObject?, nil)
+
+                } else { // code 值处理
+                    CLToastManager.share.cornerRadius = 25
+                    CLToastManager.share.bgColor = HexColor(hex: "#000000", alpha: 0.6)
+                    CLToast.cl_show(msg: resultData["msg"]! as! String)                    
+                }
+            }
         }
         
         let failureCallBack = { (task: URLSessionDataTask?, error: Error) -> Void in
+            
             finished(nil, error)
         }
     
         
         
         if method == .GET {
-            get(urlString, parameters: parameters, success:successCallBack, failure:failureCallBack)
+            get(urlStr, parameters: parameters, success:successCallBack, failure:failureCallBack)
         } else {
             
-            post(urlString, parameters: parameters, success: successCallBack, failure: failureCallBack)
+            post(urlStr, parameters: parameters, success: successCallBack, failure: failureCallBack)
 //            post(urlString, parameters: parameters, success: { (URLSessionDataTask , result: Any?) in
 //                print(result!)
 //

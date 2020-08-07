@@ -9,9 +9,8 @@
 import UIKit
 import SnapKit
 import CLToast
-//import AgoraRtcKit
+import AgoraRtcKit
 
- let AppId = "26527026d3744a2888d47bbf3afa42b0"
 
 private let GameplayViewCellId = "GameplayViewCellId"
 private let crimeChannelId = "crime"
@@ -23,8 +22,11 @@ class GameplayViewController: UIViewController {
     // 背景图片
     @IBOutlet weak var bgImgView: UIImageView!
     
-        // AgoraRtcEngineKit 入口类
-    //    var agoraKit: AgoraRtcEngineKit!
+    // AgoraRtcEngineKit 入口类
+    var agoraKit: AgoraRtcEngineKit!
+    
+    var agoraStatus = AgoraStatus.sharedStatus()
+
     
     // 顶部视图
     private var headerBgView: UIView = UIView()
@@ -46,9 +48,10 @@ class GameplayViewController: UIViewController {
     // 阶段说明
     private var stateBtn: UIButton = UIButton()
     
-//    // 阶段说明
+//    // 阶段说明  0x1096299c0
 //    var stateTipView: UIView = UIView()
 //    var stateTipLabel: UILabel = UILabel()
+    
     // 说明弹框配置
     private var preference:FEPreferences = FEPreferences()
     // 说明弹框
@@ -138,10 +141,12 @@ class GameplayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        initAgoraKit()
+        initAgoraKit()
         
 
         setUI()
+        
+        getiPhoneBatteryState()
         
         
     }
@@ -624,9 +629,6 @@ extension GameplayViewController {
         
     }
     
-    
-    
-    
 }
 
 // MARK: - 按钮响应事件
@@ -698,17 +700,33 @@ extension GameplayViewController {
     
     
     /// 头部按钮
-    // 退出房间按钮
+    //MARK: 退出房间按钮
     @objc func exitBtnAction(button: UIButton) {
         let dissolveView = DissolveView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         dissolveView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        
+        // 退出
         dissolveView.dissolutionBtnTapBlcok = {[weak self] () in
-            let vc = ScriptDetailsViewController()
-//            self?.navigationController?.pushViewController(vc, animated: true)
-            vc.modalPresentationStyle = .fullScreen
-            self?.present(vc, animated: true, completion: nil)
+            // 退出当前剧本，离开群聊频道
+            self?.agoraKit.leaveChannel(nil)
+//            agoraStatus.muteAllRemote = false
+//            agoraStatus.muteLocalAudio = false
+            
+            self?.popScriptDetailVC()
         }
         self.view.addSubview(dissolveView)
+    }
+    
+    //MARK: 退出房间
+    func popScriptDetailVC() {
+        Log(navigationController?.viewControllers)
+        let arr: [UIViewController] = navigationController!.viewControllers
+        for childVC:UIViewController in arr  {
+            if childVC.isKind(of: ScriptDetailsViewController.self) {
+                let popVC: ScriptDetailsViewController = childVC as! ScriptDetailsViewController
+                navigationController?.popToViewController(popVC, animated: true)
+            }
+        }
     }
     
     // 消息按钮
@@ -952,21 +970,105 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
 }
 
 
+private extension GameplayViewController {
+    func updateViews() {
+//        usersCollectionView.backgroundColor = UIColor.green
+//        for item in buttons {
+//            item.imageView?.contentMode = .scaleAspectFit
+//        }
+    }
+    
+    func removeUser(uid: UInt) {
+//        for (index, user) in userList.enumerated() {
+//            if user.uid == uid {
+//                userList.remove(at: index)
+//                break
+//            }
+//        }
+    }
+    
+    func addUser(uid: UInt) {
+//        let user = UserInfo.fakeUser(uid: uid)
+//        userList.append(user)
+    }
+    
+    func updateUser(uid: UInt, isMute: Bool) {
+//        for (index, user) in userList.enumerated() {
+//            if user.uid == uid {
+//                userList[index].isMute = isMute
+//                break
+//            }
+//        }
+    }
+    
+    func getIndexWithUserIsSpeaking(uid: UInt) -> Int? {
+//        for (index, user) in userList.enumerated() {
+//            if user.uid == uid {
+//                return index
+//            }
+//        }
+        return nil
+    }
+}
 
 
-//// MARK: - 初始化声网sdk
-//extension GameplayViewController: AgoraRtcEngineDelegate {
-//    private func initAgoraKit() {
-//        // 初始化
-//        agoraKit = AgoraRtcEngineKit.sharedEngine(withAppId: AppId, delegate: self)
-//        // 因为是纯音频多人通话的场景，设置为通信模式以获得更好的音质
-//        agoraKit.setChannelProfile(.communication)
-//        // 通信模式下默认为听筒，demo中将它切为外放
-//        agoraKit.setDefaultAudioRouteToSpeakerphone(true)
-//        // 启动音量回调，用来在界面上显示房间其他人的说话音量
-//        agoraKit.enableAudioVolumeIndication(1000, smooth: 3, report_vad: false)
-//        // 加入案发现场的群聊频道
-//        agoraKit.joinChannel(byToken: nil, channelId: crimeChannelId, info: nil, uid: 0, joinSuccess: nil)
-//    }
-//}
+
+// MARK: - 初始化声网sdk
+extension GameplayViewController {
+    private func initAgoraKit() {
+        // 初始化
+        agoraKit = AgoraRtcEngineKit.sharedEngine(withAppId: AgoraKit_AppId, delegate: self)
+        // 因为是纯音频多人通话的场景，设置为通信模式以获得更好的音质
+        agoraKit.setChannelProfile(.communication)
+        // 通信模式下默认为听筒，demo中将它切为外放
+        agoraKit.setDefaultAudioRouteToSpeakerphone(true)
+        // 启动音量回调，用来在界面上显示房间其他人的说话音量
+        agoraKit.enableAudioVolumeIndication(1000, smooth: 3, report_vad: false)
+        // 加入案发现场的群聊频道
+        agoraKit.joinChannel(byToken: nil, channelId: crimeChannelId, info: nil, uid: 0, joinSuccess: nil)
+    }
+}
+
+// MARK: AgoraRtcEngineDelegate
+extension GameplayViewController: AgoraRtcEngineDelegate {
+    func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinChannel channel: String, withUid uid: UInt, elapsed: Int) {
+//        if agoraStatus.muteAllRemote == true {
+//            agoraKit.muteAllRemoteAudioStreams(true)
+//        }
+//
+//        if agoraStatus.muteLocalAudio == true {
+//            agoraKit.muteLocalAudioStream(true)
+//        }
+//
+        // 注意： 1. 由于demo欠缺业务服务器，所以用户列表是根据AgoraRtcEngineDelegate的didJoinedOfUid、didOfflineOfUid回调来管理的
+        //       2. 每次加入频道成功后，新建一个用户列表然后通过回调进行统计
+//        userList = [UserInfo]()
+    }
+    
+    func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinedOfUid uid: UInt, elapsed: Int) {
+        // 当有用户加入时，添加到用户列表
+        // 注意：由于demo缺少业务服务器，所以当观众加入的时候，观众也会被加入用户列表，并在界面的列表显示成静音状态。 正式实现的话，通过业务服务器可以判断是参与游戏的玩家还是围观观众
+//        addUser(uid: uid)
+    }
+    
+    func rtcEngine(_ engine: AgoraRtcEngineKit, didOfflineOfUid uid: UInt, reason: AgoraUserOfflineReason) {
+        // 当用户离开时，从用户列表中清除
+//        removeUser(uid: uid)
+    }
+    
+    func rtcEngine(_ engine: AgoraRtcEngineKit, didAudioMuted muted: Bool, byUid uid: UInt) {
+        // 当频道里的用户开始或停止发送音频流的时候，会收到这个回调。在界面的用户头像上显示或隐藏静音标记
+//        updateUser(uid: uid, isMute: muted)
+    }
+    
+    func rtcEngine(_ engine: AgoraRtcEngineKit, reportAudioVolumeIndicationOfSpeakers speakers: [AgoraRtcAudioVolumeInfo], totalVolume: Int) {
+        // 收到说话者音量回调，在界面上对应的 cell 显示动效
+//        for speaker in speakers {
+//            if let index = getIndexWithUserIsSpeaking(uid: speaker.uid),
+//                let cell = usersCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? UserCell {
+//                cell.animating = true
+//            }
+//        }
+    }
+}
 
