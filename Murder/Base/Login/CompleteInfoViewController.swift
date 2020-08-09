@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CompleteInfoViewController: UIViewController, UITextFieldDelegate {
+class CompleteInfoViewController: UIViewController, UITextFieldDelegate  {
 
     // 头像按钮
     @IBOutlet weak var photoBtn: UIButton!
@@ -51,6 +51,7 @@ class CompleteInfoViewController: UIViewController, UITextFieldDelegate {
 extension CompleteInfoViewController {
     
     private func setUI() {
+        photoBtn.layer.cornerRadius = 62.5
         photoBtn.addTarget(self, action: #selector(photoBtnAction), for: .touchUpInside)
         
         tipLabel.font = UIFont.systemFont(ofSize: 12)
@@ -107,8 +108,9 @@ extension CompleteInfoViewController {
         // 3、设置照片源
         ipc.sourceType = .photoLibrary
         // 4、设置代理
-        
+        ipc.delegate = self
         // 弹出选择照片的控制
+        present(ipc, animated: true, completion: nil)
     }
     
     //MARK:- 女 womanBtn
@@ -140,11 +142,12 @@ extension CompleteInfoViewController {
     //MARK:- 完善信息
     @objc func commonBtnAction() {
         
+        
         if file!.isEmptyString {
-            showToastCenter(msg: "qqqqqqqq")
+            showToastCenter(msg: "")
         }
         
-         
+        // 图片选择完毕 上传图片
         uploadImgae(file: file!) {[weak self] (result, error) in
             if error != nil {
                 return
@@ -191,5 +194,19 @@ extension CompleteInfoViewController {
         } else {
             nicknameView.layer.borderColor = HexColor("#CCCCCC").cgColor
         }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        nicknameTextfield.becomeFirstResponder()
+        nicknameTextfield.resignFirstResponder()
+    }
+}
+
+//MARK:- 照片选择
+extension CompleteInfoViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[.originalImage] as! UIImage
+        photoBtn.setImage(image, for: .normal)
+        picker.dismiss(animated: true, completion: nil)
     }
 }

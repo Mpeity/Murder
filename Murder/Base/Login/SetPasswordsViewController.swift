@@ -53,6 +53,10 @@ class SetPasswordsViewController: UIViewController {
 
 extension SetPasswordsViewController {
     private func setUI() {
+        
+        passwordTextField.delegate = self
+        moreTextField.delegate = self
+        
         oneView.layer.cornerRadius = 25
         oneView.layer.borderWidth = 0.5
         oneView.layer.borderColor = HexColor("#CCCCCC").cgColor
@@ -63,7 +67,13 @@ extension SetPasswordsViewController {
 
         confirmBtn.setTitleColor(UIColor.white, for: .normal)
         confirmBtn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        confirmBtn.gradientColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
+        
+//        confirmBtn.clearGradientColor(cornerRadius: 25)
+        
+        confirmBtn.backgroundColor = UIColor.lightGray
+        confirmBtn.isHighlighted = true
+        confirmBtn.isUserInteractionEnabled = false
+        
         confirmBtn.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)
     }
     
@@ -79,6 +89,12 @@ extension SetPasswordsViewController {
         let password = passwordTextField.text!
         let more = moreTextField.text!
         
+        
+        // 跳完善信息
+        let vc = CompleteInfoViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+        return
+        
         if !password.isEmptyString && !more.isEmptyString {
             if isResetPassword { //重置密码
                 findPassword(email: email, password: password, repassword: more, captcha: captcha) {[weak self] (result, error) in
@@ -87,7 +103,9 @@ extension SetPasswordsViewController {
                     }
                     // 取到结果
                     guard  let resultDic :[String : AnyObject] = result else { return }
-                    if resultDic["code"]!.isEqual(1) {
+                    if resultDic["code"]!.isEqual(1) { // 重置密码成功
+                        showToastCenter(msg: "パスワードがレセットされました", 25)
+
                         // 跳登录
                         let vc = LoginViewController()
                         vc.modalPresentationStyle = .fullScreen
@@ -127,17 +145,28 @@ extension SetPasswordsViewController {
 
 
 extension SetPasswordsViewController:UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        
+        return true
+    }
+    
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if passwordTextField.text?.count != 0 && moreTextField.text?.count != 0 {
+        
+        //        if textField == passwordTextField {
+        //
+        //        }
+        if passwordTextField.text?.count != 0 && moreTextField.text?.count != 0{
+            confirmBtn.gradientColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
+            confirmBtn.isHighlighted = false
+            confirmBtn.isUserInteractionEnabled = true
+
+        } else {
+            confirmBtn.clearGradientColor(cornerRadius: 25)
             confirmBtn.backgroundColor = UIColor.lightGray
             confirmBtn.isHighlighted = true
-            confirmBtn.isEnabled = false
-        } else {
-            confirmBtn.isHighlighted = false
-            confirmBtn.isEnabled = true
+            confirmBtn.isUserInteractionEnabled = false
         }
 
     }
-    
     
 }

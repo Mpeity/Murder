@@ -72,10 +72,26 @@ extension UIButton {
         self.layer.insertSublayer(layer, at: 0)
     }
     
+    // 去掉渐变色
+    func clearGradientColor(cornerRadius: Float) {
+        let layer = CAGradientLayer()
+        layer.frame = self.bounds
+        // 开始
+        layer.startPoint = CGPoint(x: 0, y: 0)
+        // 结束,主要是控制渐变方向
+        layer.startPoint = CGPoint(x: 1, y: 1)
+        layer.colors = [UIColor.white.cgColor]
+        // 颜色的分界点
+        layer.locations = [0.0,1.0]
+        // 设置圆角
+        layer.cornerRadius = CGFloat(cornerRadius)
+        self.layer.insertSublayer(layer, at: 0)
+    }
+    
     // 设置按钮渐变色
     func setGradientColor(start: String, end: String, cornerRadius: Float)  {
           let layer = CAGradientLayer()
-        layer.frame = self.bounds
+          layer.frame = self.bounds
           // 开始
           layer.startPoint = CGPoint(x: 0, y: 0)
           // 结束,主要是控制渐变方向
