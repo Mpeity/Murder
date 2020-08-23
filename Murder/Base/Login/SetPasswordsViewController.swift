@@ -56,6 +56,8 @@ extension SetPasswordsViewController {
         
         passwordTextField.delegate = self
         moreTextField.delegate = self
+        passwordTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .valueChanged)
+        moreTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .valueChanged)
         
         oneView.layer.cornerRadius = 25
         oneView.layer.borderWidth = 0.5
@@ -67,12 +69,9 @@ extension SetPasswordsViewController {
 
         confirmBtn.setTitleColor(UIColor.white, for: .normal)
         confirmBtn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        
-//        confirmBtn.clearGradientColor(cornerRadius: 25)
-        
-        confirmBtn.backgroundColor = UIColor.lightGray
-        confirmBtn.isHighlighted = true
-        confirmBtn.isUserInteractionEnabled = false
+        confirmBtn.gradientColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
+        confirmBtn.layer.cornerRadius = 25
+//        confirmBtn.isUserInteractionEnabled = false
         
         confirmBtn.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)
     }
@@ -88,12 +87,6 @@ extension SetPasswordsViewController {
     @objc func confirmBtnAction() {
         let password = passwordTextField.text!
         let more = moreTextField.text!
-        
-        
-        // 跳完善信息
-        let vc = CompleteInfoViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-        return
         
         if !password.isEmptyString && !more.isEmptyString {
             if isResetPassword { //重置密码
@@ -114,9 +107,9 @@ extension SetPasswordsViewController {
                     
                 }
                 
-                
-                
             } else { // 设置密码
+                
+                
                 loadRegister(email: email, password: password, repassword: more, captcha: captcha) {[weak self] (result, error) in
                     if error != nil {
                         return
@@ -126,7 +119,18 @@ extension SetPasswordsViewController {
                     
                     if resultDic["code"]!.isEqual(1) {
                         let data = resultDic["data"] as! [String : AnyObject]
-                        UserAccount.init(dic: data)
+                        // 将字典转成模型对象
+                        let account = UserAccount(fromDictionary: data)
+                        // 将account对象保存
+                        // 获取沙盒路径
+                        var accountPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+                        
+                        accountPath = (accountPath as NSString).appendingPathComponent("account.plist")
+                        // 保存对象
+                        NSKeyedArchiver.archiveRootObject(account, toFile: accountPath)
+                        
+                        // 将account对象设置到单例对象中
+                        UserAccountViewModel.shareInstance.account = account
                         
                         // 跳完善信息
                         let vc = CompleteInfoViewController()
@@ -135,7 +139,7 @@ extension SetPasswordsViewController {
                 }
                 
             }
-        }
+        } 
     }
     
     @objc func leftBtnAction() {
@@ -145,28 +149,34 @@ extension SetPasswordsViewController {
 
 
 extension SetPasswordsViewController:UITextFieldDelegate {
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        
-        return true
-    }
+
+    
+
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        
-        //        if textField == passwordTextField {
-        //
-        //        }
-        if passwordTextField.text?.count != 0 && moreTextField.text?.count != 0{
-            confirmBtn.gradientColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
-            confirmBtn.isHighlighted = false
-            confirmBtn.isUserInteractionEnabled = true
 
-        } else {
-            confirmBtn.clearGradientColor(cornerRadius: 25)
-            confirmBtn.backgroundColor = UIColor.lightGray
-            confirmBtn.isHighlighted = true
-            confirmBtn.isUserInteractionEnabled = false
-        }
+
+//        if passwordTextField.text?.count != 0 && moreTextField.text?.count != 0{
+//            confirmBtn.gradientColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
+//            confirmBtn.isHighlighted = false
+////            confirmBtn.isUserInteractionEnabled = true
+//
+//        } else {
+////            confirmBtn.clearGradientColor(cornerRadius: 25)
+//            confirmBtn.backgroundColor = UIColor.lightGray
+//            confirmBtn.isHighlighted = true
+//        }
 
     }
+
     
 }
+
+extension SetPasswordsViewController {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        passwordTextField.resignFirstResponder()
+        moreTextField.resignFirstResponder()
+    }
+}
+
+

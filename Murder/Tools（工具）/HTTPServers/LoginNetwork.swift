@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AFNetworking
 
 
 //MARK:- 注册
@@ -83,13 +84,16 @@ private let edit_user_url = "/api/user/edit_user"
 * head [int]    是    头像
 * sex [int]    是    性别【1男2女】
 */
-func editInformation(key: String,nickname: String, head: String, sex: String, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+func editInformation(nickname: String, head: String, sex: String, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
     
     let urlString = edit_user_url
-    let parameters = ["key": key, "nickname": nickname, "head" : (head as NSString).intValue, "sex":(sex as NSString).intValue] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    let parameters = ["nickname": nickname, "head" : (head as NSString).intValue, "sex":(sex as NSString).intValue] as [String : AnyObject]
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
+//    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+//        finished(result as? [String : AnyObject], error)
+//    }
 }
 
 //MARK:- 上传
@@ -98,11 +102,28 @@ private let upload_url = "/api/upload/index"
 * @params [参数名] [类型] [是否必传]
 * file [file]    是    文件表单键名
 */
-func uploadImgae(file: String, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+//func uploadImgae(file: AnyObject, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+//
+//
+//    let urlString = upload_url
+//
+//    let parameters = ["file" : file] as [String : AnyObject]
+//
+//
+//
+//    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+//        finished(result as? [String : AnyObject], error)
+//    }
+//}
+
+func uploadImgae(imageData: Data, file: AnyObject, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
     
     let urlString = upload_url
+
     let parameters = ["file" : file] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    
+    NetworkTools.shareInstance.uploadImage(urlString: urlString, imageData: imageData, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }

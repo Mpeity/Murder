@@ -11,13 +11,31 @@ import UIKit
 let ReadScriptCellId = "ReadScriptCellId"
 
 class ReadScriptView: UIView {
-
+    
     private lazy var tableView: UITableView = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .plain)
     
     private lazy var bottomBtn: UIButton = UIButton()
     
+    private let popMenuView = PopMenuView()
+    
+    var scriptData : [AnyObject]? {
+        didSet {
+            if !scriptData!.isEmpty{
+                var arr = [AnyObject]()
+                for item:GPChapterModel in scriptData as! [GPChapterModel] {
+                    arr.append(item.name as AnyObject)
+                }
+                popMenuView.titleArray = arr
+                tableView.reloadData()
+            }
+        }
+    }
+    
+    
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
+        
         setUI()
     }
     
@@ -66,25 +84,7 @@ extension ReadScriptView {
             make.left.right.equalToSuperview()
             make.height.equalTo(537)
         }
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(showBottomBtn)))
-//        headerView.addGestureRecognizer(tap)
 
-        
-        
-//        let headerView = UIView()
-//        self.addSubview(headerView)
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(hideView))
-//        headerView.addGestureRecognizer(tap)
-//        headerView.snp.makeConstraints { (make) in
-//            make.left.equalToSuperview()
-//            make.right.equalToSuperview()
-//            make.top.equalToSuperview()
-//            make.bottom.equalTo(bgView.snp.top)
-//
-//        }
-        
-
-        
         bottomBtn.createButton(style: .right, spacing: 30, imageName: "catalogue", title: "目録", cornerRadius: 0, color: "#ffffff")
         bottomBtn.setTitleColor(HexColor("#333333"), for: .normal)
         bottomBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
@@ -96,16 +96,9 @@ extension ReadScriptView {
             make.height.equalTo(50)
             make.bottom.equalToSuperview().offset(250)
 
-//            if #available(iOS 11.0, *) {
-//                make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
-//            } else {
-//                // Fallback on earlier versions
-//                make.bottom.equalToSuperview()
-//            }
-            
         }
         
-        let popMenuView = PopMenuView()
+        
         bgView.addSubview(popMenuView)
         popMenuView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
@@ -118,7 +111,6 @@ extension ReadScriptView {
         popMenuView.lineColor = HexColor(hex: "#FFFFFF", alpha: 0.05)
         popMenuView.contentTextColor = UIColor.white
         popMenuView.contentTextFont = 15
-        popMenuView.titleArray = ["第一幕","第二幕","第三幕"]
         popMenuView.refresh()
         
     }
@@ -127,12 +119,15 @@ extension ReadScriptView {
 
 extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return scriptData?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReadScriptCellId, for: indexPath) as! ReadScriptViewCell
         cell.selectionStyle = .none
+        
+        let model = scriptData![indexPath.row] as! GPChapterModel
+        cell.itemModel = model
         cell.textViewTapBlcok = {(param)->() in
             if param {
                 self.showBottomView()
@@ -145,6 +140,10 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+//        let model = scriptData![indexPath.row] as! GPChapterModel
+
+        
         let view = UIView()
         view.backgroundColor = UIColor.white
         

@@ -3,16 +3,58 @@
     {
       "filename" : "menu_catalogue_white.png",
       "idiom" : "universal",
+      "resizing" : {
+        "cap-insets" : {
+          "bottom" : 78,
+          "left" : 19,
+          "right" : 114,
+          "top" : 92
+        },
+        "center" : {
+          "height" : 1,
+          "mode" : "tile",
+          "width" : 1
+        },
+        "mode" : "9-part"
+      },
       "scale" : "1x"
     },
     {
       "filename" : "menu_catalogue_white@2x.png",
       "idiom" : "universal",
+      "resizing" : {
+        "cap-insets" : {
+          "bottom" : 198,
+          "left" : 48,
+          "right" : 220,
+          "top" : 136
+        },
+        "center" : {
+          "height" : 8,
+          "mode" : "tile",
+          "width" : 3
+        },
+        "mode" : "9-part"
+      },
       "scale" : "2x"
     },
     {
       "filename" : "menu_catalogue_white@3x.png",
       "idiom" : "universal",
+      "resizing" : {
+        "cap-insets" : {
+          "bottom" : 299,
+          "left" : 37,
+          "right" : 367,
+          "top" : 190
+        },
+        "center" : {
+          "height" : 18,
+          "mode" : "tile",
+          "width" : 1
+        },
+        "mode" : "9-part"
+      },
       "scale" : "3x"
     }
   ],

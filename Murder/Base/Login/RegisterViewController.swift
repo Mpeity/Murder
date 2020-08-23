@@ -53,12 +53,12 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     @IBAction func nextBtnAction(_ sender: Any) {
         
         
-        let vc = SetPasswordsViewController()
-        vc.titleString = self.titleString
-        vc.captcha = self.codeTextField.text!
-        vc.isResetPassword = self.isResetPassword ?? false
-        self.navigationController?.pushViewController(vc, animated: true)
-        return
+//        let vc = SetPasswordsViewController()
+//        vc.titleString = self.titleString
+//        vc.captcha = self.codeTextField.text!
+//        vc.isResetPassword = self.isResetPassword ?? false
+//        self.navigationController?.pushViewController(vc, animated: true)
+//        return
         
         var scene = 1
         // 重置密码
@@ -88,10 +88,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                     self?.timerFunc()
                     self?.getCode = false
                     
-                    
 //                    showToastCenter(msg:"認証コードは発送済です")
-                    
-                    
 
                 } else {
                     showToastCenter(msg: "メールアドレスのフォーマットが正しくありません、再度入力してくさい")
@@ -117,6 +114,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                     let vc = SetPasswordsViewController()
                     vc.titleString = self?.titleString
                     vc.captcha = self?.codeTextField.text!
+                    vc.email  = self?.nameTextField.text!
                     vc.isResetPassword = self!.isResetPassword ?? false
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }
@@ -198,7 +196,7 @@ extension RegisterViewController {
 extension RegisterViewController {
     
     private func timerFunc() {
-        count = 60
+        count = 300
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, block: {[weak self] (_) in
             self?.countDown()
         }, repeats: true)

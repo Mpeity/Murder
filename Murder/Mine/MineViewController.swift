@@ -23,6 +23,7 @@ class MineViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
+        loadUserInfo()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,13 +35,28 @@ class MineViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.isHidden = false
     }
+}
 
-    
-    
-        
-
-
-
+// MARK: - 数据请求
+extension MineViewController {
+    private func loadUserInfo() {
+        mineInfoRequest {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                let resultData = data["result"] as! [String : AnyObject]
+                self?.tableHeaderView.mineModel = MineModel(fromDictionary: resultData)
+                self?.myTableView.reloadData()
+            } else {
+                
+            }
+        }
+    }
 }
 
 

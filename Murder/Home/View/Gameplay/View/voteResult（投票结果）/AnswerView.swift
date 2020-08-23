@@ -14,6 +14,7 @@ class AnswerView: UIView {
     // 题目选项
     private lazy var tableView: UITableView = UITableView()
     
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUI()

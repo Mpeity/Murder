@@ -62,7 +62,6 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="KOl-EE-1Wr" secondAttribute="bottom" constant="22" id="86R-Aa-VwL"/>
                     <constraint firstItem="KOl-EE-1Wr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="8ty-zO-sbB"/>
                     <constraint firstItem="gGM-M5-B7h" firstAttribute="trailing" secondItem="R6I-kr-mPH" secondAttribute="trailing" id="CiM-mW-0Q2"/>
                     <constraint firstItem="R6I-kr-mPH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="H7U-VQ-qcK"/>

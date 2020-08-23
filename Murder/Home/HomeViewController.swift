@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MJRefresh
+
 
 
 let HomeListViewCellId = "HomeListViewCellId"
@@ -15,8 +17,16 @@ let HomeListHeaderViewId = "HomeListHeaderViewId"
 
 class HomeViewController: UIViewController,UITextFieldDelegate {
     
+    private var page_no = 1
+    private var page_size = 20
+    private var currentIndex = 0
+    
     private lazy var tableView: UITableView = UITableView(frame: CGRect.zero, style: .grouped)
     private var tableHeaderView: HomeListHeaderView!
+    
+    
+    private var roomList: [HomeRoomModel] =  [HomeRoomModel]()
+    private var bannerList: [HomeBannerModel] = [HomeBannerModel]()
     
     private lazy var textInputView : InputTextView! = {
         let inputView = InputTextView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
@@ -45,6 +55,8 @@ class HomeViewController: UIViewController,UITextFieldDelegate {
         // 监听键盘弹出
         NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         setUI()
+        
+//        loadRefresh()
     }
     
     deinit {
@@ -54,8 +66,153 @@ class HomeViewController: UIViewController,UITextFieldDelegate {
 }
 
 
+//MARK:- 网络请求
+extension HomeViewController {
+    // 加载更多
+    @objc func loadMore() {
+        page_no += 1
+        
+    }
+    // 刷新
+    @objc func loadRefresh() {
+        page_no = 1
+        loadData()
+    }
+    // 请求首页数据
+    func loadData() {
+        
+        
+        
+  
+
+        
+        loadHomeData(page_no: page_no, page_size: page_size) {[weak self] (result, error) in
+            if error != nil {
+                self?.tableView.mj_header.endRefreshing()
+                self?.tableView.mj_footer.endRefreshing()
+                return
+            }
+            
+            
+            Log("---------\(Thread.current)")
+            
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            
+            if resultDic["code"]!.isEqual(1) {
+                
+                if self!.page_no == 1 {
+                    self!.roomList.removeAll()
+                    self?.bannerList.removeAll()
+                }
+                
+                let data = resultDic["data"] as! [String : AnyObject]
+                
+                let room_list = data["room_list"] as! [[String : AnyObject]]
+                let user = data["user"]
+                let banner_list = data["banner_list"] as! [[String : AnyObject]]
+                
+                
+                for roomItem in room_list {
+                    let roomModel = HomeRoomModel(fromDictionary: roomItem)
+                    self!.roomList.append(roomModel)
+                }
+                
+                for bannerItem in banner_list {
+                    let bannerModel = HomeBannerModel(fromDictionary: bannerItem)
+                    self!.bannerList.append(bannerModel)
+                }
+                
+                let userModel = HomeUserModel(fromDictionary: user as! [String : AnyObject])
+                
+                
+                let homeViewModel = HomeViewModel(bannerModelArr: self!.bannerList, userModel: userModel)
+                
+        
+                
+                
+                self?.tableHeaderView.homeViewModel = homeViewModel
+                
+                self?.tableView.reloadData()
+                
+                Log("---------\(Thread.current)")
+
+                
+                self?.tableView.mj_header.endRefreshing()
+                self?.tableView.mj_footer.endRefreshing()
+                
+            } else {
+                
+               self?.tableView.mj_header.endRefreshing()
+               self?.tableView.mj_footer.endRefreshing()
+            }
+        }
+    }
+    
+    // 进入房间
+    func joinRoom(room_id: Int, room_password: String?, script_id: Int, hasPassword: Bool) {
+        joinRoomRequest(room_id: room_id, room_password: room_password, hasPassword: hasPassword) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+//                let vc = ScriptDetailsViewController()
+//                vc.script_id = script_id
+//                self?.navigationController?.pushViewController(vc, animated: true)
+                
+                let vc = PrepareRoomViewController()
+                vc.room_id = room_id
+                vc.script_id = script_id
+                self?.navigationController?.pushViewController(vc, animated: true)
+                
+            } else {
+                showToastCenter(msg: "暗証番号が正しくありません")
+            }
+        }
+    }
+    
+    // 判断房间是否需要密码
+    func checkRoomId(room_id: Int, codeResult: @escaping(_ code: Int)->()) {
+        roomCheckPassword(room_id: room_id) { (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                let resultData = data["result"] as! [String : AnyObject]
+                let is_pass = resultData["is_pass"] as! Int
+                codeResult(is_pass)
+            }
+            
+        }
+    }
+}
+
+
 
 extension HomeViewController {
+   private func setupHeaderView() {
+        let header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(loadRefresh))
+        header?.backgroundColor = UIColor.white
+        header?.setTitle("下拉刷新", for: .idle)
+        header?.setTitle("释放更新", for: .pulling)
+        header?.setTitle("加载中...", for: .refreshing)
+        
+        // 设置tableview的header
+        tableView.mj_header = header
+        
+        // 进入刷新状态
+        tableView.mj_header.beginRefreshing()
+    }
+    
+    private func setupFooterView() {
+        tableView.mj_footer = MJRefreshAutoFooter(refreshingTarget: self, refreshingAction: #selector(loadMore))
+    }
     private func setUI() {
         tableHeaderView = HomeListHeaderView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: STATUS_BAR_HEIGHT + 260))
         
@@ -80,7 +237,8 @@ extension HomeViewController {
         tableView.tableHeaderView = tableHeaderView
         
         
-        
+        setupHeaderView()
+        setupFooterView()
         
 //        let headerView = UIView()
 //        self.view.addSubview(headerView)
@@ -99,16 +257,19 @@ extension HomeViewController {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return roomList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeListViewCellId, for: indexPath) as! HomeListViewCell
         cell.selectionStyle = .none
+        
+        let model = roomList[indexPath.row]
+        cell.roomModel = model
         return cell
     }
     
@@ -120,24 +281,47 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        currentIndex = indexPath.row
         let commonView = ListPopUpView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        commonView.enterBtnTapBlcok = {[weak self](param)->() in
-            Log(param)
-            if indexPath.row == 0 { // 有密码
+        UIApplication.shared.keyWindow?.addSubview(commonView)
+        let model = roomList[indexPath.row]
+        commonView.roomModel = model
+    
+        
+        
+//        let vc = PrepareRoomViewController()
+//        vc.room_id = 1
+//        vc.script_id = model.scriptId
+//
+//        navigationController?.pushViewController(vc, animated: true)
+//        return
+            
+            
+        
+        checkRoomId(room_id: model.roomId) {[weak self] (code) in
+            
+            commonView.enterBtnTapBlcok = {[weak self] (param)->() in
+                Log(code)
                 commonView.removeFromSuperview()
-                
-                self!.textInputView.textFieldView.becomeFirstResponder()
-                UIApplication.shared.keyWindow?.addSubview(self!.textInputView)
-
-                
-            } else {
-                commonView.removeFromSuperview()
-                let vc = ScriptDetailsViewController()
-                self?.navigationController?.pushViewController(vc, animated: true)
+                if code == 1 { // 有密码
+                    self!.textInputView.textFieldView.becomeFirstResponder()
+                    UIApplication.shared.keyWindow?.addSubview(self!.textInputView)
+                } else {
+                    if model.userScriptStatus == 0 { // 未拥有该剧本
+                        let vc = ScriptDetailsViewController()
+                        vc.script_id = model.scriptId
+                        self?.navigationController?.pushViewController(vc, animated: true)
+                    } else {
+                        self?.joinRoom(room_id: model.roomId, room_password: nil, script_id: model.scriptId, hasPassword: false)
+                    }
+                    
+                }
             }
         }
-        UIApplication.shared.keyWindow?.addSubview(commonView)
+        
+        
 
     }
     
@@ -147,8 +331,14 @@ extension HomeViewController: InputTextViewDelegate  {
     
     func commonBtnClick() {
         textInputView.removeFromSuperview()
-        let vc = ScriptDetailsViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        let text = textInputView.textFieldView.text!
+        let model = roomList[currentIndex]
+        joinRoom(room_id: model.roomId, room_password: text, script_id: model.scriptId, hasPassword: true)
+        
+//        let vc = ScriptDetailsViewController()
+//        vc.script_id = model.scriptId
+//        navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     @objc func keyboardWillChangeFrame(notif: Notification) {

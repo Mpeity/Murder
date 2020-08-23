@@ -19,6 +19,17 @@ class RoleIntroductionView: UIView {
     // 取消
     @IBOutlet weak var cancelBtn: UIButton!
     
+    var roleModel: RoleModel! {
+        didSet {
+            guard let roleModel = roleModel else {
+                return
+            }
+            avatarImgView.setImageWith(URL(string: roleModel.head), placeholder: UIImage(named: ""))
+            nameLabel.text = roleModel.name
+            introduceLabel.text = roleModel.describe
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView = loadViewFromNib()

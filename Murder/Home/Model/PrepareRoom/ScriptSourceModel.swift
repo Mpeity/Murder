@@ -1,0 +1,82 @@
+//
+//  ScriptSourceModel.swift
+//  Murder
+//
+//  Created by 马滕亚 on 2020/8/18.
+//  Copyright © 2020 m.a.c. All rights reserved.
+//
+
+import Foundation
+
+
+class Script : NSObject {
+
+    var scripId : Int?
+    var scriptName : String?
+
+
+    /**
+     * Instantiate the instance using the passed dictionary values to set the properties values
+     */
+    init(fromDictionary dictionary: [String:Any]){
+        scripId = dictionary["scrip_id"] as? Int
+        scriptName = dictionary["script_name"] as? String
+    }
+
+    /**
+     * Returns all the available property values in the form of [String:Any] object where the key is the approperiate json key and the value is the value of the corresponding property
+     */
+    func toDictionary() -> [String:Any]
+    {
+        var dictionary = [String:Any]()
+        if scripId != nil{
+            dictionary["scrip_id"] = scripId
+        }
+        if scriptName != nil{
+            dictionary["script_name"] = scriptName
+        }
+        return dictionary
+    }
+}
+
+class ScriptSourceModel : NSObject {
+
+    var script : Script?
+    var scriptNodeMapList : [ScriptNodeMapModel]?
+
+
+    /**
+     * Instantiate the instance using the passed dictionary values to set the properties values
+     */
+    init(fromDictionary dictionary: [String:Any]){
+        if let scriptData = dictionary["script"] as? [String:Any]{
+            script = Script(fromDictionary: scriptData)
+        }
+        scriptNodeMapList = [ScriptNodeMapModel]()
+        if let scriptNodeMapListArray = dictionary["script_node_map_list"] as? [[String:Any]]{
+            for dic in scriptNodeMapListArray{
+                let value = ScriptNodeMapModel(fromDictionary: dic)
+                scriptNodeMapList!.append(value)
+            }
+        }
+    }
+
+    /**
+     * Returns all the available property values in the form of [String:Any] object where the key is the approperiate json key and the value is the value of the corresponding property
+     */
+    func toDictionary() -> [String:Any]
+    {
+        var dictionary = [String:Any]()
+        if script != nil{
+            dictionary["script"] = script!.toDictionary()
+        }
+        if scriptNodeMapList != nil{
+            var dictionaryElements = [[String:Any]]()
+            for scriptNodeMapListElement in scriptNodeMapList! {
+                dictionaryElements.append(scriptNodeMapListElement.toDictionary())
+            }
+            dictionary["script_node_map_list"] = dictionaryElements
+        }
+        return dictionary
+    }
+}

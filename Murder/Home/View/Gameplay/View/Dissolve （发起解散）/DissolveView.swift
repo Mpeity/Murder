@@ -9,7 +9,17 @@
 import UIKit
 
 // 点击textViewBlock回掉
+// 发起解散
 typealias DissolutionBtnTapBlcok = () ->()
+
+// 解散
+typealias DissolutionStartTapBlcok = () ->()
+
+// 不解散
+typealias DissolutionNoTapBlcok = () ->()
+
+// 取消
+typealias DissolutionCancelTapBlcok = () ->()
 
 /// 发起解散
 class DissolveView: UIView {
@@ -32,30 +42,44 @@ class DissolveView: UIView {
     // 不解散
     @IBOutlet weak var noDissolutionBtn: UIButton!
     
+    // 解散
     var dissolutionBtnTapBlcok: DissolutionBtnTapBlcok?
+    
+    // 不解散
+    var dissolutionBtnNoBlcok: DissolutionNoTapBlcok?
+    
+    // 发起
+    var dissolutionBtnStartBlcok: DissolutionStartTapBlcok?
+    
+    // 取消
+    var dissolutionBtnCancelBlcok: DissolutionCancelTapBlcok?
     
     
     //MARK: - 发起解散 - 取消
     @IBAction func dissolutionCancelBtnAvtion(_ sender: Any) {
         // 隐藏视图
-        hideView()
+        dissolutionBtnCancelBlcok?()
     }
     
     //MARK: - 发起解散 - 发起
     @IBAction func dissolutionStartAction(_ sender: Any) {
-        dissolutionView.isHidden = true
-        votingView.isHidden = false
+        dissolutionView.isHidden = false
+        votingView.isHidden = true
+        dissolutionBtnStartBlcok?()
     }
     
     
     //MARK: - 解散
     @IBAction func dissolutionBtnAction(_ sender: Any) {
+        dissolutionView.isHidden = true
+        votingView.isHidden = true
         dissolutionBtnTapBlcok?()
     }
     //MARK: - 不解散
     @IBAction func noDissolutionBtnAction(_ sender: Any) {
         // 隐藏视图
         hideView()
+        dissolutionBtnNoBlcok?()
     }
     
     
@@ -66,7 +90,7 @@ class DissolveView: UIView {
         addSubview(contentView)
         addConstraints()
         
-        dissolutionView.isHidden = false
+        dissolutionView.isHidden = true
         votingView.isHidden = true
         
         setUI()

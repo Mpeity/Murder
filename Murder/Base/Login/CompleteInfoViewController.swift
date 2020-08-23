@@ -27,10 +27,11 @@ class CompleteInfoViewController: UIViewController, UITextFieldDelegate  {
     @IBOutlet weak var nicknameTextfield: UITextField!
     // 立即体验
     @IBOutlet weak var commonBtn: UIButton!
+    
     // 性别
-    var sex: String?
+    private var sex: String?
     // 头像
-    var file: String?
+    private var file: String?
     
     
     override func viewDidLoad() {
@@ -52,6 +53,7 @@ extension CompleteInfoViewController {
     
     private func setUI() {
         photoBtn.layer.cornerRadius = 62.5
+        photoBtn.layer.masksToBounds = true
         photoBtn.addTarget(self, action: #selector(photoBtnAction), for: .touchUpInside)
         
         tipLabel.font = UIFont.systemFont(ofSize: 12)
@@ -141,41 +143,35 @@ extension CompleteInfoViewController {
     
     //MARK:- 完善信息
     @objc func commonBtnAction() {
-        
-        
-        if file!.isEmptyString {
-            showToastCenter(msg: "")
+//        if !file!.isEmpty  && !sex!.isEmpty && (nicknameTextfield!.text != nil){
+//            editInfo(head: file!)
+//        } else {
+//            showToastCenter(msg: "提示语")
+//        }
+    
+        if file != nil  && sex != nil && nicknameTextfield.text != nil{
+            editInfo(head: file!)
         }
-        
-        // 图片选择完毕 上传图片
-        uploadImgae(file: file!) {[weak self] (result, error) in
+    }
+    
+    func editInfo(head: String) {
+        let nickname = nicknameTextfield.text!
+        editInformation(nickname: String(nickname), head: head, sex: self.sex!) {[weak self] (result, error) in
+            
             if error != nil {
                 return
             }
             // 取到结果
             guard  let resultDic :[String : AnyObject] = result else { return }
-            if resultDic["code"]!.isEqual(1) {
-                let data = resultDic["data"] as! [String : AnyObject]
-                let dataResult = data["result"] as! [String : AnyObject]
-                let path = dataResult["path"]
-                let head = dataResult["attachment_id"]
-                
-                self?.editInfo(head: head as! String)
+
+            if resultDic["code"]!.isEqual(1) { //修改成功
+                // 将account对象设置到单例对象中
+                UserAccountViewModel.shareInstance.account?.nickname = String(nickname)
+                // 首页
+                UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+            } else {
+//                    showToastCenter(msg: "メールアドレスのフォーマットが正しくありません、再度入力してくさい")
             }
-        }
-        
-        
-        
-        
-        
-    }
-    
-    func editInfo(head: String) {
-        let nickname = nicknameTextfield.text!
-        editInformation(key: "", nickname: String(nickname), head: head, sex: self.sex!) {[weak self] (result, error) in
-            
-            UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
-            
         }
     }
     
@@ -205,8 +201,55 @@ extension CompleteInfoViewController {
 //MARK:- 照片选择
 extension CompleteInfoViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
         let image = info[.originalImage] as! UIImage
         photoBtn.setImage(image, for: .normal)
         picker.dismiss(animated: true, completion: nil)
+        
+        saveImagePath(image: image)
+    }
+    
+    func saveImagePath(image: UIImage) {
+        //将选择的图片保存到Document目录下
+        var attachment_id = ""
+        
+        //先把图片转成NSData(这里压缩图片到0.5，图片过大会造成上传时间太久或失败)
+        let data = image.jpegData(compressionQuality: 0.5)
+        //Home目录
+        let homeDirectory = NSHomeDirectory()
+        let documentPath = homeDirectory + "/Documents"
+        //文件管理器
+        let fileManager: FileManager = FileManager.default
+        //把刚刚图片转换的data对象拷贝至沙盒中 并保存为image.png
+        do {
+            try fileManager.createDirectory(atPath: documentPath, withIntermediateDirectories: true, attributes: nil)
+        }
+        catch let error {
+            print(error)
+        }
+        fileManager.createFile(atPath: (documentPath as NSString).appending("/image.png"), contents: data, attributes: nil)
+        //得到选择后沙盒中图片的完整路径
+        let filePath: String = String(format: "%@%@", documentPath, "/image.png")
+        let newData = filePath.data(using: .utf8)
+        //上传图片
+        if (fileManager.fileExists(atPath: filePath)){
+            //取得NSURL
+            
+            uploadImgae(imageData: data!,file: newData as AnyObject) { (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                if resultDic["code"]!.isEqual(1) { // 上传成功
+                    let data = resultDic["data"] as! [String : AnyObject]
+                    let resultData = data["result"] as! [String : AnyObject]
+                    let pathStr = resultData["path"] as! String
+                    attachment_id = resultData["attachment_id"] as! String
+                    self.file = attachment_id
+                }
+
+            }
+        }
     }
 }

@@ -28,6 +28,51 @@ class HomeListHeaderView: UIView {
     // 轮播图
     @IBOutlet weak var bannerView: UIView!
     
+    var scrollView: SDCycleScrollView!
+    
+    var bannerArr: [HomeBannerModel] = [HomeBannerModel]()
+    
+    var userModel: HomeUserModel!
+    var bannerList: [HomeBannerModel] = [HomeBannerModel]()
+    
+    var homeViewModel: HomeViewModel! {
+        didSet {
+            guard let homeViewModel = homeViewModel else {
+                return
+            }
+            
+            let userModel = homeViewModel.userModel
+            headImgView.setImageWith(URL(string: userModel.head), placeholder: UIImage(named: ""))
+            
+            nicknameLabel.text = userModel.nickname
+            
+            levelLabel.text = userModel.level
+            
+            infoView.layoutIfNeeded()
+            
+            infoView.backgroundColor = HexColor(hex: "#000000", alpha: 0.1)
+            infoView.viewWithCorner(byRoundingCorners: [.topRight,.bottomRight], radii: 24)
+            
+            var arr = Array<Any>()
+            for item in homeViewModel.bannerModelArr {
+                let model = item
+                arr.append(model.img)
+            }
+            
+            scrollView = SDCycleScrollView(frame: CGRect(x: 0, y: 0, width: 345*SCALE_SCREEN, height: 150), imageNamesGroup: arr)!
+            bannerView.addSubview(scrollView)
+            scrollView.layer.cornerRadius = 10
+            scrollView.layer.masksToBounds = true
+            scrollView.backgroundColor = UIColor.white
+            
+            scrollView.clickItemOperationBlock = { [weak self] (currentIndex) in
+                let bannerModel = homeViewModel.bannerModelArr[currentIndex]
+                
+            }
+                    
+        }
+    }
+    
     
     
     override init(frame: CGRect) {
@@ -71,14 +116,12 @@ extension HomeListHeaderView {
         levelLabel.layer.cornerRadius = 9
         levelLabel.layer.masksToBounds = true
         
-        
-        let arr = ["https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1899402122,4230827200&fm=26&gp=0.jpg","https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596188930281&di=38b7af383aedc7d7bcc65baf45fae856&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2018-01-03%2F5a4c4270d8799.jpg","https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596188999127&di=c26d930c5c4ce1455ca7a1140a6376dc&imgtype=0&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D1753371632%2C983488119%26fm%3D214%26gp%3D0.jpg"]
         bannerView.backgroundColor = UIColor.clear
-        let scrollView = SDCycleScrollView(frame: CGRect(x: 0, y: 0, width: 345*SCALE_SCREEN, height: 150), imageNamesGroup: arr)!
-        bannerView.addSubview(scrollView)
-        scrollView.layer.cornerRadius = 10
-        scrollView.layer.masksToBounds = true
-        scrollView.backgroundColor = UIColor.white
+//        scrollView = SDCycleScrollView(frame: CGRect(x: 0, y: 0, width: 345*SCALE_SCREEN, height: 150), imageNamesGroup: arr)!
+//        bannerView.addSubview(scrollView)
+//        scrollView.layer.cornerRadius = 10
+//        scrollView.layer.masksToBounds = true
+//        scrollView.backgroundColor = UIColor.white
     }
 }
 

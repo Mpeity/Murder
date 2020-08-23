@@ -32,6 +32,19 @@ class ListPopUpView: UIView {
     
     // 进入房间回掉
     var enterBtnTapBlcok : EnterBtnTapBlcok?
+    
+    var roomModel: HomeRoomModel! {
+        didSet {
+            guard let roomModel = roomModel else {
+                return
+            }
+            nameLabel.text = roomModel.scriptName
+            roomIdLabel.text = "ルームID：\(String(roomModel.roomId))"
+            scoreLabel.text = roomModel.durationText
+        }
+    }
+    
+    
 
     
     
@@ -79,15 +92,15 @@ extension ListPopUpView {
 
 extension ListPopUpView {
     @objc func enterBtnAction(){
-        enterBtnTapBlcok!("1234")
+        guard let enterBtnTapBlcok: EnterBtnTapBlcok = enterBtnTapBlcok else { return }
+        enterBtnTapBlcok("1234")
     }
     
     @objc func cancelBtnAction(){
         contentView = nil
         self.removeFromSuperview()
     }
-    
-    
+
 }
 
 extension ListPopUpView {

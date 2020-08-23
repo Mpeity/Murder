@@ -33,6 +33,28 @@ class CreateRoomHeaderView: UIView {
     @IBOutlet weak var border3View: UIView!
     @IBOutlet weak var difficultyLabel: UILabel!
     
+    var model: ScriptDetailModel! {
+        didSet {
+            guard let model = model else {
+                return
+            }
+            
+            coverImgView.setImageWith(URL(string: model.cover), placeholder: UIImage(named: ""))
+            nameLabel.text = model.name
+            
+            commonLabel.text = "\(String(model.duration)) | \(String(model.wordNum))"
+            
+            authorLabel.text = model.author
+            
+            numLabel.text = String(model.peopleNum) + "人"
+            
+            let item1 = model.tag[0]
+            themeLabel.text = item1.tagName
+            let item2 = model.tag[1]
+            difficultyLabel.text = item2.tagName
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView = loadViewFromNib()

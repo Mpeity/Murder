@@ -26,7 +26,38 @@ class ScriptTableViewCell: UITableViewCell {
     /// 剧本时长
     @IBOutlet weak var timeLabel: UILabel!
     
-    
+    var scriptListModel: ScriptListModel? {
+        didSet {
+            if scriptListModel?.cover != nil {
+                let cover = scriptListModel?.cover!
+                coverImgView.setImageWith(URL(string: cover!))
+            }
+            
+            
+            if scriptListModel?.scriptName != nil {
+                nameLabel.text = scriptListModel?.scriptName!
+            }
+            
+            
+            if scriptListModel?.durationText != nil {
+                timeLabel.text = scriptListModel?.durationText
+            }
+            
+//            if scriptListModel?.tag[0] {
+//            themeLabel.text = scriptListModel?.tag[0].tagName
+//            }
+
+            if scriptListModel?.peopleNum != nil {
+                numberLabel.text = "\(scriptListModel?.peopleNum! ?? 0)人"
+            }
+            
+            if scriptListModel?.difficultText != nil {
+                difficultyLabel.text = scriptListModel?.difficultText!
+            }
+            
+            
+        }
+    }
     
     
     override func awakeFromNib() {
@@ -38,6 +69,8 @@ class ScriptTableViewCell: UITableViewCell {
     
 //    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 //        super.init(style: style, reuseIdentifier: reuseIdentifier)
+//
+//        
 //
 //    }
 //
@@ -67,8 +100,10 @@ extension ScriptTableViewCell {
         // 标签
         tagLabel.backgroundColor = ColorWithRGB(r: 255, g: 241, b: 217)
         tagLabel.layer.cornerRadius = 2.5
+        tagLabel.layer.masksToBounds = true
         tagLabel.textColor = HexColor(LightOrangeColor)
         tagLabel.textAlignment = NSTextAlignment.center
+        
         // 人数
         numberLabel.layer.cornerRadius = 8.5
         numberLabel.layer.borderWidth = 0.5

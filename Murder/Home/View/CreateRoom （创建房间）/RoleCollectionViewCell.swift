@@ -22,6 +22,17 @@ class RoleCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var bgView: UIView!
     
+    var roleModel: RoleModel! {
+        didSet {
+            guard let roleModel = roleModel else {
+                return
+            }
+            roleImgView.setImageWith(URL(string: roleModel.head), placeholder: UIImage(named: ""))
+            nameLabel.text = roleModel.name
+            introductionLabel.text = roleModel.describe
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

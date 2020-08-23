@@ -8,8 +8,21 @@
 
 import UIKit
 
-class ThreadCardView: UIView {
+//typealias AvatarImgTapBlcok = () ->()
 
+// 深入查看按钮
+typealias DeepBtnActionBlock = (_ clueResultModel: SearchClueResultModel) ->()
+// 公开按钮
+typealias PublicBtnActionBlock = (_ clueResultModel: SearchClueResultModel) ->()
+
+class ThreadCardView: UIView {
+    
+    
+    var deepBtnActionBlock : DeepBtnActionBlock?
+    
+    var publicBtnActionBlock : PublicBtnActionBlock?
+    
+    
     @IBOutlet var contentView: UIView!
     
     // 图片
@@ -21,15 +34,50 @@ class ThreadCardView: UIView {
     // 关闭
     @IBOutlet weak var cancelBtn: UIButton!
     
+    var script_place_id: Int?
+    
+    var room_id: Int?
+    
+    var clueResultModel: SearchClueResultModel? {
+        didSet {
+            if clueResultModel != nil {
+                if clueResultModel?.attachment != nil {
+                    imgView.setImageWith(URL(string: (clueResultModel?.attachment!)!))
+                }
+            }
+        }
+    }
+    
+    
     // 深入按钮
     @IBAction func deepBtnAction(_ sender: Any) {
+        if clueResultModel?.isGoing == 1 { // 可深入
+            deepBtnActionBlock?(clueResultModel!)
+        } else {
+            
+        }
         
+        searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: clueResultModel?.scriptClueId) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                let resultData = data["search_clue_result"] as! [String : AnyObject]
+                var model = SearchClueResultModel(fromDictionary: resultData)
+                self!.clueResultModel = model
+                
+            } else {
+                
+            }
+        }
     }
     
     // 公开按钮
     @IBAction func publicBtnAction(_ sender: Any) {
-        
-        
+        publicBtnActionBlock?(clueResultModel!)
     }
     
     // 关闭按钮

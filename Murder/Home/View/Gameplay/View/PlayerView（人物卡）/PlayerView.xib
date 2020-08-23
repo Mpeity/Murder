@@ -17,7 +17,7 @@
                 <outlet property="levelLabel" destination="hnk-AW-4eT" id="Rcj-Zc-JlE"/>
                 <outlet property="lineView" destination="ig5-vb-ZAd" id="WdP-nh-HWD"/>
                 <outlet property="playerBtn" destination="AaC-ao-knA" id="rMP-zv-Gf9"/>
-                <outlet property="playerImgView" destination="NGZ-Za-6V1" id="cYU-Ul-CF6"/>
+                <outlet property="playerImgView" destination="IMm-A0-Wkz" id="LHe-3S-Ase"/>
                 <outlet property="playerNameLabel" destination="B2d-ET-hNP" id="gst-72-00j"/>
                 <outlet property="playerView" destination="RLw-0s-400" id="RA5-j4-Ceh"/>
                 <outlet property="roleBtn" destination="9Ku-nY-p53" id="imL-2w-Og6"/>
@@ -87,7 +87,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K1m-GF-UOk" userLabel="roleView">
                             <rect key="frame" x="0.0" y="43" width="300" height="237"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image1" translatesAutoresizingMaskIntoConstraints="NO" id="NGZ-Za-6V1">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NGZ-Za-6V1">
                                     <rect key="frame" x="120" y="29" width="60" height="60"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="60" id="hEk-Qc-rP4"/>
@@ -126,7 +126,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RLw-0s-400" userLabel="playerView">
                             <rect key="frame" x="0.0" y="43" width="300" height="237"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image5" translatesAutoresizingMaskIntoConstraints="NO" id="IMm-A0-Wkz">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IMm-A0-Wkz">
                                     <rect key="frame" x="120" y="24" width="60" height="60"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="60" id="G4B-R8-sUd"/>
@@ -264,8 +264,6 @@
     </objects>
     <resources>
         <image name="cancel" width="35" height="35"/>
-        <image name="image1" width="40" height="40"/>
-        <image name="image5" width="40" height="40"/>
         <image name="sex_man" width="15" height="15.5"/>
     </resources>
 </document>

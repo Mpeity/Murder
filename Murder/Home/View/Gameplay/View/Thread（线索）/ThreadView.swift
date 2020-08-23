@@ -13,11 +13,25 @@ let ThreadRightCellId = "ThreadRightCellId"
 
 
 class ThreadView: UIView {
+    
+    
 
     private lazy var leftTableView: UITableView = UITableView()
     private lazy var rightTableView: UITableView = UITableView()
     
     private var isLeftTableView : Bool = true
+    
+    private var clueList : [ClueListModel]? = [ClueListModel]()
+    
+    
+    var gameUserClueList: [GameUserClueListModel]? {
+        didSet {
+            if gameUserClueList!.isEmpty {
+                return
+            }            
+            leftTableView.reloadData()
+        }
+    }
 
         
     override init(frame: CGRect) {
@@ -127,16 +141,17 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if tableView == leftTableView {
-            return 5
+            return gameUserClueList!.count
         } else {
-            return 3
+            return clueList!.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        let model = gameUserClueList![indexPath.row]
         if tableView == leftTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: ThreadLeftCellId, for: indexPath) as! ThreadLeftCell
+            cell.titleLabel.text = model.scriptPlaceName
             cell.selectionStyle = .none
             if indexPath.row == 0 {
                 cell.isSelected = true
@@ -144,6 +159,7 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: ThreadRightCellId, for: indexPath) as! ThreadRightCell
+            cell.clueListModel = clueList![indexPath.row]
             cell.selectionStyle = .none
             return cell
         }
@@ -152,8 +168,9 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == leftTableView {
-            
-                   
+            let model = gameUserClueList![indexPath.row]
+            clueList =  model.clueList
+            rightTableView.reloadData()
         } else {
             
             hideView()

@@ -32,7 +32,7 @@
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="createroom_bg" translatesAutoresizingMaskIntoConstraints="NO" id="TAy-X8-tdm">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="287"/>
                         </imageView>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_list_two" translatesAutoresizingMaskIntoConstraints="NO" id="DIT-nc-Gz3">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_list_two" translatesAutoresizingMaskIntoConstraints="NO" id="DIT-nc-Gz3">
                             <rect key="frame" x="153" y="75" width="108" height="142"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="142" id="VRA-jC-WyC"/>

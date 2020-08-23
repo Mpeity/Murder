@@ -13,4 +13,5 @@ extension String {
        let trimmedStr = self.trimmingCharacters(in: .whitespacesAndNewlines)
        return trimmedStr.isEmpty
    }
+    
 }

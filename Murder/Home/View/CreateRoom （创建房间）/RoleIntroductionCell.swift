@@ -10,9 +10,19 @@ import UIKit
 
 let RoleCollectionViewCellId = "RoleCollectionViewCellId"
 
+
 class RoleIntroductionCell:UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
     
-
+    var role: [RoleModel]! = [RoleModel]() {
+        didSet {
+            guard role != nil else {
+                return
+            }
+            collectionView.reloadData()
+        }
+        
+    }
+    
     private lazy var collectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
@@ -60,19 +70,21 @@ class RoleIntroductionCell:UITableViewCell, UICollectionViewDelegate, UICollecti
     
     //MARK: - Delegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-         return 4
+        return role.count
      }
      
      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RoleCollectionViewCellId, for: indexPath) as! RoleCollectionViewCell
-         
-         return cell
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RoleCollectionViewCellId, for: indexPath) as! RoleCollectionViewCell
+        cell.roleModel = role[indexPath.item]
+        return cell
      }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //         弹出 人物介绍弹框
         let commonView = RoleIntroductionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        commonView.roleModel = role[indexPath.item]
         UIApplication.shared.keyWindow?.addSubview(commonView)
     }
 

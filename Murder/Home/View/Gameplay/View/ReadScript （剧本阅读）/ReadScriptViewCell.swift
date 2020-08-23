@@ -20,6 +20,15 @@ class ReadScriptViewCell: UITableViewCell {
     
     var textViewTapBlcok : textViewTapBlcok?
     
+    
+    var itemModel: GPChapterModel? {
+        didSet {
+            if itemModel != nil {
+                textView.text = itemModel?.content
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

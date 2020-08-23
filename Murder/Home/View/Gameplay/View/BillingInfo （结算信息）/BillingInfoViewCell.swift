@@ -28,6 +28,34 @@ class BillingInfoViewCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
     
+    var itemModel : SettlementModel? {
+        didSet {
+            if itemModel != nil {
+                
+                if itemModel?.userHead != nil {
+                    headerImgView.setImageWith(URL(string: (itemModel?.userHead!)!))
+                }
+                
+                if itemModel?.userNickname != nil {
+                    nicknameLabel.text = itemModel?.userNickname!
+                }
+                
+                if itemModel?.roleHead != nil {
+                    avartImgView.setImageWith(URL(string: (itemModel?.roleHead!)!))
+                }
+                
+                if itemModel?.roleName != nil {
+                    nameLabel.text = itemModel?.roleName!
+                }
+                
+                let expScore = itemModel?.expScore!
+                experenceLabel.text = "EXP：" +  String(expScore!)
+                let score = itemModel?.score!
+                scoreLabel.text = "スコア：" +  String(score!)
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -45,6 +73,13 @@ class BillingInfoViewCell: UITableViewCell {
 
 extension BillingInfoViewCell {
     private func setUI() {
+        
+        headerImgView.layer.cornerRadius = 19
+        headerImgView.layer.masksToBounds = true
+        
+        avartImgView.layer.cornerRadius = 25
+        avartImgView.layer.masksToBounds = true
+        
         scoreLabel.layer.borderColor = HexColor(LightOrangeColor).cgColor
         scoreLabel.layer.borderWidth = 0.5
         scoreLabel.layer.cornerRadius = 15

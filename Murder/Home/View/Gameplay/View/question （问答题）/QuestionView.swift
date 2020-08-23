@@ -12,6 +12,11 @@ let QuestionViewCellId = "QuestionViewCellId"
 
 
 class QuestionView: UIView {
+    
+    var room_id: Int?
+    
+    var script_node_id: Int?
+    
     // 题目名称
     var subjectLabel: UILabel = UILabel()
     // 题目性质 单选/多选
@@ -21,19 +26,44 @@ class QuestionView: UIView {
     // 题目选项
     private lazy var tableView: UITableView = UITableView()
     // confirm 确定按钮 / 提交按钮
-    var confirmBtn: UIButton = UIButton()
+    private var confirmBtn: UIButton = UIButton()
     // 上一题 previous
-    var previousBtn: UIButton = UIButton()
-
+    private var previousBtn: UIButton = UIButton()
+    
+    // 单选/多选
+    private var questionType = 0  // 0 单选 1 多选
+    
+    private var selectPath: IndexPath! //单选
+    private var cellIndexPath = NSMutableArray.init() //多选
+    // 答案
+    private var user_script_answer_ids: String?
+    
+    // 题目数据
+    var scriptQuestionList: [ScriptQuestionListModel]? {
+        didSet {
+            guard let scriptQuestionList = scriptQuestionList else {
+                return
+            }
+            refreshUI()
+            Log(scriptQuestionList)
+        }
+    }
     
     // 题目数量
     var subjectArr: Array = ["A","B","C","D"]
     // 选项数量
-    var choiceArr: Array = ["A","B","C","D"]
+    var choiceArr: [ScriptAnswerModel]? {
+        didSet {
+            guard choiceArr != nil else {
+                return
+            }
+            tableView.reloadData()
+        }
+    }
     // 当前第几道题
     var selectedIndex: Int = 0 {
         didSet {
-            if selectedIndex == 0 || selectedIndex == subjectArr.count-1{
+            if selectedIndex == 0 || selectedIndex == scriptQuestionList!.count-1{
                 previousBtn.isHidden = true
                 confirmBtn.snp.remakeConstraints { (make) in
                     make.right.equalToSuperview().offset(-37.5)
@@ -83,6 +113,14 @@ class QuestionView: UIView {
 
 
 extension QuestionView {
+    
+    private func refreshUI() {
+        let model = scriptQuestionList![selectedIndex]
+        subjectLabel.text = model.questionTitle
+        choiceArr = model.scriptAnswer!
+    }
+    
+    
     private func setUI() {
         
         self.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT)
@@ -233,17 +271,6 @@ extension QuestionView {
             make.width.equalToSuperview()
             make.bottom.equalTo(confirmBtn.snp_top).offset(-50)
         }
-
-        
-
-        
- 
-        
-
-        
-        
-
-        
     }
 }
 
@@ -251,7 +278,7 @@ extension QuestionView {
 extension QuestionView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return choiceArr.count
+        return choiceArr!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -261,15 +288,63 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = .none
         cell.backgroundColor = HexColor("#F5F5F5")
         cell.isSelected = false
-        cell.choiceBtn.setTitle(choiceArr[indexPath.row], for: .normal)
+        let model = choiceArr![indexPath.row]
+        cell.choiceBtn.setTitle(subjectArr[indexPath.row], for: .normal)
+        cell.itemModel = model
+        
+        if questionType == 0 { // 单选
+            if selectPath == indexPath {
+                cell.isSelected = true
+            } else{
+                cell.isSelected = false
+            }
+        } else { // 多选
+            if self.cellIndexPath.contains(indexPath) {
+                cell.isSelected = true
+            } else {
+                cell.isSelected = false
+            }
+        }
+        
         return cell
         
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let model = choiceArr![indexPath.row]
+        if questionType == 0 { // 单选
+            if selectPath == nil {
+                let cell = tableView.cellForRow(at: indexPath);
+                selectPath = indexPath
+                cell?.isSelected = true
+                user_script_answer_ids = String(model.scriptAnswerId)
+            } else {
+                if selectPath == indexPath {
+                    let cell = tableView.cellForRow(at: indexPath)
+                    cell?.isSelected = false
+                    selectPath = nil
+                    user_script_answer_ids?.removeAll()
+                } else {
+                    let cell1 = tableView.cellForRow(at: selectPath!)
+                    cell1?.isSelected = false
+                    selectPath = indexPath
+                    let cell = tableView.cellForRow(at: indexPath)
+                    cell?.isSelected = true
+                    user_script_answer_ids = String(model.scriptAnswerId)
+                }
+            }
+        } else { // 多选
+            if self.cellIndexPath.contains(indexPath) {
+                self.cellIndexPath.remove(indexPath)
+                let cell = tableView.cellForRow(at: indexPath)
+                cell?.isSelected = false
+            } else {
+                self.cellIndexPath.add(indexPath)
+                let cell = tableView.cellForRow(at: indexPath)
+                cell?.isSelected = true
+            }
+        }
     }
-    
     
       
 }
@@ -286,17 +361,37 @@ extension QuestionView {
     }
     
     @objc func confirmBtnAction() {
-        selectedIndex += 1
         
-        if selectedIndex == subjectArr.count-1 {
+        gameVote()
+        
+        if selectedIndex == scriptQuestionList!.count-1 {
             selectedIndex = 0
             hideView()
             let commonView = VoteResultView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            commonView.room_id = room_id
             commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
             UIApplication.shared.keyWindow?.addSubview(commonView)
         }
+        selectedIndex += 1
+    }
+    
+    private func gameVote() {
+        //
+        let model = scriptQuestionList![selectedIndex]
         
+        gameVoteRequest(room_id: room_id!, script_node_id: script_node_id!, script_question_id: model.scriptQuestionId!, user_script_answer_ids: user_script_answer_ids!) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+//                let data = resultDic["data"] as! [String : AnyObject]
+//                self?.user_script_answer_ids = ""
+            }
 
+        }
+    
     }
     
     

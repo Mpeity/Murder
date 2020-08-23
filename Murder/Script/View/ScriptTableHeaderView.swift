@@ -12,7 +12,23 @@ let ScriptTableHeaderCellId = "ScriptTableHeaderCell"
 
 class ScriptTableHeaderView: UIView {
     
-    private var myTableView: UITableView!
+    var tagList: [ScriptTagModel]? {
+        didSet {
+            guard let tagList = tagList else {
+                return
+            }
+            var arr = ["すべて"]
+            for item in tagList {
+                arr.append(item.name!)
+            }
+            themeData = arr
+            myTableView.reloadData()
+        }
+    }
+    
+    private var themeData: [String]? 
+
+    var myTableView: UITableView!
 
     
     override init(frame: CGRect) {
@@ -38,41 +54,65 @@ extension ScriptTableHeaderView {
         
         
         if myTableView == nil {
-            myTableView = UITableView(frame:  CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: 125), style: .plain)
+            let height = 4 * 35 + 20
+            myTableView = UITableView(frame:  CGRect(x: 0, y: 0, width: Int(FULL_SCREEN_WIDTH), height: height), style: .plain)
+            myTableView.delegate = self
+            myTableView.dataSource = self
+            myTableView.separatorStyle = .none
+            myTableView.rowHeight = 35
+            myTableView.register(ScriptTableHeaderCell.self, forCellReuseIdentifier: ScriptTableHeaderCellId)
         }
-        myTableView.delegate = self
-        myTableView.dataSource = self
-        myTableView.separatorStyle = .none
-        myTableView.rowHeight = 35
+
         self.addSubview(myTableView)
-        myTableView.register(ScriptTableHeaderCell.self, forCellReuseIdentifier: ScriptTableHeaderCellId)
     }
 }
 
 // MARK: - TableView Delegate
 extension ScriptTableHeaderView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: ScriptTableHeaderCellId, for: indexPath) as! ScriptTableHeaderCell
-        if cell == nil{
-            cell = ScriptTableHeaderCell(style: .default, reuseIdentifier: ScriptTableHeaderCellId)
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: ScriptTableHeaderCellId, for: indexPath) as! ScriptTableHeaderCell
+        
+//        if cell == nil{
+//            cell = ScriptTableHeaderCell(style: .default, reuseIdentifier: ScriptTableHeaderCellId)
+//        }
         cell.selectionStyle = .none
+        tableView.separatorStyle = .none
         if indexPath.row == 0 {
             cell.titleLabel.text = "人数"
-            cell.dataArr = ["1人","2人","3人","4人","5人"]
+            cell.dataArr = ["すべて","1人","2人","3人","4人","5人"]
+            cell.tagString = "people_num"
         } else if indexPath.row == 1 {
             cell.titleLabel.text = "題材"
-            cell.dataArr = ["現実","武侠","心霊","テロ","キャンパス"]
-        } else {
-            cell.dataArr = ["初心者","簡単","中等","困難"]
+            if themeData != nil {
+                cell.dataArr = themeData!
+            } else {
+                cell.dataArr = ["すべて"]
+            }
+//            cell.dataArr = ["すべて","現実","武侠","心霊","テロ","キャンパス"]
+            cell.tagString = "tag_id"
+
+        } else if indexPath.row == 2 {
+            cell.dataArr = ["すべて","初心者","簡単","中等","困難"]
             cell.titleLabel.text = "難易度"
+            cell.tagString = "difficult"
+
+        } else {
+            cell.dataArr = ["すべて","無料","有料"]
+            cell.titleLabel.text = "料金"
+            cell.tagString = "pay_type"
         }
+        
+        
+        
         return cell
     }
-
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
 }

@@ -19,7 +19,17 @@ class MarqueeView: UIView {
     private var myTableView: UITableView!
     
     // 开局记录 / 反馈 / 设置
-    var dataArray: Array = ["バージョン","お問い合わせ","アプリをレビュー"]
+//    var dataArray: Array = ["バージョン","お問い合わせ","アプリをレビュー"]
+    var dataArray = [[String: AnyObject]]()  {
+        didSet {            
+            if !dataArray.isEmpty {
+                myTableView.reloadData()
+                let indexPath = IndexPath(row: dataArray.count-1, section: 0)
+                myTableView?.scrollToRow(at: indexPath, at:.bottom, animated: true)
+            }
+        }
+    }
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -86,7 +96,8 @@ extension MarqueeView: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = HexColor("#27025E")
 
         let item = dataArray[indexPath.row]
-        cell.statusLabel.text = item
+        cell.nameLabel.text = item["name"] as? String
+        cell.statusLabel.text = item["status"] as? String
         return cell
     }
     

@@ -12,9 +12,18 @@ private let VoteResultViewCellId = "VoteResultViewCellId"
 
 class VoteResultView: UIView {
     
+    var room_id: Int? {
+        didSet {
+            if room_id != nil {
+                loadData()
+            }
+        }
+    }
     
     // 题目选项
     private lazy var tableView: UITableView = UITableView()
+    
+    private var gameVoteResultModel: GameVoteResultModel?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,9 +37,24 @@ class VoteResultView: UIView {
 }
 
 extension VoteResultView {
-    private func setUI() {
-        
+    
+    private func loadData() {
 
+        gameVoteResultRequest(room_id: room_id!) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                self!.gameVoteResultModel = GameVoteResultModel(fromDictionary: data)
+                self!.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func setUI() {
         let bgView = UIView()
         bgView.backgroundColor = UIColor.white
         self.addSubview(bgView)
@@ -103,16 +127,18 @@ extension VoteResultView {
 extension VoteResultView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 2
+        return gameVoteResultModel?.list!.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VoteResultViewCellId, for: indexPath) as! VoteResultViewCell
         cell.backgroundColor = HexColor("#F5F5F5")
         cell.selectionStyle = .none
-        if indexPath.row == 0 {
-            cell.isSelected = true
-        }
+//        if indexPath.row == 0 {
+//            cell.isSelected = true
+//        }
+        let model = gameVoteResultModel?.list![indexPath.row]
+        cell.resultListModel = model
         return cell
         
     }

@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+//MARK:- 通知
+// 点击标签 剧本刷新
+let Script_Change_Notif = "Script_Change_Notif"
+
 
 // MARK:- 常量
 let app_key = "135761428"

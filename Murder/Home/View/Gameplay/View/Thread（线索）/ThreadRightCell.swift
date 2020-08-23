@@ -19,6 +19,16 @@ class ThreadRightCell: UITableViewCell {
     
     @IBOutlet weak var contentLabel: UILabel!
     
+    var clueListModel : ClueListModel? {
+        didSet {
+            guard let clueListModel = clueListModel else {
+                return
+            }
+            titleLabel.text = clueListModel.scriptClueName
+            contentLabel.text = clueListModel.scriptClueDetail
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

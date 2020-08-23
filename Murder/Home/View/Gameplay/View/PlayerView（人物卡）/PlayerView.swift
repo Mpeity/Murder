@@ -10,6 +10,57 @@ import UIKit
 
 class PlayerView: UIView {
 
+    var itemModel: GPScriptRoleListModel? {
+        didSet {
+            
+            if (itemModel != nil) {
+                if (itemModel?.head != nil) {
+                    let roleHead = itemModel?.head!
+                    roleImgView.setImageWith(URL(string: roleHead!))
+                }
+                
+                if (itemModel?.scriptRoleName != nil) {
+                    roleNameLabel.text = itemModel?.scriptRoleName!
+                }
+                
+                if itemModel?.describe != nil {
+                    roleIntroduceLabel.text = itemModel?.describe
+                }
+                
+                if itemModel?.user?.head != nil {
+                    let head = itemModel?.user?.head!
+                    playerImgView.setImageWith(URL(string: head!))
+                }
+                
+                if itemModel?.user?.nickname != nil {
+                    playerNameLabel.text = itemModel?.user?.nickname!
+                }
+                
+                var image : UIImage!
+                if itemModel?.user?.sex == 1 {
+//                    image = UIImage(named: "sexman")
+                    image = UIImage(named: "sex_man")
+                } else {
+//                    image = UIImage(named: "sexwoman")
+                    image = UIImage(named: "sex_woman")
+
+                }
+                sexImgView.image = image
+                
+        
+                if itemModel?.user?.level != nil {
+                    levelLabel.text = itemModel?.user?.level
+                }
+                
+                if itemModel?.user?.userId != nil {
+                    let id = itemModel?.user?.userId!
+                    IDLabel.text = String(id!)
+                }
+            }
+        }
+    }
+    
+    
     @IBOutlet var contentView: UIView!
     
     // 角色按钮
@@ -48,7 +99,6 @@ class PlayerView: UIView {
     
     // 取消按钮
     @IBOutlet weak var cancelBtn: UIButton!
-    
     
     @IBAction func roleBtnAction(_ sender: Any) {
         UIView.animate(withDuration: 0.5) {

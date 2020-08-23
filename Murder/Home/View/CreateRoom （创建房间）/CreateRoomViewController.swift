@@ -38,10 +38,26 @@ class CreateRoomViewController: UIViewController {
     // 创建房间按钮
     @IBOutlet weak var createBtn: UIButton!
     
-    
     var titleLabel: UILabel = UILabel()
     
     var leftBtn: UIButton = UIButton()
+    
+    var script_id: Int = 0
+    
+    var cover: String! {
+        didSet {
+            guard let cover = cover else {
+                return
+            }
+//            coverImgView.setImageWith(URL(string: cover))
+//            nameLabel.text = name
+        }
+    }
+    var name: String!
+    
+    // 是否有密码
+    var hasPassword = false
+    
     
     
     override func viewDidLoad() {
@@ -71,6 +87,34 @@ class CreateRoomViewController: UIViewController {
 
 
 extension CreateRoomViewController {
+    func createRoom(script_id: Int, hasPassword: Bool, room_password: String) {
+        addRoomRequest(script_id: script_id, hasPassword: hasPassword, room_password: room_password) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+
+                let data = resultDic["data"] as! [String : AnyObject]
+                let resultData = data["result"] as! [String : AnyObject]
+                
+                let room_id = (resultData["room_id"] as! NSString).intValue
+                
+                Log(room_id)
+                let vc = PrepareRoomViewController()
+                vc.room_id = Int(room_id)
+                
+                self!.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                
+            }
+        }
+    }
+}
+
+
+extension CreateRoomViewController {
     func setUI() {
         
         topConstraint.constant = -STATUS_BAR_HEIGHT
@@ -84,14 +128,17 @@ extension CreateRoomViewController {
         leftBtn.addTarget(self, action: #selector(leftBtnAction), for: .touchUpInside)
         setNavigationBar(superView: self.view, titleLabel: titleLabel, leftBtn: leftBtn, rightBtn: nil)
         
-        
-        
         coverImgView.layer.borderWidth = 2
         coverImgView.layer.borderColor = UIColor.white.cgColor
         coverImgView.layer.cornerRadius = 2
+        if cover != nil {
+            coverImgView.setImageWith(URL(string: cover))
+        }
         
         nameLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-
+        if name != nil {
+            nameLabel.text = name
+        }
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(setPasswordTap))
         setpwView.addGestureRecognizer(tap)
@@ -101,9 +148,7 @@ extension CreateRoomViewController {
         
         createBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
         createBtn.addTarget(self, action: #selector(createBtnAction), for: .touchUpInside)
-        
-        
-        
+
     }
 }
 
@@ -114,8 +159,9 @@ extension CreateRoomViewController {
     }
     
     @objc func createBtnAction() {
-        let vc = PrepareRoomViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        createRoom(script_id: script_id, hasPassword: hasPassword, room_password: passwordLabel.text!)
+//        let vc = PrepareRoomViewController()
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     /// 设置密码
@@ -134,14 +180,22 @@ extension CreateRoomViewController: InputTextViewDelegate, UITextFieldDelegate  
         textInputView.removeFromSuperview()
         if textInputView.textFieldView.text == "" || textInputView.textFieldView.text == nil {
             passwordLabel.text = "なし"
+            hasPassword = false
+            
         } else {
             passwordLabel.text = textInputView.textFieldView.text
+            hasPassword = true
         }
     }
     
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField.text?.count ?? 0 > 4 {
+            return false
+        }
+        return true
     }
+    
+
     
     @objc func keyboardWillChangeFrame(notif: Notification) {
         // 获取动画执行的时间

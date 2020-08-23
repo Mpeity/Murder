@@ -10,17 +10,27 @@ import UIKit
 import SnapKit
 import CLToast
 import AgoraRtcKit
+import Starscream
+
 
 
 private let GameplayViewCellId = "GameplayViewCellId"
-private let crimeChannelId = "crime"
 
 class GameplayViewController: UIViewController {
+        
+    var room_id: Int!
+    
+    var script_id: Int!
+
     
     // 滑动视图
-    @IBOutlet weak var scrollView: UIScrollView!
-    // 背景图片
-    @IBOutlet weak var bgImgView: UIImageView!
+//    @IBOutlet weak var scrollView: UIScrollView!
+//    // 背景图片
+//    @IBOutlet weak var bgImgView: UIImageView!
+    
+    private var scrollView: UIScrollView!
+       // 背景图片
+    private var bgImgView: UIImageView! = UIImageView()
     
     // AgoraRtcEngineKit 入口类
     var agoraKit: AgoraRtcEngineKit!
@@ -107,6 +117,12 @@ class GameplayViewController: UIViewController {
     var handsUp = false
     
     var voiceHide = false
+    // 当前id
+    var script_node_id = 0
+    // 下一个id
+//    var next_script_node_id = 0
+    
+    var dissolveView = DissolveView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     
     
     private lazy var collectionView: UICollectionView = {
@@ -124,31 +140,32 @@ class GameplayViewController: UIViewController {
         let collectionView = UICollectionView(frame:  CGRect(x: 0, y: 50+NAVIGATION_BAR_HEIGHT, width: FULL_SCREEN_WIDTH, height: 300), collectionViewLayout: layout)
         
         collectionView.register(UINib(nibName: "GameplayViewCell", bundle: nil), forCellWithReuseIdentifier: GameplayViewCellId)
-        
         collectionView.backgroundColor = UIColor.clear
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
-    
-//    "zhangshan","lisi","wangwu","zhaoliu"
-//    ["かごめ","サクラ","こはく","コナン","さんご","サクラ","こはく","コナン","さんご"]
     var userList: Array = ["かごめ","サクラ","こはく","コナン","さんご"]
     
-//    ["image0","image1","image2","image3","image4","image5","image6","image7","image8"]
     var imageList: Array = ["image0","image1","image2","image3","image4"]
+    
+    // 游戏进行中Model
+    var gamePlayModel : GamePlayModel?
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initWebSocketSingle()
+        
         initAgoraKit()
         
-
         setUI()
+        
+         
         
         getiPhoneBatteryState()
         
-        
+        gamePlaying()
     }
     
     
@@ -177,16 +194,176 @@ class GameplayViewController: UIViewController {
 
 
 
+//MARK: - 数据请求
+extension GameplayViewController {
+    func gamePlaying() {
+        if script_node_id != 0 {
+            script_node_id = 5
+            gameIngRequest(room_id: room_id, script_node_id: script_node_id) {[weak self] (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                if resultDic["code"]!.isEqual(1) {
+                    let data = resultDic["data"] as! [String : AnyObject]
+                    
+                    self?.gamePlayModel = GamePlayModel(fromDictionary: data)
+                    self?.refreshUI()
+                    
+                    
+                } else {
+                    
+                }
+
+            }
+
+        }
+    }
+        
+}
+
+// MARK: - 根据ID取图片
+extension GameplayViewController {
+    
+    func getImagePathWith(attachmentId: String) -> String? {
+        
+        if (UserDefaults.standard.value(forKey: String(script_id)) != nil) {
+            let localData = ScriptLocalData.shareInstance.getNormalDefult(key: String(script_id))
+            let dic = localData as! Dictionary<String, AnyObject>
+            let filePath = dic[attachmentId]
+            
+            let lastPath = filePath?.components(separatedBy: "/").last
+            let imagePath = NSHomeDirectory() + "/Documents/" + lastPath!
+            if !imagePath.isEmpty {
+                return imagePath
+            } else {
+                return nil
+            }
+        }
+        return nil
+    }
+}
+
 // MARK: - setUI
 extension GameplayViewController {
+    
+    private func refreshUI() {
+        if gamePlayModel?.script != nil {
+            gameNameLabel.text = gamePlayModel?.script.scriptName
+        } else {
+           gameNameLabel.text = ""
+        }
+        
+        if gamePlayModel?.scriptNodeResult.nodeName != nil {
+            currentLabel.text = gamePlayModel?.scriptNodeResult.nodeName
+        }
+        
+        if gamePlayModel?.scriptNodeResult.description != nil {
+            preference.drawing.message = gamePlayModel?.scriptNodeResult!.describe as! String
+        }
+        
+        
+        if gamePlayModel?.scriptNodeResult.scriptNodeMapList! != nil {
+            let model = gamePlayModel?.scriptNodeResult.scriptNodeMapList?[0]
+            guard let imagePath = getImagePathWith(attachmentId: (model?.attachmentId!)!) else { return }
+            let image = UIImage(contentsOfFile: imagePath)
+        
+            let height = FULL_SCREEN_HEIGHT
+            let scale = CGFloat(FULL_SCREEN_HEIGHT / (image?.size.height)!)
+            let width = (image?.size.width)! * scale
+            
+            let newSize = CGSize(width: width, height: height)
+            
+            let newImage = imageWithImage(image: image!, size: newSize)
+            
+            let size = newImage.size
+
+            bgImgView.size = size
+            scrollView.contentSize = bgImgView.bounds.size
+            bgImgView.image = newImage
+            bgImgView.sizeToFit()
+                        
+            drawImagesButtons(mapModel: model!, orignalSize: (image?.size)!)
+            
+            placeBtn.setTitle(model?.name, for: .normal)
+        }
+        
+        if gamePlayModel?.scriptNodeResult.scriptNodeMapList != nil {
+            popMenuView.type = "place"
+            popMenuView.titleArray = (gamePlayModel?.scriptNodeResult.scriptNodeMapList!)! as [AnyObject]
+        }
+        
+        collectionView.reloadData()
+    }
+    
+    
+    func drawImagesButtons(mapModel: GPNodeMapListModel, orignalSize: CGSize) {
+        let list = mapModel.scriptMapPlaceList!
+        if list.isEmpty {
+            return
+        }
+        let scale = Float(FULL_SCREEN_HEIGHT/orignalSize.height)
+        for itemModel in list {
+            let x = CGFloat((itemModel.controlXCoordinate! as NSString).floatValue * scale)
+            let y = CGFloat((itemModel.controlYCoordinate! as NSString).floatValue * scale)
+            let width = CGFloat((itemModel.controlWidth! as NSString).floatValue * scale)
+            let height = CGFloat((itemModel.controlHeight! as NSString).floatValue * scale)
+            
+            let button = UIButton(frame: CGRect(x: x, y: y, width: width, height: height))
+            button.backgroundColor = UIColor.clear
+            bgImgView.addSubview(button)
+            bgImgView.isUserInteractionEnabled = true
+            
+            let statusImageView = UIImageView()
+            bgImgView.addSubview(statusImageView)
+            statusImageView.snp.makeConstraints { (make) in
+                make.height.equalTo(16)
+                make.width.equalTo(43)
+                make.top.equalTo(button.snp_top).offset(-16)
+                make.left.equalTo(button.snp_left)
+            }
+            
+            if itemModel.searchOver == 1 { // 已空
+                statusImageView.image = UIImage(named: "yikong_icon")
+                button.addTarget(self, action: #selector(emptyBtnAction), for: .touchUpInside)
+            } else { // 可搜
+                statusImageView.image = UIImage(named: "soucha_icon")
+                button.tag = itemModel.scriptPlaceId!
+                button.addTarget(self, action: #selector(searchBtnAction(button:)), for: .touchUpInside)
+
+            }
+            
+        }
+        
+    }
+    
+    
     private func setUI() {
         
-        scrollView.contentSize = bgImgView.bounds.size
-        bgImgView.sizeToFit()
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        self.view.addSubview(scrollView)
+        bgImgView.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT)
+        self.scrollView.addSubview(bgImgView)
+
+        
+        //是否有,弹簧效果
+        self.scrollView.bounces = false
+        //是否滚动
+        self.scrollView.isScrollEnabled = true
+        //是否显示水平/垂直滚动条
+        self.scrollView.showsVerticalScrollIndicator = false
+        self.scrollView.showsHorizontalScrollIndicator = false
+        self.scrollView.isUserInteractionEnabled = true
         
         setHeaderView()
-        setMiddleView()
+//        setMiddleView()
         setBottomView()
+        
+        // 申请解散弹框
+        self.view.addSubview(dissolveView)
+        dissolveView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        dissolveView.isHidden = true
         
     }
     
@@ -279,6 +456,7 @@ extension GameplayViewController {
         
 //        currentNetworkType()
         AlamofiremonitorNet()
+        
         // 电量
         bgView.addSubview(electricityView)
         electricityView.backgroundColor = UIColor.green
@@ -337,9 +515,9 @@ extension GameplayViewController {
 
         }
         placeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
-        placeBtn.setTitle("平凡な旅館", for: .normal)
         placeBtn.setBackgroundImage(UIImage(named: "gameplay_place"), for: .normal)
-        placeBtn.addTarget(self, action: #selector(palceBtnAction(button:)), for: .touchUpInside)
+//        placeBtn.addTarget(self, action: #selector(palceBtnAction(button:)), for: .touchUpInside)
+        placeBtn.addTarget(self, action: #selector(didOffSetBtn(sender:)), for: .touchUpInside)
         addRedPoint(commonView: placeBtn, x: 64, y: 1.5)
         
         
@@ -348,7 +526,7 @@ extension GameplayViewController {
         popMenuView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalTo(placeBtn.snp.bottom).offset(5)
-            make.height.equalTo(175)
+            make.height.equalTo(55)
             make.width.equalTo(136)
         }
         popMenuView.imageName = "menu_catalogue_white"
@@ -357,7 +535,6 @@ extension GameplayViewController {
         popMenuView.lineColor = HexColor(hex:"#333333", alpha: 0.05)
         popMenuView.contentTextColor = HexColor("#999999")
         popMenuView.contentTextFont = 15
-        popMenuView.titleArray = ["平凡な旅館","川辺の","大橋"]
         popMenuView.refresh()
         popMenuView.isHidden = true
         
@@ -420,43 +597,7 @@ extension GameplayViewController {
         remainingView.isHidden = true
         
         
-        // 搜查
-//        self.view.addSubview(searchImgView)
-        self.view.insertSubview(searchImgView, aboveSubview: collectionView)
-        searchImgView.isUserInteractionEnabled = true
-        searchImgView.image = UIImage(named: "ceshi_icon")
-        searchImgView.snp.makeConstraints { (make) in
-            make.height.equalTo(150)
-            make.width.equalTo(180)
-            make.centerX.equalToSuperview()
-            make.top.equalTo(placeBtn.snp_bottom).offset(210*SCALE_SCREEN)
-        }
-        searchImgView.isHidden = true
-        
-        searchBtn.setImage(UIImage(named: "soucha_icon"), for: .normal)
-        self.view.addSubview(searchBtn)
-        searchBtn.snp.makeConstraints { (make) in
-            make.height.equalTo(16)
-            make.width.equalTo(43)
-            make.top.equalTo(searchImgView.snp_top).offset(-16)
-            make.left.equalTo(searchImgView.snp_left)
-        }
-        searchBtn.addTarget(self, action: #selector(searchBtnAction), for: .touchUpInside)
-        searchBtn.isHidden = true
-
-        
-        emptyBtn.setImage(UIImage(named: "yikong_icon"), for: .normal)
-        searchImgView.addSubview(emptyBtn)
-        emptyBtn.snp.makeConstraints { (make) in
-            make.height.equalTo(16)
-            make.width.equalTo(43)
-            make.top.equalToSuperview().offset(104)
-            make.left.equalToSuperview().offset(92)
-        }
-        emptyBtn.addTarget(self, action: #selector(emptyBtnAction), for: .touchUpInside)
-        emptyBtn.isHidden = true
-        
-        
+        // 投票
         self.view.addSubview(voteResultBtn)
         voteResultBtn.snp.makeConstraints { (make) in
             make.width.equalTo(200)
@@ -644,6 +785,7 @@ extension GameplayViewController {
     //MARK: - 情报结算
     @objc func voteInfoBtnAction() {
         let commonView = BillingInfoView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        commonView.room_id = room_id
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         self.view.addSubview(commonView)
         
@@ -671,7 +813,14 @@ extension GameplayViewController {
     }
     
     //MARK: - 搜查
-    @objc func searchBtnAction() {
+    @objc func searchBtnAction(button: UIButton) {
+        
+        let script_place_id = button.tag
+        gameSearch(script_place_id: script_place_id)
+        
+
+        
+        
         remainingView.isHidden = false
         remainingCount -= 1
         let remainingString = "カウントダウン：\(remainingCount)"
@@ -690,6 +839,58 @@ extension GameplayViewController {
         
     }
     
+    // 搜证
+    func gameSearch(script_place_id: Int) {
+        searchClueRequest(room_id: room_id, script_place_id: script_place_id, script_clue_id: nil) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                let resultData = data["search_clue_result"] as! [String : AnyObject]
+                let clueResultModel = SearchClueResultModel(fromDictionary: resultData)
+                let threadCardView = ThreadCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                threadCardView.clueResultModel = clueResultModel
+                threadCardView.script_place_id = script_place_id
+                threadCardView.room_id = self!.room_id
+                threadCardView.deepBtnActionBlock = {[weak self] (param)->() in
+                    
+                }
+                
+                threadCardView.publicBtnActionBlock = {[weak self] (param)->() in
+                    self!.publicClue(model: param, script_place_id: script_place_id)
+                    threadCardView.removeFromSuperview()
+                }
+                
+                threadCardView.clueResultModel = clueResultModel
+                threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                self!.view.addSubview(threadCardView)
+
+            } else {
+                
+            }
+        }
+    }
+    
+    // 公开
+    func publicClue(model :SearchClueResultModel, script_place_id: Int) {
+        clueOpenRequest(room_id: room_id, script_clue_id: model.scriptClueId!, script_place_id:script_place_id) { (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+
+            } else {
+                
+            }
+        }
+    }
+    
     //MARK: - 已空
     @objc func emptyBtnAction() {
         CLToastManager.share.cornerRadius = 25
@@ -702,19 +903,52 @@ extension GameplayViewController {
     /// 头部按钮
     //MARK: 退出房间按钮
     @objc func exitBtnAction(button: UIButton) {
-        let dissolveView = DissolveView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-        dissolveView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        dissolveView.isHidden = false
+        dissolveView.dissolutionView.isHidden = false
         
-        // 退出
+        // 不解散
+        dissolveView.dissolutionBtnNoBlcok = {[weak self] () in
+           self!.dissolutionRequest(status: 1)
+            self!.dissolveView.isHidden = true
+        }
+        
+        // 解散
         dissolveView.dissolutionBtnTapBlcok = {[weak self] () in
             // 退出当前剧本，离开群聊频道
-            self?.agoraKit.leaveChannel(nil)
-//            agoraStatus.muteAllRemote = false
-//            agoraStatus.muteLocalAudio = false
+//            self!.agoraKit.leaveChannel(nil)
+//            self?.agoraStatus.muteAllRemote = false
+//            self?.agoraStatus.muteLocalAudio = false
+//            self?.popScriptDetailVC()
             
-            self?.popScriptDetailVC()
+            self!.dissolutionRequest(status: 1)
+            self!.dissolveView.isHidden = true
         }
-        self.view.addSubview(dissolveView)
+        
+        // 发起解散
+        dissolveView.dissolutionBtnStartBlcok = {[weak self] () in
+            // 【1拒绝解散3解散状态】
+            self!.dissolutionRequest(status: 3)
+            self!.dissolveView.isHidden = true
+        }
+        
+        // 取消发起
+        dissolveView.dissolutionBtnCancelBlcok = {[weak self] () in
+            self!.dissolveView.isHidden = true
+        }
+    }
+    
+    // 解散接口
+    func dissolutionRequest(status: Int) {
+        gameDissolutionRequest(room_id: room_id, status: status) { (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+            }
+        }
     }
     
     //MARK: 退出房间
@@ -729,13 +963,13 @@ extension GameplayViewController {
         }
     }
     
-    // 消息按钮
+    //MARK: 消息按钮
     @objc func messageBtnAction(button: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
     
     //
-    // 阶段说明弹框
+    //MARK: 阶段说明弹框
     @objc func stateBtnAction(button: UIButton) {
         button.isSelected = !button.isSelected
         preference.drawing.backgroundColor = UIColor.white
@@ -745,7 +979,6 @@ extension GameplayViewController {
         preference.drawing.maxHeight = 208
         preference.positioning.marginLeft = 16
         preference.drawing.textAlignment = .left
-        preference.drawing.message = "段階説明文字段階説明文字,段階説明文字段階説明文字段階。段階説明文字段階説明文字,段階説明文字段階説明文字段階。"
         preference.animating.shouldDismiss = false
         if button.isSelected {
             tipView = FETipView(preferences: preference)
@@ -765,7 +998,7 @@ extension GameplayViewController {
     }
     
     
-    // 地点名称按钮
+    //MARK: 地点名称按钮
     @objc func palceBtnAction(button: UIButton) {
 //        self.navigationController?.popViewController(animated: true)
         button.isSelected = !button.isSelected
@@ -781,9 +1014,10 @@ extension GameplayViewController {
     
     
     /// 底部按钮
-    // 麦克风
+    //MARK: 麦克风
     @objc func microphoneBtnAction(button: UIButton) {
         button.isSelected = !button.isSelected
+        agoraKit.muteLocalAudioStream(button.isSelected)
         if button.isSelected {
             microphoneBtn.setImage(UIImage(named: "gameplay_microphone_no"), for: .normal)
             microphoneBtn.setTitleColor(HexColor("#999999"), for: .normal)
@@ -791,27 +1025,25 @@ extension GameplayViewController {
         } else {
             microphoneBtn.setImage(UIImage(named: "gameplay_microphone"), for: .normal)
             microphoneBtn.setTitleColor(UIColor.white, for: .normal)
-            
             voiceHide = true
-
         }
-        
         collectionView.reloadData()
-        
     }
     
-    // 剧本
+    //MARK: 剧本
     @objc func scriptBtnAction(button: UIButton) {
         let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        readScriptView.scriptData = gamePlayModel?.scriptNodeResult.chapter
         readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         self.view.addSubview(readScriptView)
         
     }
     
-    // 线索
+    //MARK: 线索
     @objc func threadBtnBtnAction(button: UIButton) {
         let threadView = ThreadView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        threadView.gameUserClueList = gamePlayModel?.gameUserClueList
         self.view.addSubview(threadView)
     }
     
@@ -819,13 +1051,26 @@ extension GameplayViewController {
     //MARK:- 密谈
     @objc func collogueBtnAction(button: UIButton) {
         let collogueRoomView = CollogueRoomView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        collogueRoomView.roomCount = gamePlayModel?.script.secretTalkRoomNum
         collogueRoomView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)        
         self.view.addSubview(collogueRoomView)
         
     }
     
-    // 系统配置未知按钮
+    //MARK: 系统配置未知按钮
     @objc func commonBtnAction(button: UIButton) {
+        
+        gameReadyRequest(room_id: room_id, current_script_node_id: script_node_id) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                self?.script_node_id = data["next_script_node_id"] as! Int
+            }
+        }
         
         switch stage {
         case 1:
@@ -855,6 +1100,9 @@ extension GameplayViewController {
         case 4:
             // 投票
             let commonView = QuestionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            commonView.room_id = room_id
+            commonView.script_node_id = script_node_id
+            commonView.scriptQuestionList = gamePlayModel?.scriptNodeResult.scriptQuestionList
             commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
             self.view.addSubview(commonView)
             stage += 1
@@ -872,33 +1120,15 @@ extension GameplayViewController {
         default:
             break
         }
-
-        
-        
-        
     }
     
-    // 点击头像
+    
+    
+    //MARK: 点击头像
     @objc func userViewTap(user: Any) {
- 
         let playerView = PlayerView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         playerView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         self.view.addSubview(playerView)
-    }
-    
-    
-    
-    // contentOffSet属性 点击按钮,移动图片
-    func didOffSetBtn(sender: UIButton) {
-        var scrollOffSet:CGPoint = scrollView.contentOffset
-        scrollOffSet.x += 50
-        scrollOffSet.y += 50
-        
-        UIView.animate(withDuration: 1.0) {
-            self.scrollView.contentOffset = scrollOffSet
-        }
-//        // UIScrollView自带的动画
-//        scrollView.setContentOffset(scrollOffSet, animated: true)
     }
 }
 
@@ -907,51 +1137,81 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
     
     //MARK: - Delegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        if (gamePlayModel != nil) {
+            let count = gamePlayModel!.scriptRoleList?.count ?? 0
+            return count
+        }
+        return 0
      }
      
      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GameplayViewCellId, for: indexPath) as! GameplayViewCell
-//        cell.titleLabel.text = dataArr[indexPath.item]
-//        if (selectIndexPath == indexPath) {
-//            cell.titleLabel.textColor = UIColor.white
-//            cell.commonView.backgroundColor = HexColor(MainColor)
-//            cell.layer.cornerRadius = 10
-//        } else {
-//            cell.titleLabel.textColor = HexColor(LightDarkGrayColor)
-//            cell.commonView.backgroundColor = UIColor.white
-//        }
+         let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: GameplayViewCellId, for: indexPath) as! GameplayViewCell
         
+        let itemModel = gamePlayModel!.scriptRoleList[indexPath.row]
         cell.backgroundColor = UIColor.clear
+        
+//        ready_ok
+//        apply_dismiss
+        
+        
+        // 是否有人发起解散申请
+        if itemModel.applyDismiss == 1  { // 是
+            dissolveView.isHidden = false
+            dissolveView.votingView.isHidden = false
+            dissolveView.dissolutionView.isHidden = true
+        }
+        if itemModel.readyOk != nil {
+            handsUp = (itemModel.readyOk == 1) ? true : false
+        }
         if indexPath.item%2 == 0 {
             cell.rightView.isHidden = true
             cell.leftView.isHidden = false
-            cell.l_avatarImgView.image = UIImage(named: imageList[indexPath.row])
-            cell.l_nameLabel.text = userList[indexPath.item]
+            cell.l_avatarImgView.setImageWith(URL(string: itemModel.head!))
+            cell.l_nameLabel.text = itemModel.scriptRoleName
             
-            if indexPath.item == 2{
-                cell.l_voiceView.isHidden = false
-                cell.l_voiceImgView.isHidden = false
-                cell.l_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
-                if handsUp {
-                    cell.l_handsUp.isHidden = false
-                } else {
-                    cell.l_handsUp.isHidden = true
-                }
-                
-                if voiceHide {
-                    cell.l_voiceView.isHidden = false
-                } else {
-                    cell.l_voiceView.isHidden = true
-                }
+            if handsUp {
+                cell.l_handsUp.isHidden = false
+            } else {
+                cell.l_handsUp.isHidden = true
             }
+            if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
+                cell.l_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
+            }
+            
+//            if indexPath.item == 2{
+//                cell.l_voiceView.isHidden = false
+//                cell.l_voiceImgView.isHidden = false
+//                cell.l_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
+//                if handsUp {
+//                    cell.l_handsUp.isHidden = false
+//                } else {
+//                    cell.l_handsUp.isHidden = true
+//                }
+//
+//                if voiceHide {
+//                    cell.l_voiceView.isHidden = false
+//                } else {
+//                    cell.l_voiceView.isHidden = true
+//                }
+//            }
 
         } else {
+            
+            if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
+                
+                cell.r_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
+            }
+            cell.r_avatarImgView.setImageWith(URL(string: itemModel.head!))
             cell.rightView.isHidden = false
             cell.leftView.isHidden = true
-            cell.r_avatarImgView.image = UIImage(named: imageList[indexPath.row])
-            cell.r_nameLabel.text = userList[indexPath.item]
+//            cell.r_avatarImgView.image = UIImage(named: itemModel.head!)
+            cell.r_nameLabel.text = itemModel.scriptRoleName
 
+            if handsUp {
+                cell.r_handsUp.isHidden = false
+            } else {
+                cell.r_handsUp.isHidden = true
+            }
             if indexPath.item == 1{
                 cell.r_miLabel.isHidden = false
             }
@@ -960,11 +1220,15 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
      }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        collectionView.reloadData()
+        if gamePlayModel!.scriptRoleList.isEmpty {
+            return
+        }
+        let model = gamePlayModel!.scriptRoleList[indexPath.row]
+        
         let playerView = PlayerView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        playerView.itemModel = model
         playerView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         self.view.addSubview(playerView)
-        
     }
     
 }
@@ -1001,12 +1265,18 @@ private extension GameplayViewController {
 //        }
     }
     
-    func getIndexWithUserIsSpeaking(uid: UInt) -> Int? {
-//        for (index, user) in userList.enumerated() {
-//            if user.uid == uid {
-//                return index
-//            }
-//        }
+
+    func getIndexWithUserIsSpeaking(uid: Int) -> Int? {
+        let userList = gamePlayModel?.scriptRoleList
+        if userList != nil {
+            for (index, user) in userList!.enumerated() {
+                let userId = user.user?.userId!
+                if userId == uid {
+                    return index
+                }
+            }
+            return nil
+        }
         return nil
     }
 }
@@ -1025,20 +1295,21 @@ extension GameplayViewController {
         // 启动音量回调，用来在界面上显示房间其他人的说话音量
         agoraKit.enableAudioVolumeIndication(1000, smooth: 3, report_vad: false)
         // 加入案发现场的群聊频道
-        agoraKit.joinChannel(byToken: nil, channelId: crimeChannelId, info: nil, uid: 0, joinSuccess: nil)
+
+        let uid:UInt = UInt(bitPattern: (UserAccountViewModel.shareInstance.account?.userId!)!)
+        agoraKit.joinChannel(byToken: nil, channelId: "\(room_id!)", info: nil, uid: uid , joinSuccess: nil)
     }
 }
 
 // MARK: AgoraRtcEngineDelegate
 extension GameplayViewController: AgoraRtcEngineDelegate {
     func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinChannel channel: String, withUid uid: UInt, elapsed: Int) {
-//        if agoraStatus.muteAllRemote == true {
-//            agoraKit.muteAllRemoteAudioStreams(true)
-//        }
-//
-//        if agoraStatus.muteLocalAudio == true {
-//            agoraKit.muteLocalAudioStream(true)
-//        }
+        if agoraStatus.muteAllRemote == true {
+            agoraKit.muteAllRemoteAudioStreams(true)
+        }
+        if agoraStatus.muteLocalAudio == true {
+            agoraKit.muteLocalAudioStream(true)
+        }
 //
         // 注意： 1. 由于demo欠缺业务服务器，所以用户列表是根据AgoraRtcEngineDelegate的didJoinedOfUid、didOfflineOfUid回调来管理的
         //       2. 每次加入频道成功后，新建一个用户列表然后通过回调进行统计
@@ -1058,17 +1329,88 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, didAudioMuted muted: Bool, byUid uid: UInt) {
         // 当频道里的用户开始或停止发送音频流的时候，会收到这个回调。在界面的用户头像上显示或隐藏静音标记
-//        updateUser(uid: uid, isMute: muted)
+        Log("muted\(muted)")
+        let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid))!
+        let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as! GameplayViewCell
+        if index%2 == 0 {
+            cell.l_comImgView.isHidden = !muted
+            cell.l_comImgView.image = UIImage(named: "image0")
+        } else {
+            cell.r_comImgView.isHidden = !muted
+            cell.r_comImgView.image = UIImage(named: "image0")
+        }
     }
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, reportAudioVolumeIndicationOfSpeakers speakers: [AgoraRtcAudioVolumeInfo], totalVolume: Int) {
         // 收到说话者音量回调，在界面上对应的 cell 显示动效
-//        for speaker in speakers {
-//            if let index = getIndexWithUserIsSpeaking(uid: speaker.uid),
-//                let cell = usersCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? UserCell {
-//                cell.animating = true
+//        let speakers = gamePlayModel?.scriptRoleList
+//        for speaker in speakers! {
+//            if let index = getIndexWithUserIsSpeaking(uid: (speaker.user?.userId)!),
+//                let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
+//                if index%2 == 0 {
+//                    cell.l_voiceView.isHidden = false
+//                    cell.l_voiceImgView.isHidden = false
+//                } else {
+//                    cell.l_voiceView.isHidden = false
+//                    cell.l_voiceImgView.isHidden = false
+//                }
 //            }
 //        }
     }
+}
+
+extension GameplayViewController {
+    // contentOffSet属性 点击按钮,移动图片
+    @objc func didOffSetBtn(sender: UIButton) {
+        var scrollOffSet:CGPoint = scrollView.contentOffset
+        scrollOffSet.x += 50
+        scrollOffSet.y += 50
+        
+        UIView.animate(withDuration: 1.0) {
+            self.scrollView.contentOffset = scrollOffSet
+        }
+//        // UIScrollView自带的动画
+//        scrollView.setContentOffset(scrollOffSet, animated: true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        Log(scrollView.contentOffset.x)
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        Log(scrollView.contentOffset.x)
+    }
+}
+
+extension GameplayViewController: WebSocketDelegate {
+    
+    // initSocket方法
+    func initWebSocketSingle () {
+        SingletonSocket.sharedInstance.socket.delegate = self
+    }
+    
+    func websocketDidConnect(socket: WebSocketClient) {
+        Log("websocketDidConnect=\(socket)")
+    }
+    
+    func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
+         Log("websocketDidDisconnect=\(socket)\(error)")
+    }
+    
+    func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
+        Log("websocketDidReceiveMessage=\(socket)\(text)")
+        
+//        let data = resultDic["data"] as! [String : AnyObject]
+//
+//        gamePlayModel = GamePlayModel(fromDictionary: data)
+//        refreshUI()
+    }
+    
+    func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
+        Log("websocketDidReceiveData=\(socket)\(data)")
+
+
+    }
+
 }
 

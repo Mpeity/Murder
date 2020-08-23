@@ -9,6 +9,7 @@
 import UIKit
 
 class PrepareRoomCell: UITableViewCell {
+    
     // 背景视图
     @IBOutlet weak var bgView: UIView!
     // 游戏头像
@@ -22,12 +23,69 @@ class PrepareRoomCell: UITableViewCell {
     // 头像
     @IBOutlet weak var avatarImgView: UIImageView!
     
+    @IBOutlet weak var nameLabel: UILabel!
     // 房主
     @IBOutlet weak var ownerLabel: UILabel!
     // 
-    @IBOutlet weak var commonLabel: NSLayoutConstraint!
     // 说话 绿点显示
     @IBOutlet weak var pointView: UIView!
+    
+    
+    var scriptRoleModel: ScriptRoleModel? {
+        didSet {
+            if (scriptRoleModel != nil) {
+                if (scriptRoleModel?.head != nil) {
+                    let head = scriptRoleModel?.head!
+                    roleImgView.setImageWith(URL(string: head!))
+                }
+                
+                if (scriptRoleModel?.roleName != nil) {
+                    roleNameLabel.text = scriptRoleModel?.roleName!
+                }
+            }
+            
+            
+        }
+    }
+    
+    var roomUserModel: RoomUserModel? {
+        didSet {
+            if (roomUserModel != nil) {
+                if (roomUserModel?.head != nil) {
+                    let head = roomUserModel?.head!
+                    avatarImgView.setImageWith(URL(string:head!))
+//                    avatarImgView.setImageWith(URL(string:head!), placeholder: UIImage(named: "unselected_icon"))
+                }
+                
+                if (roomUserModel?.nickname != nil) {
+                    nameLabel.text = roomUserModel?.nickname!
+                }
+                
+                if roomUserModel?.isHomeowner != nil {
+                    if roomUserModel?.isHomeowner == 1 {
+                        ownerLabel.isHidden = false
+                    } else {
+                        ownerLabel.isHidden = true
+                    }
+                }
+                if roomUserModel?.status != nil {
+                    // 状态【0未开始1已准备2游戏中3已结束】
+                    if roomUserModel?.status == 1 {
+                        prepareBtn.isHidden = false
+                    } else {
+                        prepareBtn.isHidden = true
+                    }
+                }
+            } else {
+                avatarImgView.setImageWith(URL(string:""), placeholder: UIImage(named: "unselected_icon"))
+                nameLabel.text = "サクラ"
+                ownerLabel.isHidden = true
+            }
+        }
+    }
+
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -46,10 +104,18 @@ class PrepareRoomCell: UITableViewCell {
 extension PrepareRoomCell {
     func setUI() {
         
+        roleImgView.image = nil
+        roleNameLabel.text = nil
+        progressLabel.text = nil
+        
+        
+        roleImgView.viewWithCorner(byRoundingCorners: [.bottomLeft,.topLeft], radii: 10)
+        
         bgView.backgroundColor = HexColor("#20014D")
         bgView.layer.cornerRadius = 10
         bgView.layer.borderColor = HexColor("#3E1180").cgColor
         bgView.layer.borderWidth = 1
+        bgView.isUserInteractionEnabled = true
         
         roleNameLabel.textColor = UIColor.white
         roleNameLabel.font = UIFont.systemFont(ofSize: 15)
@@ -65,12 +131,20 @@ extension PrepareRoomCell {
         ownerLabel.backgroundColor = HexColor(LightOrangeColor)
         ownerLabel.layer.cornerRadius = 5
         ownerLabel.layer.masksToBounds = true
+        ownerLabel.isHidden = true
         
-        
+        pointView.isHidden = true
         
     
+        prepareBtn.addTarget(self, action: #selector(prepareBtnAction), for: .touchUpInside)
+        prepareBtn.isHidden = true
         
         
-        
+    }
+}
+
+extension PrepareRoomCell {
+    @objc func prepareBtnAction() {
+        Log(1222222)
     }
 }

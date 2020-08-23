@@ -12,6 +12,11 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    var defaultViewController : UIViewController? {
+        let isLogin = UserAccountViewModel.shareInstance.isLogin
+        return isLogin ? UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() :  BaseNavigationViewController(rootViewController: LoginViewController())
+    }
 
 
     @available(iOS 13.0, *)
@@ -29,9 +34,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = UIWindow(windowScene: scene as! UIWindowScene)
         self.window?.frame = (scene as! UIWindowScene).coordinateSpace.bounds
         self.window?.backgroundColor = UIColor.white
+        
 //        self.window?.rootViewController =  UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
-//        self.window?.rootViewController =  BaseNavigationViewController(rootViewController: GameplayViewController())
-        self.window?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
+        self.window?.rootViewController =  BaseNavigationViewController(rootViewController: CompleteInfoViewController())
+//        self.window?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
+        
+//        self.window?.rootViewController = defaultViewController
+
 
         self.window?.makeKeyAndVisible()
     }

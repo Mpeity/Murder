@@ -11,8 +11,18 @@ import UIKit
 private let BillingInfoCellId = "BillingInfoCellId"
 
 class BillingInfoView: UIView {
+    
+    var room_id: Int = 0 {
+        didSet {
+            loadBilling()
+        }
+    }
 
     private lazy var tableView: UITableView = UITableView()
+    
+    private var listModel: GPSettlementModel?
+    
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -100,13 +110,14 @@ extension BillingInfoView {
 
 extension BillingInfoView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return listModel?.list?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: BillingInfoCellId, for: indexPath) as! BillingInfoViewCell
         cell.selectionStyle = .none
         cell.backgroundColor = HexColor("#F5F5F5")
+        cell.itemModel = listModel?.list![indexPath.row]
         if indexPath.row <= 2 {
             cell.iconLabel.isHidden = true
             cell.iconImgView.isHidden = false
@@ -146,14 +157,24 @@ extension BillingInfoView {
     @objc func hideView() {
         self.removeFromSuperview()
     }
-    
-    
-    
-    
 }
 
+//MARK:// 接口请求
 extension BillingInfoView {
-    
+    func loadBilling() {
+        gameSettlementRequest(room_id: room_id) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                self!.listModel = GPSettlementModel(fromDictionary: data)
+                self!.tableView.reloadData()
+            }
+        }
+    }
 }
 
 

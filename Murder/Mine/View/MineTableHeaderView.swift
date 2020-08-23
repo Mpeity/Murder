@@ -27,6 +27,39 @@ class MineTableHeaderView: UIView {
     // 标识
     @IBOutlet weak var identifyLabel: UILabel!
     
+    var mineModel: MineModel? {
+        didSet {
+            guard let mineModel = mineModel else {
+                return
+            }
+            
+            if mineModel.head != nil {
+                avatarImgView.setImageWith(URL(string: mineModel.head!), placeholder: UIImage(named: ""))
+            }
+            
+            if mineModel.nickname != nil {
+                nicknameLabel.text = mineModel.nickname!
+            }
+            
+            if mineModel.level != nil {
+                levelLabel.text = mineModel.level
+            }
+            
+            if mineModel.headId != nil {
+                identifyLabel.text = "ID:\(mineModel.headId!)"
+            }
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        contentView = loadViewFromNib()
+        addSubview(contentView)
+        addConstraints()
+        
+        // 设置UI
+        setUI()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,6 +73,8 @@ class MineTableHeaderView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+        
+
     }
     
     
@@ -62,8 +97,8 @@ extension MineTableHeaderView {
         rightView.layer.borderColor = UIColor.white.cgColor
         rightView.layer.borderWidth = 0.5
         rightView.layer.cornerRadius = 7.5
-        
     }
+    
 }
 
 extension MineTableHeaderView {

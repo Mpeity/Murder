@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import SDWebImage
 
 
 class HomeListViewCell: UITableViewCell {
+    
+
     
     // 封面
     @IBOutlet weak var coverImgView: UIImageView!
@@ -24,9 +27,39 @@ class HomeListViewCell: UITableViewCell {
     // 时长
     @IBOutlet weak var timeLabel: UILabel!
     
-    let roomNum: String = "7"
-    let peopleNum : String = "2"
-    let name: String = "エレベーターの悪魔"
+    var roomNum: String = ""
+    var peopleNum : String = ""
+    var name: String = ""
+    
+    
+    var roomModel: HomeRoomModel! {
+        didSet {
+            guard let roomModel = roomModel else {
+                return
+            }
+            
+            
+            coverImgView.setImageWith(URL(string: roomModel.cover!), placeholder: UIImage(named: ""))
+            roomNum = String(roomModel.scriptRoleNum)
+            peopleNum = String(roomModel.userNum)
+            name = roomModel.scriptName
+            
+            let string = "\(roomNum)/\(peopleNum)   \(name)"
+            let ranStr = "/\(peopleNum)"
+            let attrstring:NSMutableAttributedString = NSMutableAttributedString(string:string)
+            let str = NSString(string: string)
+            let theRange = str.range(of: ranStr)
+            attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor(DarkGrayColor), range: theRange)
+            infoLabel.attributedText = attrstring
+            
+            if (roomModel.nickname != nil) {
+                nicknameLabel.text = "ルームマスター：\(roomModel.nickname!)"
+            }
+            
+            roomIdLabel.text = "ルームID：\(String(roomModel.roomId))"
+            timeLabel.text = roomModel.durationText
+        }
+    }
     
     
     override func awakeFromNib() {
@@ -48,7 +81,8 @@ class HomeListViewCell: UITableViewCell {
 
 extension HomeListViewCell {
     private func setUI() {
-        coverImgView.layer.cornerRadius = 10
+        coverImgView.layer.cornerRadius = 8
+        
         infoLabel.textColor = HexColor(LightOrangeColor)
         infoLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         
@@ -63,13 +97,7 @@ extension HomeListViewCell {
         
         
 
-        let string = "\(roomNum)/\(peopleNum)   \(name)"
-        let ranStr = "/\(peopleNum)"
-        let attrstring:NSMutableAttributedString = NSMutableAttributedString(string:string)
-        let str = NSString(string: string)
-        let theRange = str.range(of: ranStr)
-        attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor(DarkGrayColor), range: theRange)
-        infoLabel.attributedText = attrstring
+        
         
     }
 }

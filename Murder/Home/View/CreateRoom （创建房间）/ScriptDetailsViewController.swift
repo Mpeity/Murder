@@ -11,6 +11,9 @@ import UIKit
 let SynopsisViewCellId = "SynopsisViewCellId"
 
 class ScriptDetailsViewController: UIViewController {
+    
+    var script_id: Int!
+    
     // 标题
     private var titleLabel: UILabel = UILabel()
     // 返回上一层按钮
@@ -24,6 +27,8 @@ class ScriptDetailsViewController: UIViewController {
     private var tableHeaderView: CreateRoomHeaderView!
     // 创建房间
     private var createBtn: UIButton = UIButton()
+    
+    private var scriptDetailModel: ScriptDetailModel!
 
 
     override func viewWillAppear(_ animated: Bool) {
@@ -43,8 +48,38 @@ class ScriptDetailsViewController: UIViewController {
         self.view.backgroundColor = UIColor.white
         
         setUI()
+        
+        scriptDetailsFun()
     }
     
+}
+
+//MARK:- 数据请求
+extension ScriptDetailsViewController {
+    func scriptDetailsFun() {
+        if script_id != nil {
+            scriptDetail(script_id: script_id) { [weak self] (result, error) in
+                    if error != nil {
+                        return
+                    }
+                    // 取到结果
+                    guard  let resultDic :[String : AnyObject] = result else { return }
+                    if resultDic["code"]!.isEqual(1) {
+                        let data = resultDic["data"] as! [String : AnyObject]
+                        let resultData = data["result"] as! [String : AnyObject]
+                        
+                        let model = ScriptDetailModel(fromDictionary: resultData)
+                        self!.scriptDetailModel = model
+                        self?.tableHeaderView.model = model
+                        self!.tableView.reloadData()
+                        
+                    } else {
+                        
+                    }
+                }
+            }
+        }
+        
 }
 
 
@@ -174,14 +209,19 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
             
             let nibView = Bundle.main.loadNibNamed("SynopsisViewCell", owner: nil, options: nil)
             let cell = nibView!.first as! SynopsisViewCell
-
-//            cell.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: 80)
+            if scriptDetailModel != nil {
+                cell.content = scriptDetailModel!.introduction
+            }
             cell.selectionStyle = .none
             return cell
 
         } else {
             
             let cell = RoleIntroductionCell(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: 82))
+            if scriptDetailModel != nil {
+                cell.role = scriptDetailModel!.role!
+
+            }
             cell.selectionStyle = .none
             return cell
         }
@@ -253,9 +293,25 @@ extension ScriptDetailsViewController {
     
     //MARK: - 创建房间按钮
     @objc func createBtnAction() {
-        let vc = CreateRoomViewController()
-    
-        self.navigationController?.pushViewController(vc, animated: true)
+        
+        getScriptRequest(script_id: script_id) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) { // 免费获取剧本成功
+                let vc = CreateRoomViewController()
+                vc.script_id = self!.scriptDetailModel.scriptId
+                vc.name = self!.scriptDetailModel.name
+                vc.cover = self!.scriptDetailModel.cover
+                self!.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                
+            }
+        }
+        
+        
     }
 }
 

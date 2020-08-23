@@ -14,6 +14,18 @@ class QuestionViewCell: UITableViewCell {
     
     @IBOutlet weak var contentLabel: UILabel!
     
+    var itemModel : ScriptAnswerModel? {
+        didSet {
+            guard itemModel != nil else {
+                return
+            }
+            
+            if itemModel?.answerTitle != nil {
+                contentLabel.text = itemModel?.answerTitle!
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

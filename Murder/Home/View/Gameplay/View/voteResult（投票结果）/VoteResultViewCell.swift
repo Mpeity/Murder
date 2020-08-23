@@ -22,6 +22,18 @@ class VoteResultViewCell: UITableViewCell {
     @IBOutlet weak var tipTwoLabel: UILabel!
     @IBOutlet weak var commonView: UIView!
     
+    var resultListModel: ResultListModel? {
+        didSet {
+            guard resultListModel != nil else {
+                return
+            }
+            
+            if resultListModel?.questionTitle != nil {
+                subjectLabel.text = resultListModel?.questionTitle
+            }
+        }
+    }
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -51,8 +63,8 @@ extension VoteResultViewCell {
         answerView.backgroundColor = UIColor.clear
         commonView.backgroundColor = UIColor.clear
         
-//        let answer = AnswerView(frame: CGRect(x: 0, y: 0, width: answerView.bounds.size.width, height: 25))
-//        answerView.addSubview(answer)
+        let answer = AnswerView(frame: CGRect(x: 0, y: 0, width: answerView.bounds.size.width, height: 25))
+        answerView.addSubview(answer)
 //
 //
 //        let common = VoteCommonView(frame: CGRect(x: 0, y: 0, width: commonView.bounds.size.width, height: 65))

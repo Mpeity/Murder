@@ -34,6 +34,7 @@ PODS:
     - SDWebImage/Core (= 5.1.0)
   - SDWebImage/Core (5.1.0)
   - SnapKit (4.2.0)
+  - Starscream (3.1.0)
   - SVProgressHUD (2.2.5)
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
@@ -50,6 +51,7 @@ DEPENDENCIES:
   - SDCycleScrollView (= 1.75)
   - SDWebImage
   - SnapKit
+  - Starscream
   - SVProgressHUD
   - YYKit
 
@@ -66,6 +68,7 @@ SPEC REPOS:
     - SDCycleScrollView
     - SDWebImage
     - SnapKit
+    - Starscream
     - SVProgressHUD
     - YYKit
 
@@ -81,9 +84,10 @@ SPEC CHECKSUMS:
   SDCycleScrollView: 884b88f0266dd4708a0e1934975c69cb971707b1
   SDWebImage: fb387001955223213dde14bc08c8b73f371f8d8f
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  Starscream: 08172b481e145289c4930cb567230fb55897cfa4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 432215af3761f608208fb6d2f07c0b21b9040ed6
+PODFILE CHECKSUM: 092b3e45900d9da0dd791011aaead4f0e03b6e8b
 
 COCOAPODS: 1.7.5

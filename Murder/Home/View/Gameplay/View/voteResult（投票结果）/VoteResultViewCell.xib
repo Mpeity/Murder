@@ -128,7 +128,7 @@
                 <outlet property="tipOneLabel" destination="eOT-3T-fUV" id="y8y-aQ-fXL"/>
                 <outlet property="tipTwoLabel" destination="eLJ-bj-ADs" id="pGI-kd-0cR"/>
             </connections>
-            <point key="canvasLocation" x="-12.318840579710146" y="78.683035714285708"/>
+            <point key="canvasLocation" x="33" y="28"/>
         </tableViewCell>
     </objects>
     <resources>

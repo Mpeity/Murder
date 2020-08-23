@@ -23,6 +23,7 @@ class GameplayViewCell: UICollectionViewCell {
     
     @IBOutlet weak var l_nameLabel: UILabel!
     
+    @IBOutlet weak var l_comImgView: UIImageView!
     // 右边样式
     // 头像
     @IBOutlet weak var r_avatarImgView: UIImageView!
@@ -39,6 +40,8 @@ class GameplayViewCell: UICollectionViewCell {
     @IBOutlet weak var r_miLabel: UILabel!
     
     @IBOutlet weak var l_miLabel: UILabel!
+    
+    @IBOutlet weak var r_comImgView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -57,6 +60,9 @@ extension GameplayViewCell {
         leftView.backgroundColor = UIColor.clear
         rightView.isUserInteractionEnabled = true
         leftView.isUserInteractionEnabled = true
+        
+        l_comImgView.isHidden = true
+        r_comImgView.isHidden = true
         
         l_avatarImgView.layer.cornerRadius = 22
         l_avatarImgView.layer.borderColor = UIColor.white.cgColor

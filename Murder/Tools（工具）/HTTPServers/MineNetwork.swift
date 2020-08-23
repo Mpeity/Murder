@@ -1,0 +1,58 @@
+//
+//  MineNetwork.swift
+//  Murder
+//
+//  Created by 马滕亚 on 2020/8/13.
+//  Copyright © 2020 m.a.c. All rights reserved.
+//
+
+import Foundation
+
+//MARK:- 我的|用户信息
+private let mine_url = "/api/user/mine"
+/** 注册接口
+ * @params [参数名] [类型] [是否必传]
+ */
+func mineInfoRequest(finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = mine_url
+    let parameters = [:] as [String : AnyObject]
+    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+//MARK: - 应用反馈
+private let feedback_url = "/api/user/feedback"
+/** 注册接口
+ * @params [参数名] [类型] [是否必传]
+ * email [string]        email
+ * content [string]    是    反馈内容
+ */
+func feedbackRequest(email: String, content: String, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = feedback_url
+    let parameters = ["email": email, "content": content] as [String : AnyObject]
+    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+//MARK: - 退出登录
+private let login_out_url = "/api/user/login_out"
+/** 注册接口
+ * @params [参数名] [类型] [是否必传]
+ * email [string]        email
+ * content [string]    是    反馈内容
+ */
+func loginOutRequest(email: String, content: String, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = feedback_url
+    let parameters = ["email": email, "content": content] as [String : AnyObject]
+    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+
+

@@ -9,8 +9,8 @@
 import UIKit
 import CLToast
 
-var email = ""
-var password = ""
+private var email = ""
+private var password = ""
 
 class LoginViewController: UIViewController,UITextFieldDelegate {
     // 邮箱图片
@@ -37,29 +37,55 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         Log("registerBtnAction")
         self.navigationController?.pushViewController(RegisterViewController(), animated: true)
     }
+    
     // MARK: - 登录按钮响应事件
     @IBAction func loginBtnAction(_ sender: Any) {
         
         email = nameTextField.text!
         password = passwordTextField.text!
-                
-        if !email.isEmptyString && !password.isEmptyString {
-            loadLogin(email: email, password: password) { (result, error) in
-                if error != nil {
-                    return
-                }
-                // 取到结果
-                guard  let resultDic :[String : AnyObject] = result else { return }
-                
-                if resultDic["code"]!.isEqual(1) { // 登录成功
-                    UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
-                } else {
-                  showToastCenter(msg: "パスワードが正しくありません")
-                }
+        
+        loadLogin(email: email, password: password) {[weak self] (result, error) in
+            if error != nil {
+                return
             }
-        } else {
-            showToastCenter(msg: "请产品定文案")
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            
+            if resultDic["code"]!.isEqual(1) { // 登录成功
+                let data = resultDic["data"] as! [String : AnyObject]
+//                data["nickname"] = nil
+                // 将字典转成模型对象
+                let account = UserAccount(fromDictionary: data)
+                // 将account对象保存
+                // 获取沙盒路径
+                var accountPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+                
+                accountPath = (accountPath as NSString).appendingPathComponent("account.plist")
+                // 保存对象
+                NSKeyedArchiver.archiveRootObject(account, toFile: accountPath)
+                
+                // 将account对象设置到单例对象中
+                UserAccountViewModel.shareInstance.account = account
+                
+                if account.nickname == nil ||  account.nickname == "" {
+                    // 去完善信息页面
+                    let vc = CompleteInfoViewController()
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+                }
+                
+                
+            } else {
+              showToastCenter(msg: "パスワードが正しくありません")
+            }
         }
+                
+//        if !email.isEmptyString && !password.isEmptyString {
+//
+//        } else {
+//            showToastCenter(msg: "请产品定文案")
+//        }
         
         
 
@@ -162,6 +188,11 @@ extension LoginViewController {
         vc.isResetPassword = true
         vc.titleString = "パスワードをレセット"
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        nameTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
     }
     
 }

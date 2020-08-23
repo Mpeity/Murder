@@ -12,6 +12,12 @@ let ScriptCollectionViewCellId = "ScriptTableHeaderCollectionViewCellId"
 
 class ScriptTableHeaderCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    var tagString: String! {
+        didSet {
+            
+        }
+    }
+    
     var titleLabel: UILabel = UILabel()
     
     var selectIndexPath: IndexPath = IndexPath(row: 0, section: 0)
@@ -36,16 +42,14 @@ class ScriptTableHeaderCell: UITableViewCell, UICollectionViewDelegate, UICollec
         collectionView.register(UINib(nibName: "ScriptTableHeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: ScriptCollectionViewCellId)
         collectionView.backgroundColor = UIColor.white
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
-    
-    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setUI()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -62,6 +66,7 @@ class ScriptTableHeaderCell: UITableViewCell, UICollectionViewDelegate, UICollec
 
         // Configure the view for the selected state
     }
+
     
     
 
@@ -105,6 +110,7 @@ extension ScriptTableHeaderCell {
      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
          let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ScriptCollectionViewCellId, for: indexPath) as! ScriptTableHeaderCollectionViewCell
         cell.titleLabel.text = dataArr[indexPath.item]
+        
         if (selectIndexPath == indexPath) {
             cell.titleLabel.textColor = UIColor.white
             cell.commonView.backgroundColor = HexColor(MainColor)
@@ -119,6 +125,14 @@ extension ScriptTableHeaderCell {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectIndexPath = indexPath
         collectionView.reloadData()
+        
+        let tag:Int = indexPath.item - 1
+        
+        let obj = ["tagString": tagString!, "tag":tag] as [String : Any]
+        Log("====\(tagString!)===\(tag)")
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Script_Change_Notif), object: obj)
+        
     }
     
 }

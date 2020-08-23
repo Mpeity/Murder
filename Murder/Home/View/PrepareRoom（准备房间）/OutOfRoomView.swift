@@ -8,12 +8,17 @@
 
 import UIKit
 
-// 点击textViewBlock回掉
+// 退出房间回调
 typealias ConfirmBtnTapBlcok = () ->()
+
+// 站起回调
+typealias StandUpBtnTapBlcok = () ->()
 
 class OutOfRoomView: UIView {
     
     var confirmBtnTapBlcok : ConfirmBtnTapBlcok?
+    
+    var standUpBtnTapBlcok: StandUpBtnTapBlcok?
 
 
     @IBOutlet var contentView: UIView!
@@ -56,10 +61,8 @@ extension OutOfRoomView {
         
         standUpBtn.setTitleColor(HexColor(LightOrangeColor), for: .normal)
         standUpBtn.titleLabel?.attributedText = getNSAttributedString(str: "席から離る",color: LightOrangeColor)
-//        standUpBtn.setAttributedTitle(getNSAttributedString(str: "席から離る",color: LightOrangeColor), for: .normal)
-        
-
-        
+        standUpBtn.addTarget(self, action: #selector(standUpBtnAction), for: .touchUpInside)
+    
         
         confirmBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
         confirmBtn.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)
@@ -78,12 +81,23 @@ extension OutOfRoomView {
 extension OutOfRoomView {
     // 确认
     @objc func confirmBtnAction() {
-        confirmBtnTapBlcok!()
+        if (confirmBtnTapBlcok != nil) {
+            confirmBtnTapBlcok!()
+        }
     }
     // 取消
     @objc func cancelBtnAction() {
         hideView()
     }
+    
+    // 站起
+    @objc func standUpBtnAction() {
+        if (standUpBtnTapBlcok != nil) {
+            standUpBtnTapBlcok!()
+        }
+    }
+    
+    
 }
 
 extension OutOfRoomView {

@@ -18,7 +18,4 @@ class ScriptTableHeaderCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-    
-    
-
 }

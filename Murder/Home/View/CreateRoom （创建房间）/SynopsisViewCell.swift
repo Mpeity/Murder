@@ -15,6 +15,16 @@ class SynopsisViewCell: UITableViewCell {
     // 箭头
     @IBOutlet weak var boultBtn: UIButton!
     
+    
+    var content: String! {
+        didSet {
+            guard let content = content else {
+                return
+            }
+            contentLabel.text = content
+            
+        }
+    }
     // cell高度
     var cellHeight: CGFloat = 50 {
         didSet {
@@ -31,7 +41,7 @@ class SynopsisViewCell: UITableViewCell {
         backgroundColor = UIColor.white
         
         contentLabel.textColor = HexColor(LightGrayColor)
-        contentLabel.text = "「あの人と出会えることは神様の恩賜だろう。しかしあの人と愛し合うことは腐れ縁だとう。」 あなたの名前はフラ、昔あなたのお爺さんは一応役人だ、でも上司から陥れられ、一族は落ちぶれた。幼いあなたは伶人になって、家族と離れ離れになってしまった、自分の本名も覚えられない。数年後、あなたは伊勢守の上泉家に買われ、家の侍女となった。"
+//        contentLabel.text = "「あの人と出会えることは神様の恩賜だろう。しかしあの人と愛し合うことは腐れ縁だとう。」 あなたの名前はフラ、昔あなたのお爺さんは一応役人だ、でも上司から陥れられ、一族は落ちぶれた。幼いあなたは伶人になって、家族と離れ離れになってしまった、自分の本名も覚えられない。数年後、あなたは伊勢守の上泉家に買われ、家の侍女となった。"
         
         self.frame.size.height = cellHeight
     }

@@ -12,7 +12,8 @@ let PopMenuViewCellId = "PopMenuViewCellId"
 
 
 class PopMenuView: UIView {
-    
+    // type   place-地点背景图片  script-剧本
+    var type : String? = "script"
     var imageName: String?
     var bgImgView: UIImageView!
     var cellRowHeight : CGFloat = 55
@@ -21,9 +22,18 @@ class PopMenuView: UIView {
     var contentTextFont : CGFloat = 15
     var isHideImg: Bool = false
     
-    var titleArray : Array<String> = Array() {
+    var titleArray = [AnyObject]() {
         didSet {
-            tableView.reloadData()
+            if !titleArray.isEmpty {
+                let count = titleArray.count
+                tableView.snp.remakeConstraints { (make) in
+                    make.top.equalToSuperview().offset(5)
+                    make.left.right.equalToSuperview()
+                    make.height.equalTo(count*55)
+                }
+                tableView.reloadData()
+            }
+            
         }
     }
 
@@ -90,7 +100,7 @@ extension PopMenuView {
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(5)
             make.left.right.equalToSuperview()
-            make.height.equalTo(155)
+            make.height.equalTo(55)
         }
     }
 }
@@ -104,7 +114,17 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PopMenuViewCellId, for: indexPath) as! PopMenuViewCell
         cell.contentLabel.textAlignment = .center
-        cell.contentLabel.text = titleArray[indexPath.row]
+        switch type! {
+        case "place":
+            let model = titleArray[indexPath.row] as! GPNodeMapListModel
+            cell.contentLabel.text = model.name! as String
+        case "script":
+            let model = titleArray[indexPath.row]
+            cell.contentLabel.text = model as! String
+        default:
+            break
+        }
+        
         cell.contentLabel.backgroundColor = UIColor.clear
         cell.contentLabel.textColor = contentTextColor
         cell.backgroundColor = UIColor.clear
@@ -126,8 +146,14 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
     
 }
+
+
 
 
 extension PopMenuView {
