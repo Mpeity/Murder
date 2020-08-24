@@ -92,12 +92,14 @@ extension GameplayViewCell {
         l_voiceImgView.isHidden = true
         
         l_miLabel.layer.cornerRadius = 7.5
+        l_miLabel.layer.masksToBounds = true
         l_miLabel.isHidden = true
         
         l_voiceView.isHidden = true
         r_voiceView.isHidden = true
 
         r_miLabel.layer.cornerRadius = 7.5
+        r_miLabel.layer.masksToBounds = true
         r_miLabel.isHidden = true
 
         

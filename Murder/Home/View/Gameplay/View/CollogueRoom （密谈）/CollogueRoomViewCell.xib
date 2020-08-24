@@ -43,14 +43,24 @@
                             <constraint firstAttribute="height" constant="0.5" id="IZx-YV-5dL"/>
                         </constraints>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87g-Xs-MLv">
+                        <rect key="frame" x="225" y="35.5" width="80" height="30"/>
+                        <state key="normal" title="出る">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="ncM-Wg-WCR" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="2JB-TU-Ibn"/>
                     <constraint firstItem="WYm-lx-c3c" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="3ra-qy-770"/>
                     <constraint firstAttribute="trailing" secondItem="WYm-lx-c3c" secondAttribute="trailing" constant="15" id="EA7-kA-Gez"/>
+                    <constraint firstItem="WYm-lx-c3c" firstAttribute="top" secondItem="87g-Xs-MLv" secondAttribute="top" id="KhG-Ph-TS5"/>
+                    <constraint firstItem="WYm-lx-c3c" firstAttribute="bottom" secondItem="87g-Xs-MLv" secondAttribute="bottom" id="MSx-YV-E67"/>
                     <constraint firstItem="ncM-Wg-WCR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="hHX-aD-W2O"/>
                     <constraint firstAttribute="trailing" secondItem="6az-n8-eTK" secondAttribute="trailing" constant="15" id="jUu-Pn-P35"/>
+                    <constraint firstItem="WYm-lx-c3c" firstAttribute="trailing" secondItem="87g-Xs-MLv" secondAttribute="trailing" id="mJX-1q-RL0"/>
                     <constraint firstItem="6az-n8-eTK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="uiP-fj-zdg"/>
+                    <constraint firstItem="WYm-lx-c3c" firstAttribute="leading" secondItem="87g-Xs-MLv" secondAttribute="leading" id="x7l-Jf-kgI"/>
                     <constraint firstAttribute="bottom" secondItem="6az-n8-eTK" secondAttribute="bottom" id="y2X-kR-vw5"/>
                 </constraints>
             </tableViewCellContentView>
@@ -58,6 +68,7 @@
             <connections>
                 <outlet property="commonBtn" destination="WYm-lx-c3c" id="moa-jx-abk"/>
                 <outlet property="contentLabel" destination="ncM-Wg-WCR" id="5KZ-cs-oR0"/>
+                <outlet property="leaveBtn" destination="87g-Xs-MLv" id="2DG-ZQ-X7b"/>
             </connections>
             <point key="canvasLocation" x="98.550724637681171" y="97.433035714285708"/>
         </tableViewCell>

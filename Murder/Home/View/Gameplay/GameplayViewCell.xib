@@ -31,7 +31,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Aj-a8-U1R">
-                                        <rect key="frame" x="120" y="-5" width="30" height="15"/>
+                                        <rect key="frame" x="137" y="-5" width="30" height="15"/>
                                         <color key="backgroundColor" red="0.92941176469999998" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="IU4-Lc-epN"/>
@@ -44,7 +44,7 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="8Aj-a8-U1R" secondAttribute="trailing" constant="32" id="V73-7Z-gdj"/>
+                                    <constraint firstAttribute="trailing" secondItem="8Aj-a8-U1R" secondAttribute="trailing" constant="15" id="V73-7Z-gdj"/>
                                     <constraint firstAttribute="height" constant="34" id="e7d-cK-zwm"/>
                                     <constraint firstItem="BzR-8F-XEY" firstAttribute="centerY" secondItem="U8M-pW-7xd" secondAttribute="centerY" id="nBH-rI-pJT"/>
                                     <constraint firstItem="BzR-8F-XEY" firstAttribute="leading" secondItem="U8M-pW-7xd" secondAttribute="leading" constant="14" id="zl0-8C-4Ey"/>
@@ -109,7 +109,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ojw-Rf-D8b">
-                                        <rect key="frame" x="32" y="-5" width="30" height="15"/>
+                                        <rect key="frame" x="15" y="-5" width="30" height="15"/>
                                         <color key="backgroundColor" red="0.92941176469999998" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="30" id="OIz-IM-Zld"/>
@@ -123,7 +123,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="7Hp-OJ-OmB" firstAttribute="centerY" secondItem="251-IT-V1c" secondAttribute="centerY" id="2WC-6i-47g"/>
-                                    <constraint firstItem="ojw-Rf-D8b" firstAttribute="leading" secondItem="251-IT-V1c" secondAttribute="leading" constant="32" id="2pC-nR-kIc"/>
+                                    <constraint firstItem="ojw-Rf-D8b" firstAttribute="leading" secondItem="251-IT-V1c" secondAttribute="leading" constant="15" id="2pC-nR-kIc"/>
                                     <constraint firstAttribute="trailing" secondItem="7Hp-OJ-OmB" secondAttribute="trailing" constant="14" id="CpL-6x-oHj"/>
                                     <constraint firstAttribute="height" constant="34" id="vn2-mK-0vc"/>
                                 </constraints>

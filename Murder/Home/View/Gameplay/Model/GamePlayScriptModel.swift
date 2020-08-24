@@ -13,7 +13,7 @@ class GamePlayScriptModel : NSObject {
 
     var scriptId : Int?
     var scriptName : String?
-    var secretTalkRoomNum : Int?
+    var secretTalkRoomNum : Int? 
 
 
     /**

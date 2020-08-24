@@ -150,6 +150,9 @@ class GameplayViewController: UIViewController {
     
     // 游戏进行中Model
     var gamePlayModel : GamePlayModel?
+    
+    // 密谈
+    let collogueRoomView = CollogueRoomView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
 
     
     override func viewDidLoad() {
@@ -357,7 +360,7 @@ extension GameplayViewController {
         self.scrollView.isUserInteractionEnabled = true
         
         setHeaderView()
-//        setMiddleView()
+        setMiddleView()
         setBottomView()
         
         // 申请解散弹框
@@ -752,6 +755,13 @@ extension GameplayViewController {
         collogueBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_collogue", title: "密談", cornerRadius: 25, color: "#20014D")
         collogueBtn.addTarget(self, action: #selector(collogueBtnAction(button:)), for: .touchUpInside)
         
+        // 密谈视图
+        collectionView.delegate = self
+        collogueRoomView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        collogueRoomView.isHidden = true
+        self.view.addSubview(collogueRoomView)
+        
+        
         // 未知按钮
         bgView.addSubview(commonBtn)
         commonBtn.snp.makeConstraints { (make) in
@@ -1050,11 +1060,9 @@ extension GameplayViewController {
     
     //MARK:- 密谈
     @objc func collogueBtnAction(button: UIButton) {
-        let collogueRoomView = CollogueRoomView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        collogueRoomView.isHidden = false
         collogueRoomView.roomCount = gamePlayModel?.script.secretTalkRoomNum
-        collogueRoomView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)        
-        self.view.addSubview(collogueRoomView)
-        
+        collogueRoomView.room_id = room_id
     }
     
     //MARK: 系统配置未知按钮
@@ -1130,6 +1138,28 @@ extension GameplayViewController {
         playerView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         self.view.addSubview(playerView)
     }
+}
+
+//MARK:- 密谈
+extension GameplayViewController: CollogueRoomViewDelegate {
+    func commonBtnActionBlock() {
+        
+        //
+    }
+    
+    func leaveBtnActionBlcok() {
+//        collogueRoomView.isHidden = true
+//        // 离开密谈 重新至回游戏中
+//        agoraKit.delegate = self
+//        // 通信模式下默认为听筒，demo中将它切为外放
+//        agoraKit.setDefaultAudioRouteToSpeakerphone(true)
+//        
+//        // 从私聊返回案发现场时，重新加入案发现场的群聊频道
+//        let uid = UserAccountViewModel.shareInstance.account?.userId
+//        agoraKit.joinChannel(byToken: nil, channelId: "\(room_id!)", info: nil, uid: UInt(bitPattern: uid!) , joinSuccess: nil)
+    }
+    
+    
 }
 
 
@@ -1212,9 +1242,9 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
             } else {
                 cell.r_handsUp.isHidden = true
             }
-            if indexPath.item == 1{
-                cell.r_miLabel.isHidden = false
-            }
+//            if indexPath.item == 1{
+//                cell.r_miLabel.isHidden = false
+//            }
         }
          return cell
      }
@@ -1343,19 +1373,19 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, reportAudioVolumeIndicationOfSpeakers speakers: [AgoraRtcAudioVolumeInfo], totalVolume: Int) {
         // 收到说话者音量回调，在界面上对应的 cell 显示动效
-//        let speakers = gamePlayModel?.scriptRoleList
-//        for speaker in speakers! {
-//            if let index = getIndexWithUserIsSpeaking(uid: (speaker.user?.userId)!),
-//                let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
-//                if index%2 == 0 {
-//                    cell.l_voiceView.isHidden = false
-//                    cell.l_voiceImgView.isHidden = false
-//                } else {
-//                    cell.l_voiceView.isHidden = false
-//                    cell.l_voiceImgView.isHidden = false
-//                }
-//            }
-//        }
+        let speakers = gamePlayModel?.scriptRoleList
+        for speaker in speakers! {
+            if let index = getIndexWithUserIsSpeaking(uid: (speaker.user?.userId)!),
+                let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
+                if index%2 == 0 {
+                    cell.l_voiceView.isHidden = false
+                    cell.l_voiceImgView.isHidden = false
+                } else {
+                    cell.r_voiceView.isHidden = false
+                    cell.r_voiceImgView.isHidden = false
+                }
+            }
+        }
     }
 }
 

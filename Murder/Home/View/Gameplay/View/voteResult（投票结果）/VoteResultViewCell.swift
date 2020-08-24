@@ -63,8 +63,8 @@ extension VoteResultViewCell {
         answerView.backgroundColor = UIColor.clear
         commonView.backgroundColor = UIColor.clear
         
-        let answer = AnswerView(frame: CGRect(x: 0, y: 0, width: answerView.bounds.size.width, height: 25))
-        answerView.addSubview(answer)
+//        let answer = AnswerView(frame: CGRect(x: 0, y: 0, width: answerView.bounds.size.width, height: 25))
+//        answerView.addSubview(answer)
 //
 //
 //        let common = VoteCommonView(frame: CGRect(x: 0, y: 0, width: commonView.bounds.size.width, height: 65))

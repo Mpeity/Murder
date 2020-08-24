@@ -8,11 +8,25 @@
 
 import UIKit
 
+//typealias AvatarImgTapBlcok = () ->()
+
+typealias CommonBtnActionBlcok = () ->()
+
+typealias LeaveBtnActionBlcok = () ->()
+
+
+
 class CollogueRoomViewCell: UITableViewCell {
 
     @IBOutlet weak var contentLabel: UILabel!
     
     @IBOutlet weak var commonBtn: UIButton!
+    
+    @IBOutlet weak var leaveBtn: UIButton!
+    
+    var commonBtnActionBlcok: CommonBtnActionBlcok?
+    
+    var leaveBtnActionBlcok: LeaveBtnActionBlcok?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,11 +51,23 @@ class CollogueRoomViewCell: UITableViewCell {
 extension CollogueRoomViewCell {
     private func setUI() {
         commonBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 15)
-//        commonBtn.gradientColor(start: "#FA7373", end: "#FF1515", cornerRadius: 15)
+        leaveBtn.gradientColor(start: "#FA7373", end: "#FF1515", cornerRadius: 15)
         commonBtn.addTarget(self, action: #selector(commonBtnAction), for: .touchUpInside)
+        leaveBtn.addTarget(self, action: #selector(leaveBtnAction), for: .touchUpInside)
+        commonBtn.isHidden = false
+        leaveBtn.isHidden = true
+
     }
     
     @objc func commonBtnAction() {
-        commonBtn.gradientColor(start: "#FA7373", end: "#FF1515", cornerRadius: 15)
+        commonBtn.isHidden = true
+        leaveBtn.isHidden = false
+        commonBtnActionBlcok!()
+    }
+    
+    @objc func leaveBtnAction() {
+        commonBtn.isHidden = false
+        leaveBtn.isHidden = true
+        leaveBtnActionBlcok!()
     }
 }

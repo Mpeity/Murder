@@ -7,19 +7,52 @@
 //
 
 import UIKit
+import AgoraRtcKit
+
 
 let CollogueRoomCellId = "CollogueRoomCellId"
 
+protocol CollogueRoomViewDelegate {
+    func commonBtnActionBlock()
+    
+    func leaveBtnActionBlcok()
+}
 
 class CollogueRoomView: UIView {
     
-    var roomCount : Int? = 0
+    var roomCount : Int? = 0 {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
+    var room_id : Int? {
+        didSet {
+            
+        }
+    }
+    
+    var delegate: CollogueRoomViewDelegate?
+    
+    private var agoraKit: AgoraRtcEngineKit!
+    private var agoraStatus = AgoraStatus.sharedStatus()
 
     private lazy var tableView: UITableView = UITableView()
+    
+    private var uid : Int?
+    
+    var itemModel: GPScriptRoleListModel? {
+        didSet {
+            uid = itemModel?.user?.userId
+            tableView.reloadData()
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUI()
+        
+        loadAgoraKit()
     }
     
     required init?(coder: NSCoder) {
@@ -90,20 +123,82 @@ extension CollogueRoomView: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: CollogueRoomCellId, for: indexPath) as! CollogueRoomViewCell
         cell.contentLabel.text = "密談室" + "\(indexPath.row+1)"
         cell.selectionStyle = .none
+        let channelId = "密談室" + "\(indexPath.row+1)"
+        uid = UserAccountViewModel.shareInstance.account?.userId
+        cell.commonBtnActionBlcok = {[weak self] () in
+            // 加入私聊频道
+            self!.agoraKit.leaveChannel(nil)
+            self!.agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: self!.uid!), joinSuccess: nil)
+        }
+        
+        cell.leaveBtnActionBlcok = {[weak self] () in
+//            if let delegate = self!.delegate {
+//                delegate.leaveBtnActionBlcok()
+//            }
+            if self!.room_id != nil {
+                // 从私聊返回案发现场时，重新加入案发现场的群聊频道
+                let uid = UserAccountViewModel.shareInstance.account?.userId
+                self!.agoraKit.joinChannel(byToken: nil, channelId: "\(self!.room_id!)", info: nil, uid: UInt(bitPattern: uid!) , joinSuccess: nil)
+                self?.hideView()
+            }
+            
+        }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
+        let channelId = "密談室" + "\(indexPath.row+1)"
+        // 加入私聊频道
+        agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: uid!), joinSuccess: nil)
     }
     
     
 }
 
+extension CollogueRoomView: AgoraRtcEngineDelegate {
+    private func loadAgoraKit() {
+        // 初始化AgoraRtcEngineKit
+        agoraKit = AgoraRtcEngineKit.sharedEngine(withAppId: AgoraKit_AppId, delegate: self)
+        agoraKit.leaveChannel(nil)
+        agoraKit.setChannelProfile(.communication)
+        // 通信模式下默认为听筒，demo中将它切为外放
+        agoraKit.setDefaultAudioRouteToSpeakerphone(true)
+    }
+    func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinChannel channel: String, withUid uid: UInt, elapsed: Int) {
+        if agoraStatus.muteAllRemote == true {
+            agoraKit.muteAllRemoteAudioStreams(true)
+        }
+        
+        if agoraStatus.muteLocalAudio == true {
+            agoraKit.muteLocalAudioStream(true)
+        }
+        
+        // 注意： 1. 由于demo欠缺业务服务器，所以用户列表是根据AgoraRtcEngineDelegate的didJoinedOfUid、didOfflineOfUid回调来管理的
+        //       2. 每次加入频道成功后，新建一个用户列表然后通过回调进行统计
+    }
+    
+    func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinedOfUid uid: UInt, elapsed: Int) {
+        // 当有用户加入时，添加到用户列表
+    }
+    
+    func rtcEngine(_ engine: AgoraRtcEngineKit, didOfflineOfUid uid: UInt, reason: AgoraUserOfflineReason) {
+        // 当用户离开时，从用户列表中清除
+    }
+    
+    func rtcEngine(_ engine: AgoraRtcEngineKit, didAudioMuted muted: Bool, byUid uid: UInt) {
+        // 当频道里的用户开始或停止发送音频流的时候，会收到这个回调。在界面的用户头像上显示或隐藏静音标记
+    }
+    
+    func rtcEngine(_ engine: AgoraRtcEngineKit, reportAudioVolumeIndicationOfSpeakers speakers: [AgoraRtcAudioVolumeInfo], totalVolume: Int) {
+        // 收到说话者音量回调，在界面上对应的 cell 显示动效
+        
+    }
+}
+
 
 extension CollogueRoomView {
     @objc func hideView() {
-        self.removeFromSuperview()
+        self.isHidden = true
     }
 }
