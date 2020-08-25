@@ -14,6 +14,7 @@ class TrueAnswerModel : NSObject {
 
     var answerTitle : String?
     var scriptAnswerId : Int?
+    var num : String?
 
 
     /**
@@ -21,6 +22,7 @@ class TrueAnswerModel : NSObject {
      */
     init(fromDictionary dictionary: [String:Any]){
         answerTitle = dictionary["answer_title"] as? String
+        num = dictionary["num"] as? String
         scriptAnswerId = dictionary["script_answer_id"] as? Int
     }
 
@@ -35,6 +37,9 @@ class TrueAnswerModel : NSObject {
         }
         if scriptAnswerId != nil{
             dictionary["script_answer_id"] = scriptAnswerId
+        }
+        if num != nil{
+            dictionary["num"] = num
         }
         return dictionary
     }
@@ -84,12 +89,14 @@ class ResultListModel : NSObject {
     var scriptQuestionId : Int?
     var trueAnswers : [TrueAnswerModel]?
     var trueUsers : [TrueUserModel]?
+    var questionType : Int?
 
 
     /**
      * Instantiate the instance using the passed dictionary values to set the properties values
      */
     init(fromDictionary dictionary: [String:Any]){
+        questionType = dictionary["question_type"] as? Int
         questionTitle = dictionary["question_title"] as? String
         scriptQuestionId = dictionary["script_question_id"] as? Int
         trueAnswers = [TrueAnswerModel]()
@@ -114,6 +121,9 @@ class ResultListModel : NSObject {
     func toDictionary() -> [String:Any]
     {
         var dictionary = [String:Any]()
+        if questionType != nil{
+            dictionary["question_type"] = questionType
+        }
         if questionTitle != nil{
             dictionary["question_title"] = questionTitle
         }

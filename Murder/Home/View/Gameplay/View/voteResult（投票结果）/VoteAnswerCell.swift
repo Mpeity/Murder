@@ -19,14 +19,20 @@ class VoteAnswerCell: UICollectionViewCell {
             if itemModel?.answerTitle != nil {
                 choiceLabel.text = itemModel?.answerTitle
             }
+            if itemModel?.num != nil {
+                choiceBtn.setTitle(itemModel?.num!, for: .normal)
+            }
         }
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
-        choiceLabel.textColor = HexColor(LightGrayColor)
+        choiceBtn.layer.cornerRadius = 12.5
+        choiceBtn.layer.borderColor = HexColor(LightGrayColor).cgColor
+        choiceBtn.layer.borderWidth = 0.5
+        choiceLabel.textColor = HexColor(LightDarkGrayColor)
+        choiceLabel.font = UIFont.systemFont(ofSize: 15)
     }
 
 }

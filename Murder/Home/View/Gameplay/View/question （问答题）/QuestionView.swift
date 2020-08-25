@@ -75,11 +75,11 @@ class QuestionView: UIView {
     var selectedIndex: Int = 0 {
         didSet {
             refreshUI()
-            if selectedIndex == 0 || selectedIndex == scriptQuestionList!.count-1{
+            if selectedIndex == 0 {
                 previousBtn.isHidden = true
                 confirmBtn.snp.remakeConstraints { (make) in
-                    make.right.equalToSuperview().offset(-37.5)
-                    make.left.equalToSuperview().offset(37.5)
+                    make.right.equalToSuperview().offset(-37)
+                    make.left.equalToSuperview().offset(37)
                     make.height.equalTo(50)
                     if #available(iOS 11.0, *) {
                        make.bottom.equalTo(self.safeAreaLayoutGuide.snp .bottom).offset(-10)
@@ -90,12 +90,18 @@ class QuestionView: UIView {
                 }
                 
             } else {
+                if selectedIndex == scriptQuestionList!.count-1 {
+                    confirmBtn.setTitle("提出", for: .normal)
+                } else {
+                    confirmBtn.setTitle("確認", for: .normal)
+                }
                 previousBtn.isHidden = false
                 confirmBtn.snp.removeConstraints()
                 confirmBtn.snp.makeConstraints { (make) in
                     
                     make.width.equalTo(143)
-                    make.right.equalToSuperview().offset(-37.5)
+                    make.left.equalToSuperview().offset(FULL_SCREEN_WIDTH-143-37)
+//                    make.right.equalToSuperview().offset(-37)
                     make.height.equalTo(50)
                     if #available(iOS 11.0, *) {
                        make.bottom.equalTo(self.safeAreaLayoutGuide.snp .bottom).offset(-10)
@@ -236,20 +242,10 @@ extension QuestionView {
         confirmBtn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         confirmBtn.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)
         self.addSubview(confirmBtn)
-//        confirmBtn.snp.makeConstraints { (make) in
-//            make.right.equalToSuperview().offset(-37.5)
-//            make.height.equalTo(50)
-//            make.width.equalTo(143)
-//            if #available(iOS 11.0, *) {
-//                make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-10)
-//            } else {
-//                // Fallback on earlier versions
-//                make.bottom.equalToSuperview().offset(-10)
-//            }
-//         }
+        
         confirmBtn.snp.makeConstraints { (make) in
-            make.right.equalToSuperview().offset(-37.5)
-            make.left.equalToSuperview().offset(37.5)
+            make.right.equalToSuperview().offset(-37)
+            make.left.equalToSuperview().offset(37)
             make.height.equalTo(50)
             if #available(iOS 11.0, *) {
                make.bottom.equalTo(self.safeAreaLayoutGuide.snp .bottom).offset(-10)
@@ -275,7 +271,7 @@ extension QuestionView {
         previousBtn.addTarget(self, action: #selector(previousBtnAction), for: .touchUpInside)
         self.addSubview(previousBtn)
         previousBtn.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(37.5)
+            make.left.equalToSuperview().offset(37)
             make.width.equalTo(143)
             make.height.equalTo(50)
             if #available(iOS 11.0, *) {

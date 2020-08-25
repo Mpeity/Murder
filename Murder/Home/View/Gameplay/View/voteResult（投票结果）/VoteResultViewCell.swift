@@ -36,8 +36,22 @@ class VoteResultViewCell: UITableViewCell {
                 subjectLabel.text = resultListModel?.questionTitle
             }
             
+            if resultListModel?.questionType == 0 { //单选
+                propertyLabel.text = "（ 单選 ）"
+            } else {
+                propertyLabel.text = "（ 多選 ）"
+            }
+            
             answer!.trueAnswers = resultListModel?.trueAnswers
             common?.trueUsers = resultListModel?.trueUsers
+
+//            if (resultListModel?.trueUsers!.isEmpty)! {
+//                answerView.isHidden = true
+//            } else {
+//                common?.trueUsers = resultListModel?.trueUsers
+//                answerView.isHidden = false
+//            }
+
         }
     }
     
