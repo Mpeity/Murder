@@ -889,6 +889,9 @@ extension PrepareRoomViewController {
     //MARK:-  准备/取消准备
     @objc func prepareBtnAction(button: UIButton) {
         // 站起状态或者未选择状态 提示先选择角色
+        
+        
+        
         let uid = UserAccountViewModel.shareInstance.account?.userId!
         guard let index = getIndexWithUserIsSpeaking(uid: UInt(bitPattern: uid!)) else { return }
         let userList = readyRoomModel?.roomUserList

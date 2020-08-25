@@ -11,9 +11,10 @@ import Foundation
 
 class ScriptAnswerModel : NSObject {
 
-    var answerTitle : String!
-    var isAnswer : Int!
-    var scriptAnswerId : Int!
+    var answerTitle : String?
+    var isAnswer : Int?
+    var scriptAnswerId : Int?
+    var num : String?
 
 
     /**
@@ -23,6 +24,7 @@ class ScriptAnswerModel : NSObject {
         answerTitle = dictionary["answer_title"] as? String
         isAnswer = dictionary["is_answer"] as? Int
         scriptAnswerId = dictionary["script_answer_id"] as? Int
+        num = dictionary["num"] as? String
     }
 
     /**
@@ -39,6 +41,9 @@ class ScriptAnswerModel : NSObject {
         }
         if scriptAnswerId != nil{
             dictionary["script_answer_id"] = scriptAnswerId
+        }
+        if num != nil{
+            dictionary["num"] = num
         }
         return dictionary
     }

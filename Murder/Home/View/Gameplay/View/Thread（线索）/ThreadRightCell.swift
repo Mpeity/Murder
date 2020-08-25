@@ -26,6 +26,16 @@ class ThreadRightCell: UITableViewCell {
             }
             titleLabel.text = clueListModel.scriptClueName
             contentLabel.text = clueListModel.scriptClueDetail
+            if clueListModel.isRead == 0 {
+                pointView.isHidden = false
+            } else {
+                pointView.isHidden = true
+            }
+            if clueListModel.isOpen == 0 { // 独有
+                tagLabel.isHidden = false
+            } else {
+                tagLabel.isHidden = true
+            }
         }
     }
     

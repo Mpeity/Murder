@@ -20,7 +20,7 @@ class ThreadLeftCell: UITableViewCell {
         // Initialization code
         
         
-        pointView.isHidden = false
+        pointView.isHidden = true
 
     }
 

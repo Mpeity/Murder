@@ -10,9 +10,17 @@ import UIKit
 
 let PopMenuViewCellId = "PopMenuViewCellId"
 
+protocol PopMenuViewDelegate {
+    func cellDidSelected(index: Int, model: AnyObject?)
+}
+
 
 class PopMenuView: UIView {
     // type   place-地点背景图片  script-剧本
+    
+    
+    var delegate : PopMenuViewDelegate?
+    
     var type : String? = "script"
     var imageName: String?
     var bgImgView: UIImageView!
@@ -80,6 +88,7 @@ extension PopMenuView {
 //        bgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)
         
         bgImgView = UIImageView()
+        bgImgView.isUserInteractionEnabled = true
         self.addSubview(bgImgView)
         bgImgView.snp.makeConstraints { (make) in
             make.left.equalToSuperview()
@@ -114,18 +123,23 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PopMenuViewCellId, for: indexPath) as! PopMenuViewCell
         cell.contentLabel.textAlignment = .center
-        switch type! {
-        case "place":
+        
+        if type == "place" {
             let model = titleArray[indexPath.row] as! GPNodeMapListModel
             cell.contentLabel.text = model.name! as String
-            
-        case "script":
-            let model = titleArray[indexPath.row]
-            cell.contentLabel.text = model as! String
-            
-        default:
-            break
         }
+        
+        if type == "script" {
+            let model = titleArray[indexPath.row] as! GPChapterModel
+            // 是否查看【1是0否】
+            if model.see == 0 {
+                cell.point.isHidden = false
+            } else {
+                cell.point.isHidden = true
+            }
+            cell.contentLabel.text = model.name! as String
+        }
+        
         
         cell.contentLabel.backgroundColor = UIColor.clear
         cell.contentLabel.textColor = contentTextColor
@@ -149,7 +163,20 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if delegate != nil {
+            switch type! {
+            case "place":
+                let model = titleArray[indexPath.row] as! GPNodeMapListModel
+                delegate?.cellDidSelected(index: indexPath.row, model: model)
+
+                
+            case "script":
+                let model = titleArray[indexPath.row]
+                delegate?.cellDidSelected(index: indexPath.row, model: model)
+            default:
+                break
+            }
+        }
     }
     
     

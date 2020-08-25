@@ -84,7 +84,7 @@ class GameplayViewController: UIViewController {
     // 剩余次数
     private var remainingView = UIView()
     private var remainingLabel = UILabel()
-    private var remainingCount = 5
+    private var remainingCount: Int = 0
     
     
     // 搜查view
@@ -203,7 +203,7 @@ class GameplayViewController: UIViewController {
 extension GameplayViewController {
     func gamePlaying() {
         if script_node_id != 0 {
-//            script_node_id = 5
+            script_node_id = 5
             gameIngRequest(room_id: room_id, script_node_id: script_node_id!) {[weak self] (result, error) in
                 if error != nil {
                     return
@@ -270,7 +270,20 @@ extension GameplayViewController {
         
         if gamePlayModel?.scriptNodeResult.scriptNodeMapList! != nil {
             let model = gamePlayModel?.scriptNodeResult.scriptNodeMapList?[0]
-            guard let imagePath = getImagePathWith(attachmentId: (model?.attachmentId!)!) else { return }
+            drawImage(model: model)
+        }
+        
+        if gamePlayModel?.scriptNodeResult.scriptNodeMapList != nil {
+            popMenuView.type = "place"
+            popMenuView.titleArray = (gamePlayModel?.scriptNodeResult.scriptNodeMapList!)! as [AnyObject]
+        }
+        
+        collectionView.reloadData()
+    }
+    
+    //MARK:- 绘制地图
+    func drawImage(model: GPNodeMapListModel?) {
+        guard let imagePath = getImagePathWith(attachmentId: (model?.attachmentId!)!) else { return }
             let image = UIImage(contentsOfFile: imagePath)
         
             let height = FULL_SCREEN_HEIGHT
@@ -291,17 +304,9 @@ extension GameplayViewController {
             drawImagesButtons(mapModel: model!, orignalSize: (image?.size)!)
             
             placeBtn.setTitle(model?.name, for: .normal)
-        }
-        
-        if gamePlayModel?.scriptNodeResult.scriptNodeMapList != nil {
-            popMenuView.type = "place"
-            popMenuView.titleArray = (gamePlayModel?.scriptNodeResult.scriptNodeMapList!)! as [AnyObject]
-        }
-        
-        collectionView.reloadData()
     }
     
-    
+    //MARK:- 绘制地图的按钮
     func drawImagesButtons(mapModel: GPNodeMapListModel, orignalSize: CGSize) {
         let list = mapModel.scriptMapPlaceList!
         if list.isEmpty {
@@ -540,6 +545,7 @@ extension GameplayViewController {
         popMenuView.contentTextFont = 15
         popMenuView.refresh()
         popMenuView.isHidden = true
+        popMenuView.delegate = self
         
         
         
@@ -867,13 +873,13 @@ extension GameplayViewController {
                 threadCardView.script_place_id = script_place_id
                 threadCardView.room_id = self!.room_id
                 threadCardView.script_node_id = self!.script_node_id
+                
                 threadCardView.deepBtnActionBlock = {[weak self] (param)->() in
-                    
                 }
                 
                 threadCardView.publicBtnActionBlock = {[weak self] (param)->() in
-                    self!.publicClue(model: param, script_place_id: script_place_id)
-                    threadCardView.removeFromSuperview()
+//                    self!.publicClue(model: param, script_place_id: script_place_id)
+//                    threadCardView.removeFromSuperview()
                 }
                 
                 threadCardView.clueResultModel = clueResultModel
@@ -888,7 +894,7 @@ extension GameplayViewController {
     
     // 公开
     func publicClue(model :SearchClueResultModel, script_place_id: Int) {
-        clueOpenRequest(room_id: room_id, script_clue_id: model.scriptClueId!, script_place_id:script_place_id) { (result, error) in
+        clueOpenRequest(room_id: room_id, script_clue_id: model.scriptClueId!, script_place_id:script_place_id, script_node_id: script_node_id!) { (result, error) in
             if error != nil {
                 return
             }
@@ -1020,8 +1026,6 @@ extension GameplayViewController {
             popMenuView.isHidden = true
 
         }
-        
-
     }
     
     
@@ -1055,6 +1059,7 @@ extension GameplayViewController {
     @objc func threadBtnBtnAction(button: UIButton) {
         let threadView = ThreadView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        threadView.room_id = gamePlayModel?.room.roomId
         threadView.gameUserClueList = gamePlayModel?.gameUserClueList
         self.view.addSubview(threadView)
     }
@@ -1160,12 +1165,18 @@ extension GameplayViewController: CollogueRoomViewDelegate {
     
 }
 
+//MARK: - PopMenuDelegate
+extension GameplayViewController: PopMenuViewDelegate {
+    func cellDidSelected(index: Int, model: AnyObject?) {
+        let currentIndex = index
+        let itemModel = gamePlayModel?.scriptNodeResult.scriptNodeMapList![currentIndex]
+        drawImage(model: itemModel)
+    }
+}
 
+
+//MARK: - UICollectionViewDelegate
 extension GameplayViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    
-    
-    //MARK: - Delegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (gamePlayModel != nil) {
             let count = gamePlayModel!.scriptRoleList?.count ?? 0
@@ -1202,30 +1213,15 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
             }
             if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
                 cell.l_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
+                remainingCount = itemModel.user?.point! as! Int
             }
-            
-//            if indexPath.item == 2{
-//                cell.l_voiceView.isHidden = false
-//                cell.l_voiceImgView.isHidden = false
-//                cell.l_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
-//                if handsUp {
-//                    cell.l_handsUp.isHidden = false
-//                } else {
-//                    cell.l_handsUp.isHidden = true
-//                }
-//
-//                if voiceHide {
-//                    cell.l_voiceView.isHidden = false
-//                } else {
-//                    cell.l_voiceView.isHidden = true
-//                }
-//            }
 
         } else {
             
             if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
                 
                 cell.r_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
+                remainingCount = itemModel.user?.point! as! Int
             }
             cell.r_avatarImgView.setImageWith(URL(string: itemModel.head!))
             cell.rightView.isHidden = false

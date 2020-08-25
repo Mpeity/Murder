@@ -18,15 +18,18 @@ class ReadScriptView: UIView {
     
     private let popMenuView = PopMenuView()
     
+    private let label = UILabel()
+    
     var scriptData : [AnyObject]? {
         didSet {
             if !scriptData!.isEmpty{
-                var arr = [AnyObject]()
-                for item:GPChapterModel in scriptData as! [GPChapterModel] {
-                    arr.append(item.name as AnyObject)
-                }
-                popMenuView.titleArray = arr
+//                var arr = [AnyObject]()
+//                for item:GPChapterModel in scriptData as! [GPChapterModel] {
+//                    arr.append(item.name as AnyObject)
+//                }
                 tableView.reloadData()
+                popMenuView.titleArray = scriptData!
+
             }
         }
     }
@@ -106,6 +109,7 @@ extension ReadScriptView {
             make.height.equalTo(175)
             make.width.equalTo(136)
         }
+        popMenuView.delegate = self
         popMenuView.imageName = "menu_catalogue"
         popMenuView.cellRowHeight = 55
         popMenuView.lineColor = HexColor(hex: "#FFFFFF", alpha: 0.05)
@@ -148,7 +152,7 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
         view.backgroundColor = UIColor.white
         
         
-        let label = UILabel()
+        
         view.addSubview(label)
         label.snp.makeConstraints { (make) in
             make.width.equalTo(200)
@@ -180,8 +184,17 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
         return "第\(section)章"
     }
     
-    
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        let model = scriptData![indexPath.row] as! GPChapterModel
+        
+        let height = model.content?.ga_heightForComment(fontSize: 15, width: FULL_SCREEN_WIDTH-30)
+        
+        if height! <= CGFloat(492.0) {
+            return 492
+        }
+        return height!
+    }
 }
 
 
@@ -223,7 +236,7 @@ extension ReadScriptView {
                 make.right.equalToSuperview()
                 make.left.equalToSuperview()
                 make.height.equalTo(50)
-                make.bottom.equalToSuperview().offset(200)
+                make.bottom.equalToSuperview().offset(250)
             }
         }
         
@@ -232,10 +245,19 @@ extension ReadScriptView {
     
 }
 
+//MARK:- PopMenuViewDelegate
+extension ReadScriptView: PopMenuViewDelegate {
+    func cellDidSelected(index: Int, model: AnyObject?) {
+        let currentIndex = index
+        let indexPath = IndexPath(row: currentIndex, section: 0)
+        let model = scriptData![currentIndex] as! GPChapterModel
+        label.text = "【 \(model.name!) 】"
+        tableView.scrollToRow(at: indexPath, at: .none, animated: true)
+    }
+        
+}
+
 extension ReadScriptView {
-    
-    
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         hideBottomView()
     }

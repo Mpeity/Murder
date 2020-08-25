@@ -15,8 +15,10 @@ class GPScriptRoleUserModel : NSObject {
     var headId : String?
     var level : String?
     var nickname : String?
+    var point : Int?
     var scriptRoleId : Int?
     var sex : Int?
+    var status : Int?
     var userId : Int?
 
 
@@ -28,8 +30,10 @@ class GPScriptRoleUserModel : NSObject {
         headId = dictionary["head_id"] as? String
         level = dictionary["level"] as? String
         nickname = dictionary["nickname"] as? String
+        point = dictionary["point"] as? Int
         scriptRoleId = dictionary["script_role_id"] as? Int
         sex = dictionary["sex"] as? Int
+        status = dictionary["status"] as? Int
         userId = dictionary["user_id"] as? Int
     }
 
@@ -51,15 +55,23 @@ class GPScriptRoleUserModel : NSObject {
         if nickname != nil{
             dictionary["nickname"] = nickname
         }
+        if point != nil{
+            dictionary["point"] = point
+        }
         if scriptRoleId != nil{
             dictionary["script_role_id"] = scriptRoleId
         }
         if sex != nil{
             dictionary["sex"] = sex
         }
+        if status != nil{
+            dictionary["status"] = status
+        }
         if userId != nil{
             dictionary["user_id"] = userId
         }
         return dictionary
     }
+
 }
+

@@ -315,13 +315,14 @@ func gameSettlementRequest(room_id: Int, finished: @escaping(_ reslut: [String: 
 private let clue_open_url = "/api/game/clue_open"
 /** 注册接口
  * @params [参数名] [类型] [是否必传]
- * room_id [int]    是    房间ID
  * script_clue_id [int]    是    线索ID
  * script_place_id [int]    是    地点ID
+ * room_id [int]    是    房间ID
+ * script_node_id [int]    是    游戏节点ID
  */
-func clueOpenRequest(room_id: Int, script_clue_id: Int, script_place_id : Int,  finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+func clueOpenRequest(room_id: Int, script_clue_id: Int, script_place_id : Int, script_node_id: Int,  finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
     let urlString = clue_open_url
-    let parameters = ["room_id" : room_id, "script_clue_id" : script_clue_id, "script_place_id" : script_place_id] as [String : AnyObject]
+    let parameters = ["room_id" : room_id, "script_clue_id" : script_clue_id, "script_place_id" : script_place_id, "script_node_id": script_node_id] as [String : AnyObject]
     NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }

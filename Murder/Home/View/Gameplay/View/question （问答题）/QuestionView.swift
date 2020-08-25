@@ -321,7 +321,6 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = HexColor("#F5F5F5")
         cell.isSelected = false
         let model = choiceArr![indexPath.row]
-        cell.choiceBtn.setTitle(subjectArr[indexPath.row], for: .normal)
         cell.itemModel = model
         
         let questionModel = scriptQuestionList![selectedIndex]
@@ -355,7 +354,7 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
                 let cell = tableView.cellForRow(at: indexPath);
                 selectPath = indexPath
                 cell?.isSelected = true
-                user_script_answer_ids?.append(model.scriptAnswerId)
+                user_script_answer_ids?.append(model.scriptAnswerId!)
             } else {
                 if selectPath == indexPath {
                     let cell = tableView.cellForRow(at: indexPath)
@@ -368,7 +367,7 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
                     selectPath = indexPath
                     let cell = tableView.cellForRow(at: indexPath)
                     cell?.isSelected = true
-                    user_script_answer_ids?.append(model.scriptAnswerId)
+                    user_script_answer_ids?.append(model.scriptAnswerId!)
                 }
             }
             if user_script_answer_ids != nil {
@@ -384,8 +383,8 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
                 self.cellIndexPath!.remove(indexPath)
                 cell.choiceBtn.isSelected = false
                 cell.isSelected = false
-                if (user_script_answer_ids?.contains(model.scriptAnswerId))! {
-                    if let index = user_script_answer_ids!.firstIndex(of: model.scriptAnswerId) {
+                if (user_script_answer_ids?.contains(model.scriptAnswerId!))! {
+                    if let index = user_script_answer_ids!.firstIndex(of: model.scriptAnswerId!) {
                         user_script_answer_ids!.remove(at: index)
                    }
                 }
@@ -393,7 +392,7 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
                 self.cellIndexPath!.add(indexPath)
                 cell.choiceBtn.isSelected = true
                 cell.isSelected = true
-                user_script_answer_ids?.append(model.scriptAnswerId)
+                user_script_answer_ids?.append(model.scriptAnswerId!)
             }
             if user_script_answer_ids != nil {
                 dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?

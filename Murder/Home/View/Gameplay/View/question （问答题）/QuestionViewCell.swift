@@ -23,6 +23,10 @@ class QuestionViewCell: UITableViewCell {
             if itemModel?.answerTitle != nil {
                 contentLabel.text = itemModel?.answerTitle!
             }
+            
+            if itemModel?.num != nil {
+                choiceBtn.setTitle(itemModel?.num, for: .normal)
+            }
         }
     }
     

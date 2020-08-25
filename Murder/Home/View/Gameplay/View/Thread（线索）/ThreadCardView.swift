@@ -40,11 +40,47 @@ class ThreadCardView: UIView {
     
     var script_node_id: Int?
     
+    var script_clue_id: Int?
+    
+    var clueListModel :ClueListModel? {
+        didSet {
+            if clueListModel != nil {
+                script_node_id = clueListModel?.scriptNodeId
+                script_place_id = clueListModel?.scriptPlaceId
+                script_clue_id = clueListModel?.scriptClueId
+                if clueListModel?.attachment != nil {
+                    imgView.setImageWith(URL(string: (clueListModel?.attachment!)!))
+                }
+                if clueListModel?.isGoing == 1 { // 可深入
+                    deepBtn.layer.cornerRadius = 22
+                    deepBtn.setTitleColor(UIColor.white, for: .normal)
+                    deepBtn.backgroundColor = HexColor(MainColor)
+                } else {
+                    deepBtn.layer.cornerRadius = 22
+                    deepBtn.layer.borderColor = HexColor(MainColor).cgColor
+                    deepBtn.layer.borderWidth = 0.5
+                    deepBtn.setTitleColor(HexColor(MainColor), for: .normal)
+                }
+            }
+        }
+    }
+    
     var clueResultModel: SearchClueResultModel? {
         didSet {
             if clueResultModel != nil {
+                script_clue_id = clueResultModel?.scriptClueId
                 if clueResultModel?.attachment != nil {
                     imgView.setImageWith(URL(string: (clueResultModel?.attachment!)!))
+                }
+                if clueResultModel?.isGoing == 1 { // 可深入
+                    deepBtn.layer.cornerRadius = 22
+                    deepBtn.setTitleColor(UIColor.white, for: .normal)
+                    deepBtn.backgroundColor = HexColor(MainColor)
+                } else {
+                    deepBtn.layer.cornerRadius = 22
+                    deepBtn.layer.borderColor = HexColor(MainColor).cgColor
+                    deepBtn.layer.borderWidth = 0.5
+                    deepBtn.setTitleColor(HexColor(MainColor), for: .normal)
                 }
             }
         }
@@ -54,32 +90,50 @@ class ThreadCardView: UIView {
     // 深入按钮
     @IBAction func deepBtnAction(_ sender: Any) {
         if clueResultModel?.isGoing == 1 { // 可深入
-            deepBtnActionBlock?(clueResultModel!)
-        } else {
+//            deepBtnActionBlock?(clueResultModel!)
             
+            searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: script_clue_id, script_node_id: script_node_id!) {[weak self] (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                if resultDic["code"]!.isEqual(1) {
+                    let data = resultDic["data"] as! [String : AnyObject]
+                    let resultData = data["search_clue_result"] as! [String : AnyObject]
+                    let model = SearchClueResultModel(fromDictionary: resultData)
+                    self!.clueResultModel = model
+                    
+                } else {
+                    
+                }
+            }
+        } else {
+            self.removeFromSuperview()
         }
+    }
+    
+    // 公开按钮
+    @IBAction func publicBtnAction(_ sender: Any) {
         
-        searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: clueResultModel?.scriptClueId, script_node_id: script_node_id!) {[weak self] (result, error) in
+        clueOpenRequest(room_id: room_id!, script_clue_id: script_clue_id!, script_place_id: script_place_id!, script_node_id: script_node_id!) { (result, error) in
             if error != nil {
                 return
             }
             // 取到结果
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
-                let data = resultDic["data"] as! [String : AnyObject]
-                let resultData = data["search_clue_result"] as! [String : AnyObject]
-                var model = SearchClueResultModel(fromDictionary: resultData)
-                self!.clueResultModel = model
+                let data = resultDic["msg"] as! String
+                showToastCenter(msg: data)
                 
             } else {
                 
             }
         }
-    }
-    
-    // 公开按钮
-    @IBAction func publicBtnAction(_ sender: Any) {
-        publicBtnActionBlock?(clueResultModel!)
+        
+        self.removeFromSuperview()
+        
+//        publicBtnActionBlock?(clueResultModel!)
     }
     
     // 关闭按钮
@@ -117,8 +171,9 @@ extension ThreadCardView {
         publicBtn.setTitleColor(HexColor(MainColor), for: .normal)
         
         deepBtn.layer.cornerRadius = 22
-        deepBtn.setTitleColor(UIColor.white, for: .normal)
-        deepBtn.backgroundColor = HexColor(MainColor)
+        deepBtn.layer.borderColor = HexColor(MainColor).cgColor
+        deepBtn.layer.borderWidth = 0.5
+        deepBtn.setTitleColor(HexColor(MainColor), for: .normal)
     }
 }
 

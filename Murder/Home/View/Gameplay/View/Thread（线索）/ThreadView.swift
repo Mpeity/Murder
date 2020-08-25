@@ -23,7 +23,8 @@ class ThreadView: UIView {
     
     private var clueList : [ClueListModel]? = [ClueListModel]()
     
-    
+    var room_id : Int?
+        
     var gameUserClueList: [GameUserClueListModel]? {
         didSet {
             if gameUserClueList!.isEmpty {
@@ -117,6 +118,7 @@ extension ThreadView {
             make.width.equalTo(110)
             make.height.equalTo(492)
         }
+
         
         rightTableView.delegate = self
         rightTableView.dataSource = self
@@ -148,11 +150,17 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let model = gameUserClueList![indexPath.row]
         if tableView == leftTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: ThreadLeftCellId, for: indexPath) as! ThreadLeftCell
-            cell.titleLabel.text = model.scriptPlaceName
             cell.selectionStyle = .none
+
+            let model = gameUserClueList![indexPath.row]
+            cell.titleLabel.text = model.scriptPlaceName
+            if model.isRead == 0 { // 未读
+                cell.pointView.isHidden = false
+            } else {
+                cell.pointView.isHidden = true
+            }
             if indexPath.row == 0 {
                 cell.isSelected = true
             }
@@ -174,9 +182,22 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
         } else {
             
             hideView()
-                        
+            
+            let itemModel = clueList![indexPath.row]
             let threadCardView = ThreadCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
             threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            threadCardView.room_id = room_id
+            threadCardView.clueListModel = itemModel
+            
+            threadCardView.deepBtnActionBlock = {[weak self] (param)->() in
+                
+            }
+            
+            threadCardView.publicBtnActionBlock = {[weak self] (param)->() in
+                
+                threadCardView.removeFromSuperview()
+            }
+            
             UIApplication.shared.keyWindow?.addSubview(threadCardView)
 
         }
@@ -196,8 +217,6 @@ extension ThreadView {
         button.isSelected = !button.isSelected
        
     }
-    
-    
     
 }
 
