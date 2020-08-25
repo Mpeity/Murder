@@ -22,6 +22,9 @@ class QuestionView: UIView {
     // 题目性质 单选/多选
     var propertyLabel: UILabel = UILabel()
     // 倒计时
+    private var timer: Timer?
+    private var timerCount = 600
+    // 倒计时
     var countLabel: UILabel = UILabel()
     // 题目选项
     private lazy var tableView: UITableView = UITableView()
@@ -33,10 +36,17 @@ class QuestionView: UIView {
     // 单选/多选
     private var questionType = 0  // 0 单选 1 多选
     
-    private var selectPath: IndexPath! //单选
-    private var cellIndexPath = NSMutableArray.init() //多选
+    private var selectPath: IndexPath? //单选
+    private var cellIndexPath: NSMutableArray? = NSMutableArray.init() //多选
     // 答案
-    private var user_script_answer_ids: String?
+    private var user_script_answer_ids: [Int]? = [Int]()
+    
+    // 答案记录
+//    {
+//    “script_question_id”:1,问题ID
+//    “user_script_answer_ids”:[1,2] //答案ID
+//    }
+    private var answerList: [[String : AnyObject]]? = [[String : AnyObject]]()
     
     // 题目数据
     var scriptQuestionList: [ScriptQuestionListModel]? {
@@ -44,6 +54,7 @@ class QuestionView: UIView {
             guard let scriptQuestionList = scriptQuestionList else {
                 return
             }
+            
             refreshUI()
             Log(scriptQuestionList)
         }
@@ -63,6 +74,7 @@ class QuestionView: UIView {
     // 当前第几道题
     var selectedIndex: Int = 0 {
         didSet {
+            refreshUI()
             if selectedIndex == 0 || selectedIndex == scriptQuestionList!.count-1{
                 previousBtn.isHidden = true
                 confirmBtn.snp.remakeConstraints { (make) in
@@ -102,11 +114,17 @@ class QuestionView: UIView {
         
     override init(frame: CGRect) {
         super.init(frame: frame)
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countDown), userInfo: nil, repeats: true)
         setUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        timer?.invalidate()
+        timer = nil
     }
 
 }
@@ -118,6 +136,9 @@ extension QuestionView {
         let model = scriptQuestionList![selectedIndex]
         subjectLabel.text = model.questionTitle
         choiceArr = model.scriptAnswer!
+        propertyLabel.text = model.questionType == 0 ? "（ 单選 ）" : "（ 多選 ）"
+        user_script_answer_ids = []
+        selectPath = nil
     }
     
     
@@ -187,14 +208,24 @@ extension QuestionView {
             make.height.equalTo(28)
         }
         
+        countLabel.textColor = HexColor(LightDarkGrayColor)
+        countLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        countLabel.text = "カウントダウン：300s "
+        self.addSubview(countLabel)
+        countLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(subjectLabel.snp_bottom).offset(5)
+            make.left.equalToSuperview().offset(108)
+            make.height.equalTo(22)
+        }
+        
+        
         propertyLabel.textAlignment = .center
-        propertyLabel.text = "（ 单選 ）"
-        propertyLabel.textColor = HexColor(DarkGrayColor)
-        propertyLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        propertyLabel.textColor = HexColor(LightDarkGrayColor)
+        propertyLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         self.addSubview(propertyLabel)
         propertyLabel.snp.makeConstraints { (make) in
             make.top.equalTo(subjectLabel.snp_bottom).offset(5)
-            make.right.leading.equalToSuperview()
+            make.left.equalTo(countLabel.snp_right).offset(10)
             make.height.equalTo(22)
         }
         
@@ -241,6 +272,7 @@ extension QuestionView {
         previousBtn.backgroundColor = UIColor.white
         previousBtn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         previousBtn.isHidden = true
+        previousBtn.addTarget(self, action: #selector(previousBtnAction), for: .touchUpInside)
         self.addSubview(previousBtn)
         previousBtn.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(37.5)
@@ -292,6 +324,8 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
         cell.choiceBtn.setTitle(subjectArr[indexPath.row], for: .normal)
         cell.itemModel = model
         
+        let questionModel = scriptQuestionList![selectedIndex]
+        questionType = questionModel.questionType!
         if questionType == 0 { // 单选
             if selectPath == indexPath {
                 cell.isSelected = true
@@ -299,7 +333,7 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
                 cell.isSelected = false
             }
         } else { // 多选
-            if self.cellIndexPath.contains(indexPath) {
+            if self.cellIndexPath!.contains(indexPath) {
                 cell.isSelected = true
             } else {
                 cell.isSelected = false
@@ -311,13 +345,17 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let questionModel = scriptQuestionList![selectedIndex]
         let model = choiceArr![indexPath.row]
+        var dic = [:] as? [String : AnyObject]
+        questionType = questionModel.questionType!
+        
         if questionType == 0 { // 单选
             if selectPath == nil {
                 let cell = tableView.cellForRow(at: indexPath);
                 selectPath = indexPath
                 cell?.isSelected = true
-                user_script_answer_ids = String(model.scriptAnswerId)
+                user_script_answer_ids?.append(model.scriptAnswerId)
             } else {
                 if selectPath == indexPath {
                     let cell = tableView.cellForRow(at: indexPath)
@@ -330,23 +368,42 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
                     selectPath = indexPath
                     let cell = tableView.cellForRow(at: indexPath)
                     cell?.isSelected = true
-                    user_script_answer_ids = String(model.scriptAnswerId)
+                    user_script_answer_ids?.append(model.scriptAnswerId)
                 }
             }
-        } else { // 多选
-            if self.cellIndexPath.contains(indexPath) {
-                self.cellIndexPath.remove(indexPath)
-                let cell = tableView.cellForRow(at: indexPath)
-                cell?.isSelected = false
-            } else {
-                self.cellIndexPath.add(indexPath)
-                let cell = tableView.cellForRow(at: indexPath)
-                cell?.isSelected = true
+            if user_script_answer_ids != nil {
+                dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+                dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+                answerList?.append(dic!)
             }
+            
+        } else { // 多选
+            let cell = tableView.cellForRow(at: indexPath) as! QuestionViewCell
+
+            if self.cellIndexPath!.contains(indexPath) {
+                self.cellIndexPath!.remove(indexPath)
+                cell.choiceBtn.isSelected = false
+                cell.isSelected = false
+                if (user_script_answer_ids?.contains(model.scriptAnswerId))! {
+                    if let index = user_script_answer_ids!.firstIndex(of: model.scriptAnswerId) {
+                        user_script_answer_ids!.remove(at: index)
+                   }
+                }
+            } else {
+                self.cellIndexPath!.add(indexPath)
+                cell.choiceBtn.isSelected = true
+                cell.isSelected = true
+                user_script_answer_ids?.append(model.scriptAnswerId)
+            }
+            if user_script_answer_ids != nil {
+                dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+                dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+                answerList?.append(dic!)
+            }
+            
+//            tableView.reloadRows(at: self.cellIndexPath as! [IndexPath], with: .automatic)
         }
     }
-    
-      
 }
 
 
@@ -360,11 +417,23 @@ extension QuestionView {
        
     }
     
+    
+    // 上一题
+    @objc func previousBtnAction() {
+        if selectedIndex == 0 {
+            return
+        }
+        selectedIndex -= 1
+    }
+    
+    
+    
+    // 确定
     @objc func confirmBtnAction() {
-        
-        gameVote()
-        
         if selectedIndex == scriptQuestionList!.count-1 {
+            // 提交
+            gameVote()
+
             selectedIndex = 0
             hideView()
             let commonView = VoteResultView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
@@ -376,31 +445,41 @@ extension QuestionView {
     }
     
     private func gameVote() {
-        //
-        let model = scriptQuestionList![selectedIndex]
-        
-        gameVoteRequest(room_id: room_id!, script_node_id: script_node_id!, script_question_id: model.scriptQuestionId!, user_script_answer_ids: user_script_answer_ids!) {[weak self] (result, error) in
+                
+        let script_question = getJSONStringFromArray(array: answerList! as NSArray)
+        gameVoteRequest(room_id: room_id!, script_node_id: script_node_id!, script_question: script_question) { (result, error) in
             if error != nil {
                 return
             }
             // 取到结果
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
-//                let data = resultDic["data"] as! [String : AnyObject]
-//                self?.user_script_answer_ids = ""
+                showToastCenter(msg: "お答えは既に提出しました")
             }
-
         }
     
     }
-    
-    
-    
-    
     
 }
 
 extension QuestionView {
     
+    //MARK: - 倒计时
+    @objc func countDown() {
+        timerCount -= 1
+        let string = "カウントダウン\(timerCount)s"
+        let ranStr = String(timerCount)
+        let attrstring:NSMutableAttributedString = NSMutableAttributedString(string:string)
+        let str = NSString(string: string)
+        let theRange = str.range(of: ranStr)
+        attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#ED2828"), range: theRange)
+        countLabel.attributedText = attrstring
+        if timerCount == 0 {
+            // 进入下一个阶段
+            timerCount = 0
+            timer?.invalidate()
+        }
+        
+    }
 
 }

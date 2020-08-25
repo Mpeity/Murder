@@ -118,9 +118,11 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
         case "place":
             let model = titleArray[indexPath.row] as! GPNodeMapListModel
             cell.contentLabel.text = model.name! as String
+            
         case "script":
             let model = titleArray[indexPath.row]
             cell.contentLabel.text = model as! String
+            
         default:
             break
         }

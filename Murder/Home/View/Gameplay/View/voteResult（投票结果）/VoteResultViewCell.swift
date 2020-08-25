@@ -22,6 +22,10 @@ class VoteResultViewCell: UITableViewCell {
     @IBOutlet weak var tipTwoLabel: UILabel!
     @IBOutlet weak var commonView: UIView!
     
+    var answer: AnswerView?
+    
+    var common: VoteCommonView?
+    
     var resultListModel: ResultListModel? {
         didSet {
             guard resultListModel != nil else {
@@ -31,6 +35,9 @@ class VoteResultViewCell: UITableViewCell {
             if resultListModel?.questionTitle != nil {
                 subjectLabel.text = resultListModel?.questionTitle
             }
+            
+            answer!.trueAnswers = resultListModel?.trueAnswers
+            common?.trueUsers = resultListModel?.trueUsers
         }
     }
     
@@ -63,12 +70,11 @@ extension VoteResultViewCell {
         answerView.backgroundColor = UIColor.clear
         commonView.backgroundColor = UIColor.clear
         
-//        let answer = AnswerView(frame: CGRect(x: 0, y: 0, width: answerView.bounds.size.width, height: 25))
-//        answerView.addSubview(answer)
-//
-//
-//        let common = VoteCommonView(frame: CGRect(x: 0, y: 0, width: commonView.bounds.size.width, height: 65))
-//        commonView.addSubview(common)
+        answer = AnswerView(frame: CGRect(x: 0, y: 0, width: answerView.bounds.size.width, height: 25))
+        answerView.addSubview(answer!)
+        
+        common = VoteCommonView(frame: CGRect(x: 0, y: 0, width: commonView.bounds.size.width, height: 65))
+        commonView.addSubview(common!)
 
     }
 }

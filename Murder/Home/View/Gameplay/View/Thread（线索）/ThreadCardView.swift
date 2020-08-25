@@ -38,6 +38,8 @@ class ThreadCardView: UIView {
     
     var room_id: Int?
     
+    var script_node_id: Int?
+    
     var clueResultModel: SearchClueResultModel? {
         didSet {
             if clueResultModel != nil {
@@ -57,7 +59,7 @@ class ThreadCardView: UIView {
             
         }
         
-        searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: clueResultModel?.scriptClueId) {[weak self] (result, error) in
+        searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: clueResultModel?.scriptClueId, script_node_id: script_node_id!) {[weak self] (result, error) in
             if error != nil {
                 return
             }

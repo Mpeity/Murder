@@ -10,33 +10,46 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PopMenuViewCellId" rowHeight="190" id="KGk-i7-Jjw" customClass="PopMenuViewCell" customModule="Murder" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="347" height="190"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PopMenuViewCellId" rowHeight="93" id="KGk-i7-Jjw" customClass="PopMenuViewCell" customModule="Murder" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="336" height="93"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="347" height="190"/>
+                <rect key="frame" x="0.0" y="0.0" width="336" height="93"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4bC-z2-whg">
-                        <rect key="frame" x="0.0" y="0.0" width="347" height="190"/>
+                        <rect key="frame" x="0.0" y="0.0" width="336" height="93"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oZd-ca-xJs">
-                        <rect key="frame" x="0.0" y="189.5" width="347" height="0.5"/>
+                        <rect key="frame" x="0.0" y="92.5" width="336" height="0.5"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="0.5" id="Mze-FE-qiH"/>
                         </constraints>
                     </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="script_check" translatesAutoresizingMaskIntoConstraints="NO" id="JS2-Yc-sWB">
-                        <rect key="frame" x="312" y="90" width="14" height="10"/>
+                        <rect key="frame" x="301" y="41.5" width="14" height="10"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="10" id="Drf-er-wGi"/>
                             <constraint firstAttribute="width" constant="14" id="HD3-ut-30q"/>
                         </constraints>
                     </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ikN-pL-9OR">
+                        <rect key="frame" x="240" y="15" width="6" height="6"/>
+                        <color key="backgroundColor" red="0.77647058820000003" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="6" id="CB9-kP-QTx"/>
+                            <constraint firstAttribute="height" constant="6" id="nO6-lT-D0g"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.connerRadius">
+                                <integer key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="4bC-z2-whg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="09B-8B-ZBh"/>
@@ -46,8 +59,10 @@
                     <constraint firstItem="oZd-ca-xJs" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="WxC-FK-7TZ"/>
                     <constraint firstItem="JS2-Yc-sWB" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="bNn-mU-9Nd"/>
                     <constraint firstAttribute="bottom" secondItem="oZd-ca-xJs" secondAttribute="bottom" id="dEZ-c8-hl3"/>
+                    <constraint firstItem="ikN-pL-9OR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="hfU-VV-qxU"/>
                     <constraint firstAttribute="trailing" secondItem="4bC-z2-whg" secondAttribute="trailing" id="oA2-2q-i1e"/>
                     <constraint firstItem="4bC-z2-whg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="oHc-EK-hkx"/>
+                    <constraint firstAttribute="trailing" secondItem="ikN-pL-9OR" secondAttribute="trailing" constant="90" id="rjz-dW-jtA"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -55,8 +70,9 @@
                 <outlet property="contentLabel" destination="4bC-z2-whg" id="X2L-RE-igL"/>
                 <outlet property="imgView" destination="JS2-Yc-sWB" id="6Dn-3S-hIm"/>
                 <outlet property="lineView" destination="oZd-ca-xJs" id="C3f-1H-GeM"/>
+                <outlet property="point" destination="ikN-pL-9OR" id="Pva-DX-qhl"/>
             </connections>
-            <point key="canvasLocation" x="107.97101449275362" y="102.45535714285714"/>
+            <point key="canvasLocation" x="136" y="138"/>
         </tableViewCell>
     </objects>
     <resources>

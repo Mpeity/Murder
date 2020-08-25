@@ -14,6 +14,7 @@ class GPChapterModel : NSObject {
     var content : String?
     var name : String?
     var scriptRoleChapterId : Int?
+    var see : Int?
 
 
     /**
@@ -23,6 +24,7 @@ class GPChapterModel : NSObject {
         content = dictionary["content"] as? String
         name = dictionary["name"] as? String
         scriptRoleChapterId = dictionary["script_role_chapter_id"] as? Int
+        see = dictionary["see"] as? Int
     }
 
     /**
@@ -39,6 +41,9 @@ class GPChapterModel : NSObject {
         }
         if scriptRoleChapterId != nil{
             dictionary["script_role_chapter_id"] = scriptRoleChapterId
+        }
+        if see != nil{
+            dictionary["see"] = see
         }
         return dictionary
     }

@@ -23,6 +23,8 @@ class GameplayViewController: UIViewController {
     var script_id: Int!
 
     
+    private var current_client_id: String!
+
     // 滑动视图
 //    @IBOutlet weak var scrollView: UIScrollView!
 //    // 背景图片
@@ -111,14 +113,14 @@ class GameplayViewController: UIViewController {
     var commonBtn: UIButton = UIButton()
     
     // 阶段
-    var stage = 1
+    var stage: Int? = -1
     
     // 举手
     var handsUp = false
     
     var voiceHide = false
     // 当前id
-    var script_node_id = 0
+    var script_node_id: Int? = 0
     // 下一个id
 //    var next_script_node_id = 0
     
@@ -137,7 +139,7 @@ class GameplayViewController: UIViewController {
         
         layout.itemSize = CGSize(width: 90, height: 76)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 15,  bottom: 0, right: 15)
-        let collectionView = UICollectionView(frame:  CGRect(x: 0, y: 50+NAVIGATION_BAR_HEIGHT, width: FULL_SCREEN_WIDTH, height: 300), collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame:  CGRect(x: 0, y: 50+NAVIGATION_BAR_HEIGHT, width: FULL_SCREEN_WIDTH, height: 100), collectionViewLayout: layout)
         
         collectionView.register(UINib(nibName: "GameplayViewCell", bundle: nil), forCellWithReuseIdentifier: GameplayViewCellId)
         collectionView.backgroundColor = UIColor.clear
@@ -201,8 +203,8 @@ class GameplayViewController: UIViewController {
 extension GameplayViewController {
     func gamePlaying() {
         if script_node_id != 0 {
-            script_node_id = 5
-            gameIngRequest(room_id: room_id, script_node_id: script_node_id) {[weak self] (result, error) in
+//            script_node_id = 5
+            gameIngRequest(room_id: room_id, script_node_id: script_node_id!) {[weak self] (result, error) in
                 if error != nil {
                     return
                 }
@@ -210,10 +212,9 @@ extension GameplayViewController {
                 guard  let resultDic :[String : AnyObject] = result else { return }
                 if resultDic["code"]!.isEqual(1) {
                     let data = resultDic["data"] as! [String : AnyObject]
-                    
                     self?.gamePlayModel = GamePlayModel(fromDictionary: data)
+                    self?.stage = self?.gamePlayModel?.scriptNodeResult.nodeType!
                     self?.refreshUI()
-                    
                     
                 } else {
                     
@@ -519,8 +520,7 @@ extension GameplayViewController {
         }
         placeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
         placeBtn.setBackgroundImage(UIImage(named: "gameplay_place"), for: .normal)
-//        placeBtn.addTarget(self, action: #selector(palceBtnAction(button:)), for: .touchUpInside)
-        placeBtn.addTarget(self, action: #selector(didOffSetBtn(sender:)), for: .touchUpInside)
+        placeBtn.addTarget(self, action: #selector(palceBtnAction(button:)), for: .touchUpInside)
         addRedPoint(commonView: placeBtn, x: 64, y: 1.5)
         
         
@@ -556,13 +556,13 @@ extension GameplayViewController {
         timerView.addSubview(timerLabel)
         timerLabel.textColor = HexColor(DarkGrayColor)
         timerLabel.font = UIFont.systemFont(ofSize: 10)
-        let string = "カウントダウン\(timerCount)s"
-        let ranStr = String(timerCount)
-        let attrstring:NSMutableAttributedString = NSMutableAttributedString(string:string)
-        let str = NSString(string: string)
-        let theRange = str.range(of: ranStr)
-        attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#ED2828"), range: theRange)
-        timerLabel.attributedText = attrstring
+//        let string = "カウントダウン\(timerCount)s"
+//        let ranStr = String(timerCount)
+//        let attrstring:NSMutableAttributedString = NSMutableAttributedString(string:string)
+//        let str = NSString(string: string)
+//        let theRange = str.range(of: ranStr)
+//        attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#ED2828"), range: theRange)
+//        timerLabel.attributedText = attrstring
         timerLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(15)
             make.right.equalToSuperview().offset(-15)
@@ -851,7 +851,8 @@ extension GameplayViewController {
     
     // 搜证
     func gameSearch(script_place_id: Int) {
-        searchClueRequest(room_id: room_id, script_place_id: script_place_id, script_clue_id: nil) {[weak self] (result, error) in
+        script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
+        searchClueRequest(room_id: room_id, script_place_id: script_place_id, script_clue_id: nil, script_node_id: script_node_id!) {[weak self] (result, error) in
             if error != nil {
                 return
             }
@@ -865,6 +866,7 @@ extension GameplayViewController {
                 threadCardView.clueResultModel = clueResultModel
                 threadCardView.script_place_id = script_place_id
                 threadCardView.room_id = self!.room_id
+                threadCardView.script_node_id = self!.script_node_id
                 threadCardView.deepBtnActionBlock = {[weak self] (param)->() in
                     
                 }
@@ -1067,8 +1069,9 @@ extension GameplayViewController {
     
     //MARK: 系统配置未知按钮
     @objc func commonBtnAction(button: UIButton) {
-        
-        gameReadyRequest(room_id: room_id, current_script_node_id: script_node_id) {[weak self] (result, error) in
+//        节点类型【1故事背景2自我介绍3剧本阅读4搜证5答题6结算】
+        script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId! as! Int
+        gameReadyRequest(room_id: room_id, current_script_node_id: script_node_id!) {[weak self] (result, error) in
             if error != nil {
                 return
             }
@@ -1076,51 +1079,46 @@ extension GameplayViewController {
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
-                self?.script_node_id = data["next_script_node_id"] as! Int
             }
         }
         
         switch stage {
         case 1:
-            // 点击进入下一个阶段
-            timerView.isHidden = false
-            timer?.fire()
-            handsUp = true
+            // 故事背景
+//            timerView.isHidden = false
+//            timer?.fire()
             collectionView.reloadData()
-            stage += 1
             break
         case 2:
-//            handsUp = false
-
-            timerCount = 0
-            timerView.isHidden = true
-            timer?.invalidate()
-            // 阅读剧本
-            stage += 1
+            // 自我介绍
+//            timerCount = 0
+//            timerView.isHidden = true
+            
+            
             break
         case 3:
-            // 搜证
-            searchImgView.isHidden = false
-            emptyBtn.isHidden = false
-            searchBtn.isHidden = false
-            stage += 1
+            // 阅读剧本
+            
             break
         case 4:
-            // 投票
+            // 搜证
+//            remainingView.isHidden = true
+            break
+        case 5:
+            // 5 答题
+//            remainingView.isHidden = true
+//            voteInfoBtn.isHidden = false
+//            voteResultBtn.isHidden = false
             let commonView = QuestionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
             commonView.room_id = room_id
             commonView.script_node_id = script_node_id
             commonView.scriptQuestionList = gamePlayModel?.scriptNodeResult.scriptQuestionList
             commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
             self.view.addSubview(commonView)
-            stage += 1
             break
-        case 5:
-//            let commonView = BillingInfoView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-//            commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-//            self.view.addSubview(commonView)
             
-            remainingView.isHidden = true
+        case 6:
+            // 6 结算
             voteInfoBtn.isHidden = false
             voteResultBtn.isHidden = false
             break
@@ -1165,6 +1163,8 @@ extension GameplayViewController: CollogueRoomViewDelegate {
 
 extension GameplayViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    
+    
     //MARK: - Delegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (gamePlayModel != nil) {
@@ -1179,10 +1179,6 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
         
         let itemModel = gamePlayModel!.scriptRoleList[indexPath.row]
         cell.backgroundColor = UIColor.clear
-        
-//        ready_ok
-//        apply_dismiss
-        
         
         // 是否有人发起解散申请
         if itemModel.applyDismiss == 1  { // 是
@@ -1378,11 +1374,28 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
             if let index = getIndexWithUserIsSpeaking(uid: (speaker.user?.userId)!),
                 let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
                 if index%2 == 0 {
-                    cell.l_voiceView.isHidden = false
-                    cell.l_voiceImgView.isHidden = false
+                    if totalVolume == 0 {
+                        cell.l_voiceView.isHidden = false
+                        cell.l_voiceImgView.isHidden = false
+                        cell.l_animation = true
+                    } else {
+                        cell.l_voiceView.isHidden = true
+                        cell.l_voiceImgView.isHidden = true
+                        cell.l_animation = false
+                    }
+                    
                 } else {
-                    cell.r_voiceView.isHidden = false
-                    cell.r_voiceImgView.isHidden = false
+                    if totalVolume == 0 {
+                        cell.r_voiceView.isHidden = false
+                        cell.r_voiceImgView.isHidden = false
+                        cell.r_animation = true
+                    } else {
+                        cell.r_voiceView.isHidden = true
+                        cell.r_voiceImgView.isHidden = true
+                        cell.r_animation = false
+                    }
+//                    cell.r_voiceView.isHidden = false
+//                    cell.r_voiceImgView.isHidden = false
                 }
             }
         }
@@ -1420,26 +1433,60 @@ extension GameplayViewController: WebSocketDelegate {
     }
     
     func websocketDidConnect(socket: WebSocketClient) {
-        Log("websocketDidConnect=\(socket)")
+        Log("gameplay--websocketDidConnect=\(socket)")
     }
     
     func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
-         Log("websocketDidDisconnect=\(socket)\(error)")
+         Log("gameplay--websocketDidDisconnect=\(socket)\(error)")
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-        Log("websocketDidReceiveMessage=\(socket)\(text)")
-        
-//        let data = resultDic["data"] as! [String : AnyObject]
-//
-//        gamePlayModel = GamePlayModel(fromDictionary: data)
-//        refreshUI()
+        Log("gameplay--websocketDidReceiveMessage=\(socket)\(text)")
+        let dic = getDictionaryFromJSONString(jsonString: text)
+        current_client_id = dic["client_id"] as? String
+        let datas = getJSONStringFromDictionary(dictionary: ["room_id":room_id as Int])
+
+        if dic["type"] as? String == "init" {
+            bindRequest(scene: 1, client_id: current_client_id, datas: datas) { (result, error) in
+            }
+        } else if (dic["type"] as? String == "game_ing") {
+            guard  let resultDic :[String : AnyObject] = dic as? [String : AnyObject] else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                gamePlayModel = GamePlayModel(fromDictionary: data)
+                stage = gamePlayModel?.scriptNodeResult.nodeType!
+                refreshUI()
+            }
+        } else if (dic["type"] as? String == "room_ready") {
+            
+            
+        } else if (dic["type"] as? String == "game_countdown") { // 倒计时
+            guard  let resultDic :[String : AnyObject] = dic as? [String : AnyObject] else { return }
+            if resultDic["code"]!.isEqual(1) {
+                
+                let data = resultDic["data"] as! [String : AnyObject]
+                let count = data["countdown"] as! Int
+                timerView.isHidden = false
+                if count == 0 {
+                    timer?.invalidate()
+                    timerView.isHidden = true
+                }
+                let string = "カウントダウン\(count)s"
+                let ranStr = String(count)
+                let attrstring:NSMutableAttributedString = NSMutableAttributedString(string:string)
+                let str = NSString(string: string)
+                let theRange = str.range(of: ranStr)
+                attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#ED2828"), range: theRange)
+                timerLabel.attributedText = attrstring
+            }
+            
+        }
+
+
     }
     
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-        Log("websocketDidReceiveData=\(socket)\(data)")
-
-
+        Log("gameplay--websocketDidReceiveData=\(socket)\(data)")
     }
 
 }

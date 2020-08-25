@@ -12,8 +12,29 @@ private let VoteCommonCellId = "VoteCommonCellId"
 
 class VoteCommonView: UIView {
     
+    var trueUsers : [TrueUserModel]? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
     // 题目选项
-    private lazy var tableView: UITableView = UITableView()
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical     //滚动方向
+        // 行间距
+        layout.minimumLineSpacing = 0
+        // 列间距
+        layout.minimumInteritemSpacing = 5
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0,  bottom: 0, right: 0)
+        let collectionView = UICollectionView(frame:  CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH-100, height: 66), collectionViewLayout: layout)
+        collectionView.register(UINib(nibName: "VoteCommonCell", bundle: nil), forCellWithReuseIdentifier: VoteCommonCellId)
+        collectionView.backgroundColor = UIColor.clear
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
+        return collectionView
+    }()
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,50 +49,41 @@ class VoteCommonView: UIView {
 
 extension VoteCommonView {
     private func setUI() {
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: "VotePlayerCell", bundle: nil), forCellReuseIdentifier: VoteCommonCellId)
-        // 隐藏cell系统分割线
-        tableView.separatorStyle = .none;
-        tableView.transform = CGAffineTransform(rotationAngle: CGFloat(-.pi*0.5))
-        tableView.rowHeight = 65
-        tableView.backgroundColor = HexColor("#F5F5F5")
-        self.addSubview(tableView)
-        tableView.snp.makeConstraints { (make) in
-           make.top.equalToSuperview()
-           make.left.equalToSuperview()
-           make.width.equalToSuperview()
-           make.bottom.equalToSuperview()
-        }
-
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        self.addSubview(collectionView)
     }
 }
 
 
 
-extension VoteCommonView: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return 2
+extension VoteCommonView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let item = trueUsers![indexPath.item]
+        let width = labelWidth(text: item.name!, height: 21, fontSize: 12)
+        return CGSize(width: 60, height: 66)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-  
-        let cell = tableView.dequeueReusableCell(withIdentifier: VoteCommonCellId, for: indexPath) as! VotePlayerCell
-        cell.contentView.transform = CGAffineTransform(rotationAngle: CGFloat(.pi*0.5))
-        cell.selectionStyle = .none
-        cell.backgroundColor = HexColor("#F5F5F5")
-        cell.isSelected = false
-        return cell
+    //MARK: - Delegate
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return trueUsers!.count
+     }
+     
+     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VoteCommonCellId, for: indexPath) as! VoteCommonCell
+        let item = trueUsers![indexPath.item]
+        cell.itemModel = item
+         return cell
+     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
         
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
-    
+
     
       
 }

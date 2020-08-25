@@ -8,11 +8,33 @@
 
 import UIKit
 
-private let VoteChoiceCellId = "VoteChoiceCellId"
+private let VoteAnswerCellId = "VoteAnswerCellId"
 class AnswerView: UIView {
     
+    var trueAnswers : [TrueAnswerModel]? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
+    
+    
     // 题目选项
-    private lazy var tableView: UITableView = UITableView()
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical     //滚动方向
+        // 行间距
+        layout.minimumLineSpacing = 0
+        // 列间距
+        layout.minimumInteritemSpacing = 5
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0,  bottom: 0, right: 0)
+        let collectionView = UICollectionView(frame:  CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH-100, height: 25), collectionViewLayout: layout)
+        collectionView.register(UINib(nibName: "VoteAnswerCell", bundle: nil), forCellWithReuseIdentifier: VoteAnswerCellId)
+        collectionView.backgroundColor = UIColor.clear
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
+        return collectionView
+    }()
     
     
     override init(frame: CGRect) {
@@ -28,52 +50,42 @@ class AnswerView: UIView {
 
 extension AnswerView {
     private func setUI() {
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: "VoteChoiceCell", bundle: nil), forCellReuseIdentifier: VoteChoiceCellId)
-        // 隐藏cell系统分割线
-        tableView.separatorStyle = .none;
-        tableView.transform = CGAffineTransform(rotationAngle: CGFloat(-.pi*0.5))
-        tableView.rowHeight = 100
-        tableView.backgroundColor = HexColor("#F5F5F5")
-        tableView.center = CGPoint(x: tableView.frame.size.width / 2, y: tableView.frame.size.height / 2)
-        self.addSubview(tableView)
-        tableView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.left.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(25)
-            
-        }
-
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        self.addSubview(collectionView)
     }
 }
 
 
 
-extension AnswerView: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return 4
+extension AnswerView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let item = trueAnswers![indexPath.item]
+        let width = labelWidth(text: item.answerTitle!, height: 25, fontSize: 12)
+        return CGSize(width: width+20+25+13, height: 25)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    //MARK: - Delegate
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return trueAnswers!.count
+     }
+     
+     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-  
-        let cell = tableView.dequeueReusableCell(withIdentifier: VoteChoiceCellId, for: indexPath) as! VoteChoiceCell
-        cell.contentView.transform = CGAffineTransform(rotationAngle: CGFloat(.pi*0.5))
-        cell.selectionStyle = .none
-        cell.backgroundColor = HexColor("#F5F5F5")
-        cell.isSelected = false
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VoteAnswerCellId, for: indexPath) as! VoteAnswerCell
+        let item = trueAnswers![indexPath.item]
+        cell.itemModel = item
         return cell
+     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
         
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
-    
+
     
       
 }

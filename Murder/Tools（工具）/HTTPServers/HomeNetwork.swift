@@ -226,16 +226,17 @@ private let search_clue_url = "/api/game/search_clue"
  * @params [参数名] [类型] [是否必传]
  * room_id [int]    是    房间ID
  * script_place_id [int]    是    地点ID
- * script_clue_id [int]        线索ID【可深入线索时查看】
+ * script_clue_id [int]      否  线索ID【可深入线索时查看】
+ * script_node_id [int]    是    游戏节点ID
  */
-func searchClueRequest(room_id: Int, script_place_id: Int, script_clue_id: Int?, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+func searchClueRequest(room_id: Int, script_place_id: Int, script_clue_id: Int?,script_node_id: Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
     
     let urlString = search_clue_url
     var parameters = [:] as [String : AnyObject]
     if script_clue_id != nil {
-        parameters = ["room_id" : room_id, "script_place_id": script_place_id, "script_clue_id" : script_clue_id] as [String : AnyObject]
+        parameters = ["room_id" : room_id, "script_place_id": script_place_id, "script_clue_id" : script_clue_id, "script_node_id" : script_node_id] as [String : AnyObject]
     } else {
-        parameters = ["room_id" : room_id, "script_place_id": script_place_id] as [String : AnyObject]
+        parameters = ["room_id" : room_id, "script_place_id": script_place_id, "script_node_id" : script_node_id] as [String : AnyObject]
     }
     
     NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
@@ -346,13 +347,12 @@ private let game_vote_url = "/api/game/game_vote"
  * @params [参数名] [类型] [是否必传]
  * room_id [int]    是    房间ID
  * script_node_id [int]    是    游戏节点ID
- * script_question_id [int]    是    问题ID
- * user_script_answer_ids [String]    是    用户选择的答案ID【json字符串格式】
+ * script_question 复制 [int]    是    问题答案数据【格式额外说明】
  */
-func gameVoteRequest(room_id: Int, script_node_id: Int, script_question_id: Int, user_script_answer_ids:String, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+func gameVoteRequest(room_id: Int, script_node_id: Int, script_question: String, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
     
     let urlString = game_vote_url
-    let parameters = ["room_id" : room_id, "script_node_id": script_node_id, "script_question_id" : script_question_id,"user_script_answer_ids":user_script_answer_ids] as [String : AnyObject]
+    let parameters = ["room_id" : room_id, "script_node_id": script_node_id, "script_question" : script_question] as [String : AnyObject]
     NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }

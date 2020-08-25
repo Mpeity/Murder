@@ -13,10 +13,14 @@ class PopMenuViewCell: UITableViewCell {
     @IBOutlet weak var lineView: UIView!
     
     @IBOutlet weak var imgView: UIImageView!
+    
+    @IBOutlet weak var point: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         imgView.isHidden = false
+        point.isHidden = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -109,6 +109,10 @@
 		986A540D24EB796D004140F3 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A540C24EB796D004140F3 /* ImageDownloader.swift */; };
 		986A540F24EB89E8004140F3 /* ScriptSourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A540E24EB89E8004140F3 /* ScriptSourceModel.swift */; };
 		986A541124EBAAB7004140F3 /* ScriptNodeMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A541024EBAAB7004140F3 /* ScriptNodeMapModel.swift */; };
+		986D9EB824F3917A005E6B03 /* VoteAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986D9EB624F3917A005E6B03 /* VoteAnswerCell.swift */; };
+		986D9EBD24F392D2005E6B03 /* VoteAnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 986D9EBB24F392D2005E6B03 /* VoteAnswerCell.xib */; };
+		986D9EC024F39650005E6B03 /* VoteCommonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986D9EBE24F39650005E6B03 /* VoteCommonCell.swift */; };
+		986D9EC124F39650005E6B03 /* VoteCommonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 986D9EBF24F39650005E6B03 /* VoteCommonCell.xib */; };
 		9871EB3C24E41D9D006464A4 /* ScriptModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9871EB3B24E41D9D006464A4 /* ScriptModel.swift */; };
 		9871EB3E24E41E3B006464A4 /* ScriptListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9871EB3D24E41E3B006464A4 /* ScriptListModel.swift */; };
 		9871EB4024E41EAB006464A4 /* ScriptTagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9871EB3F24E41EAB006464A4 /* ScriptTagModel.swift */; };
@@ -141,10 +145,6 @@
 		98A268C024D90EF4004B9D53 /* VoteResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A268BF24D90EF4004B9D53 /* VoteResultView.swift */; };
 		98A268C324D9148D004B9D53 /* VoteResultViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A268C124D9148D004B9D53 /* VoteResultViewCell.swift */; };
 		98A268C424D9148D004B9D53 /* VoteResultViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A268C224D9148D004B9D53 /* VoteResultViewCell.xib */; };
-		98A268C724D934DF004B9D53 /* VoteChoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A268C524D934DF004B9D53 /* VoteChoiceCell.swift */; };
-		98A268C824D934DF004B9D53 /* VoteChoiceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A268C624D934DF004B9D53 /* VoteChoiceCell.xib */; };
-		98A268CB24D9377C004B9D53 /* VotePlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A268C924D9377C004B9D53 /* VotePlayerCell.swift */; };
-		98A268CC24D9377C004B9D53 /* VotePlayerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A268CA24D9377C004B9D53 /* VotePlayerCell.xib */; };
 		98A268CE24D938C4004B9D53 /* AnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A268CD24D938C4004B9D53 /* AnswerView.swift */; };
 		98A268D024D938ED004B9D53 /* VoteCommonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A268CF24D938ED004B9D53 /* VoteCommonView.swift */; };
 		98A447D124DCE6F200C54969 /* HomeNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A447D024DCE6F200C54969 /* HomeNetwork.swift */; };
@@ -361,6 +361,10 @@
 		986A540C24EB796D004140F3 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		986A540E24EB89E8004140F3 /* ScriptSourceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptSourceModel.swift; sourceTree = "<group>"; };
 		986A541024EBAAB7004140F3 /* ScriptNodeMapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptNodeMapModel.swift; sourceTree = "<group>"; };
+		986D9EB624F3917A005E6B03 /* VoteAnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteAnswerCell.swift; sourceTree = "<group>"; };
+		986D9EBB24F392D2005E6B03 /* VoteAnswerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteAnswerCell.xib; sourceTree = "<group>"; };
+		986D9EBE24F39650005E6B03 /* VoteCommonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteCommonCell.swift; sourceTree = "<group>"; };
+		986D9EBF24F39650005E6B03 /* VoteCommonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VoteCommonCell.xib; sourceTree = "<group>"; };
 		9871EB3B24E41D9D006464A4 /* ScriptModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptModel.swift; sourceTree = "<group>"; };
 		9871EB3D24E41E3B006464A4 /* ScriptListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptListModel.swift; sourceTree = "<group>"; };
 		9871EB3F24E41EAB006464A4 /* ScriptTagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptTagModel.swift; sourceTree = "<group>"; };
@@ -393,10 +397,6 @@
 		98A268BF24D90EF4004B9D53 /* VoteResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteResultView.swift; sourceTree = "<group>"; };
 		98A268C124D9148D004B9D53 /* VoteResultViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteResultViewCell.swift; sourceTree = "<group>"; };
 		98A268C224D9148D004B9D53 /* VoteResultViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VoteResultViewCell.xib; sourceTree = "<group>"; };
-		98A268C524D934DF004B9D53 /* VoteChoiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteChoiceCell.swift; sourceTree = "<group>"; };
-		98A268C624D934DF004B9D53 /* VoteChoiceCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VoteChoiceCell.xib; sourceTree = "<group>"; };
-		98A268C924D9377C004B9D53 /* VotePlayerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VotePlayerCell.swift; sourceTree = "<group>"; };
-		98A268CA24D9377C004B9D53 /* VotePlayerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VotePlayerCell.xib; sourceTree = "<group>"; };
 		98A268CD24D938C4004B9D53 /* AnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerView.swift; sourceTree = "<group>"; };
 		98A268CF24D938ED004B9D53 /* VoteCommonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteCommonView.swift; sourceTree = "<group>"; };
 		98A447D024DCE6F200C54969 /* HomeNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNetwork.swift; sourceTree = "<group>"; };
@@ -902,11 +902,11 @@
 				98A268C124D9148D004B9D53 /* VoteResultViewCell.swift */,
 				98A268C224D9148D004B9D53 /* VoteResultViewCell.xib */,
 				98A268CD24D938C4004B9D53 /* AnswerView.swift */,
-				98A268C524D934DF004B9D53 /* VoteChoiceCell.swift */,
-				98A268C624D934DF004B9D53 /* VoteChoiceCell.xib */,
-				98A268C924D9377C004B9D53 /* VotePlayerCell.swift */,
-				98A268CA24D9377C004B9D53 /* VotePlayerCell.xib */,
+				986D9EBB24F392D2005E6B03 /* VoteAnswerCell.xib */,
+				986D9EB624F3917A005E6B03 /* VoteAnswerCell.swift */,
 				98A268CF24D938ED004B9D53 /* VoteCommonView.swift */,
+				986D9EBE24F39650005E6B03 /* VoteCommonCell.swift */,
+				986D9EBF24F39650005E6B03 /* VoteCommonCell.xib */,
 			);
 			path = "voteResult（投票结果）";
 			sourceTree = "<group>";
@@ -1281,7 +1281,6 @@
 				983A225624DA54A600532BB9 /* MessageScriptCell.xib in Resources */,
 				98649DE724CEC720005AA9C3 /* MyFriendsListCell.xib in Resources */,
 				98A268C424D9148D004B9D53 /* VoteResultViewCell.xib in Resources */,
-				98A268C824D934DF004B9D53 /* VoteChoiceCell.xib in Resources */,
 				9868A32C24C98D2A009FD8F4 /* PopMenuViewCell.xib in Resources */,
 				98649DCB24CE64B1005AA9C3 /* ListPopUpView.xib in Resources */,
 				98C8D2C524CDD2FC006C76D0 /* FeedbackViewController.xib in Resources */,
@@ -1315,7 +1314,9 @@
 				98038F5524D7A27200CBCEE7 /* MarqueeViewCell.xib in Resources */,
 				04C3A9D624C1808D001DD90D /* Assets.xcassets in Resources */,
 				98820FA724CA71E00005EBDD /* HomeListHeaderView.xib in Resources */,
+				986D9EBD24F392D2005E6B03 /* VoteAnswerCell.xib in Resources */,
 				983FD1A824D27CE40041D79E /* ApplyFriendsListCell.xib in Resources */,
+				986D9EC124F39650005E6B03 /* VoteCommonCell.xib in Resources */,
 				98C8D2CE24CDD6DC006C76D0 /* SettingListCell.xib in Resources */,
 				98649DDC24CEB502005AA9C3 /* CreateRoomHeaderView.xib in Resources */,
 				9868A31724C9313C009FD8F4 /* CollogueRoomView.xib in Resources */,
@@ -1342,7 +1343,6 @@
 				98A79B3E24D1695A00ECBD2A /* ShareView.xib in Resources */,
 				98649DEF24CEDB65005AA9C3 /* CreateRoomViewController.xib in Resources */,
 				98C8D2BE24CDBD02006C76D0 /* RecordDetailHeaderView.xib in Resources */,
-				98A268CC24D9377C004B9D53 /* VotePlayerCell.xib in Resources */,
 				98820FB024CA97F30005EBDD /* ThreadLeftCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1499,6 +1499,7 @@
 				98A79B3724D1591B00ECBD2A /* OutOfRoomView.swift in Sources */,
 				9866C16424E4E09E00810516 /* MineNetwork.swift in Sources */,
 				983A225D24DA5A1000532BB9 /* MessageTextCell.swift in Sources */,
+				986D9EB824F3917A005E6B03 /* VoteAnswerCell.swift in Sources */,
 				98649DD424CE7C76005AA9C3 /* RoleIntroductionCell.swift in Sources */,
 				9868A32B24C98D2A009FD8F4 /* PopMenuViewCell.swift in Sources */,
 				98649DEB24CEDAB2005AA9C3 /* ScriptDetailsViewController.swift in Sources */,
@@ -1541,13 +1542,13 @@
 				98A447D124DCE6F200C54969 /* HomeNetwork.swift in Sources */,
 				98D6CF1224E0E05400A47FEF /* UserAccountViewModel.swift in Sources */,
 				98A447D324DCE88000C54969 /* LoginNetwork.swift in Sources */,
+				986D9EC024F39650005E6B03 /* VoteCommonCell.swift in Sources */,
 				983A225924DA54D200532BB9 /* MessageScriptInviteCell.swift in Sources */,
 				9867FED524C8500100A93E5F /* DissolveView.swift in Sources */,
 				9868A31A24C931F0009FD8F4 /* CollogueRoomViewCell.swift in Sources */,
 				98820FB624CAB7160005EBDD /* ThreadCardView.swift in Sources */,
 				9868A33224C9A765009FD8F4 /* BillingInfoViewCell.swift in Sources */,
 				98A79B3424D148CB00ECBD2A /* PrepareRoomCell.swift in Sources */,
-				98A268C724D934DF004B9D53 /* VoteChoiceCell.swift in Sources */,
 				98820FAF24CA97F30005EBDD /* ThreadLeftCell.swift in Sources */,
 				9844204A24EE0FDA001A0D7C /* GPScriptNodeResultModel.swift in Sources */,
 				983A225524DA54A600532BB9 /* MessageScriptCell.swift in Sources */,
@@ -1556,7 +1557,6 @@
 				98F08C0524E2765F0033DFBA /* TagModel.swift in Sources */,
 				9868A32F24C9A74F009FD8F4 /* BillingInfoView.swift in Sources */,
 				98A447D624DCF4A600C54969 /* UserAccount.swift in Sources */,
-				98A268CB24D9377C004B9D53 /* VotePlayerCell.swift in Sources */,
 				9871EB4024E41EAB006464A4 /* ScriptTagModel.swift in Sources */,
 				9868A32124C95F72009FD8F4 /* ReadScriptView.swift in Sources */,
 				98F08BF724E237EE0033DFBA /* HomeBannerModel.swift in Sources */,

@@ -40,32 +40,7 @@
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YR7-2C-U1i">
                         <rect key="frame" x="71" y="71.5" width="399" height="25"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="49b-vD-J0H">
-                                <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="25" id="a3d-f9-Zv8"/>
-                                </constraints>
-                                <state key="normal" title="A">
-                                    <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="かごめ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7sC-5D-uAw">
-                                <rect key="frame" x="38.5" y="0.0" width="46" height="25"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="7sC-5D-uAw" firstAttribute="top" secondItem="YR7-2C-U1i" secondAttribute="top" id="EhT-uh-kXV"/>
-                            <constraint firstAttribute="bottom" secondItem="7sC-5D-uAw" secondAttribute="bottom" id="Eng-6U-afM"/>
-                            <constraint firstItem="49b-vD-J0H" firstAttribute="top" secondItem="YR7-2C-U1i" secondAttribute="top" id="IoX-hU-FGW"/>
-                            <constraint firstItem="49b-vD-J0H" firstAttribute="leading" secondItem="YR7-2C-U1i" secondAttribute="leading" id="fuZ-Cn-nO0"/>
-                            <constraint firstAttribute="bottom" secondItem="49b-vD-J0H" secondAttribute="bottom" id="sAd-xp-Btb"/>
-                            <constraint firstItem="7sC-5D-uAw" firstAttribute="leading" secondItem="49b-vD-J0H" secondAttribute="trailing" constant="13.5" id="wjM-Mi-SWY"/>
-                        </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当たるプレーヤー：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eLJ-bj-ADs">
                         <rect key="frame" x="15" y="109.5" width="138" height="18"/>
@@ -75,29 +50,7 @@
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RAb-ZL-TbZ">
                         <rect key="frame" x="15" y="139.5" width="455" height="140.5"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avart_one" translatesAutoresizingMaskIntoConstraints="NO" id="wTT-Ah-F6A">
-                                <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="45" id="i5s-yQ-zym"/>
-                                    <constraint firstAttribute="height" constant="45" id="pfU-9z-5lb"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="かのん" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nbn-yW-JQ1">
-                                <rect key="frame" x="0.0" y="51.5" width="45" height="14.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="nbn-yW-JQ1" firstAttribute="centerX" secondItem="wTT-Ah-F6A" secondAttribute="centerX" id="OYf-ih-Hw9"/>
-                            <constraint firstItem="nbn-yW-JQ1" firstAttribute="leading" secondItem="RAb-ZL-TbZ" secondAttribute="leading" id="bxG-01-5kD"/>
-                            <constraint firstItem="wTT-Ah-F6A" firstAttribute="leading" secondItem="RAb-ZL-TbZ" secondAttribute="leading" id="qXy-pu-nLi"/>
-                            <constraint firstItem="wTT-Ah-F6A" firstAttribute="top" secondItem="RAb-ZL-TbZ" secondAttribute="top" id="uIr-PG-oC0"/>
-                            <constraint firstItem="nbn-yW-JQ1" firstAttribute="top" secondItem="wTT-Ah-F6A" secondAttribute="bottom" constant="6.5" id="yQt-kT-TPu"/>
-                        </constraints>
                     </view>
                 </subviews>
                 <constraints>
@@ -131,7 +84,4 @@
             <point key="canvasLocation" x="33" y="28"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="avart_one" width="38" height="38.5"/>
-    </resources>
 </document>
