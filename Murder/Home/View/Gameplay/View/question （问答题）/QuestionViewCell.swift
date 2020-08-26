@@ -27,6 +27,19 @@ class QuestionViewCell: UITableViewCell {
             if itemModel?.num != nil {
                 choiceBtn.setTitle(itemModel?.num, for: .normal)
             }
+            
+            if itemModel?.isCheck == true {
+                choiceBtn.setTitleColor(UIColor.white, for: .normal)
+                choiceBtn.backgroundColor = HexColor(MainColor)
+                choiceBtn.layer.borderColor = HexColor(MainColor).cgColor
+                contentLabel.textColor = HexColor(MainColor)
+            } else {
+                choiceBtn.setTitleColor(HexColor(DarkGrayColor), for: .normal)
+                choiceBtn.backgroundColor = HexColor("#F5F5F5")
+//                choiceBtn.setTitleColor(HexColor(DarkGrayColor), for: .normal)
+                choiceBtn.layer.borderColor = HexColor(LightGrayColor).cgColor
+                contentLabel.textColor = HexColor(DarkGrayColor)
+            }
         }
     }
     
@@ -43,18 +56,18 @@ class QuestionViewCell: UITableViewCell {
 
         // Configure the view for the selected state
         
-        choiceBtn.isSelected = selected
-        if selected {
-            choiceBtn.setTitleColor(UIColor.white, for: .normal)
-            choiceBtn.backgroundColor = HexColor(MainColor)
-            choiceBtn.layer.borderColor = HexColor(MainColor).cgColor
-            contentLabel.textColor = HexColor(MainColor)
-        } else {
-            choiceBtn.backgroundColor = HexColor("#F5F5F5")
-            choiceBtn.setTitleColor(HexColor(DarkGrayColor), for: .normal)
-            choiceBtn.layer.borderColor = HexColor(LightGrayColor).cgColor
-            contentLabel.textColor = HexColor(DarkGrayColor)
-        }
+//        choiceBtn.isSelected = selected
+//        if selected {
+//            choiceBtn.setTitleColor(UIColor.white, for: .normal)
+//            choiceBtn.backgroundColor = HexColor(MainColor)
+//            choiceBtn.layer.borderColor = HexColor(MainColor).cgColor
+//            contentLabel.textColor = HexColor(MainColor)
+//        } else {
+//            choiceBtn.backgroundColor = HexColor("#F5F5F5")
+//            choiceBtn.setTitleColor(HexColor(DarkGrayColor), for: .normal)
+//            choiceBtn.layer.borderColor = HexColor(LightGrayColor).cgColor
+//            contentLabel.textColor = HexColor(DarkGrayColor)
+//        }
         
     }
     

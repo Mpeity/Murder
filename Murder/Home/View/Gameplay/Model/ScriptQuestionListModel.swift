@@ -15,6 +15,8 @@ class ScriptAnswerModel : NSObject {
     var isAnswer : Int?
     var scriptAnswerId : Int?
     var num : String?
+    
+    var isCheck: Bool?
 
 
     /**

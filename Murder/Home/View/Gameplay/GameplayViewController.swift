@@ -1490,18 +1490,20 @@ extension GameplayViewController: WebSocketDelegate {
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-        Log("gameplay--websocketDidReceiveMessage=\(socket)\(text)")
         let dic = getDictionaryFromJSONString(jsonString: text)
         current_client_id = dic["client_id"] as? String
         let datas = getJSONStringFromDictionary(dictionary: ["room_id":room_id as Int])
-
         if dic["type"] as? String == "init" {
+            Log("gameplay--websocketDidReceiveMessage=\(socket)\(text)")
+
             bindRequest(scene: 1, client_id: current_client_id, datas: datas) { (result, error) in
             }
         } else if (dic["type"] as? String == "game_ing") {
             guard  let resultDic :[String : AnyObject] = dic as? [String : AnyObject] else { return }
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
+                Log("gameplay--websocketDidReceiveMessage=\(socket)\(data)")
+
                 gamePlayModel = GamePlayModel(fromDictionary: data)
                 stage = gamePlayModel?.scriptNodeResult.nodeType!
                 refreshUI()
@@ -1531,6 +1533,9 @@ extension GameplayViewController: WebSocketDelegate {
             if resultDic["code"]!.isEqual(1) {
                 
                 let data = resultDic["data"] as! [String : AnyObject]
+                
+                Log("gameplay--websocketDidReceiveMessage=\(socket)\(data)")
+
                 let count = data["countdown"] as! Int
                 timerView.isHidden = false
                 if count == 0 {

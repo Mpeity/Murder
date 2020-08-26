@@ -84,6 +84,8 @@ class QuestionView: UIView {
                        make.bottom.equalToSuperview().offset(-10)
                     }
                 }
+                confirmBtn.layoutIfNeeded()
+                confirmBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
                 
             } else {
                 if selectedIndex == scriptQuestionList!.count-1 {
@@ -106,7 +108,6 @@ class QuestionView: UIView {
                     }
                 }
                 confirmBtn.layoutIfNeeded()
-//                confirmBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
                 confirmBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
             }
         }
@@ -319,18 +320,16 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
         questionType = questionModel.questionType!
         if questionType == 0 { // 单选
             if selectPath == indexPath {
-                cell.isSelected = true
+                model.isCheck = true
             } else{
-                cell.isSelected = false
+                model.isCheck = false
             }
         } else { // 多选
-            self.tableView.allowsMultipleSelectionDuringEditing = true
-
             if self.cellIndexPath != nil  {
                 if self.cellIndexPath!.contains(indexPath) {
-                    cell.isSelected = true
+                    model.isCheck = true
                 } else {
-                    cell.isSelected = false
+                    model.isCheck = false
                 }
             }
 
@@ -343,44 +342,37 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let questionModel = scriptQuestionList![selectedIndex]
         questionType = questionModel.questionType!
-        
         if questionType == 0 { // 单选
-            if selectPath == nil {
-                let cell = tableView.cellForRow(at: indexPath);
-                selectPath = indexPath
-                cell?.isSelected = true
-            } else {
-                if selectPath == indexPath {
-                    let cell = tableView.cellForRow(at: indexPath)
-                    cell?.isSelected = false
-                    selectPath = nil
+            
+            
+            for (index,item) in choiceArr!.enumerated() {
+                let path = IndexPath(row: index, section: 0)
+                let cell = tableView.cellForRow(at: path) as? QuestionViewCell
+                if path == indexPath {
+                     selectPath = indexPath
+                    item.isCheck = true
                 } else {
-                    let cell1 = tableView.cellForRow(at: selectPath!)
-                    cell1?.isSelected = false
-                    selectPath = indexPath
-                    let cell = tableView.cellForRow(at: indexPath)
-                    cell?.isSelected = true
+                    item.isCheck = false
                 }
+                cell?.itemModel = item
             }
             
         } else { // 多选
-            let cell = tableView.cellForRow(at: indexPath) as! QuestionViewCell
-
+            let model = choiceArr![indexPath.row]
+            let cell = tableView.cellForRow(at: indexPath) as? QuestionViewCell
             if cellIndexPath != nil {
                 if self.cellIndexPath!.contains(indexPath) {
                     self.cellIndexPath!.remove(indexPath)
-                    cell.choiceBtn.isSelected = false
-                    cell.isSelected = false
+                    model.isCheck = false
                 } else {
                     self.cellIndexPath!.add(indexPath)
-                    cell.choiceBtn.isSelected = true
-                    cell.isSelected = true
+                    model.isCheck = true
                 }
             } else {
                 self.cellIndexPath!.add(indexPath)
-                cell.choiceBtn.isSelected = true
-                cell.isSelected = true
+                model.isCheck = true
             }
+            cell?.itemModel = model
         }
     }
 }
