@@ -22,12 +22,15 @@ class GPScriptNodeResultModel : NSObject {
     var scriptNodeMapList : [GPNodeMapListModel]?
     var scriptPlaceList : [GPPlaceListModel]?
     var scriptQuestionList : [ScriptQuestionListModel]!
+    var myRoleId : Int!
+
 
 
     /**
      * Instantiate the instance using the passed dictionary values to set the properties values
      */
     init(fromDictionary dictionary: [String:Any]){
+        
         buttonName = dictionary["button_name"] as? String
         chapter = [GPChapterModel]()
         if let chapterArray = dictionary["chapter"] as? [[String:Any]]{
@@ -42,6 +45,8 @@ class GPScriptNodeResultModel : NSObject {
         nodeType = dictionary["node_type"] as? Int
         orderNum = dictionary["order_num"] as? Int
         scriptNodeId = dictionary["script_node_id"] as? Int
+        myRoleId = dictionary["my_role_id"] as? Int
+
         scriptNodeMapList = [GPNodeMapListModel]()
         if let scriptNodeMapListArray = dictionary["script_node_map_list"] as? [[String:Any]]{
             for dic in scriptNodeMapListArray{
@@ -88,6 +93,9 @@ class GPScriptNodeResultModel : NSObject {
         }
         if nodeName != nil{
             dictionary["node_name"] = nodeName
+        }
+        if myRoleId != nil{
+            dictionary["my_role_id"] = myRoleId
         }
         if nodeType != nil{
             dictionary["node_type"] = nodeType

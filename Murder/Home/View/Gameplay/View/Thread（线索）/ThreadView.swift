@@ -24,6 +24,8 @@ class ThreadView: UIView {
     private var clueList : [ClueListModel]? = [ClueListModel]()
     
     var room_id : Int?
+    // 我的id
+    var script_role_id : Int?
         
     var gameUserClueList: [GameUserClueListModel]? {
         didSet {
@@ -199,6 +201,15 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
             }
             
             UIApplication.shared.keyWindow?.addSubview(threadCardView)
+            
+            
+            
+            let script_node_id = itemModel.scriptNodeId
+            let script_clue_id = itemModel.scriptClueId
+            let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"script_clue_id":script_clue_id!,"game_status_type":"clue_is_read","key":(UserAccountViewModel.shareInstance.account?.key!)! as String] as [String : AnyObject]
+            
+            let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
+            SingletonSocket.sharedInstance.socket.write(string: mapJson)
 
         }
     }

@@ -20,6 +20,14 @@ class ReadScriptView: UIView {
     
     private let label = UILabel()
     
+    // 我的id
+    var script_role_id : Int!
+    
+    var room_id : Int?
+    
+    var script_node_id: Int?
+
+    
     var scriptData : [AnyObject]? {
         didSet {
             if !scriptData!.isEmpty{
@@ -248,11 +256,22 @@ extension ReadScriptView {
 //MARK:- PopMenuViewDelegate
 extension ReadScriptView: PopMenuViewDelegate {
     func cellDidSelected(index: Int, model: AnyObject?) {
+        
+                
+        
         let currentIndex = index
         let indexPath = IndexPath(row: currentIndex, section: 0)
         let model = scriptData![currentIndex] as! GPChapterModel
         label.text = "【 \(model.name!) 】"
         tableView.scrollToRow(at: indexPath, at: .none, animated: true)
+        
+        
+        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"game_status_type":"chapter_see","key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
+        
+        let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
+        
+        SingletonSocket.sharedInstance.socket.write(string: mapJson)
+        
     }
         
 }
