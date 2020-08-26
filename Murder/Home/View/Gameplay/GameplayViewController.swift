@@ -1387,20 +1387,34 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
     func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinedOfUid uid: UInt, elapsed: Int) {
         // 当有用户加入时，添加到用户列表
         // 注意：由于demo缺少业务服务器，所以当观众加入的时候，观众也会被加入用户列表，并在界面的列表显示成静音状态。 正式实现的话，通过业务服务器可以判断是参与游戏的玩家还是围观观众
-//        addUser(uid: uid)
+        
+        let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid))
+        if index != nil {
+            let cell = collectionView.cellForItem(at: IndexPath(item: index!, section: 0)) as? GameplayViewCell
+            if index!%2 == 0 {
+                cell?.l_comImgView.isHidden = true
+            } else {
+                cell?.r_comImgView.isHidden = true
+            }
+        }
     }
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, didOfflineOfUid uid: UInt, reason: AgoraUserOfflineReason) {
         // 当用户离开时，从用户列表中清除
-//        removeUser(uid: uid)
         let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid))!
         let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as! GameplayViewCell
         if index%2 == 0 {
             cell.l_comImgView.isHidden = false
-            cell.l_comImgView.image = UIImage(named: "image0")
+            cell.l_comImgView.image = UIImage(named: "leave_icon")
+            cell.l_voiceView.isHidden = true
+            cell.l_voiceImgView.isHidden = true
+            cell.l_animation = false
         } else {
             cell.r_comImgView.isHidden = false
-            cell.r_comImgView.image = UIImage(named: "image0")
+            cell.r_comImgView.image = UIImage(named: "leave_icon")
+            cell.r_voiceView.isHidden = true
+            cell.r_voiceImgView.isHidden = true
+            cell.r_animation = false
         }
     }
     
@@ -1412,9 +1426,13 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
         if index%2 == 0 {
             cell.l_comImgView.isHidden = !muted
             cell.l_comImgView.image = UIImage(named: "image0")
+            cell.l_voiceView.isHidden = muted
+            cell.l_voiceImgView.isHidden = muted
         } else {
             cell.r_comImgView.isHidden = !muted
             cell.r_comImgView.image = UIImage(named: "image0")
+            cell.r_voiceView.isHidden = muted
+            cell.r_voiceImgView.isHidden = muted
         }
     }
     
@@ -1426,24 +1444,24 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
                 let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
                 if index%2 == 0 {
                     if totalVolume == 0 {
-                        cell.l_voiceView.isHidden = false
-                        cell.l_voiceImgView.isHidden = false
-                        cell.l_animation = true
-                    } else {
                         cell.l_voiceView.isHidden = true
                         cell.l_voiceImgView.isHidden = true
                         cell.l_animation = false
+                    } else {
+                        cell.l_voiceView.isHidden = false
+                        cell.l_voiceImgView.isHidden = false
+                        cell.l_animation = true
                     }
 
                 } else {
                     if totalVolume == 0 {
-                        cell.r_voiceView.isHidden = false
-                        cell.r_voiceImgView.isHidden = false
-                        cell.r_animation = true
-                    } else {
                         cell.r_voiceView.isHidden = true
                         cell.r_voiceImgView.isHidden = true
                         cell.r_animation = false
+                    } else {
+                        cell.r_voiceView.isHidden = false
+                        cell.r_voiceImgView.isHidden = false
+                        cell.r_animation = true
                     }
                 }
             }
