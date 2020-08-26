@@ -8,6 +8,8 @@
 
 import UIKit
 
+var gradienLayer = CAGradientLayer()
+
 enum Position {
     case left
     case right
@@ -54,22 +56,29 @@ extension UIButton {
     
     // 设置按钮渐变色
     func gradientColor(start: String, end: String, cornerRadius: Float)  {
-        let layer = CAGradientLayer()
-        layer.frame = self.bounds
+        if (gradienLayer.superlayer != nil) {
+            gradienLayer.removeFromSuperlayer()
+        }
+//        if gradienLayer == nil {
+//            gradienLayer = CAGradientLayer()
+//
+//        }
+//        let gradienLayer = CAGradientLayer()
+        gradienLayer.frame = self.bounds
         // 开始
-        layer.startPoint = CGPoint(x: 0, y: 0)
+        gradienLayer.startPoint = CGPoint(x: 0, y: 0)
         // 结束,主要是控制渐变方向
-        layer.startPoint = CGPoint(x: 1, y: 1)
+        gradienLayer.startPoint = CGPoint(x: 1, y: 1)
         
         let startColor = HexColor(start)
         
         let endColor = HexColor(end)
-        layer.colors = [startColor.cgColor, endColor.cgColor]
+        gradienLayer.colors = [startColor.cgColor, endColor.cgColor]
         // 颜色的分界点
-        layer.locations = [0.0,1.0]
+        gradienLayer.locations = [0.0,1.0]
         // 设置圆角
-        layer.cornerRadius = CGFloat(cornerRadius)
-        self.layer.insertSublayer(layer, at: 0)
+        gradienLayer.cornerRadius = CGFloat(cornerRadius)
+        self.layer.insertSublayer(gradienLayer, at: 0)
     }
     
     // 去掉渐变色

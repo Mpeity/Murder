@@ -76,7 +76,7 @@ class GameplayViewController: UIViewController {
     private var popMenuView = PopMenuView()
     
     // 倒计时
-    private var timer: Timer?
+//    private var timer: Timer?
     private var timerView = UIView()
     private var timerLabel = UILabel()
     private var timerCount = 600
@@ -121,8 +121,7 @@ class GameplayViewController: UIViewController {
     var voiceHide = false
     // 当前id
     var script_node_id: Int? = 0
-    // 下一个id
-//    var next_script_node_id = 0
+
     
     var dissolveView = DissolveView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     
@@ -177,13 +176,13 @@ class GameplayViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)        
         navigationController?.navigationBar.isHidden = true
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countDown), userInfo: nil, repeats: true)
+//        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countDown), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        timer?.invalidate()
-        timer = nil
+//        timer?.invalidate()
+//        timer = nil
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -191,8 +190,8 @@ class GameplayViewController: UIViewController {
     }
     
     deinit {
-        timer?.invalidate()
-        timer = nil
+//        timer?.invalidate()
+//        timer = nil
     }
 
 }
@@ -203,7 +202,7 @@ class GameplayViewController: UIViewController {
 extension GameplayViewController {
     func gamePlaying() {
         if script_node_id != 0 {
-            script_node_id = 5
+//            script_node_id = 5
             gameIngRequest(room_id: room_id, script_node_id: script_node_id!) {[weak self] (result, error) in
                 if error != nil {
                     return
@@ -276,6 +275,12 @@ extension GameplayViewController {
         if gamePlayModel?.scriptNodeResult.scriptNodeMapList != nil {
             popMenuView.type = "place"
             popMenuView.titleArray = (gamePlayModel?.scriptNodeResult.scriptNodeMapList!)! as [AnyObject]
+            popMenuView.snp.remakeConstraints { (make) in
+                make.centerX.equalToSuperview()
+                make.top.equalTo(placeBtn.snp.bottom).offset(5)
+                make.height.equalTo(55*popMenuView.titleArray.count)
+                make.width.equalTo(136)
+            }
         }
         
         collectionView.reloadData()
@@ -794,6 +799,7 @@ extension GameplayViewController {
     //MARK: - 投票结果
     @objc func voteResultBtnAction() {
         let commonView = VoteResultView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        commonView.room_id = room_id
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         self.view.addSubview(commonView)
     }
@@ -804,7 +810,6 @@ extension GameplayViewController {
         commonView.room_id = room_id
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         self.view.addSubview(commonView)
-        
     }
     
     
@@ -821,7 +826,6 @@ extension GameplayViewController {
         if timerCount == 0 {
             // 进入下一个阶段
             timerCount = 0
-            timer?.invalidate()
             timerView.isHidden = false
             
         }
@@ -1075,7 +1079,8 @@ extension GameplayViewController {
     //MARK: 系统配置未知按钮
     @objc func commonBtnAction(button: UIButton) {
 //        节点类型【1故事背景2自我介绍3剧本阅读4搜证5答题6结算】
-        script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId! as! Int
+        script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
+        
         gameReadyRequest(room_id: room_id, current_script_node_id: script_node_id!) {[weak self] (result, error) in
             if error != nil {
                 return
@@ -1108,24 +1113,31 @@ extension GameplayViewController {
         case 4:
             // 搜证
 //            remainingView.isHidden = true
+            
             break
         case 5:
             // 5 答题
 //            remainingView.isHidden = true
 //            voteInfoBtn.isHidden = false
 //            voteResultBtn.isHidden = false
-            let commonView = QuestionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-            commonView.room_id = room_id
-            commonView.script_node_id = script_node_id
-            commonView.scriptQuestionList = gamePlayModel?.scriptNodeResult.scriptQuestionList
-            commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-            self.view.addSubview(commonView)
+            
+            // 答题有数据
+            if gamePlayModel?.scriptNodeResult.scriptQuestionList.count != 0 {
+                let commonView = QuestionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                commonView.room_id = room_id
+                commonView.script_node_id = script_node_id
+                commonView.scriptQuestionList = gamePlayModel?.scriptNodeResult.scriptQuestionList
+                commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                self.view.addSubview(commonView)
+            }
+            
             break
             
         case 6:
             // 6 结算
-            voteInfoBtn.isHidden = false
-            voteResultBtn.isHidden = false
+//            voteInfoBtn.isHidden = false
+//            voteResultBtn.isHidden = false
+            
             break
             
         default:
@@ -1170,7 +1182,26 @@ extension GameplayViewController: PopMenuViewDelegate {
     func cellDidSelected(index: Int, model: AnyObject?) {
         let currentIndex = index
         let itemModel = gamePlayModel?.scriptNodeResult.scriptNodeMapList![currentIndex]
+        
         drawImage(model: itemModel)
+        
+//        请求参数:
+//        请求参数【json字符串格式】
+//        type STRING game_status 【游戏状态】
+//        room_id INT 房间ID
+//        script_node_id INT 游戏节点ID
+//        script_role_id INT 游戏角色ID
+//        script_clue_id INT 游戏线索ID
+//        game_status_type STRING [ready_ok 准备状态【1准备0取消准备】 mute【是否静音【1是0否】】 clue_is_read线索是否查看【1是】chapter_see【剧本是否查看【1是0否】】 ]
+        
+//        {“type”:”game_status”,”scene”:1,”room_id”:83,”group_id”:83,”script_node_id”:1,”status”:1,”script_role_id”:2,”game_status_type”:”mute”,”key”:”eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJpc3MiOiJodHRwOlwvXC9oYW9odWx1Lm14NTkxOC5jb20iLCJhdWQiOiJodHRwOlwvXC9oYW9odWx1Lm14NTkxOC5jb20iLCJpYXQiOjE1OTc2MjY2MDEsIm5iZiI6MTU5NzYyNjYwMSwiZXhwIjoxNjAwMjE4NjAxfQ.4O2XDLAmiM-EwHVVKk27rEFqOm_ocoox0Td7FJSI3w8”}
+        
+//        let script_role_id = 0
+//        let mapData = ["type":"game_status","scene":1,"room_id":room_id,"group_id":room_id,"script_node_id":itemModel?.scriptNodeId,"status":1,"script_role_id":script_role_id,"game_status_type":"chapter_see","key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
+//        let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
+//
+//        SingletonSocket.sharedInstance.socket.write(string: mapJson)
+        
     }
 }
 
@@ -1191,12 +1222,7 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
         let itemModel = gamePlayModel!.scriptRoleList[indexPath.row]
         cell.backgroundColor = UIColor.clear
         
-        // 是否有人发起解散申请
-        if itemModel.applyDismiss == 1  { // 是
-            dissolveView.isHidden = false
-            dissolveView.votingView.isHidden = false
-            dissolveView.dissolutionView.isHidden = true
-        }
+        
         if itemModel.readyOk != nil {
             handsUp = (itemModel.readyOk == 1) ? true : false
         }
@@ -1214,6 +1240,12 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
             if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
                 cell.l_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
                 remainingCount = itemModel.user?.point! as! Int
+                // 是否有人发起解散申请
+                if itemModel.applyDismiss == 1  { // 是
+                    dissolveView.isHidden = false
+                    dissolveView.votingView.isHidden = false
+                    dissolveView.dissolutionView.isHidden = true
+                }
             }
 
         } else {
@@ -1222,6 +1254,12 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                 
                 cell.r_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
                 remainingCount = itemModel.user?.point! as! Int
+                // 是否有人发起解散申请
+                if itemModel.applyDismiss == 1  { // 是
+                    dissolveView.isHidden = false
+                    dissolveView.votingView.isHidden = false
+                    dissolveView.dissolutionView.isHidden = true
+                }
             }
             cell.r_avatarImgView.setImageWith(URL(string: itemModel.head!))
             cell.rightView.isHidden = false
@@ -1347,6 +1385,15 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
     func rtcEngine(_ engine: AgoraRtcEngineKit, didOfflineOfUid uid: UInt, reason: AgoraUserOfflineReason) {
         // 当用户离开时，从用户列表中清除
 //        removeUser(uid: uid)
+        let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid))!
+        let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as! GameplayViewCell
+        if index%2 == 0 {
+            cell.l_comImgView.isHidden = false
+            cell.l_comImgView.image = UIImage(named: "image0")
+        } else {
+            cell.r_comImgView.isHidden = false
+            cell.r_comImgView.image = UIImage(named: "image0")
+        }
     }
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, didAudioMuted muted: Bool, byUid uid: UInt) {
@@ -1379,7 +1426,7 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
                         cell.l_voiceImgView.isHidden = true
                         cell.l_animation = false
                     }
-                    
+
                 } else {
                     if totalVolume == 0 {
                         cell.r_voiceView.isHidden = false
@@ -1390,8 +1437,6 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
                         cell.r_voiceImgView.isHidden = true
                         cell.r_animation = false
                     }
-//                    cell.r_voiceView.isHidden = false
-//                    cell.r_voiceImgView.isHidden = false
                 }
             }
         }
@@ -1452,6 +1497,12 @@ extension GameplayViewController: WebSocketDelegate {
                 gamePlayModel = GamePlayModel(fromDictionary: data)
                 stage = gamePlayModel?.scriptNodeResult.nodeType!
                 refreshUI()
+                
+                script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
+                if script_node_id == 6 {
+                    voteInfoBtn.isHidden = false
+                    voteResultBtn.isHidden = false
+                }
             }
         } else if (dic["type"] as? String == "room_ready") {
             
@@ -1464,7 +1515,6 @@ extension GameplayViewController: WebSocketDelegate {
                 let count = data["countdown"] as! Int
                 timerView.isHidden = false
                 if count == 0 {
-                    timer?.invalidate()
                     timerView.isHidden = true
                 }
                 let string = "カウントダウン\(count)s"

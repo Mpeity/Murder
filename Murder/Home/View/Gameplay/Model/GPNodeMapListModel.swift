@@ -16,6 +16,7 @@ class GPNodeMapListModel : NSObject {
     var scriptMapPlaceList : [GPMapPlaceListModel]!
     var scriptNodeId : String!
     var scriptNodeMapId : Int!
+    var see : Int!
 
 
     /**
@@ -33,6 +34,7 @@ class GPNodeMapListModel : NSObject {
         }
         scriptNodeId = dictionary["script_node_id"] as? String
         scriptNodeMapId = dictionary["script_node_map_id"] as? Int
+        see = dictionary["see"] as? Int
     }
 
     /**
@@ -59,6 +61,9 @@ class GPNodeMapListModel : NSObject {
         }
         if scriptNodeMapId != nil{
             dictionary["script_node_map_id"] = scriptNodeMapId
+        }
+        if see != nil{
+            dictionary["see"] = see
         }
         return dictionary
     }

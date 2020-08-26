@@ -127,6 +127,11 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
         if type == "place" {
             let model = titleArray[indexPath.row] as! GPNodeMapListModel
             cell.contentLabel.text = model.name! as String
+            if model.see == 0 {
+                cell.point.isHidden = false
+            } else {
+                cell.point.isHidden = true
+            }
         }
         
         if type == "script" {

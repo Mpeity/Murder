@@ -13,6 +13,7 @@ import AgoraRtcKit
 let CollogueRoomCellId = "CollogueRoomCellId"
 
 protocol CollogueRoomViewDelegate {
+    
     func commonBtnActionBlock()
     
     func leaveBtnActionBlcok()
@@ -132,9 +133,16 @@ extension CollogueRoomView: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.leaveBtnActionBlcok = {[weak self] () in
+            
+            if self?.delegate != nil {
+                self!.delegate!.leaveBtnActionBlcok()
+            }
+            
 //            if let delegate = self!.delegate {
 //                delegate.leaveBtnActionBlcok()
 //            }
+            
+            
             if self!.room_id != nil {
                 // 从私聊返回案发现场时，重新加入案发现场的群聊频道
                 let uid = UserAccountViewModel.shareInstance.account?.userId

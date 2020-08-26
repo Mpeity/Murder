@@ -117,6 +117,9 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     private var notifArr = [[String: AnyObject]]()
     // 剧本数据
     private var scriptSourceModel : ScriptSourceModel?
+    
+    
+    private var progressArr = [AnyObject]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -399,9 +402,13 @@ extension PrepareRoomViewController {
                     var newProgress = new! * newIndex * scale * 100
                     
                     if response != nil {
-                        if response as! Int == arrCount! - 1 , progress == 1.0 {
+                        self.progressArr.append(response as AnyObject)
+                        if self.progressArr.count == arr?.count {
                             newProgress = 1.0 * 100
                         }
+//                        if response as! Int == arrCount! - 1 , progress == 1.0 {
+//                            newProgress = 1.0 * 100
+//                        }
                     }
 
 

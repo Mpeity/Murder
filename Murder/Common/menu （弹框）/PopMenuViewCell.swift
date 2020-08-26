@@ -16,24 +16,36 @@ class PopMenuViewCell: UITableViewCell {
     
     @IBOutlet weak var point: UIView!
     
+    var type : String? = "script"
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         imgView.isHidden = false
         point.isHidden = true
+        point.layer.cornerRadius = 3
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-        
-//        if selected {
-//            imageView?.isHidden = false
-//        } else {
-//            imageView?.isHidden = true
-//            contentLabel.textColor = HexColor(MainColor)
-//        }
+        if type == "script" {
+            if selected {
+                contentLabel.textColor = HexColor(MainColor)
+            } else {
+                contentLabel.textColor = HexColor("#999999")
+            }
+        } else {
+            if selected {
+                imageView?.isHidden = false
+                contentLabel.textColor = HexColor(MainColor)
+            } else {
+                imageView?.isHidden = true
+                contentLabel.textColor = UIColor.white
+            }
+        }
+
     }
     
 }
