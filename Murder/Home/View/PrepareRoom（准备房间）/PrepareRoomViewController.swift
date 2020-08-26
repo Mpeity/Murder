@@ -120,6 +120,9 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     
     
     private var progressArr = [AnyObject]()
+    
+    // 本地是否有图片数据
+    private var loadAllImages: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -165,8 +168,11 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
                         for item in arr! {
                             if (!dic.keys.contains(item.attachmentId) || dic[item.attachmentId] == nil) {
                                 // 下载当前图片
+                                self!.loadAllImages = false
                                 self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
                                 Thread.detachNewThreadSelector(#selector(self!.loadProgress), toTarget: self!, with: nil)
+                            } else {
+//                                self!.loadAllImages = true
                             }
                         }
                     } else {
@@ -271,116 +277,7 @@ extension PrepareRoomViewController {
             }
         }
     }
-    
-    //MARK: 下载进度
-    func loadScriptSource () {
-        if (script_id != nil){
-            scriptSourceRequest(script_id: script_id) {[weak self] (result, error) in
-                if error != nil {
-                    return
-                }
-                // 取到结果
-                guard  let resultDic :[String : AnyObject] = result else { return }
-                if resultDic["code"]!.isEqual(1) {
-                    let data = resultDic["data"] as! [String : AnyObject]
-                    self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
-                    let arr = self?.scriptSourceModel?.scriptNodeMapList!
-                    
-//                    let group = DispatchGroup()
-//                    let queue = DispatchQueue(label: "request_queue")
-                    
-                    // 并行队列
-                    let queue1 = DispatchQueue(label: "queue1", attributes: .concurrent)
-                    // 任务1
-                    queue1.sync {
-                      for i in 1...10 {
-                          print("😁\(i)")
-                      }
-                      print("1:\(Thread.current)")
-                    }
-                    
-                    let arrCount = arr?.count
-//                    queue1.sync {
-//                        for (index,viewModel) in arr!.enumerated() {
-//                            ImageDownloader.shareInstance.loadImageProgress(scriptNodeMapModel: viewModel) { (progress, response, error) in
-//                                let new = progress
-//                                let scale = 1.0/Double(arrCount!)
-//                                let newIndex = Double(index)+1.0
-//                                var newProgress = new! * newIndex * scale * 100
-//                                if index == arrCount! - 1 , progress == 1.0 {
-//                                    newProgress = 1.0 * 100
-//                                }
-//
-//                                let s = String(format:"%.2f",newProgress)
-//                                let p = Float(s)!
-//                                print("当前进度:\(index):\(Thread.current)")
-//                                print(p)
-//
-//                                let progressData = ["type":"script_download" ,"scene": "1", "user_id": UserAccountViewModel.shareInstance.account?.userId! ?? 0, "group_id" : self!.room_id!, "datas": p] as [String: AnyObject]
-//                                let progressStr = getJSONStringFromDictionary(dictionary: progressData as NSDictionary)
-//                                SingletonSocket.sharedInstance.socket.write(string: progressStr)
-//
-//                            }
-//                        }
-//                        print("1:\(Thread.current)")
-//
-//                    }
-                    
-                    for (index,viewModel) in arr!.enumerated() {
-                        queue1.sync {
-                            
-                            ImageDownloader.shareInstance.loadImageProgress(currentIndex: index, script: (self?.scriptSourceModel?.script!)!, scriptNodeMapModel: viewModel) { (progress, response, error) in
-                                let new = progress
-                                let scale = 1.0/Double(arrCount!)
-                                let newIndex = Double(index)+1.0
-                                var newProgress = new! * newIndex * scale * 100
-                                if index == arrCount! - 1 , progress == 1.0 {
-                                    newProgress = 1.0 * 100
-                                }
 
-                                let s = String(format:"%.2f",newProgress)
-                                let p = Float(s)!
-                                print("当前进度:\(index):\(Thread.current)")
-                                print(p)
-
-                                let progressData = ["type":"script_download" ,"scene": "1", "user_id": UserAccountViewModel.shareInstance.account?.userId! ?? 0, "group_id" : self!.room_id!, "datas": p] as [String: AnyObject]
-                                let progressStr = getJSONStringFromDictionary(dictionary: progressData as NSDictionary)
-                                SingletonSocket.sharedInstance.socket.write(string: progressStr)
-
-                            }
-                            print("1:\(Thread.current)")
-
-                        }
-
-                    }
-                }
-            }
-            
-        }
-        
-    }
-    
-    
-    @objc func loadImage() {
-        if (script_id != nil){
-            scriptSourceRequest(script_id: script_id) {[weak self] (result, error) in
-                
-                if error != nil {
-                    return
-                }
-                // 取到结果
-                guard  let resultDic :[String : AnyObject] = result else { return }
-                if resultDic["code"]!.isEqual(1) {
-                    let data = resultDic["data"] as! [String : AnyObject]
-                    self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
-                    Thread.detachNewThreadSelector(#selector(self!.loadProgress), toTarget: self!, with: nil)
-                }
-            }
-        }
-    }
-    
-    
-    
     @objc func loadProgress() {
         let arr = self.scriptSourceModel?.scriptNodeMapList!
         // 任务1
@@ -404,11 +301,16 @@ extension PrepareRoomViewController {
                     if response != nil {
                         self.progressArr.append(response as AnyObject)
                         if self.progressArr.count == arr?.count {
+                            self.loadAllImages = true
                             newProgress = 1.0 * 100
+//                            if self!.readyRoomModel?.readyOk! == 1  && self!.loadAllImages == true { // 准备完毕
+//                                let vc = GameplayViewController()
+//                                vc.script_node_id = self!.readyRoomModel!.firstScriptNodeId!
+//                                vc.room_id = self!.readyRoomModel?.roomId
+//                                vc.script_id = self!.script_id
+//                                self!.navigationController?.pushViewController(vc, animated: true)
+//                            }
                         }
-//                        if response as! Int == arrCount! - 1 , progress == 1.0 {
-//                            newProgress = 1.0 * 100
-//                        }
                     }
 
 
@@ -460,7 +362,7 @@ extension PrepareRoomViewController {
                     self?.refreshUI()
                     self?.tableView.reloadData()
                 }
-                if self!.readyRoomModel?.readyOk! == 1 { // 准备完毕
+                if self!.readyRoomModel?.readyOk! == 1  && self!.loadAllImages == true { // 准备完毕
                     let vc = GameplayViewController()
                     vc.script_node_id = self!.readyRoomModel!.firstScriptNodeId!
                     vc.room_id = self!.readyRoomModel?.roomId
@@ -1187,6 +1089,14 @@ extension PrepareRoomViewController: InputTextViewDelegate  {
     }
 }
 
+//
+extension PrepareRoomViewController {
+    
+}
+
+
+
+
 extension PrepareRoomViewController: WebSocketDelegate {
     
     // initSocket方法
@@ -1251,12 +1161,11 @@ extension PrepareRoomViewController: WebSocketDelegate {
                     refreshUI()
                     tableView.reloadData()
                 }
-                if readyRoomModel?.readyOk! == 1 { // 准备完毕
+                if readyRoomModel?.readyOk! == 1  && loadAllImages == true { // 准备完毕
                     let vc = GameplayViewController()
                     vc.script_node_id = readyRoomModel!.firstScriptNodeId!
                     vc.room_id = readyRoomModel?.roomId
                     vc.script_id = script_id
-                    SingletonSocket.sharedInstance.socket.delegate = nil
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             } else {

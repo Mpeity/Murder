@@ -14,9 +14,9 @@ let CollogueRoomCellId = "CollogueRoomCellId"
 
 protocol CollogueRoomViewDelegate {
     
-    func commonBtnActionBlock()
+    func commonBtnTapAction(index: Int)
     
-    func leaveBtnActionBlcok()
+    func leaveBtnTapAction(index: Int)
 }
 
 class CollogueRoomView: UIView {
@@ -53,7 +53,7 @@ class CollogueRoomView: UIView {
         super.init(frame: frame)
         setUI()
         
-        loadAgoraKit()
+//        loadAgoraKit()
     }
     
     required init?(coder: NSCoder) {
@@ -128,27 +128,26 @@ extension CollogueRoomView: UITableViewDelegate, UITableViewDataSource {
         uid = UserAccountViewModel.shareInstance.account?.userId
         cell.commonBtnActionBlcok = {[weak self] () in
             // 加入私聊频道
-            self!.agoraKit.leaveChannel(nil)
-            self!.agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: self!.uid!), joinSuccess: nil)
+//            self!.agoraKit.leaveChannel(nil)
+//            self!.agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: self!.uid!), joinSuccess: nil)
+            
+            if self?.delegate != nil {
+                self!.delegate!.commonBtnTapAction(index: indexPath.row)
+            }
         }
         
         cell.leaveBtnActionBlcok = {[weak self] () in
             
             if self?.delegate != nil {
-                self!.delegate!.leaveBtnActionBlcok()
+                self!.delegate!.leaveBtnTapAction(index: indexPath.row)
             }
             
-//            if let delegate = self!.delegate {
-//                delegate.leaveBtnActionBlcok()
+//            if self!.room_id != nil {
+//                // 从私聊返回案发现场时，重新加入案发现场的群聊频道
+//                let uid = UserAccountViewModel.shareInstance.account?.userId
+//                self!.agoraKit.joinChannel(byToken: nil, channelId: "\(self!.room_id!)", info: nil, uid: UInt(bitPattern: uid!) , joinSuccess: nil)
+//                self?.hideView()
 //            }
-            
-            
-            if self!.room_id != nil {
-                // 从私聊返回案发现场时，重新加入案发现场的群聊频道
-                let uid = UserAccountViewModel.shareInstance.account?.userId
-                self!.agoraKit.joinChannel(byToken: nil, channelId: "\(self!.room_id!)", info: nil, uid: UInt(bitPattern: uid!) , joinSuccess: nil)
-                self?.hideView()
-            }
             
         }
         
@@ -156,11 +155,7 @@ extension CollogueRoomView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let channelId = "密談室" + "\(indexPath.row+1)"
-        // 加入私聊频道
-        agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: uid!), joinSuccess: nil)
     }
-    
     
 }
 

@@ -768,9 +768,9 @@ extension GameplayViewController {
         collogueBtn.addTarget(self, action: #selector(collogueBtnAction(button:)), for: .touchUpInside)
         
         // 密谈视图
-        collectionView.delegate = self
         collogueRoomView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         collogueRoomView.isHidden = true
+        collogueRoomView.delegate = self
         self.view.addSubview(collogueRoomView)
         
         
@@ -1165,23 +1165,25 @@ extension GameplayViewController {
 
 //MARK:- 密谈
 extension GameplayViewController: CollogueRoomViewDelegate {
-    func commonBtnActionBlock() {
-        
-        //
+    // 进入密谈室
+    func commonBtnTapAction(index: Int) {
+        let channelId = "\(room_id!)_" + "\(index+1)"
+        // 加入私聊频道
+        let uid = UserAccountViewModel.shareInstance.account?.userId
+        agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: uid!), joinSuccess: nil)
     }
-    
-    func leaveBtnActionBlcok() {
-//        collogueRoomView.isHidden = true
-//        // 离开密谈 重新至回游戏中
-//        agoraKit.delegate = self
-//        // 通信模式下默认为听筒，demo中将它切为外放
-//        agoraKit.setDefaultAudioRouteToSpeakerphone(true)
-//        
-//        // 从私聊返回案发现场时，重新加入案发现场的群聊频道
-//        let uid = UserAccountViewModel.shareInstance.account?.userId
-//        agoraKit.joinChannel(byToken: nil, channelId: "\(room_id!)", info: nil, uid: UInt(bitPattern: uid!) , joinSuccess: nil)
+    // 退出密谈室
+    func leaveBtnTapAction(index: Int) {
+        collogueRoomView.isHidden = true
+        // 离开密谈 重新至回游戏中
+        agoraKit.delegate = self
+        // 通信模式下默认为听筒，demo中将它切为外放
+        agoraKit.setDefaultAudioRouteToSpeakerphone(true)
+
+        // 从私聊返回案发现场时，重新加入案发现场的群聊频道
+        let uid = UserAccountViewModel.shareInstance.account?.userId
+        agoraKit.joinChannel(byToken: nil, channelId: "\(room_id!)", info: nil, uid: UInt(bitPattern: uid!) , joinSuccess: nil)
     }
-    
     
 }
 
@@ -1438,8 +1440,11 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, reportAudioVolumeIndicationOfSpeakers speakers: [AgoraRtcAudioVolumeInfo], totalVolume: Int) {
         // 收到说话者音量回调，在界面上对应的 cell 显示动效
-        let speakers = gamePlayModel?.scriptRoleList
-        for speaker in speakers! {
+        
+        guard let speakers = gamePlayModel?.scriptRoleList else {
+            return
+        }
+        for speaker in speakers {
             if let index = getIndexWithUserIsSpeaking(uid: (speaker.user?.userId)!),
                 let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
                 if index%2 == 0 {
@@ -1491,6 +1496,7 @@ extension GameplayViewController {
         Log(scrollView.contentOffset.x)
     }
 }
+
 
 extension GameplayViewController: WebSocketDelegate {
     

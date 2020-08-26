@@ -11,10 +11,12 @@ import UIKit
 import Starscream
  
  
+
+
 class SingletonSocket {
     let socket : WebSocket = WebSocket(url: NSURL(string: "\(SocketUrl):9090")! as URL)
 //    let socket:WebSocket = WebSocket(url: NSURL(string: strScoket) as! URL)
-    
+
     class var sharedInstance : SingletonSocket{
         struct Static{
             static let instance:SingletonSocket = SingletonSocket()
@@ -24,4 +26,9 @@ class SingletonSocket {
         }
         return Static.instance
     }
+}
+
+
+extension SingletonSocket {
+    
 }
