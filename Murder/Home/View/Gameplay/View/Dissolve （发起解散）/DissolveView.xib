@@ -133,7 +133,7 @@
                                 <action selector="dissolutionCancelBtnAvtion:" destination="-1" eventType="touchUpInside" id="arZ-9v-bbb"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a1Z-Fe-I8p">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a1Z-Fe-I8p" customClass="GradienButton" customModule="Murder" customModuleProvider="target">
                             <rect key="frame" x="157.5" y="136" width="120" height="44"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <state key="normal" title="発起">

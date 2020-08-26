@@ -8,7 +8,7 @@
 
 import UIKit
 
-var gradienLayer = CAGradientLayer()
+//var gradienLayer:CAGradientLayer?  = CAGradientLayer()
 
 enum Position {
     case left
@@ -56,14 +56,15 @@ extension UIButton {
     
     // 设置按钮渐变色
     func gradientColor(start: String, end: String, cornerRadius: Float)  {
-        if (gradienLayer.superlayer != nil) {
-            gradienLayer.removeFromSuperlayer()
-        }
+//        if (gradienLayer?.superlayer != nil) {
+//            gradienLayer?.removeFromSuperlayer()
+//        }
 //        if gradienLayer == nil {
 //            gradienLayer = CAGradientLayer()
 //
 //        }
-//        let gradienLayer = CAGradientLayer()
+        
+        let gradienLayer = CAGradientLayer()
         gradienLayer.frame = self.bounds
         // 开始
         gradienLayer.startPoint = CGPoint(x: 0, y: 0)

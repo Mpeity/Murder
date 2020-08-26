@@ -29,7 +29,7 @@ class QuestionView: UIView {
     // 题目选项
     private lazy var tableView: UITableView = UITableView()
     // confirm 确定按钮 / 提交按钮
-    private var confirmBtn: UIButton = UIButton()
+    private var confirmBtn: GradienButton = GradienButton()
     // 上一题 previous
     private var previousBtn: UIButton = UIButton()
     
@@ -106,7 +106,8 @@ class QuestionView: UIView {
                     }
                 }
                 confirmBtn.layoutIfNeeded()
-                confirmBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+//                confirmBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+                confirmBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
             }
         }
     }
@@ -250,7 +251,7 @@ extension QuestionView {
             }
         }
         confirmBtn.layoutIfNeeded()
-        confirmBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+        confirmBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
 
         
         previousBtn.layer.borderColor = HexColor(MainColor).cgColor

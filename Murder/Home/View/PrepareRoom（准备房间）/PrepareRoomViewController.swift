@@ -1205,7 +1205,7 @@ extension PrepareRoomViewController: WebSocketDelegate {
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-//        Log("websocketDidReceiveMessage=\(socket)\(text)")
+        Log("websocketDidReceiveMessage=\(socket)\(text)")
 
         let dic = getDictionaryFromJSONString(jsonString: text)
         current_client_id = dic["client_id"] as? String

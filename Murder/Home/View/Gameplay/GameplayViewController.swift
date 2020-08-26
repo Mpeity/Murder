@@ -202,7 +202,7 @@ class GameplayViewController: UIViewController {
 extension GameplayViewController {
     func gamePlaying() {
         if script_node_id != 0 {
-//            script_node_id = 5
+            script_node_id = 5
             gameIngRequest(room_id: room_id, script_node_id: script_node_id!) {[weak self] (result, error) in
                 if error != nil {
                     return

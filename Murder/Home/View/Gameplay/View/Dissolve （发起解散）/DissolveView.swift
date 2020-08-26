@@ -32,7 +32,7 @@ class DissolveView: UIView {
     // 取消
     @IBOutlet weak var dissolutionCandelBtn: UIButton!
     // 发起
-    @IBOutlet weak var dissolutionStartBtn: UIButton!
+    @IBOutlet weak var dissolutionStartBtn: GradienButton!
     // 解散投票
     @IBOutlet weak var votingView: UIView!
     // 解散投票提示Label
@@ -112,7 +112,8 @@ extension DissolveView {
 
         dissolutionCandelBtn.layer.borderColor = HexColor(MainColor).cgColor
         dissolutionCandelBtn.layer.borderWidth = 0.5
-        dissolutionStartBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
+//        dissolutionStartBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
+        dissolutionStartBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
         
         
         dissolutionBtn.layer.borderColor = HexColor(MainColor).cgColor

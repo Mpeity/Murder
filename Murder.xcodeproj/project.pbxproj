@@ -208,6 +208,7 @@
 		98D6CF1224E0E05400A47FEF /* UserAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D6CF1124E0E05400A47FEF /* UserAccountViewModel.swift */; };
 		98D8A35024DBEE4100469923 /* AgoraRtcKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 98772D0A24DBE72C00C1C125 /* AgoraRtcKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		98D8A35224DC043900469923 /* AgoraStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D8A35124DC043900469923 /* AgoraStatus.swift */; };
+		98D9C8E324F5F9B30058DD45 /* GradienButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D9C8E224F5F9B30058DD45 /* GradienButton.swift */; };
 		98F08BF724E237EE0033DFBA /* HomeBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F08BF624E237ED0033DFBA /* HomeBannerModel.swift */; };
 		98F08BF924E238860033DFBA /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F08BF824E238860033DFBA /* HomeViewModel.swift */; };
 		98F08BFB24E239ED0033DFBA /* HomeRoomModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F08BFA24E239ED0033DFBA /* HomeRoomModel.swift */; };
@@ -459,6 +460,7 @@
 		98CA02BE24C5A4E9009EF0ED /* ResetPasswordsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ResetPasswordsViewController.xib; sourceTree = "<group>"; };
 		98D6CF1124E0E05400A47FEF /* UserAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountViewModel.swift; sourceTree = "<group>"; };
 		98D8A35124DC043900469923 /* AgoraStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgoraStatus.swift; sourceTree = "<group>"; };
+		98D9C8E224F5F9B30058DD45 /* GradienButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradienButton.swift; sourceTree = "<group>"; };
 		98F08BF624E237ED0033DFBA /* HomeBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBannerModel.swift; sourceTree = "<group>"; };
 		98F08BF824E238860033DFBA /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		98F08BFA24E239ED0033DFBA /* HomeRoomModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRoomModel.swift; sourceTree = "<group>"; };
@@ -1021,6 +1023,7 @@
 		98CA029724C52921009EF0ED /* Tools（工具） */ = {
 			isa = PBXGroup;
 			children = (
+				98D9C8E224F5F9B30058DD45 /* GradienButton.swift */,
 				98038F5624D7B0DA00CBCEE7 /* FETipView.swift */,
 				98CA029C24C52921009EF0ED /* TitleButton.swift */,
 				98649DE824CECF6C005AA9C3 /* Tools.swift */,
@@ -1510,6 +1513,7 @@
 				98820FA224CA6DA90005EBDD /* HomeListViewCell.swift in Sources */,
 				98820FA524CA71D30005EBDD /* HomeListHeaderView.swift in Sources */,
 				0451A36524C1AABC00E69085 /* HomeViewController.swift in Sources */,
+				98D9C8E324F5F9B30058DD45 /* GradienButton.swift in Sources */,
 				9844205224EE1430001A0D7C /* GPPlaceListModel.swift in Sources */,
 				0451A36324C1AAB200E69085 /* ScriptViewController.swift in Sources */,
 				9875840B24E3CAC4008795C5 /* RoomUserModel.swift in Sources */,
