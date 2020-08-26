@@ -92,8 +92,8 @@ extension GameplayViewCell {
         rightView.isUserInteractionEnabled = true
         leftView.isUserInteractionEnabled = true
         
-        l_comImgView.isHidden = false
-        r_comImgView.isHidden = false
+        l_comImgView.isHidden = true
+        r_comImgView.isHidden = true
         
         l_avatarImgView.layer.cornerRadius = 22
         l_avatarImgView.layer.borderColor = UIColor.white.cgColor
