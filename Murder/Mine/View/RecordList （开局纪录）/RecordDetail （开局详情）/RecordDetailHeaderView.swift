@@ -17,6 +17,18 @@ class RecordDetailHeaderView: UIView {
     @IBOutlet weak var authorLabel: UILabel!
     //  房间id
     @IBOutlet weak var roomIdLabel: UILabel!
+    // 名字
+    @IBOutlet weak var nameLabel: UILabel!
+    
+    
+    var scriptLogDetail :ScriptLogDetail? {
+        didSet {
+            guard let scriptLogDetail = scriptLogDetail else {
+                return
+            }
+            refreshUI()
+        }
+    }
     
     
     
@@ -44,9 +56,21 @@ extension RecordDetailHeaderView {
         coverImgView.layer.borderColor = UIColor.white.cgColor
         coverImgView.layer.borderWidth = 2
         coverImgView.layer.cornerRadius = 5
-        
-        
-        
+    }
+    
+    private func refreshUI() {
+        if scriptLogDetail?.cover != nil  {
+            coverImgView.setImageWith(URL(string: scriptLogDetail!.cover!))
+        }
+        if scriptLogDetail?.scriptName != nil {
+            nameLabel.text = scriptLogDetail?.scriptName!
+        }
+        if scriptLogDetail?.author != nil {
+            authorLabel.text = "著者：\(scriptLogDetail!.author!)"
+        }
+        if scriptLogDetail?.roomId != nil {
+            roomIdLabel.text = "ルームID：\(scriptLogDetail!.roomId!)"
+        }
     }
 }
 

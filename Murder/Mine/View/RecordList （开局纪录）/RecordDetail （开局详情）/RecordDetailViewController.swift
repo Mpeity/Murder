@@ -14,6 +14,8 @@ let RecordDetailCellId = "RecordDetailCellId"
 class RecordDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
+    var room_id : Int?
+    
     // 标题
     private var titleLabel: UILabel = UILabel()
     // 返回上一层按钮
@@ -27,10 +29,13 @@ class RecordDetailViewController: UIViewController, UITableViewDelegate, UITable
     private var evaluateBtn: UIButton = UIButton()
     // 查看真相
     private var truthBtn: UIButton = UIButton()
+    
+    private var scriptLogDetailModel: ScriptLogDetailModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
+        loadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,6 +51,26 @@ class RecordDetailViewController: UIViewController, UITableViewDelegate, UITable
 
 
 
+}
+
+//MARK:- 数据请求
+extension RecordDetailViewController {
+    func loadData() {
+        roomLogInfoRequest(room_id: room_id!) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                self!.scriptLogDetailModel = ScriptLogDetailModel(fromDictionary: data)
+                self?.myTableView.reloadData()
+                self!.tableHeaderView.scriptLogDetail = self!.scriptLogDetailModel?.script
+            }
+        }
+    }
 }
 
 
@@ -126,13 +151,37 @@ extension RecordDetailViewController {
 // MARK: - TableView Delegate
 extension RecordDetailViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return scriptLogDetailModel?.roomUserList?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordDetailCellId, for: indexPath) as! RecordDetailViewCell
-        
         cell.selectionStyle = .none
+        let model = scriptLogDetailModel?.roomUserList![indexPath.row]
+        cell.itemModel = model
+        if indexPath.row <= 2 {
+            cell.iconLabel.isHidden = true
+            cell.iconImgView.isHidden = false
+            switch indexPath.row {
+            case 0:
+                cell.iconImgView.image = UIImage(named: "jinpai")
+                break
+            case 1:
+                cell.iconImgView.image = UIImage(named: "yinpai")
+                break
+
+            case 2:
+                cell.iconImgView.image = UIImage(named: "tongpai")
+                break
+                
+            default:
+                break
+            }
+
+        } else {
+            cell.iconImgView.isHidden = true
+            cell.iconLabel.text = String(indexPath.row+1)
+        }
         return cell
     }
     
@@ -143,6 +192,7 @@ extension RecordDetailViewController {
     @objc func truthBtnAction() {
         let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        readScriptView.scriptData = scriptLogDetailModel?.chapterList
         self.view.addSubview(readScriptView)
     }
     

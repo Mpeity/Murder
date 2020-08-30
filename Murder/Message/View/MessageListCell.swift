@@ -27,7 +27,35 @@ class MessageListCell: UITableViewCell {
     // 时间
     @IBOutlet weak var timeLabel: UILabel!
     
-
+    var itemModel: MessageListModel? {
+        didSet {
+            guard let itemModel = itemModel else {
+                return
+            }
+            
+            if itemModel.head != nil {
+                avatarImgView.setImageWith(URL(string: itemModel.head!))
+            }
+            
+            if itemModel.nickname != nil {
+                nicknameLabel.text = itemModel.nickname!
+            }
+            
+            if itemModel.content != nil {
+                messageLabel.text = itemModel.content!
+            }
+            if itemModel.createTime != nil {
+                timeLabel.text = itemModel.createTime!
+            }
+            
+            if itemModel.noReadNum ?? 0 > 0 {
+                pointView.isHidden = false
+            } else {
+                pointView.isHidden = true
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

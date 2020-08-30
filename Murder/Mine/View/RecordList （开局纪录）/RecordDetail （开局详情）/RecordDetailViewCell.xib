@@ -26,7 +26,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jingpai" translatesAutoresizingMaskIntoConstraints="NO" id="RWS-7W-evI">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jinpai" translatesAutoresizingMaskIntoConstraints="NO" id="RWS-7W-evI">
                                 <rect key="frame" x="8.5" y="83" width="20" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="Qdj-I2-rW2"/>
@@ -171,7 +171,7 @@
     <resources>
         <image name="avart_one" width="38" height="38.5"/>
         <image name="boult_icon" width="19.5" height="8.5"/>
-        <image name="jingpai" width="21" height="35.5"/>
+        <image name="jinpai" width="21" height="35.5"/>
         <image name="record_detail_icon" width="42.5" height="33"/>
     </resources>
 </document>

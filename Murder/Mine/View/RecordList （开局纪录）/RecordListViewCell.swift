@@ -17,6 +17,31 @@ class RecordListViewCell: UITableViewCell {
     @IBOutlet weak var startTimeLabel: UILabel!
     // 本局时间
     @IBOutlet weak var timeLabel: UILabel!
+    
+    
+    var itemModel: ScriptMineListModel? {
+        didSet {
+            guard let itemModel = itemModel else {
+                return
+            }
+            if itemModel.cover != nil {
+                coverImgView.setImageWith(URL(string: itemModel.cover))
+            }
+            
+            if itemModel.gameStartTime != nil {
+                startTimeLabel.text = itemModel.gameStartTime
+            }
+            
+            if itemModel.spentTimeText != nil {
+                timeLabel.text = itemModel.spentTimeText
+            }
+            
+            if itemModel.scriptName != nil {
+                nameLabel.text = itemModel.scriptName!
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -113,9 +113,21 @@
 		986D9EBD24F392D2005E6B03 /* VoteAnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 986D9EBB24F392D2005E6B03 /* VoteAnswerCell.xib */; };
 		986D9EC024F39650005E6B03 /* VoteCommonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986D9EBE24F39650005E6B03 /* VoteCommonCell.swift */; };
 		986D9EC124F39650005E6B03 /* VoteCommonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 986D9EBF24F39650005E6B03 /* VoteCommonCell.xib */; };
+		986DEA0C24F9079500853917 /* MessageNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DEA0B24F9079500853917 /* MessageNetwork.swift */; };
+		986DEA0F24F9175900853917 /* MessageListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DEA0E24F9175900853917 /* MessageListModel.swift */; };
+		986DFDCE24F89BE9005F2C8A /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DFDCD24F89BE9005F2C8A /* MessageModel.swift */; };
+		986DFDD024F8EA98005F2C8A /* ScriptLogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DFDCF24F8EA98005F2C8A /* ScriptLogModel.swift */; };
+		986DFDD224F8F115005F2C8A /* ScriptLogDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DFDD124F8F115005F2C8A /* ScriptLogDetailModel.swift */; };
 		9871EB3C24E41D9D006464A4 /* ScriptModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9871EB3B24E41D9D006464A4 /* ScriptModel.swift */; };
 		9871EB3E24E41E3B006464A4 /* ScriptListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9871EB3D24E41E3B006464A4 /* ScriptListModel.swift */; };
 		9871EB4024E41EAB006464A4 /* ScriptTagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9871EB3F24E41EAB006464A4 /* ScriptTagModel.swift */; };
+		9874928A24F74A1200D6FD21 /* AgoraRtmKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9874928924F74A1200D6FD21 /* AgoraRtmKit.framework */; };
+		9874928B24F74A5E00D6FD21 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9874927D24F7481900D6FD21 /* CoreTelephony.framework */; };
+		9874928C24F74A6C00D6FD21 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9874928724F7485600D6FD21 /* libc++.tbd */; };
+		9874928E24F74A7D00D6FD21 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9874928D24F74A7D00D6FD21 /* libresolv.tbd */; };
+		9874929024F74A8F00D6FD21 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9874928F24F74A8F00D6FD21 /* SystemConfiguration.framework */; };
+		9874929224F74D4900D6FD21 /* AgoraRtm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9874929124F74D4900D6FD21 /* AgoraRtm.swift */; };
+		9874929424F793AE00D6FD21 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9874929324F793AD00D6FD21 /* Message.swift */; };
 		9875840724E3CA4C008795C5 /* ReadyRoomModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875840624E3CA4C008795C5 /* ReadyRoomModel.swift */; };
 		9875840924E3CAA6008795C5 /* ScriptRoleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875840824E3CAA6008795C5 /* ScriptRoleModel.swift */; };
 		9875840B24E3CAC4008795C5 /* RoomUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875840A24E3CAC4008795C5 /* RoomUserModel.swift */; };
@@ -367,9 +379,25 @@
 		986D9EBB24F392D2005E6B03 /* VoteAnswerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteAnswerCell.xib; sourceTree = "<group>"; };
 		986D9EBE24F39650005E6B03 /* VoteCommonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteCommonCell.swift; sourceTree = "<group>"; };
 		986D9EBF24F39650005E6B03 /* VoteCommonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VoteCommonCell.xib; sourceTree = "<group>"; };
+		986DEA0B24F9079500853917 /* MessageNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageNetwork.swift; sourceTree = "<group>"; };
+		986DEA0E24F9175900853917 /* MessageListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListModel.swift; sourceTree = "<group>"; };
+		986DFDCD24F89BE9005F2C8A /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
+		986DFDCF24F8EA98005F2C8A /* ScriptLogModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptLogModel.swift; sourceTree = "<group>"; };
+		986DFDD124F8F115005F2C8A /* ScriptLogDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptLogDetailModel.swift; sourceTree = "<group>"; };
 		9871EB3B24E41D9D006464A4 /* ScriptModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptModel.swift; sourceTree = "<group>"; };
 		9871EB3D24E41E3B006464A4 /* ScriptListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptListModel.swift; sourceTree = "<group>"; };
 		9871EB3F24E41EAB006464A4 /* ScriptTagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptTagModel.swift; sourceTree = "<group>"; };
+		9874927D24F7481900D6FD21 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		9874927F24F7482300D6FD21 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		9874928124F7482D00D6FD21 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		9874928324F7483600D6FD21 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		9874928524F7483E00D6FD21 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		9874928724F7485600D6FD21 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		9874928924F74A1200D6FD21 /* AgoraRtmKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AgoraRtmKit.framework; sourceTree = "<group>"; };
+		9874928D24F74A7D00D6FD21 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		9874928F24F74A8F00D6FD21 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		9874929124F74D4900D6FD21 /* AgoraRtm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgoraRtm.swift; sourceTree = "<group>"; };
+		9874929324F793AD00D6FD21 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		9875840624E3CA4C008795C5 /* ReadyRoomModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadyRoomModel.swift; sourceTree = "<group>"; };
 		9875840824E3CAA6008795C5 /* ScriptRoleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptRoleModel.swift; sourceTree = "<group>"; };
 		9875840A24E3CAC4008795C5 /* RoomUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomUserModel.swift; sourceTree = "<group>"; };
@@ -482,6 +510,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9874929024F74A8F00D6FD21 /* SystemConfiguration.framework in Frameworks */,
+				9874928E24F74A7D00D6FD21 /* libresolv.tbd in Frameworks */,
+				9874928C24F74A6C00D6FD21 /* libc++.tbd in Frameworks */,
+				9874928B24F74A5E00D6FD21 /* CoreTelephony.framework in Frameworks */,
+				9874928A24F74A1200D6FD21 /* AgoraRtmKit.framework in Frameworks */,
 				98772D0B24DBE72C00C1C125 /* AgoraRtcKit.framework in Frameworks */,
 				13EA5DA1A282F7388D7353FE /* Pods_Murder.framework in Frameworks */,
 			);
@@ -533,6 +566,7 @@
 		0451A35B24C1AA4F00E69085 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				986DEA0D24F9161A00853917 /* Model */,
 				988D4D5824CC7A4800C4B979 /* View */,
 				0451A37024C1AD0700E69085 /* Message.storyboard */,
 				0451A36024C1AAA600E69085 /* MessageViewController.swift */,
@@ -604,6 +638,7 @@
 				0451A35924C1AA3000E69085 /* Home */,
 				04C3A9CC24C18089001DD90D /* AppDelegate.swift */,
 				04C3A9D024C18089001DD90D /* ViewController.swift */,
+				9874929124F74D4900D6FD21 /* AgoraRtm.swift */,
 				04C3A9D224C18089001DD90D /* Main.storyboard */,
 				04C3A9D524C1808D001DD90D /* Assets.xcassets */,
 				04C3A9D724C1808D001DD90D /* LaunchScreen.storyboard */,
@@ -646,6 +681,14 @@
 		648EE0226342890925EB5896 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9874928F24F74A8F00D6FD21 /* SystemConfiguration.framework */,
+				9874928D24F74A7D00D6FD21 /* libresolv.tbd */,
+				9874928724F7485600D6FD21 /* libc++.tbd */,
+				9874928524F7483E00D6FD21 /* AVFoundation.framework */,
+				9874928324F7483600D6FD21 /* AudioToolbox.framework */,
+				9874928124F7482D00D6FD21 /* VideoToolbox.framework */,
+				9874927F24F7482300D6FD21 /* CoreMedia.framework */,
+				9874927D24F7481900D6FD21 /* CoreTelephony.framework */,
 				199A2C7641E20D06FA351063 /* Pods_Murder.framework */,
 				6250B67B87662FC0872C3091 /* Pods_MurderTests.framework */,
 				6705B11114C9CC96304E9979 /* Pods_MurderUITests.framework */,
@@ -713,6 +756,8 @@
 			isa = PBXGroup;
 			children = (
 				9866C16624E4E2EB00810516 /* MineModel.swift */,
+				986DFDCF24F8EA98005F2C8A /* ScriptLogModel.swift */,
+				986DFDD124F8F115005F2C8A /* ScriptLogDetailModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -721,6 +766,7 @@
 			isa = PBXGroup;
 			children = (
 				9867764424D196B8009A950F /* SendMessageViewController.swift */,
+				9874929324F793AD00D6FD21 /* Message.swift */,
 				9867764524D196B8009A950F /* SendMessageViewController.xib */,
 				983A225324DA54A600532BB9 /* MessageScriptCell.swift */,
 				983A225424DA54A600532BB9 /* MessageScriptCell.xib */,
@@ -728,6 +774,7 @@
 				983A225824DA54D200532BB9 /* MessageScriptInviteCell.xib */,
 				983A225B24DA5A1000532BB9 /* MessageTextCell.swift */,
 				983A225C24DA5A1000532BB9 /* MessageTextCell.xib */,
+				986DFDCD24F89BE9005F2C8A /* MessageModel.swift */,
 			);
 			path = "SendMessage（发消息）";
 			sourceTree = "<group>";
@@ -798,6 +845,14 @@
 				9868A33124C9A765009FD8F4 /* BillingInfoViewCell.xib */,
 			);
 			path = "BillingInfo （结算信息）";
+			sourceTree = "<group>";
+		};
+		986DEA0D24F9161A00853917 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				986DEA0E24F9175900853917 /* MessageListModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		9875840524E3CA14008795C5 /* PrepareRoom */ = {
@@ -1060,6 +1115,7 @@
 				98F08C0624E2B5890033DFBA /* ScriptNetwork.swift */,
 				9866C16324E4E09E00810516 /* MineNetwork.swift */,
 				986A540C24EB796D004140F3 /* ImageDownloader.swift */,
+				986DEA0B24F9079500853917 /* MessageNetwork.swift */,
 			);
 			path = HTTPServers;
 			sourceTree = "<group>";
@@ -1128,6 +1184,7 @@
 		98CA02C924C6BFFC009EF0ED /* Dependence */ = {
 			isa = PBXGroup;
 			children = (
+				9874928924F74A1200D6FD21 /* AgoraRtmKit.framework */,
 				98772D0A24DBE72C00C1C125 /* AgoraRtcKit.framework */,
 			);
 			path = Dependence;
@@ -1508,6 +1565,7 @@
 				983A225D24DA5A1000532BB9 /* MessageTextCell.swift in Sources */,
 				986D9EB824F3917A005E6B03 /* VoteAnswerCell.swift in Sources */,
 				98649DD424CE7C76005AA9C3 /* RoleIntroductionCell.swift in Sources */,
+				986DFDD224F8F115005F2C8A /* ScriptLogDetailModel.swift in Sources */,
 				9868A32B24C98D2A009FD8F4 /* PopMenuViewCell.swift in Sources */,
 				98649DEB24CEDAB2005AA9C3 /* ScriptDetailsViewController.swift in Sources */,
 				98B26A7224F2045600671202 /* SearchClueResultModel.swift in Sources */,
@@ -1543,6 +1601,7 @@
 				983FD1A724D27CE40041D79E /* ApplyFriendsListCell.swift in Sources */,
 				9866C16724E4E2EB00810516 /* MineModel.swift in Sources */,
 				98649DD124CE7B17005AA9C3 /* SynopsisViewCell.swift in Sources */,
+				986DFDCE24F89BE9005F2C8A /* MessageModel.swift in Sources */,
 				9868A31524C9312E009FD8F4 /* CollogueRoomView.swift in Sources */,
 				988D4D6024CC856100C4B979 /* MineListCell.swift in Sources */,
 				98649DE924CECF6C005AA9C3 /* Tools.swift in Sources */,
@@ -1554,6 +1613,7 @@
 				983A225924DA54D200532BB9 /* MessageScriptInviteCell.swift in Sources */,
 				9867FED524C8500100A93E5F /* DissolveView.swift in Sources */,
 				9868A31A24C931F0009FD8F4 /* CollogueRoomViewCell.swift in Sources */,
+				9874929224F74D4900D6FD21 /* AgoraRtm.swift in Sources */,
 				98820FB624CAB7160005EBDD /* ThreadCardView.swift in Sources */,
 				9868A33224C9A765009FD8F4 /* BillingInfoViewCell.swift in Sources */,
 				98A79B3424D148CB00ECBD2A /* PrepareRoomCell.swift in Sources */,
@@ -1569,6 +1629,7 @@
 				9868A32124C95F72009FD8F4 /* ReadScriptView.swift in Sources */,
 				98F08BF724E237EE0033DFBA /* HomeBannerModel.swift in Sources */,
 				98673B6524ECAFAB007F5102 /* ScriptLocalData.swift in Sources */,
+				986DFDD024F8EA98005F2C8A /* ScriptLogModel.swift in Sources */,
 				98038F6024D82E7200CBCEE7 /* GameplayViewCell.swift in Sources */,
 				98C8D2BC24CDAF33006C76D0 /* RecordDetailHeaderView.swift in Sources */,
 				98C8D2C924CDD316006C76D0 /* SettingViewController.swift in Sources */,
@@ -1579,11 +1640,13 @@
 				98C8D2AF24CDA0F1006C76D0 /* RecordListViewController.swift in Sources */,
 				983FD1A424D27C170041D79E /* ApplyFriendsViewController.swift in Sources */,
 				98F08BFB24E239ED0033DFBA /* HomeRoomModel.swift in Sources */,
+				986DEA0F24F9175900853917 /* MessageListModel.swift in Sources */,
 				98038F5124D7A1A700CBCEE7 /* MarqueeView.swift in Sources */,
 				98CA02BB24C5A44D009EF0ED /* CompleteInfoViewController.swift in Sources */,
 				9871EB3E24E41E3B006464A4 /* ScriptListModel.swift in Sources */,
 				986A540D24EB796D004140F3 /* ImageDownloader.swift in Sources */,
 				98B26A7024F1401400671202 /* GameUserClueListModel.swift in Sources */,
+				986DEA0C24F9079500853917 /* MessageNetwork.swift in Sources */,
 				98F08BFD24E23A3D0033DFBA /* HomeUserModel.swift in Sources */,
 				98B26A7424F2479500671202 /* ScriptQuestionListModel.swift in Sources */,
 				98A268C324D9148D004B9D53 /* VoteResultViewCell.swift in Sources */,
@@ -1597,6 +1660,7 @@
 				9871EB3C24E41D9D006464A4 /* ScriptModel.swift in Sources */,
 				98649DDA24CEB4F5005AA9C3 /* CreateRoomHeaderView.swift in Sources */,
 				98CA02BF24C5A4E9009EF0ED /* ResetPasswordsViewController.swift in Sources */,
+				9874929424F793AE00D6FD21 /* Message.swift in Sources */,
 				9868A31E24C95F5A009FD8F4 /* ReadScriptViewCell.swift in Sources */,
 				98038F5924D7BB7E00CBCEE7 /* PrepareRoomShareView.swift in Sources */,
 			);

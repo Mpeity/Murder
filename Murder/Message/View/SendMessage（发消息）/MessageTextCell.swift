@@ -34,8 +34,44 @@ class MessageTextCell: UITableViewCell {
     
     @IBOutlet weak var rightTextLabel: UILabel!
     
+    var cellHeight: CGFloat?
     
-    var isLeft: Bool = true
+    var messageModel: Message? {
+        didSet {
+            if messageModel != nil {
+                
+                let rightHidden = messageModel?.type == .left ? true : false
+                rightView.isHidden = rightHidden
+                leftView.isHidden = !rightHidden
+                
+                let user = messageModel?.userId
+                leftAvatarView.setImageWith(URL(string: user!))
+                rightAvatarView.setImageWith(URL(string: user!))
+                
+                let content = messageModel?.text
+                
+                var width = labelWidth(text: content!, height: 15, fontSize: 15)
+                var height: CGFloat = 90
+                if width >= FULL_SCREEN_WIDTH - 170 {
+                    width = FULL_SCREEN_WIDTH - 170
+                    height = content!.ga_heightForComment(fontSize: 15, width: width)
+                }
+                cellHeight = height
+                leftTextLabel.text = content
+                rightTextLabel.text = content
+                
+                Log("height===\(height ?? 0)")
+                
+            }
+        }
+    }
+    
+    
+    var isLeft: Bool = true {
+        didSet {
+            setUI()
+        }
+    }
 
     
     override func awakeFromNib() {
@@ -46,26 +82,9 @@ class MessageTextCell: UITableViewCell {
         leftView.isHidden = true
         leftTextLabel.textColor = HexColor(DarkGrayColor)
         rightTextLabel.textColor = UIColor.white
-
         
-//        setUI()
     }
     
-//    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
-//
-//        rightView.isHidden = true
-//        leftView.isHidden = true
-//        leftTextLabel.textColor = HexColor(DarkGrayColor)
-//        rightTextLabel.textColor = UIColor.white
-//
-//        setUI()
-//
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -86,7 +105,7 @@ extension MessageTextCell {
             if width >= FULL_SCREEN_WIDTH - 170 {
                 width = FULL_SCREEN_WIDTH - 170
             }
-
+            cellHeight = 90
 
         } else { // 右边
             rightView.isHidden = false
@@ -96,9 +115,11 @@ extension MessageTextCell {
             if width >= FULL_SCREEN_WIDTH - 170 {
                 width = FULL_SCREEN_WIDTH - 170
             }
-//            let height = stringSingleHeightWithWidth(text: rightTextLabel.text, width: width, font: UIFont.systemFont(ofSize: 15))
-//
-//            Log("height===\(height)")
+            let height = rightTextLabel.text?.ga_heightForComment(fontSize: 15, width: width)
+            
+            cellHeight = height
+            
+            Log("height===\(height ?? 0)")
         }
     }
 }

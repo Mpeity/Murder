@@ -32,5 +32,13 @@ class GradienButton: UIButton {
         gradienLayer.cornerRadius = CGFloat(cornerRadius)
         self.layer.insertSublayer(gradienLayer, at: 0)
     }
+    
+    
+    // 去掉渐变色
+    func gradientClearLayerColor(cornerRadius: Float) {
+        if (gradienLayer.superlayer != nil) {
+            gradienLayer.removeFromSuperlayer()
+        }
+    }
 
 }

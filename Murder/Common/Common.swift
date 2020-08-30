@@ -20,7 +20,7 @@ let app_secret = "07834af7d1a2d0459f4c2b63bfcf5f4f"
 let redirect_uri = "http://www.520it.com"
 
 // 声网APPID
-let AgoraKit_AppId = "26527026d3744a2888d47bbf3afa42b0"
+let AgoraKit_AppId = "c9c14d866ca149119d7c6110dc47be36"
 
 
 //MARK:- bugly

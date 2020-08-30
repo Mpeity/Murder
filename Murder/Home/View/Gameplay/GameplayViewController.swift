@@ -20,7 +20,7 @@ class GameplayViewController: UIViewController {
         
     var room_id: Int!
     
-    var script_id: Int!
+    var script_id: Int?
 
     
     private var current_client_id: String!
@@ -231,6 +231,10 @@ extension GameplayViewController {
 extension GameplayViewController {
     
     func getImagePathWith(attachmentId: String) -> String? {
+        
+        guard let script_id = script_id else {
+            return nil
+        }
         
         if (UserDefaults.standard.value(forKey: String(script_id)) != nil) {
             let localData = ScriptLocalData.shareInstance.getNormalDefult(key: String(script_id))
@@ -1264,6 +1268,8 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                 
                 cell.r_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
                 remainingCount = itemModel.user?.point! as! Int
+                
+                
                 // 是否有人发起解散申请
                 if itemModel.applyDismiss == 1  { // 是
                     dissolveView.isHidden = false
@@ -1366,8 +1372,10 @@ extension GameplayViewController {
         agoraKit.enableAudioVolumeIndication(1000, smooth: 3, report_vad: false)
         // 加入案发现场的群聊频道
 
+        print(String(room_id!))
+        
         let uid:UInt = UInt(bitPattern: (UserAccountViewModel.shareInstance.account?.userId!)!)
-        agoraKit.joinChannel(byToken: nil, channelId: "\(room_id!)", info: nil, uid: uid , joinSuccess: nil)
+        agoraKit.joinChannel(byToken: nil, channelId: String(room_id!), info: nil, uid: uid , joinSuccess: nil)
     }
 }
 
@@ -1445,6 +1453,7 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
             return
         }
         for speaker in speakers {
+            
             if let index = getIndexWithUserIsSpeaking(uid: (speaker.user?.userId)!),
                 let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
                 if index%2 == 0 {

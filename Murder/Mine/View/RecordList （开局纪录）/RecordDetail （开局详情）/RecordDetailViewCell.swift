@@ -31,6 +31,37 @@ class RecordDetailViewCell: UITableViewCell {
     // 经验
     @IBOutlet weak var experienceLabel: UILabel!
     
+    var itemModel: ScriptLogDetailUserModel? {
+        didSet {
+            guard let itemModel =  itemModel else {
+                return
+            }
+            if itemModel.userHead != nil {
+                avartImgView.setImageWith(URL(string: itemModel.userHead!))
+            }
+            
+            if itemModel.userNickname != nil {
+                nicknameLabel.text = itemModel.userNickname!
+            }
+            
+            if itemModel.roleHead != nil {
+                headerImgView.setImageWith(URL(string: itemModel.roleHead!))
+            }
+            
+            if itemModel.roleName != nil {
+                gameNameLabel.text = itemModel.roleName!
+            }
+            
+            if itemModel.expScore != nil {
+                experienceLabel.text = "EXP：\(itemModel.expScore!)"
+            }
+            
+            if itemModel.score != nil {
+                scoreLabel.text = "スコア：\(itemModel.score!)"
+            }
+        }
+    }
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -58,7 +89,5 @@ extension RecordDetailViewCell {
         
         experienceLabel.textColor = HexColor(MainColor)
         experienceLabel.font = UIFont.systemFont(ofSize: 14)
-        
-
     }
 }

@@ -24,7 +24,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     // 注册
     @IBOutlet weak var registerBtn: UIButton!
     // 登录
-    @IBOutlet weak var loginBtn: UIButton!
+    @IBOutlet weak var loginBtn: GradienButton!
     
     // 用户协议
     @IBOutlet weak var userAgreementLabel: UILabel!
@@ -140,8 +140,10 @@ extension LoginViewController {
         
         // 登录
         loginBtn.setTitleColor(UIColor.white, for: .normal)
-//        loginBtn.titleLabel?.text = "ログイン"
-        loginBtn.gradientColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
+        loginBtn.titleLabel?.text = "ログイン"
+//        loginBtn.gradientColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
+        
+        loginBtn.setGradienButtonColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
         
         userAgreementLabel.attributedText = getNSAttributedString(str: "利用規約」に同意してログインする", color: LightGrayColor)
 

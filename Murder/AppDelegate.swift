@@ -8,6 +8,8 @@
 
 import UIKit
 import Bugly
+import AgoraRtmKit
+
 
 
 @UIApplicationMain
@@ -32,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         buglyConfig.debugMode = true
         Bugly.start(withAppId: BUGLY_APP_ID, config: buglyConfig)
         
+        // 声网
         
 //
         UITabBar.appearance().tintColor = HexColor("#9A57EF")
@@ -51,7 +54,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-
+    
+    
+    
     // MARK: UISceneSession Lifecycle
 
 //    @available(iOS 13.0, *)
@@ -70,4 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
+
+
 

@@ -145,6 +145,12 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
             cell.contentLabel.text = model.name! as String
         }
         
+        if type == "truth" {
+            let model = titleArray[indexPath.row] as! ScriptLogChapterModel
+            // 是否查看【1是0否】
+            cell.contentLabel.text = model.name! as String
+        }
+        
         
         cell.contentLabel.backgroundColor = UIColor.clear
         cell.contentLabel.textColor = contentTextColor

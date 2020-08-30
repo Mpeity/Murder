@@ -78,7 +78,7 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     // 跑马灯
     private var marqueeView: MarqueeView = MarqueeView()
     // 准备按钮
-    private var prepareBtn: UIButton = UIButton()
+    private var prepareBtn: GradienButton = GradienButton()
     // 声音按钮
     private var voiceBtn: UIButton = UIButton()
     
@@ -211,7 +211,7 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
 //            guard  let resultDic :[String : AnyObject] = result else { return }
 //            if resultDic["code"]!.isEqual(1) {
 //            }
-//            
+//
 //        }
     }
     
@@ -362,13 +362,24 @@ extension PrepareRoomViewController {
                     self?.refreshUI()
                     self?.tableView.reloadData()
                 }
-                if self!.readyRoomModel?.readyOk! == 1  && self!.loadAllImages == true { // 准备完毕
-                    let vc = GameplayViewController()
-                    vc.script_node_id = self!.readyRoomModel!.firstScriptNodeId!
-                    vc.room_id = self!.readyRoomModel?.roomId
-                    vc.script_id = self!.script_id
-                    self!.navigationController?.pushViewController(vc, animated: true)
-                }
+                
+//                if self!.readyRoomModel?.readyOk! == 1  && self!.loadAllImages == true { // 准备完毕
+//                    let vc = GameplayViewController()
+//                    vc.script_node_id = self!.readyRoomModel!.firstScriptNodeId!
+//                    vc.room_id = self!.readyRoomModel?.roomId
+//                    vc.script_id = self!.script_id
+//                    self!.navigationController?.pushViewController(vc, animated: true)
+//                }
+                
+                
+//                if self!.readyRoomModel?.readyOk! == 1  { // 准备完毕
+//                    let vc = GameplayViewController()
+//                    vc.script_node_id = self!.readyRoomModel!.firstScriptNodeId!
+//                    vc.room_id = self!.readyRoomModel?.roomId
+//                    vc.script_id = self!.script_id
+//                    self!.navigationController?.pushViewController(vc, animated: true)
+//                }
+                
             } else {
                 
             }
@@ -412,7 +423,6 @@ extension PrepareRoomViewController {
         self.view.backgroundColor = HexColor("#27025E")
         setHeaderView()
     }
-
 
     // MARK: - 头部视图
     private func setHeaderView() {
@@ -625,8 +635,7 @@ extension PrepareRoomViewController {
             make.bottom.equalToSuperview().offset(-14)
         }
         prepareBtn.layoutIfNeeded()
-//        prepareBtn.setGradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 20)
-        prepareBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 20)
+        prepareBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 20)
         prepareBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         prepareBtn.setTitle("準備", for: .normal)
         prepareBtn.setTitleColor(UIColor.white, for: .normal)
@@ -698,14 +707,11 @@ extension PrepareRoomViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let scriptRoleModel = readyRoomModel?.scriptRoleList?[indexPath.row]
         if scriptRoleModel?.hasPlayer ?? false { //已有玩家选择
-
             Log("已有玩家选择\(scriptRoleModel?.hasPlayer)")
         } else { // 可选择角色
             choiceRole(script_role_id: scriptRoleModel?.scriptRoleId! ?? 0)
             scriptRoleModel?.hasPlayer = true
-            
             Log("可选择角色\(scriptRoleModel?.hasPlayer)")
-
         }
     }
     
@@ -799,7 +805,12 @@ extension PrepareRoomViewController {
     @objc func prepareBtnAction(button: UIButton) {
         // 站起状态或者未选择状态 提示先选择角色
         
-        
+//        let vc = GameplayViewController()
+//       vc.script_node_id = readyRoomModel!.firstScriptNodeId!
+//       vc.room_id = readyRoomModel?.roomId
+//       vc.script_id = script_id
+//       self.navigationController?.pushViewController(vc, animated: true)
+//        return
         
         let uid = UserAccountViewModel.shareInstance.account?.userId!
         guard let index = getIndexWithUserIsSpeaking(uid: UInt(bitPattern: uid!)) else { return }
@@ -822,10 +833,16 @@ extension PrepareRoomViewController {
         var status = 0
         if button.isSelected { // 准备
             prepareBtn.setTitle("準備取り消し", for: . normal)
-            prepareBtn.clearGradientColor(cornerRadius: 20)
+            prepareBtn.gradientClearLayerColor(cornerRadius: 20)
+            prepareBtn.layer.borderColor = HexColor(MainColor).cgColor
+            prepareBtn.layer.cornerRadius = 20
+            prepareBtn.layer.borderWidth = 1
+            prepareBtn.setTitleColor(HexColor(MainColor), for: .normal)
             status = 1
         } else { // 取消准备
             prepareBtn.setTitle("準備", for: .normal)
+            prepareBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 20)
+            prepareBtn.setTitleColor(UIColor.white, for: .normal)
             status = 0
         }
 
@@ -865,23 +882,7 @@ extension PrepareRoomViewController {
 }
 
 
-// MARK: - 初始化声网sdk
-extension PrepareRoomViewController {
-    private func initAgoraKit() {
-        // 初始化
-        agoraKit = AgoraRtcEngineKit.sharedEngine(withAppId: AgoraKit_AppId, delegate: self)
-        // 因为是纯音频多人通话的场景，设置为通信模式以获得更好的音质
-        agoraKit.setChannelProfile(.communication)
-        // 通信模式下默认为听筒，demo中将它切为外放
-        agoraKit.setDefaultAudioRouteToSpeakerphone(true)
-        // 启动音量回调，用来在界面上显示房间其他人的说话音量
-        agoraKit.enableAudioVolumeIndication(1000, smooth: 3, report_vad: false)
-        // 加入案发现场的群聊频道
-        
-        let uid:UInt = UInt(bitPattern: (UserAccountViewModel.shareInstance.account?.userId!)!)
-        agoraKit.joinChannel(byToken: nil, channelId: "\(room_id!)", info: nil, uid: uid , joinSuccess: nil)
-    }
-}
+
 
 
 // MARK: 更新UI
@@ -950,6 +951,26 @@ private extension PrepareRoomViewController {
     }
 }
 
+// MARK: - 初始化声网sdk
+extension PrepareRoomViewController {
+    private func initAgoraKit() {
+        // 初始化
+        agoraKit = AgoraRtcEngineKit.sharedEngine(withAppId: AgoraKit_AppId, delegate: self)
+        // 因为是纯音频多人通话的场景，设置为通信模式以获得更好的音质
+        agoraKit.setChannelProfile(.communication)
+        // 通信模式下默认为听筒，demo中将它切为外放
+        agoraKit.setDefaultAudioRouteToSpeakerphone(true)
+        // 启动音量回调，用来在界面上显示房间其他人的说话音量
+        agoraKit.enableAudioVolumeIndication(1000, smooth: 3, report_vad: false)
+        // 加入案发现场的群聊频道
+        
+
+        let uid:UInt = UInt(bitPattern: (UserAccountViewModel.shareInstance.account?.userId!)!)
+        agoraKit.joinChannel(byToken: nil, channelId: String(room_id!), info: nil, uid: uid) { (channel, uid, elapsed) in
+            Log("channel=\(channel) uid=\(uid) elapsed=\(elapsed)")
+        }
+    }
+}
 // MARK: AgoraRtcEngineDelegate
 extension PrepareRoomViewController: AgoraRtcEngineDelegate {
     func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinChannel channel: String, withUid uid: UInt, elapsed: Int) {
@@ -985,8 +1006,6 @@ extension PrepareRoomViewController: AgoraRtcEngineDelegate {
         }
         if let index = getIndexWithUserIsSpeaking(uid: uid) {
             let model = userList[index]
-//            let str = "\(model.nickname!)入室しました"
-//            notifArr.append(str)
             
             let obj = ["name": model.nickname!, "status" : "入室しました"] as [String : AnyObject]
             notifArr.append(obj)
@@ -1147,26 +1166,38 @@ extension PrepareRoomViewController: WebSocketDelegate {
             }
             
         } else {
-            Log("websocketDidReceiveMessage=\(text)")
-            Log("websocketDidReceiveMessage=\(dic)")
-            Log("websocketDidReceiveMessage----数据更新了")
             // 取到结果
             guard  let resultDic :[String : AnyObject] = dic as? [String : AnyObject] else { return }
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
                 let resultData = data["result"] as! [String : AnyObject]
+                Log("websocketDidReceiveMessage----数据更新了")
+                Log(resultData)
                 
                 readyRoomModel = ReadyRoomModel(fromDictionary: resultData)
                 if readyRoomModel != nil {
                     refreshUI()
                     tableView.reloadData()
                 }
-                if readyRoomModel?.readyOk! == 1  && loadAllImages == true { // 准备完毕
+
+                let type = readyRoomModel?.readyOk!
+                switch type {
+                case 1: // 准备好了
                     let vc = GameplayViewController()
                     vc.script_node_id = readyRoomModel!.firstScriptNodeId!
                     vc.room_id = readyRoomModel?.roomId
                     vc.script_id = script_id
                     self.navigationController?.pushViewController(vc, animated: true)
+                    
+                    break
+                case 2:
+                    
+                    break
+                case 3: // 解散
+                    self.navigationController?.popToRootViewController(animated: true)
+                    break
+                default:
+                    break
                 }
             } else {
                 

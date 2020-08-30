@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -23,28 +23,28 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_logo" translatesAutoresizingMaskIntoConstraints="NO" id="mIX-6N-lXt">
-                    <rect key="frame" x="142" y="124" width="130" height="130"/>
+                    <rect key="frame" x="122.5" y="80" width="130" height="130"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="130" id="aei-96-o86"/>
                         <constraint firstAttribute="height" constant="130" id="btG-1Y-IUI"/>
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CGt-UJ-pMa">
-                    <rect key="frame" x="0.0" y="284" width="414" height="73"/>
+                    <rect key="frame" x="0.0" y="240" width="375" height="73"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZMt-Gn-XFu">
-                            <rect key="frame" x="37" y="72" width="340" height="1"/>
+                            <rect key="frame" x="37" y="72" width="301" height="1"/>
                             <color key="backgroundColor" red="0.85490196080000003" green="0.85490196080000003" blue="0.85490196080000003" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="Xlr-US-vD0"/>
                             </constraints>
                         </view>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="メールアドレス" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Ja-Io-yD5">
-                            <rect key="frame" x="64" y="34.5" width="313" height="30"/>
+                            <rect key="frame" x="64" y="34.5" width="274" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="8sg-pS-s4u"/>
                             </constraints>
@@ -73,17 +73,17 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ags-eZ-EOX">
-                    <rect key="frame" x="0.0" y="357" width="414" height="73"/>
+                    <rect key="frame" x="0.0" y="313" width="375" height="73"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PYH-Lz-A0e">
-                            <rect key="frame" x="37" y="72" width="340" height="1"/>
+                            <rect key="frame" x="37" y="72" width="301" height="1"/>
                             <color key="backgroundColor" red="0.85490196080000003" green="0.85490196080000003" blue="0.85490196080000003" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="iU4-KC-zDT"/>
                             </constraints>
                         </view>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="パスワードを入力" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rkd-F3-f75">
-                            <rect key="frame" x="64" y="34.5" width="313" height="30"/>
+                            <rect key="frame" x="64" y="34.5" width="274" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="PhN-KX-cB3"/>
                             </constraints>
@@ -112,10 +112,10 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1ji-jy-ceE">
-                    <rect key="frame" x="0.0" y="465" width="414" height="50"/>
+                    <rect key="frame" x="0.0" y="421" width="375" height="50"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a2s-Rl-xBN">
-                            <rect key="frame" x="37.5" y="0.0" width="162" height="50"/>
+                            <rect key="frame" x="37" y="0.0" width="143" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="oB0-uf-49C"/>
                             </constraints>
@@ -127,8 +127,8 @@
                                 <action selector="registerBtnAction:" destination="-1" eventType="touchUpInside" id="k3S-pI-vDb"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sw4-zc-yjZ">
-                            <rect key="frame" x="214.5" y="0.0" width="162" height="50"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sw4-zc-yjZ" customClass="GradienButton" customModule="Murder" customModuleProvider="target">
+                            <rect key="frame" x="195" y="0.0" width="143" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="7Wr-jo-lQu"/>
                             </constraints>
@@ -145,23 +145,23 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="5aR-yI-cAq"/>
                         <constraint firstAttribute="bottom" secondItem="sw4-zc-yjZ" secondAttribute="bottom" id="7B7-L2-zAj"/>
-                        <constraint firstAttribute="trailing" secondItem="sw4-zc-yjZ" secondAttribute="trailing" constant="37.5" id="Lpr-iK-mej"/>
+                        <constraint firstAttribute="trailing" secondItem="sw4-zc-yjZ" secondAttribute="trailing" constant="37" id="NgF-Fm-CvJ"/>
                         <constraint firstItem="sw4-zc-yjZ" firstAttribute="width" secondItem="a2s-Rl-xBN" secondAttribute="width" id="XAG-2G-kh5"/>
                         <constraint firstItem="sw4-zc-yjZ" firstAttribute="leading" secondItem="a2s-Rl-xBN" secondAttribute="trailing" constant="15" id="ag8-Kw-B5L"/>
                         <constraint firstItem="sw4-zc-yjZ" firstAttribute="top" secondItem="1ji-jy-ceE" secondAttribute="top" id="dAr-EM-Wmm"/>
                         <constraint firstAttribute="bottom" secondItem="a2s-Rl-xBN" secondAttribute="bottom" id="eob-vP-Hcg"/>
-                        <constraint firstItem="a2s-Rl-xBN" firstAttribute="leading" secondItem="1ji-jy-ceE" secondAttribute="leading" constant="37.5" id="iWp-dh-8el"/>
+                        <constraint firstItem="a2s-Rl-xBN" firstAttribute="leading" secondItem="1ji-jy-ceE" secondAttribute="leading" constant="37" id="iWp-dh-8el"/>
                         <constraint firstItem="a2s-Rl-xBN" firstAttribute="top" secondItem="1ji-jy-ceE" secondAttribute="top" id="zOi-n1-fQB"/>
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="利用規約」に同意してログインする" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y10-tC-i4P">
-                    <rect key="frame" x="35" y="788.5" width="344" height="14.5"/>
+                    <rect key="frame" x="35" y="593.5" width="305" height="14.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="パスワードを忘れた" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c69-oT-azH">
-                    <rect key="frame" x="35" y="827" width="344" height="15"/>
+                    <rect key="frame" x="35" y="632" width="305" height="15"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="15" id="yH3-zc-xqH"/>
                     </constraints>
