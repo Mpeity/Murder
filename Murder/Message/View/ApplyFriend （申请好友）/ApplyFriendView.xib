@@ -14,6 +14,7 @@
                 <outlet property="applyBtn" destination="gh3-pU-99P" id="6Qe-aW-tHF"/>
                 <outlet property="cancelBtn" destination="ha0-Ax-GXg" id="zNL-f7-HWF"/>
                 <outlet property="contentView" destination="FRs-yy-bNd" id="grq-i2-6OR"/>
+                <outlet property="deleteBtn" destination="pSk-Sn-yEv" id="drG-SJ-cax"/>
                 <outlet property="levelLabel" destination="iKK-ed-ljT" id="1NU-9M-ncD"/>
                 <outlet property="playerImgView" destination="rwo-TR-x3D" id="sGw-w4-mnq"/>
                 <outlet property="playerNameLabel" destination="Ffk-Qm-3aY" id="CUs-Zl-oGc"/>
@@ -105,12 +106,22 @@
                                 <constraint firstItem="Ffk-Qm-3aY" firstAttribute="leading" secondItem="oYd-AX-gie" secondAttribute="leading" constant="25" id="l2b-wE-Pvs"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gh3-pU-99P">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gh3-pU-99P" customClass="GradienButton" customModule="Murder" customModuleProvider="target">
                             <rect key="frame" x="25" y="181" width="225" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="dgS-ww-L8t"/>
                             </constraints>
                             <state key="normal" title="親友を申し込む"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pSk-Sn-yEv">
+                            <rect key="frame" x="195" y="0.0" width="70" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="Cyk-Il-Wwl"/>
+                                <constraint firstAttribute="width" constant="70" id="HLt-eu-Fu3"/>
+                                <constraint firstAttribute="height" constant="30" id="Nte-Cf-Bpm"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="hz0-aj-KAZ"/>
+                            </constraints>
+                            <state key="normal" image="message_delete"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -125,6 +136,8 @@
                         <constraint firstItem="gh3-pU-99P" firstAttribute="leading" secondItem="kWl-AG-Blp" secondAttribute="leading" constant="25" id="hgk-R0-9Dh"/>
                         <constraint firstItem="gh3-pU-99P" firstAttribute="top" secondItem="oYd-AX-gie" secondAttribute="bottom" id="nOB-tk-Vnq"/>
                         <constraint firstAttribute="trailing" secondItem="oYd-AX-gie" secondAttribute="trailing" id="pli-tn-REz"/>
+                        <constraint firstItem="pSk-Sn-yEv" firstAttribute="top" secondItem="kWl-AG-Blp" secondAttribute="top" id="qtg-Uw-j1O"/>
+                        <constraint firstAttribute="trailing" secondItem="pSk-Sn-yEv" secondAttribute="trailing" constant="10" id="sGn-Jt-yR6"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -155,6 +168,7 @@
     <resources>
         <image name="cancel" width="35" height="35"/>
         <image name="image5" width="40" height="40"/>
+        <image name="message_delete" width="11" height="11"/>
         <image name="sex_man" width="15" height="15.5"/>
     </resources>
 </document>

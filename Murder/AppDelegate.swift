@@ -46,8 +46,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = defaultViewController
 //        self.window?.rootViewController =  BaseNavigationViewController(rootViewController: PrepareRoomViewController())
 //        self.window?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
-
-//        self.window?.rootViewController =  BaseNavigationViewController(rootViewController: BigImageViewController())
         
         self.window?.makeKeyAndVisible()
         

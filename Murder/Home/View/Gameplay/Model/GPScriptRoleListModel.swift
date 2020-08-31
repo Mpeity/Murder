@@ -22,6 +22,7 @@ class GPScriptRoleListModel : NSObject {
     var readyOk : Int?
     var scriptRoleId : Int?
     var scriptRoleName : String?
+    var secretTalkId : String?
     var user : GPScriptRoleUserModel?
 
 
@@ -39,6 +40,8 @@ class GPScriptRoleListModel : NSObject {
         readyOk = dictionary["ready_ok"] as? Int
         scriptRoleId = dictionary["script_role_id"] as? Int
         scriptRoleName = dictionary["script_role_name"] as? String
+        secretTalkId = dictionary["secret_talk_id"] as? String
+
         if let userData = dictionary["user"] as? [String:Any]{
             user = GPScriptRoleUserModel(fromDictionary: userData)
         }
@@ -79,6 +82,9 @@ class GPScriptRoleListModel : NSObject {
         }
         if scriptRoleName != nil{
             dictionary["script_role_name"] = scriptRoleName
+        }
+        if secretTalkId != nil{
+            dictionary["secret_talk_id"] = secretTalkId
         }
         if user != nil{
             dictionary["user"] = user!.toDictionary()

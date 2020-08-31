@@ -28,4 +28,8 @@ struct Message {
     var cellHeight: CGFloat?
     
     var type: CellType?
+    // 头像
+    var head: String?
+    
+    
 }

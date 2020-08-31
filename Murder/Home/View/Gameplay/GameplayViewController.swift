@@ -109,6 +109,9 @@ class GameplayViewController: UIViewController {
     var threadBtn: UIButton = UIButton()
     // 密谈按钮
     var collogueBtn: UIButton = UIButton()
+    var collogueLabel = UILabel()
+    
+    
     // 未知按钮名称
     var commonBtn: UIButton = UIButton()
     
@@ -263,6 +266,11 @@ extension GameplayViewController {
            gameNameLabel.text = ""
         }
         
+        // 密谈数量
+        let collogueBtnNum = gamePlayModel?.script.secretTalkRoomNum
+        collogueLabel.text = String(collogueBtnNum!)
+        
+        
         if gamePlayModel?.scriptNodeResult.nodeName != nil {
             currentLabel.text = gamePlayModel?.scriptNodeResult.nodeName
         }
@@ -287,6 +295,39 @@ extension GameplayViewController {
                 make.width.equalTo(136)
             }
         }
+        
+        //
+        let mapList = gamePlayModel?.scriptNodeResult.scriptNodeMapList!
+        for item in mapList! {
+            let mapId = item.scriptNodeMapId
+            switch mapId {
+            case 1:
+                if item.see == 0 {
+                    hideRedPoint(commonView: scriptBtn)
+                } else {
+                    addRedPoint(commonView: scriptBtn, x: 30, y: 5)
+                }
+                
+                break
+            case 2:
+                if item.see == 0 {
+                    addRedPoint(commonView: collogueBtn, x: 30, y: 5)
+                } else {
+                    hideRedPoint(commonView: collogueBtn)
+                }
+                break
+            case 3:
+                if item.see == 0 {
+                    addRedPoint(commonView: threadBtn, x: 30, y: 5)
+                } else {
+                    hideRedPoint(commonView: threadBtn)
+                }
+                break
+            default:
+                break
+            }
+        }
+        
         
         collectionView.reloadData()
     }
@@ -389,6 +430,7 @@ extension GameplayViewController {
     /// 添加红点
     private func addRedPoint(commonView: UIView, x: CGFloat, y: CGFloat) {
         let point = UIView()
+        point.tag = 1234
         commonView.addSubview(point)
         point.backgroundColor = HexColor("#ED2828")
         point.layer.cornerRadius = 3.5
@@ -396,6 +438,13 @@ extension GameplayViewController {
             make.width.height.equalTo(7)
             make.left.equalToSuperview().offset(x)
             make.top.equalToSuperview().offset(y)
+        }
+    }
+    
+    private func hideRedPoint(commonView: UIView) {
+        let point = self.view.viewWithTag(1234)
+        if point != nil {
+            point?.removeFromSuperview()
         }
     }
     
@@ -757,7 +806,7 @@ extension GameplayViewController {
         }
         threadBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_thread", title: "手掛かり", cornerRadius: 25, color: "#20014D")
         threadBtn.addTarget(self, action: #selector(threadBtnBtnAction(button:)), for: .touchUpInside)
-        addRedPoint(commonView: threadBtn, x: 30, y: 5)
+//        addRedPoint(commonView: threadBtn, x: 30, y: 5)
 
         
         
@@ -770,12 +819,23 @@ extension GameplayViewController {
         }
         collogueBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_collogue", title: "密談", cornerRadius: 25, color: "#20014D")
         collogueBtn.addTarget(self, action: #selector(collogueBtnAction(button:)), for: .touchUpInside)
-        
         // 密谈视图
         collogueRoomView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         collogueRoomView.isHidden = true
         collogueRoomView.delegate = self
         self.view.addSubview(collogueRoomView)
+        
+        
+
+        collogueLabel.textColor = UIColor.black
+        collogueLabel.font = UIFont.systemFont(ofSize: 10)
+        collogueLabel.textAlignment = .center
+        collogueBtn.addSubview(collogueLabel)
+        collogueLabel.snp.makeConstraints { (make) in
+            make.width.height.equalTo(20)
+            make.top.equalToSuperview().offset(8)
+            make.centerX.equalToSuperview()
+        }
         
         
         // 未知按钮
@@ -1175,6 +1235,14 @@ extension GameplayViewController: CollogueRoomViewDelegate {
         // 加入私聊频道
         let uid = UserAccountViewModel.shareInstance.account?.userId
         agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: uid!), joinSuccess: nil)
+        
+        let script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
+        let secret_talk_id = index+1
+        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"secret_talk_id":secret_talk_id,"game_status_type":"secret_talk","key":(UserAccountViewModel.shareInstance.account?.key!)! as String] as [String : AnyObject]
+        
+        let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
+        SingletonSocket.sharedInstance.socket.write(string: mapJson)
+        
     }
     // 退出密谈室
     func leaveBtnTapAction(index: Int) {
@@ -1187,6 +1255,16 @@ extension GameplayViewController: CollogueRoomViewDelegate {
         // 从私聊返回案发现场时，重新加入案发现场的群聊频道
         let uid = UserAccountViewModel.shareInstance.account?.userId
         agoraKit.joinChannel(byToken: nil, channelId: "\(room_id!)", info: nil, uid: UInt(bitPattern: uid!) , joinSuccess: nil)
+        
+        let script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
+        
+//        let script_clue_id = itemModel.scriptClueId
+        let script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
+        let secret_talk_id = index+1
+        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":0,"script_role_id":script_role_id!,"secret_talk_id":secret_talk_id,"game_status_type":"secret_talk","key":(UserAccountViewModel.shareInstance.account?.key!)! as String] as [String : AnyObject]
+        
+        let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
+        SingletonSocket.sharedInstance.socket.write(string: mapJson)
     }
     
 }
@@ -1254,6 +1332,16 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
             if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
                 cell.l_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
                 remainingCount = itemModel.user?.point! as! Int
+                
+                if itemModel.secretTalkId == nil, itemModel.secretTalkId == "0" {
+                    cell.l_miLabel.isHidden = true
+                } else {
+//                   let indexStr = (itemModel.secretTalkId! as NSString).components(separatedBy: "_").last
+//                    cell.l_miLabel.isHidden = false
+//                    cell.l_miLabel.text = "密\(indexStr!)"
+                }
+                
+                
                 // 是否有人发起解散申请
                 if itemModel.applyDismiss == 1  { // 是
                     dissolveView.isHidden = false
@@ -1268,6 +1356,14 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                 
                 cell.r_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
                 remainingCount = itemModel.user?.point! as! Int
+                
+                if itemModel.secretTalkId == nil, itemModel.secretTalkId == "0" {
+                    cell.r_miLabel.isHidden = true
+                } else {
+                   let indexStr = (itemModel.secretTalkId! as NSString).components(separatedBy: "_").last
+                    cell.r_miLabel.isHidden = false
+                    cell.r_miLabel.text = "密\(indexStr!)"
+                }
                 
                 
                 // 是否有人发起解散申请
@@ -1288,9 +1384,6 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
             } else {
                 cell.r_handsUp.isHidden = true
             }
-//            if indexPath.item == 1{
-//                cell.r_miLabel.isHidden = false
-//            }
         }
          return cell
      }
@@ -1453,7 +1546,9 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
             return
         }
         for speaker in speakers {
-            
+            if speaker.user == nil {
+                continue
+            }
             if let index = getIndexWithUserIsSpeaking(uid: (speaker.user?.userId)!),
                 let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
                 if index%2 == 0 {
@@ -1535,7 +1630,7 @@ extension GameplayViewController: WebSocketDelegate {
             guard  let resultDic :[String : AnyObject] = dic as? [String : AnyObject] else { return }
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
-                Log("gameplay--websocketDidReceiveMessage=\(socket)\(data)")
+                Log("gameplay--websocketDidReceiveMessage=\(socket)\(text)")
 
                 gamePlayModel = GamePlayModel(fromDictionary: data)
                 stage = gamePlayModel?.scriptNodeResult.nodeType!

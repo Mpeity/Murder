@@ -1,40 +1,34 @@
 //
-//  MessageListModel.swift
+//  FriendsModel.swift
 //  Murder
 //
-//  Created by 马滕亚 on 2020/8/28.
+//  Created by 马滕亚 on 2020/8/31.
 //  Copyright © 2020 m.a.c. All rights reserved.
 //
 
 import Foundation
 
-class MessageListModel : NSObject {
-    var content : String?
-    var createTime : String?
+class FriendListModel : NSObject {
+    var gameStatus : Int?
+    var gameText : String?
     var head : String?
     var level : String?
     var nickname : String?
-    var noReadNum : Int?
-    var type : Int?
+    var sexText : String?
     var userId : Int?
-    var sex : Int?
 
-    
 
     /**
      * Instantiate the instance using the passed dictionary values to set the properties values
      */
     init(fromDictionary dictionary: [String:Any]){
-        content = dictionary["content"] as? String
-        createTime = dictionary["create_time"] as? String
+        gameStatus = dictionary["game_status"] as? Int
+        gameText = dictionary["game_text"] as? String
         head = dictionary["head"] as? String
         level = dictionary["level"] as? String
         nickname = dictionary["nickname"] as? String
-        noReadNum = dictionary["no_read_num"] as? Int
-        type = dictionary["type"] as? Int
+        sexText = dictionary["sex_text"] as? String
         userId = dictionary["user_id"] as? Int
-        sex = dictionary["sex"] as? Int
-
     }
 
     /**
@@ -43,11 +37,11 @@ class MessageListModel : NSObject {
     func toDictionary() -> [String:Any]
     {
         var dictionary = [String:Any]()
-        if content != nil{
-            dictionary["content"] = content
+        if gameStatus != nil{
+            dictionary["game_status"] = gameStatus
         }
-        if createTime != nil{
-            dictionary["create_time"] = createTime
+        if gameText != nil{
+            dictionary["game_text"] = gameText
         }
         if head != nil{
             dictionary["head"] = head
@@ -58,37 +52,30 @@ class MessageListModel : NSObject {
         if nickname != nil{
             dictionary["nickname"] = nickname
         }
-        if noReadNum != nil{
-            dictionary["no_read_num"] = noReadNum
-        }
-        if type != nil{
-            dictionary["type"] = type
+        if sexText != nil{
+            dictionary["sex_text"] = sexText
         }
         if userId != nil{
             dictionary["user_id"] = userId
         }
-        if sex != nil{
-            dictionary["sex"] = sex
-        }
         return dictionary
     }
-    
 }
 
 
+class FriendsModel : NSObject {
 
-class MessageModel : NSObject {
+    var list : [FriendListModel]!
 
-    var list : [MessageListModel]?
 
     /**
      * Instantiate the instance using the passed dictionary values to set the properties values
      */
     init(fromDictionary dictionary: [String:Any]){
-        list = [MessageListModel]()
+        list = [FriendListModel]()
         if let listArray = dictionary["list"] as? [[String:Any]]{
             for dic in listArray{
-                let value = MessageListModel(fromDictionary: dic)
+                let value = FriendListModel(fromDictionary: dic)
                 list!.append(value)
             }
         }
@@ -109,7 +96,4 @@ class MessageModel : NSObject {
         }
         return dictionary
     }
-
 }
-
-

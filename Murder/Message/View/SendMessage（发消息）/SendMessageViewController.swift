@@ -41,15 +41,22 @@ class SendMessageViewController: UIViewController {
     
     lazy var list = [Message]()
     
-    var type: ChatType = .peer("unknow")
+    var type: ChatType?
 
-    var model: MessageListModel?
+    var messageListModel: MessageListModel? {
+        didSet {
+            if messageListModel != nil {
+                let userId = messageListModel?.userId
+                type = .peer("\(userId!)")
+            }
+        }
+    }
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        AgoraRtmLogin()
+//        AgoraRtmLogin()
         AgoraRtm.updateKit(delegate: self)
 
         // 监听键盘弹出
@@ -108,7 +115,7 @@ extension SendMessageViewController {
         tableView.backgroundColor = HexColor("F5F5F5")
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(0)
+            make.top.equalToSuperview()
             make.left.equalTo(0)
             make.width.equalTo(FULL_SCREEN_WIDTH)
             make.bottom.equalTo(bottomView.snp_top)
@@ -131,12 +138,8 @@ extension SendMessageViewController {
         titleLabel.textColor = HexColor(DarkGrayColor)
         titleLabel.textAlignment = .center
         titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        switch type {
-        case .peer(let name):
-            titleLabel.text = name
-        case .group(_):
-            break
-        }
+        titleLabel.text = messageListModel?.nickname
+        
         navigationItem.titleView = titleLabel
         
     }
@@ -151,7 +154,6 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
         
         var msg = list[indexPath.row]
         let type : CellType = msg.userId == AgoraRtm.current ? .right : .left
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: MessageTextCellId, for: indexPath) as! MessageTextCell
         cell.backgroundColor = UIColor.clear
         cell.selectionStyle = .none
@@ -163,12 +165,9 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 //        let cell = tableView.cellForRow(at: indexPath) as? MessageTextCell
-//
-//        return cell?.cellHeight! ??
+//        return cell?.cellHeight! ?? 0
+        
         let mgs = list[indexPath.row]
-        
-        
-        
         return mgs.cellHeight ?? 0
     }
 }
@@ -184,6 +183,7 @@ extension SendMessageViewController {
         
         let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        commonView.itemModel  = messageListModel
         UIApplication.shared.keyWindow?.addSubview(commonView)
     }
 }
@@ -217,14 +217,19 @@ extension SendMessageViewController: UITextFieldDelegate {
         guard let text = text, text.count > 0 else {
             return false
         }
-        send(message: text, type: type)
+        send(message: text, type: type!)
         return true
     }
     
     func appendMessage(user: String, content: String?, mediaId: String?, thumbnail: Data?) {
         DispatchQueue.main.async { [weak self] in
-            let msg = Message(userId: user, text: content, mediaId: mediaId, thumbnail: thumbnail)
+            let head = self?.messageListModel?.head
+            let size = self?.getSizeWithContent(content: content!)
+            
+            let msg = Message(userId: user, text: content, mediaId: mediaId, thumbnail: thumbnail, cellHeight: size?.height, head: head)
+            
             self!.list.append(msg)
+            
             if self!.list.count > 100 {
                 self!.list.removeFirst()
             }
@@ -232,8 +237,22 @@ extension SendMessageViewController: UITextFieldDelegate {
             self!.tableView.reloadData()
 
             let end = IndexPath(row: self!.list.count - 1, section: 0)
+            
             self!.tableView.scrollToRow(at: end, at: .bottom, animated: true)
         }
+    }
+    
+    // 获取文字的长度和宽度
+    private func getSizeWithContent(content: String) -> CGSize {
+        var width = labelWidth(text: content, height: 15, fontSize: 15)
+        var height: CGFloat = 90
+        if width > FULL_SCREEN_WIDTH - 170 {
+            width = FULL_SCREEN_WIDTH - 170
+            height = content.ga_heightForComment(fontSize: 15, width: width)
+            height += 75
+        }
+        
+        return CGSize(width: width, height: height)
     }
     
     @objc func keyboardWillChangeFrame(notif: Notification) {
@@ -262,7 +281,6 @@ extension SendMessageViewController: UITextFieldDelegate {
         } else {
             view.endEditing(true)
         }
-        
         return true
     }
     
@@ -275,7 +293,7 @@ extension SendMessageViewController: UITextFieldDelegate {
 // MARK: Send Message
 private extension SendMessageViewController {
     
-    func send(rtmMessage: AgoraRtmMessage, type: ChatType) {
+    func send(rtmMessage: AgoraRtmMessage, type: ChatType, name: String, option: AgoraRtmSendMessageOptions) {
         
         let sent = { [weak self] (state: Int) in
             guard let `self` = self else {
@@ -299,27 +317,41 @@ private extension SendMessageViewController {
             }
         }
         
-        switch type {
-        case .peer(let name):
-            let option = AgoraRtmSendMessageOptions()
-            option.enableOfflineMessaging = (AgoraRtm.oneToOneMessageType == .offline ? true : false)
-            option.enableOfflineMessaging = true
-            
-            let peer = model?.userId
-            AgoraRtm.kit?.send(rtmMessage, toPeer: String(peer!), sendMessageOptions: option, completion: { (error) in
-                
-                
-                sent(error.rawValue)
-            })
-        case .group(_):
-            break
-        }
+       AgoraRtm.kit?.send(rtmMessage, toPeer: String(name), sendMessageOptions: option, completion: { (error) in
+        
+           sent(error.rawValue)
+       })
         
     }
     
     func send(message: String, type: ChatType) {
-        let rtmMessage = AgoraRtmMessage(text: message)
-        send(rtmMessage: rtmMessage, type: type)
+        
+        switch type {
+        case .peer(let name):
+            let option = AgoraRtmSendMessageOptions()
+            option.enableOfflineMessaging = (AgoraRtm.oneToOneMessageType == .offline ? true : false)
+            
+            AgoraRtm.kit?.queryPeersOnlineStatus([name], completion: {[weak self] (peerOnlineStatus, peersOnlineErrorCode) in
+                guard peersOnlineErrorCode == .ok else {
+                    showToastCenter(msg: "AgoraRtm login error: \(peersOnlineErrorCode.rawValue)")
+                    return
+                }
+                Log(peerOnlineStatus)
+                let status:AgoraRtmPeerOnlineStatus = peerOnlineStatus![0]
+                
+                if (status.isOnline == true) { // 在线
+                    option.enableOfflineMessaging = true
+                } else { // 离线
+                    option.enableOfflineMessaging = false
+                }
+                
+                let rtmMessage = AgoraRtmMessage(text: message)
+                self!.send(rtmMessage: rtmMessage, type: type, name: name, option: option)
+                
+            })
+        case .group(_):
+            break
+        }
     }
 }
 
@@ -339,6 +371,11 @@ extension SendMessageViewController: AgoraRtmDelegate {
     
     func rtmKit(_ kit: AgoraRtmKit, imageMessageReceived message: AgoraRtmImageMessage, fromPeer peerId: String) {
         appendMessage(user: peerId, content: nil, mediaId: message.mediaId, thumbnail: message.thumbnail)
+    }
+    
+    
+    private func getHistoryList() {
+        
     }
 }
 

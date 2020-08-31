@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MJRefresh
 
 let MyFriendsListCellId = "MyFriendsListCellId"
 
@@ -23,31 +24,91 @@ class MyFriendsListViewController: UIViewController, UITableViewDelegate, UITabl
     //
     private var rightBtn: UIButton = UIButton()
     
+    private var page_no = 1
+    
+    private var page_size = 1
+    
+    private var friendsModel: FriendsModel?
+    
     private lazy var textInputView : InputTextView! = {
         let inputView = InputTextView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         inputView.delegate = self
         inputView.textFieldView.delegate = self
+        inputView.textFieldView.keyboardType = .numberPad
         inputView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         return inputView
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 监听键盘弹出
-        NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         setNavigationBar()
         setUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 监听键盘弹出
+        NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
     
+}
+
+// MARK: - LoadData
+extension MyFriendsListViewController {
     
-        
-
-
-
+    @objc private func loadMore() {
+        page_no += 1
+        loadData()
+    }
+    
+    @objc private func loadRefresh() {
+        page_no = 1
+        loadData()
+    }
+    
+    func loadData() {
+        friendListRequest(page_no: page_no, page_size: page_size) {[weak self] (result, error) in
+            if error != nil {
+                self?.myTableView.mj_header.endRefreshing()
+                self?.myTableView.mj_footer.endRefreshing()
+                return
+            }
+            
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                
+                let model = FriendsModel(fromDictionary: data)
+                if model.list?.count ?? 0 < 15 { // 最后一页
+                    self?.myTableView.mj_header.endRefreshing()
+                    self?.myTableView.mj_footer.endRefreshing()
+                }
+                
+                if self?.page_no == 1 {
+                    self?.friendsModel = model
+                } else {
+                    self?.friendsModel?.list?.append(contentsOf: model.list!)
+                }
+                self?.myTableView.reloadData()
+                self?.myTableView.mj_header.endRefreshing()
+                self?.myTableView.mj_footer.endRefreshing()
+            } else {
+                self?.myTableView.mj_header.endRefreshing()
+                self?.myTableView.mj_footer.endRefreshing()
+            }
+        }
+    }
 }
 
 
@@ -96,26 +157,40 @@ extension MyFriendsListViewController {
         myTableView.rowHeight = 73
         self.view.addSubview(myTableView)
         myTableView.register(UINib(nibName: "MyFriendsListCell", bundle: nil), forCellReuseIdentifier: MyFriendsListCellId)
+        setupFooterView()
+        setupHeaderView()
+    }
+    
+    private func setupHeaderView() {
+        let header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(loadRefresh))
+        header?.backgroundColor = UIColor.white
+        header?.setTitle("下拉刷新", for: .idle)
+        header?.setTitle("释放更新", for: .pulling)
+        header?.setTitle("加载中...", for: .refreshing)
+        
+        // 设置tableview的header
+        myTableView.mj_header = header
+        
+        // 进入刷新状态
+        myTableView.mj_header.beginRefreshing()
+    }
+    
+    private func setupFooterView() {
+        myTableView.mj_footer = MJRefreshAutoFooter(refreshingTarget: self, refreshingAction: #selector(loadMore))
     }
 }
 
 // MARK: - TableView Delegate
 extension MyFriendsListViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return friendsModel?.list.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MyFriendsListCellId, for: indexPath) as! MyFriendsListCell
         cell.selectionStyle = .none
-        if indexPath.row%2 == 0 {
-            cell.sexImgView.image = UIImage(named: "sex_man")
-            cell.nicknameLabel.text = "ユミ"
-        } else {
-            cell.sexImgView.image = UIImage(named: "sex_woman")
-            cell.nicknameLabel.text = "かのん"
-        }
-        
+        let model = friendsModel?.list[indexPath.row]
+        cell.itemModel = model
         return cell
     }
     
@@ -128,8 +203,32 @@ extension MyFriendsListViewController {
             self.view.addSubview(commonView)
             
         } else {
-            let RecordDetailVC = RecordDetailViewController()
-            self.navigationController?.pushViewController(RecordDetailVC, animated: true)
+//            let RecordDetailVC = RecordDetailViewController()
+//            self.navigationController?.pushViewController(RecordDetailVC, animated: true)
+            
+            let vc = SendMessageViewController()
+            
+//            var content : String?
+//            var createTime : String?
+//            var head : String?
+//            var level : String?
+//            var nickname : String?
+//            var noReadNum : Int?
+//            var type : Int?
+//            var userId : Int?
+//            var sex : Int?
+            let model = friendsModel?.list[indexPath.row]
+            
+            let messageListModel = MessageListModel(fromDictionary: [:])
+            messageListModel.head = model?.head
+            messageListModel.level = model?.level
+            messageListModel.sex = model?.sexText == "男" ? 1 : 2
+            messageListModel.userId = model?.userId
+            messageListModel.nickname = model?.nickname
+            
+            
+            vc.messageListModel = messageListModel
+            self.navigationController?.pushViewController(vc, animated: true)
         }
         
 
@@ -147,11 +246,6 @@ extension MyFriendsListViewController {
     }
     
     @objc func rightBtnAction() {
-//        let commonView = InputTextView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-//        commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-//        UIApplication.shared.keyWindow?.addSubview(commonView)
-////        self.view.addSubview(commonView)
-                
         textInputView.textFieldView.becomeFirstResponder()
         UIApplication.shared.keyWindow?.addSubview(textInputView)
     }
@@ -161,13 +255,27 @@ extension MyFriendsListViewController: InputTextViewDelegate  {
     
     func commonBtnClick() {
         textInputView.removeFromSuperview()
-//        let vc = ScriptDetailsViewController()
-//        navigationController?.pushViewController(vc, animated: true)
         
-        let commonView = ApplyFriendView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-        commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        UIApplication.shared.keyWindow?.addSubview(commonView)
-//        self.view.addSubview(commonView)
+        let user_id = Int(textInputView.textFieldView.text!)
+        userFindRequest(user_id: user_id!) { (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                let resultData = data["result"] as! [String : AnyObject]
+                let userFindModel = UserFindModel(fromDictionary: resultData)
+                let commonView = ApplyFriendView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                commonView.userFindModel = userFindModel
+                commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                UIApplication.shared.keyWindow?.addSubview(commonView)
+            }
+        }
+        
+
         
         
     }

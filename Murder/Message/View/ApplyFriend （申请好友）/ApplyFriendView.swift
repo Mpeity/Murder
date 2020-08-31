@@ -27,9 +27,20 @@ class ApplyFriendView: UIView {
     // id
     @IBOutlet weak var IDLabel: UILabel!
     // 申请好友
-    @IBOutlet weak var applyBtn: UIButton!
+    @IBOutlet weak var applyBtn: GradienButton!
     // 取消
     @IBOutlet weak var cancelBtn: UIButton!
+    
+    
+    @IBOutlet weak var deleteBtn: UIButton!
+    
+    var userFindModel: UserFindModel? {
+        didSet {
+            if userFindModel != nil {
+                refreshUI()
+            }
+        }
+    }
     
     //初始化时将xib中的view添加进来
     override init(frame: CGRect) {
@@ -51,6 +62,66 @@ class ApplyFriendView: UIView {
 
 // MARK: - setUI
 extension ApplyFriendView {
+    
+    private func refreshUI() {
+        if userFindModel?.head != nil {
+            let head = userFindModel?.head
+            playerImgView.setImageWith(URL(string: head!))
+        }
+        
+        if userFindModel?.nickname != nil {
+            playerNameLabel.text = userFindModel?.nickname!
+        }
+        
+        if userFindModel?.level != nil {
+            levelLabel.text = userFindModel?.level!
+        }
+        
+        if userFindModel?.userId != nil {
+            let user_id = userFindModel?.userId
+            IDLabel.text = "ID:\(user_id!)"
+        }
+        
+        if userFindModel?.sex != nil {
+            let sex = userFindModel?.sex!
+            switch sex {
+            case 1:
+                sexImgView.image = UIImage(named: "sex_man")
+            case 2:
+                sexImgView.image = UIImage(named: "sex_woman")
+            default:
+                break
+            }
+            
+        }
+        // 是否已申请 1是 0否
+        if userFindModel?.isApply != nil {
+            applyBtn.isHidden = false
+            deleteBtn.isHidden = true
+            let isApply = userFindModel?.isApply!
+            switch isApply {
+            case 0:
+                applyBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
+                applyBtn.isUserInteractionEnabled = true
+            case 1:
+                applyBtn.gradientClearLayerColor(cornerRadius: 22)
+                applyBtn.backgroundColor = HexColor("#CACACA")
+                applyBtn.layer.cornerRadius = 22
+                applyBtn.setTitleColor(UIColor.white, for: .normal)
+                applyBtn.setTitle("友達申し込みは発送しました", for: .normal)
+                applyBtn.isUserInteractionEnabled = false
+            default:
+                break
+            }
+        }
+        
+        // 是否是朋友 1是 0否
+        if userFindModel?.isFriend != nil, userFindModel?.isFriend == 1 {
+            deleteBtn.isHidden = false
+            applyBtn.isHidden = true
+        }
+    }
+    
     private func setUI() {
         contentView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         playerImgView.layer.cornerRadius = 15
@@ -62,12 +133,17 @@ extension ApplyFriendView {
         
         
         // 好友申请
-        applyBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
         applyBtn.setTitleColor(UIColor.white, for: .normal)
         applyBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         applyBtn.addTarget(self, action: #selector(applyBtnAction), for: .touchUpInside)
         
         cancelBtn.addTarget(self, action: #selector(cancelBtnAction), for: .touchUpInside)
+        
+        // 删除好友
+        deleteBtn.createButton(style: .left, spacing: 3, imageName: "message_delete", title: "友達削除", cornerRadius: 0, color: "#FFFFFF")
+        deleteBtn.setTitleColor(HexColor(LightDarkGrayColor), for: .normal)
+        deleteBtn.addTarget(self, action: #selector(deleteBtnAction), for: .touchUpInside)
+        deleteBtn.isHidden = true
     }
     
 
@@ -82,10 +158,48 @@ extension ApplyFriendView {
     
     //
     @objc private func applyBtnAction() {
-        applyBtn.setTitle("友達申し込みは発送しました", for: .normal)
-        applyBtn.layer.backgroundColor = UIColor.white.cgColor
-        applyBtn.gradientColor(start: "#CACACA", end: "#CACACA", cornerRadius: 22)
+        let receive_id = userFindModel?.userId
+        applyFriendRequest(receive_id: receive_id!) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            
+            if resultDic["code"]!.isEqual(1) {
+                self!.applyBtn.gradientClearLayerColor(cornerRadius: 22)
+                self!.applyBtn.backgroundColor = HexColor("#CACACA")
+                self!.applyBtn.layer.cornerRadius = 22
+                self!.applyBtn.setTitleColor(UIColor.white, for: .normal)
+                self!.applyBtn.setTitle("友達申し込みは発送しました", for: .normal)
+                self!.applyBtn.isUserInteractionEnabled = false
+            }
+        }
         
+    }
+    
+    //MARK:- 删除好友
+    @objc private func deleteBtnAction() {
+        contentView = nil
+        removeFromSuperview()
+        let commonView = DeleteFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        commonView.deleteBtnTapBlcok = {[weak self] () in
+            let friend_id = self?.userFindModel!.userId
+            deleteFriendRequest(friend_id: friend_id!) { (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                
+                if resultDic["code"]!.isEqual(1) {
+    //                    let data = resultDic["data"] as! [String : AnyObject]
+                    
+                }
+            }
+        }
+        UIApplication.shared.keyWindow?.addSubview(commonView)
     }
     
     

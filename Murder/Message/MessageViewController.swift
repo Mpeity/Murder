@@ -34,6 +34,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setUI()
+        AgoraRtmLogin()
     }
         
 
@@ -164,9 +165,10 @@ extension MessageViewController {
         let model = messageModel?.list?[indexPath.row]
         cell.itemModel = model
         cell.avatarImgTapBlcok = {() in
-//            let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-//            commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-//            UIApplication.shared.keyWindow?.addSubview(commonView)
+            let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            commonView.itemModel = model
+            UIApplication.shared.keyWindow?.addSubview(commonView)
         }
         
         return cell
@@ -182,7 +184,7 @@ extension MessageViewController {
             let vc = SendMessageViewController()
 //            let userId = model?.userId
 //            vc.type = .peer(String(userId!))
-            vc.model = model
+            vc.messageListModel = model
             self.navigationController?.pushViewController(vc, animated: true)
             break
         case 1:
@@ -218,10 +220,38 @@ extension MessageViewController {
     }
 }
 
-//MARK:- AgoraRtmDelegate
 extension MessageViewController: AgoraRtmDelegate {
-    func rtmKit(_ kit: AgoraRtmKit, connectionStateChanged state: AgoraRtmConnectionState, reason: AgoraRtmConnectionChangeReason) {
-        showToastCenter(msg: "connection state changed: \(state.rawValue)")
+    // 登录
+    func AgoraRtmLogin() {
+        let account = UserAccountViewModel.shareInstance.account?.userId
+        AgoraRtm.updateKit(delegate: self)
+        AgoraRtm.current = String(account!)
+
+        AgoraRtm.kit?.login(byToken: nil, user: String(account!)) { [weak self] (errorCode) in
+            
+            print(String(account!))
+            
+            
+            guard errorCode == .ok else {
+                
+                showToastCenter(msg: "AgoraRtm login error: \(errorCode.rawValue)")
+                return
+            }
+            AgoraRtm.status = .online
+        }
+    }
+    
+    // 退出账号
+    func AgoraRtmLogout() {
+        guard AgoraRtm.status == .online else {
+            return
+        }
+        AgoraRtm.kit?.logout(completion: { (error) in
+            guard error == .ok else {
+                return
+            }
+            AgoraRtm.status = .offline
+        })
     }
     
     // Receive one to one offline messages

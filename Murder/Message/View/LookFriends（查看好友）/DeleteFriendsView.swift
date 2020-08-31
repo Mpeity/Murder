@@ -8,15 +8,21 @@
 
 import UIKit
 
-class DeleteFriendsView: UIView {
+// 删除好友
+typealias DeleteBtnTapBlcok = () ->()
 
- @IBOutlet var contentView: UIView!
- 
- @IBOutlet weak var tipLabel: UILabel!
- // 取消
- @IBOutlet weak var cancelBtn: UIButton!
- // 确认删除
- @IBOutlet weak var confirmBtn: UIButton!
+class DeleteFriendsView: UIView {
+    
+    
+    var deleteBtnTapBlcok: DeleteBtnTapBlcok?
+
+    @IBOutlet var contentView: UIView!
+     
+    @IBOutlet weak var tipLabel: UILabel!
+     // 取消
+    @IBOutlet weak var cancelBtn: UIButton!
+     // 确认删除
+    @IBOutlet weak var confirmBtn: UIButton!
     
     
     //初始化时将xib中的view添加进来
@@ -63,6 +69,9 @@ extension DeleteFriendsView {
 extension DeleteFriendsView {
     // 确认
     @objc func confirmBtnAction() {
+        if deleteBtnTapBlcok != nil {
+            deleteBtnTapBlcok!()
+        }
         hideView()
     }
     // 取消

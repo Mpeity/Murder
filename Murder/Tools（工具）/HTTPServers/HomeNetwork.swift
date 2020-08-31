@@ -165,7 +165,7 @@ func scriptSourceRequest(script_id: Int, finished: @escaping(_ reslut: [String: 
     
     let urlString = script_source_url
     let parameters = ["script_id" : script_id] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -181,7 +181,7 @@ func choiceRoleRequest(room_id: Int, script_role_id: Int, finished: @escaping(_ 
     
     let urlString = choice_role_url
     let parameters = ["room_id" : room_id, "script_role_id" : script_role_id] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -197,7 +197,7 @@ func gameStartRequest(room_id: Int, status: Int, finished: @escaping(_ reslut: [
     
     let urlString = game_start_url
     let parameters = ["room_id" : room_id, "status": status] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -214,7 +214,7 @@ func gameIngRequest(room_id: Int, script_node_id: Int, finished: @escaping(_ res
     
     let urlString = game_ing_url
     let parameters = ["room_id" : room_id, "script_node_id": script_node_id] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -239,7 +239,7 @@ func searchClueRequest(room_id: Int, script_place_id: Int, script_clue_id: Int?,
         parameters = ["room_id" : room_id, "script_place_id": script_place_id, "script_node_id" : script_node_id] as [String : AnyObject]
     }
     
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -256,7 +256,7 @@ func bindRequest(scene: Int,client_id: String,datas: String, finished: @escaping
     
     let urlString = bind_url
     let parameters = ["scene" : scene, "client_id": client_id, "datas": datas] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -273,7 +273,7 @@ func gameDissolutionRequest(room_id: Int, status: Int, finished: @escaping(_ res
     
     let urlString = game_dissolution_url
     let parameters = ["room_id" : room_id, "status" : status] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -291,7 +291,7 @@ func outRoomRequest(room_id: Int, finished: @escaping(_ reslut: [String: AnyObje
     
     let urlString = out_room_url
     let parameters = ["room_id" : room_id] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -305,7 +305,7 @@ private let game_settlement_url = "/api/game/game_settlement"
 func gameSettlementRequest(room_id: Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
     let urlString = game_settlement_url
     let parameters = ["room_id" : room_id] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -323,7 +323,7 @@ private let clue_open_url = "/api/game/clue_open"
 func clueOpenRequest(room_id: Int, script_clue_id: Int, script_place_id : Int, script_node_id: Int,  finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
     let urlString = clue_open_url
     let parameters = ["room_id" : room_id, "script_clue_id" : script_clue_id, "script_place_id" : script_place_id, "script_node_id": script_node_id] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -337,7 +337,7 @@ private let game_ready_url = "/api/game/game_ready"
 func gameReadyRequest(room_id: Int,current_script_node_id : Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
     let urlString = game_ready_url
     let parameters = ["room_id" : room_id, "current_script_node_id": current_script_node_id] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -354,7 +354,7 @@ func gameVoteRequest(room_id: Int, script_node_id: Int, script_question: String,
     
     let urlString = game_vote_url
     let parameters = ["room_id" : room_id, "script_node_id": script_node_id, "script_question" : script_question] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -369,7 +369,7 @@ func gameVoteResultRequest(room_id: Int, finished: @escaping(_ reslut: [String: 
     
     let urlString = game_vote_result_url
     let parameters = ["room_id" : room_id] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }

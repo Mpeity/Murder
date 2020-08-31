@@ -80,7 +80,6 @@ extension CollogueRoomView {
             } else {
                 make.height.equalTo(305)
             }
-           
         }
         bgView.layoutIfNeeded()
         bgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)

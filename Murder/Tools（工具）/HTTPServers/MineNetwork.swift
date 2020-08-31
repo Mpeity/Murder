@@ -17,7 +17,7 @@ func mineInfoRequest(finished: @escaping(_ reslut: [String: AnyObject]?, _ error
     
     let urlString = mine_url
     let parameters = [:] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -33,7 +33,7 @@ func feedbackRequest(email: String, content: String, finished: @escaping(_ reslu
     
     let urlString = feedback_url
     let parameters = ["email": email, "content": content] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -49,7 +49,7 @@ func loginOutRequest(email: String, content: String, finished: @escaping(_ reslu
     
     let urlString = login_out_url
     let parameters = ["email": email, "content": content] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -64,7 +64,7 @@ func roomLogInfoRequest(room_id: Int, finished: @escaping(_ reslut: [String: Any
     
     let urlString = room_log_info_url
     let parameters = ["room_id": room_id] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -81,7 +81,7 @@ func scriptLogRequest(page_no: Int, page_size: Int, finished: @escaping(_ reslut
     
     let urlString = script_log_url
     let parameters = ["page_no": page_no, "page_size": page_size] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }

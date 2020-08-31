@@ -34,7 +34,10 @@ class MessageTextCell: UITableViewCell {
     
     @IBOutlet weak var rightTextLabel: UILabel!
     
+    
     var cellHeight: CGFloat?
+    
+    
     
     var messageModel: Message? {
         didSet {
@@ -44,23 +47,34 @@ class MessageTextCell: UITableViewCell {
                 rightView.isHidden = rightHidden
                 leftView.isHidden = !rightHidden
                 
-                let user = messageModel?.userId
-                leftAvatarView.setImageWith(URL(string: user!))
-                rightAvatarView.setImageWith(URL(string: user!))
+                let head = messageModel?.head
+                
+                leftAvatarView.setImageWith(URL(string: head!))
+
+                rightAvatarView.setImageWith(URL(string: head!))
+                
+                
                 
                 let content = messageModel?.text
+//                //通过富文本来设置行间距
+//                let paraph = NSMutableParagraphStyle()
+//                //将行间距设置为28
+//                paraph.lineSpacing = 20
+//                //样式属性集合
+//                let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 15),
+//                                  NSAttributedString.Key.paragraphStyle: paraph]
+//
+                leftTextLabel.numberOfLines = 0
+                rightTextLabel.numberOfLines = 0
+                leftTextLabel.lineBreakMode = .byWordWrapping
+                rightTextLabel.lineBreakMode = .byWordWrapping
+//
+//                leftTextLabel.attributedText = NSAttributedString(string: content!, attributes: attributes)
+//
+//                rightTextLabel.attributedText = NSAttributedString(string: content!, attributes: attributes)
                 
-                var width = labelWidth(text: content!, height: 15, fontSize: 15)
-                var height: CGFloat = 90
-                if width >= FULL_SCREEN_WIDTH - 170 {
-                    width = FULL_SCREEN_WIDTH - 170
-                    height = content!.ga_heightForComment(fontSize: 15, width: width)
-                }
-                cellHeight = height
-                leftTextLabel.text = content
-                rightTextLabel.text = content
-                
-                Log("height===\(height ?? 0)")
+                leftTextLabel.text = content!
+                rightTextLabel.text = content!
                 
             }
         }
@@ -82,7 +96,8 @@ class MessageTextCell: UITableViewCell {
         leftView.isHidden = true
         leftTextLabel.textColor = HexColor(DarkGrayColor)
         rightTextLabel.textColor = UIColor.white
-        
+        leftAvatarView.layer.cornerRadius = 22.5
+        rightAvatarView.layer.cornerRadius = 22.5
     }
     
 

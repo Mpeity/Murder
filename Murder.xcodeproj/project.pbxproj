@@ -75,6 +75,9 @@
 		98649DEB24CEDAB2005AA9C3 /* ScriptDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98649DEA24CEDAB2005AA9C3 /* ScriptDetailsViewController.swift */; };
 		98649DEE24CEDB65005AA9C3 /* CreateRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98649DEC24CEDB65005AA9C3 /* CreateRoomViewController.swift */; };
 		98649DEF24CEDB65005AA9C3 /* CreateRoomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98649DED24CEDB65005AA9C3 /* CreateRoomViewController.xib */; };
+		98663A6E24FC8A59007726A5 /* FriendsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98663A6D24FC8A59007726A5 /* FriendsModel.swift */; };
+		98663A7024FC9C7E007726A5 /* UserFindModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98663A6F24FC9C7E007726A5 /* UserFindModel.swift */; };
+		98663A7224FCAFE0007726A5 /* FriendsApplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98663A7124FCAFE0007726A5 /* FriendsApplyModel.swift */; };
 		9866C16424E4E09E00810516 /* MineNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9866C16324E4E09E00810516 /* MineNetwork.swift */; };
 		9866C16724E4E2EB00810516 /* MineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9866C16624E4E2EB00810516 /* MineModel.swift */; };
 		9866C16924E5175900810516 /* ScriptTagNameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9866C16824E5175900810516 /* ScriptTagNameModel.swift */; };
@@ -341,6 +344,9 @@
 		98649DEA24CEDAB2005AA9C3 /* ScriptDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptDetailsViewController.swift; sourceTree = "<group>"; };
 		98649DEC24CEDB65005AA9C3 /* CreateRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoomViewController.swift; sourceTree = "<group>"; };
 		98649DED24CEDB65005AA9C3 /* CreateRoomViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateRoomViewController.xib; sourceTree = "<group>"; };
+		98663A6D24FC8A59007726A5 /* FriendsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsModel.swift; sourceTree = "<group>"; };
+		98663A6F24FC9C7E007726A5 /* UserFindModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFindModel.swift; sourceTree = "<group>"; };
+		98663A7124FCAFE0007726A5 /* FriendsApplyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsApplyModel.swift; sourceTree = "<group>"; };
 		9866C16324E4E09E00810516 /* MineNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineNetwork.swift; sourceTree = "<group>"; };
 		9866C16624E4E2EB00810516 /* MineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineModel.swift; sourceTree = "<group>"; };
 		9866C16824E5175900810516 /* ScriptTagNameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptTagNameModel.swift; sourceTree = "<group>"; };
@@ -851,6 +857,9 @@
 			isa = PBXGroup;
 			children = (
 				986DEA0E24F9175900853917 /* MessageListModel.swift */,
+				98663A6D24FC8A59007726A5 /* FriendsModel.swift */,
+				98663A6F24FC9C7E007726A5 /* UserFindModel.swift */,
+				98663A7124FCAFE0007726A5 /* FriendsApplyModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1584,6 +1593,7 @@
 				98649DEE24CEDB65005AA9C3 /* CreateRoomViewController.swift in Sources */,
 				9867764924D19A68009A950F /* ApplyFriendView.swift in Sources */,
 				98B26A7624F28FAA00671202 /* GameVoteResultModel.swift in Sources */,
+				98663A7224FCAFE0007726A5 /* FriendsApplyModel.swift in Sources */,
 				0451A37724C1AF6500E69085 /* MainViewController.swift in Sources */,
 				98A268D024D938ED004B9D53 /* VoteCommonView.swift in Sources */,
 				98A79B4124D1754800ECBD2A /* LookFriendsView.swift in Sources */,
@@ -1596,8 +1606,10 @@
 				9868A32824C98D08009FD8F4 /* PopMenuView.swift in Sources */,
 				98CA02A224C52922009EF0ED /* TitleButton.swift in Sources */,
 				98F746D324EFBFA60035BDA1 /* GPSettlementModel.swift in Sources */,
+				98663A7024FC9C7E007726A5 /* UserFindModel.swift in Sources */,
 				983FD1AA24D2AA3D0041D79E /* ScriptTableHeaderCell.swift in Sources */,
 				98D8A35224DC043900469923 /* AgoraStatus.swift in Sources */,
+				98663A6E24FC8A59007726A5 /* FriendsModel.swift in Sources */,
 				983FD1A724D27CE40041D79E /* ApplyFriendsListCell.swift in Sources */,
 				9866C16724E4E2EB00810516 /* MineModel.swift in Sources */,
 				98649DD124CE7B17005AA9C3 /* SynopsisViewCell.swift in Sources */,

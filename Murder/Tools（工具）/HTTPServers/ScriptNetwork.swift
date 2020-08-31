@@ -23,7 +23,7 @@ func scriptListRequest(page_no: Int, page_size: Int, people_num: Int, tag_id: In
     
     let urlString = script_list_url
     let parameters = ["page_no" : page_no, "page_size": page_size, "people_num" : people_num, "tag_id": tag_id, "difficult": difficult, "pay_type": pay_type] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
@@ -40,7 +40,7 @@ func scriptTagListRequest(page_no: Int, page_size: Int, finished: @escaping(_ re
     
     let urlString = script_tag_list_url
     let parameters = ["page_no" : page_no, "page_size": page_size] as [String : AnyObject]
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }

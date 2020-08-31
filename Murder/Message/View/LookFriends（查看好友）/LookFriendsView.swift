@@ -33,6 +33,14 @@ class LookFriendsView: UIView {
     // 取消
     @IBOutlet weak var cancelBtn: UIButton!
     
+    var itemModel: MessageListModel? {
+        didSet {
+            if itemModel != nil {
+                refreshUI()
+            }
+        }
+    }
+    
     
     //初始化时将xib中的view添加进来
     override init(frame: CGRect) {
@@ -57,7 +65,43 @@ class LookFriendsView: UIView {
 
 // MARK: - setUI
 extension LookFriendsView {
+    
+    
+    private func refreshUI() {
+        if itemModel?.head != nil {
+            let head = itemModel?.head
+            playerImgView.setImageWith(URL(string: head!))
+        }
+        
+        if itemModel?.nickname != nil {
+            playerNameLabel.text = itemModel?.nickname!
+        }
+        
+        if itemModel?.level != nil {
+            levelLabel.text = itemModel?.level!
+        }
+        
+        if itemModel?.userId != nil {
+            let user_id = itemModel?.userId!
+            IDLabel.text = "ID:\(user_id!)"
+        }
+        
+        if itemModel?.sex != nil {
+            let sex = itemModel?.sex!
+            switch sex {
+            case 1:
+                sexImgView.image = UIImage(named: "sex_man")
+            case 2:
+                sexImgView.image = UIImage(named: "sex_woman")
+            default:
+                break
+            }
+        }
+        
+    }
+    
     private func setUI() {
+
         contentView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         playerImgView.layer.cornerRadius = 15
         playerNameLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
@@ -83,10 +127,25 @@ extension LookFriendsView {
     }
     
     @objc private func deleteBtnAction() {
-        contentView = nil
-        removeFromSuperview()
+
         let commonView = DeleteFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        commonView.deleteBtnTapBlcok = {[weak self] () in
+            let friend_id = self?.itemModel?.userId
+            deleteFriendRequest(friend_id: friend_id!) { (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                
+                if resultDic["code"]!.isEqual(1) {
+//                    let data = resultDic["data"] as! [String : AnyObject]
+                    self?.contentView = nil
+                    self?.removeFromSuperview()
+                }
+            }
+        }
         UIApplication.shared.keyWindow?.addSubview(commonView)
     }
     
