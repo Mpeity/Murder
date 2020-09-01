@@ -373,3 +373,15 @@ func gameVoteResultRequest(room_id: Int, finished: @escaping(_ reslut: [String: 
         finished(result as? [String : AnyObject], error)
     }
 }
+
+//MARK:- 检测当前登录用户是否在游戏中
+private let check_url = "/api/index/check"
+/** 注册接口
+ * @params [参数名] [类型] [是否必传]
+ */
+func checkUrlRequest(finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    let urlString = check_url
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters:  nil) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}

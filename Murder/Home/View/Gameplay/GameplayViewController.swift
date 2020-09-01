@@ -311,19 +311,34 @@ extension GameplayViewController {
                 break
             case 2: // 自我介绍地图
                 if item.see == 0 {
-                    addRedPoint(commonView: collogueBtn, x: 30, y: 5)
+                    
                 } else {
-                    hideRedPoint(commonView: collogueBtn)
+                    
                 }
                 break
             case 3: // 剧本阅读
                 if item.see == 0 {
-//                    scriptBtn
+                    addRedPoint(commonView: scriptBtn, x: 30, y: 5)
+                } else {
+                    hideRedPoint(commonView: scriptBtn)
+                }
+                break
+            case 4: // 搜证
+                if item.see == 0 {
                     addRedPoint(commonView: threadBtn, x: 30, y: 5)
                 } else {
                     hideRedPoint(commonView: threadBtn)
                 }
                 break
+                
+            case 5: // 答题
+                if item.see == 0 {
+                    
+                } else {
+                    
+                }
+                break
+                
             default:
                 break
             }
@@ -1358,7 +1373,7 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                 cell.r_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
                 remainingCount = itemModel.user?.point! as! Int
                 
-                if itemModel.secretTalkId == nil, itemModel.secretTalkId == "0" {
+                if itemModel.secretTalkId! == nil, itemModel.secretTalkId! == "0" {
                     cell.r_miLabel.isHidden = true
                 } else {
                    let indexStr = (itemModel.secretTalkId! as NSString).components(separatedBy: "_").last

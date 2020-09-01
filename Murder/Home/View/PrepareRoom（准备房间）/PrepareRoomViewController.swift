@@ -407,7 +407,8 @@ extension PrepareRoomViewController {
         }
         
         if readyRoomModel?.introduction != nil {
-            preference.drawing.message = readyRoomModel?.introduction! as! String
+            let message = readyRoomModel?.introduction
+            preference.drawing.message =  message!
         }
         
         if readyRoomModel?.roomId != nil {
@@ -417,6 +418,26 @@ extension PrepareRoomViewController {
         playerCount = readyRoomModel?.roomUserList?.count as! Int
         
         choiceLabel.text = "キャラクターを選択（\(playerCount)/\(roleCount)）"
+        let userList = readyRoomModel?.roomUserList
+        for itemModel in userList! {
+            if (itemModel.userId == UserAccountViewModel.shareInstance.account?.userId) {
+                if itemModel.status == 1 { // 准备
+                    prepareBtn.setTitle("準備取り消し", for: . normal)
+                    prepareBtn.gradientClearLayerColor(cornerRadius: 20)
+                    prepareBtn.layer.borderColor = HexColor(MainColor).cgColor
+                    prepareBtn.layer.cornerRadius = 20
+                    prepareBtn.layer.borderWidth = 1
+                    prepareBtn.setTitleColor(HexColor(MainColor), for: .normal)
+                    prepareBtn.isSelected = true
+                } else { // 取消准备
+                    prepareBtn.setTitle("準備", for: .normal)
+                    prepareBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 20)
+                    prepareBtn.setTitleColor(UIColor.white, for: .normal)
+                    prepareBtn.layer.borderWidth = 0
+                    prepareBtn.isSelected = false
+                }
+            }
+        }
     }
     
     private func setUI() {
@@ -1130,7 +1151,7 @@ extension PrepareRoomViewController: WebSocketDelegate {
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-        Log("websocketDidReceiveMessage=\(socket)\(text)")
+//        Log("websocketDidReceiveMessage=\(socket)\(text)")
 
         let dic = getDictionaryFromJSONString(jsonString: text)
         current_client_id = dic["client_id"] as? String
@@ -1169,8 +1190,10 @@ extension PrepareRoomViewController: WebSocketDelegate {
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
                 let resultData = data["result"] as! [String : AnyObject]
+                
                 Log("websocketDidReceiveMessage----数据更新了")
-                Log(resultData)
+                Log("websocketDidReceiveMessage=\(socket)\(text)")
+//                Log(resultData)
                 
                 readyRoomModel = ReadyRoomModel(fromDictionary: resultData)
                 if readyRoomModel != nil {

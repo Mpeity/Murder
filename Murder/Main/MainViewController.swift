@@ -35,6 +35,8 @@ class MainViewController: UITabBarController {
         setRedPoint()
         
         mgsNoRead()
+        
+        checkUser()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -141,6 +143,22 @@ extension MainViewController {
                 if no_read_num != 0 {
                     self!.redPoint.isHidden = false
                 }
+            }
+        }
+    }
+    
+    private func checkUser() {
+        checkUrlRequest { (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                
+                
+                
             }
         }
     }

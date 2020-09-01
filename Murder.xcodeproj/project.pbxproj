@@ -112,6 +112,7 @@
 		986A540D24EB796D004140F3 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A540C24EB796D004140F3 /* ImageDownloader.swift */; };
 		986A540F24EB89E8004140F3 /* ScriptSourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A540E24EB89E8004140F3 /* ScriptSourceModel.swift */; };
 		986A541124EBAAB7004140F3 /* ScriptNodeMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A541024EBAAB7004140F3 /* ScriptNodeMapModel.swift */; };
+		986B5A1C24FDEDED00DFCBB5 /* CheckUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986B5A1B24FDEDED00DFCBB5 /* CheckUserModel.swift */; };
 		986D9EB824F3917A005E6B03 /* VoteAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986D9EB624F3917A005E6B03 /* VoteAnswerCell.swift */; };
 		986D9EBD24F392D2005E6B03 /* VoteAnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 986D9EBB24F392D2005E6B03 /* VoteAnswerCell.xib */; };
 		986D9EC024F39650005E6B03 /* VoteCommonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986D9EBE24F39650005E6B03 /* VoteCommonCell.swift */; };
@@ -381,6 +382,7 @@
 		986A540C24EB796D004140F3 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		986A540E24EB89E8004140F3 /* ScriptSourceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptSourceModel.swift; sourceTree = "<group>"; };
 		986A541024EBAAB7004140F3 /* ScriptNodeMapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptNodeMapModel.swift; sourceTree = "<group>"; };
+		986B5A1B24FDEDED00DFCBB5 /* CheckUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckUserModel.swift; sourceTree = "<group>"; };
 		986D9EB624F3917A005E6B03 /* VoteAnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteAnswerCell.swift; sourceTree = "<group>"; };
 		986D9EBB24F392D2005E6B03 /* VoteAnswerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteAnswerCell.xib; sourceTree = "<group>"; };
 		986D9EBE24F39650005E6B03 /* VoteCommonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteCommonCell.swift; sourceTree = "<group>"; };
@@ -604,6 +606,7 @@
 			isa = PBXGroup;
 			children = (
 				0451A37624C1AF6500E69085 /* MainViewController.swift */,
+				986B5A1B24FDEDED00DFCBB5 /* CheckUserModel.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1649,6 +1652,7 @@
 				98CA02A524C52B9E009EF0ED /* Common.swift in Sources */,
 				98649DE324CEC6E8005AA9C3 /* MyFriendsListViewController.swift in Sources */,
 				9844204424EE0F7A001A0D7C /* GamePlayScriptModel.swift in Sources */,
+				986B5A1C24FDEDED00DFCBB5 /* CheckUserModel.swift in Sources */,
 				98C8D2AF24CDA0F1006C76D0 /* RecordListViewController.swift in Sources */,
 				983FD1A424D27C170041D79E /* ApplyFriendsViewController.swift in Sources */,
 				98F08BFB24E239ED0033DFBA /* HomeRoomModel.swift in Sources */,
