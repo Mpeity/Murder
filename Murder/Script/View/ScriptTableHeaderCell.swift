@@ -32,7 +32,8 @@ class ScriptTableHeaderCell: UITableViewCell, UICollectionViewDelegate, UICollec
         
            
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical     //滚动方向
+        // 横向滚动
+        layout.scrollDirection = .horizontal
         // 行间距
         layout.minimumLineSpacing = 0
         // 列间距

@@ -13,6 +13,9 @@ import UIKit
 // 点击标签 剧本刷新
 let Script_Change_Notif = "Script_Change_Notif"
 
+// 是否有未读消息通知
+let No_Read_Num_Notif = "No_Read_Num_Notif"
+
 
 // MARK:- 常量
 let app_key = "135761428"

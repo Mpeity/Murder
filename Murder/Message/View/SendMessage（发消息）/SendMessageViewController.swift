@@ -64,6 +64,8 @@ class SendMessageViewController: UIViewController {
         
         
         setUI()
+        
+        getHistoryList()
     }
     
     // 登录
@@ -180,7 +182,7 @@ extension SendMessageViewController {
     }
     //MARK: - 右侧按钮
     @objc func rightBtnAction() {
-        
+        inputTextField.resignFirstResponder()
         let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         commonView.itemModel  = messageListModel
@@ -315,10 +317,21 @@ private extension SendMessageViewController {
                     self.appendMessage(user: current, content: nil, mediaId: imageMessage.mediaId, thumbnail: imageMessage.thumbnail)
                 }
             }
+            
+            // 添加消息
+            addMsgRequest(type: 0, receive_id: Int(name)!, content: rtmMessage.text) { (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                if resultDic["code"]!.isEqual(1) {
+//                    let data = resultDic["data"] as! [String : AnyObject]
+                }
+            }
         }
         
        AgoraRtm.kit?.send(rtmMessage, toPeer: String(name), sendMessageOptions: option, completion: { (error) in
-        
            sent(error.rawValue)
        })
         
@@ -339,12 +352,14 @@ private extension SendMessageViewController {
                 Log(peerOnlineStatus)
                 let status:AgoraRtmPeerOnlineStatus = peerOnlineStatus![0]
                 
-                if (status.isOnline == true) { // 在线
-                    option.enableOfflineMessaging = true
-                } else { // 离线
-                    option.enableOfflineMessaging = false
-                }
+//                if (status.isOnline == true) { // 在线
+//                    option.enableOfflineMessaging = true
+//                } else { // 离线
+//                    option.enableOfflineMessaging = false
+//                }
                 
+                option.enableHistoricalMessaging = true
+//
                 let rtmMessage = AgoraRtmMessage(text: message)
                 self!.send(rtmMessage: rtmMessage, type: type, name: name, option: option)
                 
@@ -375,7 +390,25 @@ extension SendMessageViewController: AgoraRtmDelegate {
     
     
     private func getHistoryList() {
-        
+        let name = messageListModel?.userId
+        let start_time = "2020-08-01T01:24:10Z"
+        let end_time = "2020-09-01T00:00:10Z"
+            
+        getRTMHistory(source: AgoraRtm.current!, destination: String(name!), start_time: start_time, end_time: end_time) { (result, error) in
+            
+            Log(result)
+        }
+    }
+    
+    private func timeFunc() -> String {
+        let dateNow = Date()
+        let interval = Int(dateNow.timeIntervalSince1970)
+        let date = Date(timeIntervalSince1970: TimeInterval(interval))
+        let dateformatter = DateFormatter()
+        //自定义日期格式
+        dateformatter.dateFormat = "yyyy-mm-ddThh:mm:ssZ"
+
+        return dateformatter.string(from: date as Date)
     }
 }
 

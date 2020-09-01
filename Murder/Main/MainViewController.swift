@@ -14,20 +14,36 @@ class MainViewController: UITabBarController {
     
     lazy var imageNames = ["home","script","message","script"]
     
+    var redPoint = UIView()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupTabbar()
     }
     
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
 //        AgoraRtmLogin()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(notifFunc(notif:)), name: NSNotification.Name(rawValue: No_Read_Num_Notif), object: nil)
+        
+        setRedPoint()
+        
+        mgsNoRead()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 //        AgoraRtmLogout()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
 }
@@ -39,6 +55,18 @@ extension MainViewController {
            item.image = UIImage(named: imageNames[i])
            item.selectedImage = UIImage(named: imageNames[i]+"_highlighted")
        }
+    }
+    
+    private func setRedPoint() {
+        redPoint.backgroundColor = HexColor("#ED2828")
+        redPoint.tag = 101
+        let tabFrame = self.tabBar.frame
+        let x = ceil(0.65*tabFrame.size.width)
+        let y = ceil(0.1*tabFrame.size.height)
+        redPoint.frame = CGRect(x: x, y: y, width: 10, height: 10)
+        redPoint.layer.cornerRadius = 5
+        self.tabBar.addSubview(redPoint)
+        redPoint.isHidden = true
     }
 }
 
@@ -83,5 +111,37 @@ extension MainViewController: AgoraRtmDelegate {
     
     func rtmKit(_ kit: AgoraRtmKit, imageMessageReceived message: AgoraRtmImageMessage, fromPeer peerId: String) {
         AgoraRtm.add(offlineMessage: message, from: peerId)
+    }
+}
+
+extension MainViewController {
+    @objc private func notifFunc(notif: Notification) {
+        Log(notif)
+        let obj = notif.object as! Int
+        
+        if obj != 0 {
+            redPoint.isHidden = false
+        } else {
+            redPoint.isHidden = true
+        }
+    }
+    
+    
+    private func mgsNoRead() {
+        msgNoReadRequest {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                let no_read_num = data["no_read_num"] as! Int
+                
+                if no_read_num != 0 {
+                    self!.redPoint.isHidden = false
+                }
+            }
+        }
     }
 }

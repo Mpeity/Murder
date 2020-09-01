@@ -134,22 +134,69 @@ func passApplyFriendRequest(friend_apply_id: Int ,finished: @escaping(_ reslut: 
 }
 
 
-//MARK:- 获取历史纪录
+//MARK:- 消息新增
+private let add_msg_url = "/msg/msg/add_msg"
+/** 消息列表
+ * @params [参数名] [类型] [是否必传]
+ * type [int]    是    消息类型【0text1剧本邀请2剧本3好友申请】
+ * content [string]    是    消息内容
+ * receive_id [int]    是    接收用户ID
+ */
+func addMsgRequest(type: Int, receive_id: Int, content: String, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = friend_apply_list_url
+    let parameters = ["type": type, "receive_id": receive_id, "content": content] as [String : AnyObject]
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
 
+//MARK:- 当前登录用户是否有新消息
+private let msg_no_read_num_url = "/api/msg/msg_no_read_num"
+/** 消息列表
+ * @params [参数名] [类型] [是否必传]
+ */
+func msgNoReadRequest(finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = msg_no_read_num_url
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: nil) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+//MARK:- 获取历史纪录
 /** 消息列表
  * @params [参数名] [类型] [是否必传]
  * friend_apply_id [int]    是    好友ID
  */
-func getRTMHistory(friend_apply_id: Int ,finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+func getRTMHistory(source: String , destination: String, start_time: String, end_time: String, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
     
-    let urlString = "https://api.agora.io/dev/v2/project/<appid>/rtm/message/history/query"
+    let urlString = "https://api.agora.io/dev/v2/project/\(AgoraKit_AppId)/rtm/message/history/query"
     let parameters = [
-        "filter": ["source": "userA","destination": "userB","start_time" : "2019-08-01T01:22:10Z","end_time" : "2019-08-01T01:32:10Z"],"offset" : 100,"limit" : 20,"order" : "asc"] as [String : AnyObject]
+        "filter": ["source": source,"destination": destination,"start_time" : start_time,"end_time" : end_time],"offset" : 100,"limit" : 20,"order" : "asc"] as [String : AnyObject]
     
-    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    NetworkTools.shareInstance.requestOther(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }
+
+
+
+
+
+
+
+
+func getRTMHistoryQuery(handle: String ,finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = "https://api.agora.io/dev/v2/project/\(AgoraKit_AppId)/rtm/message/history/query"    
+    let parameters = ["handle": handle] as [String : AnyObject]
+    
+    NetworkTools.shareInstance.requestOther(urlString: urlString, method: .GET, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
 
 
 

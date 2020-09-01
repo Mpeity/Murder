@@ -138,6 +138,30 @@ extension NetworkTools {
         }
         
     }
+    
+    func requestOther(urlString: String, method: MethodType, parameters: [String : AnyObject]?, finished: @escaping(_ reslut: AnyObject?, _ error: Error?) -> ()) {
+        let urlStr = urlString
+        let successCallBack = { (task: URLSessionDataTask , result: Any?) -> Void in
+            
+            if let resultData: [String : AnyObject]  = result as? [String : AnyObject] {
+                if resultData["code"]!.isEqual(1) {
+                    finished(result as AnyObject?, nil)
+                } else { // code 值处理
+                    CLToastManager.share.cornerRadius = 25
+                    CLToastManager.share.bgColor = HexColor(hex: "#000000", alpha: 0.6)
+                    CLToast.cl_show(msg: resultData["msg"]! as! String)
+                }
+            }
+        }
+        let failureCallBack = { (task: URLSessionDataTask?, error: Error) -> Void in
+            finished(nil, error)
+        }
+        if method == .GET {
+            get(urlStr, parameters: parameters, success:successCallBack, failure:failureCallBack)
+        } else {
+            post(urlStr, parameters: parameters, success: successCallBack, failure: failureCallBack)
+        }
+    }
 }
 
 

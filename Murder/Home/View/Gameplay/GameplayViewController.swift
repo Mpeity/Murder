@@ -301,23 +301,24 @@ extension GameplayViewController {
         for item in mapList! {
             let mapId = item.scriptNodeMapId
             switch mapId {
-            case 1:
+            case 1: // 背景地图
                 if item.see == 0 {
-                    hideRedPoint(commonView: scriptBtn)
+                    hideRedPoint(commonView: placeBtn)
                 } else {
-                    addRedPoint(commonView: scriptBtn, x: 30, y: 5)
+                    addRedPoint(commonView: placeBtn, x: 30, y: 5)
                 }
                 
                 break
-            case 2:
+            case 2: // 自我介绍地图
                 if item.see == 0 {
                     addRedPoint(commonView: collogueBtn, x: 30, y: 5)
                 } else {
                     hideRedPoint(commonView: collogueBtn)
                 }
                 break
-            case 3:
+            case 3: // 剧本阅读
                 if item.see == 0 {
+//                    scriptBtn
                     addRedPoint(commonView: threadBtn, x: 30, y: 5)
                 } else {
                     hideRedPoint(commonView: threadBtn)

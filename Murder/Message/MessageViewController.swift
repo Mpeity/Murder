@@ -35,6 +35,8 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewWillAppear(animated)
         setUI()
         AgoraRtmLogin()
+        msgNoRead()
+
     }
         
 
@@ -44,6 +46,21 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 // MARK: - LoadData
 extension MessageViewController {
+    
+    private func msgNoRead() {
+        msgNoReadRequest {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                let no_read_num = data["no_read_num"] as! Int
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: No_Read_Num_Notif), object: no_read_num)
+            }
+        }
+    }
     
     @objc private func loadMore() {
         page_no += 1

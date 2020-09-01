@@ -208,15 +208,6 @@ extension MyFriendsListViewController {
             
             let vc = SendMessageViewController()
             
-//            var content : String?
-//            var createTime : String?
-//            var head : String?
-//            var level : String?
-//            var nickname : String?
-//            var noReadNum : Int?
-//            var type : Int?
-//            var userId : Int?
-//            var sex : Int?
             let model = friendsModel?.list[indexPath.row]
             
             let messageListModel = MessageListModel(fromDictionary: [:])
