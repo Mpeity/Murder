@@ -58,6 +58,5 @@ class UserAccountViewModel {
 //        return expiresDate.compare(Date()) == ComparisonResult.orderedDescending
 //    }
     
-    
 }
 

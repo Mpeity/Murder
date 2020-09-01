@@ -167,6 +167,7 @@ extension CompleteInfoViewController {
             if resultDic["code"]!.isEqual(1) { //修改成功
                 // 将account对象设置到单例对象中
                 UserAccountViewModel.shareInstance.account?.nickname = String(nickname)
+                UserAccountViewModel.shareInstance.account?.head = String(head)
                 // 首页
                 UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
             } else {

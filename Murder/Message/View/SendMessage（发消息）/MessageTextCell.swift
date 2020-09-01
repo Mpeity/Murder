@@ -43,15 +43,15 @@ class MessageTextCell: UITableViewCell {
         didSet {
             if messageModel != nil {
                 
-                let rightHidden = messageModel?.type == .left ? true : false
+                let rightHidden = messageModel?.typeStr == .left ? true : false
                 rightView.isHidden = rightHidden
                 leftView.isHidden = !rightHidden
                 
                 let head = messageModel?.head
-                
                 leftAvatarView.setImageWith(URL(string: head!))
-
-                rightAvatarView.setImageWith(URL(string: head!))
+                
+                let mine = UserAccountViewModel.shareInstance.account?.head
+                rightAvatarView.setImageWith(URL(string: mine!))
                 
                 
                 

@@ -68,25 +68,8 @@ class SendMessageViewController: UIViewController {
         getHistoryList()
     }
     
-    // 登录
-    func AgoraRtmLogin() {
-        let account = UserAccountViewModel.shareInstance.account?.userId
-        AgoraRtm.updateKit(delegate: self)
-        AgoraRtm.current = String(account!)
-
-        AgoraRtm.kit?.login(byToken: nil, user: String(account!)) { [weak self] (errorCode) in
-            guard errorCode == .ok else {
-                showToastCenter(msg: "login error: \(errorCode.rawValue)")
-                return
-            }
-            AgoraRtm.status = .online
-        }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -131,11 +114,9 @@ extension SendMessageViewController {
         backBtn.setImage(UIImage(named: "back_black"), for: .normal)
         backBtn.addTarget(self, action: #selector(backBtnAction), for: .touchUpInside)
         
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
         rightBtn.setImage(UIImage(named: "send_message_r_icon"), for: .normal)
         rightBtn.addTarget(self, action: #selector(rightBtnAction), for: .touchUpInside)
-        
         
         titleLabel.textColor = HexColor(DarkGrayColor)
         titleLabel.textAlignment = .center
@@ -143,7 +124,6 @@ extension SendMessageViewController {
         titleLabel.text = messageListModel?.nickname
         
         navigationItem.titleView = titleLabel
-        
     }
 }
 
@@ -159,16 +139,13 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
         let cell = tableView.dequeueReusableCell(withIdentifier: MessageTextCellId, for: indexPath) as! MessageTextCell
         cell.backgroundColor = UIColor.clear
         cell.selectionStyle = .none
-        msg.type = type
+        msg.typeStr = type
         cell.messageModel = msg
         return cell
 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let cell = tableView.cellForRow(at: indexPath) as? MessageTextCell
-//        return cell?.cellHeight! ?? 0
-        
         let mgs = list[indexPath.row]
         return mgs.cellHeight ?? 0
     }
@@ -301,11 +278,12 @@ private extension SendMessageViewController {
             guard let `self` = self else {
                 return
             }
-            guard state == 0 else {
+            guard (state == 0 || state == 4) else {
                 showToastCenter(msg: "send \(type.description) message error: \(state)")
                 Log("send \(type.description) message error: \(state)")
                 return
             }
+            
             guard let current = AgoraRtm.current else {
                 return
             }
@@ -318,17 +296,7 @@ private extension SendMessageViewController {
                 }
             }
             
-            // 添加消息
-            addMsgRequest(type: 0, receive_id: Int(name)!, content: rtmMessage.text) { (result, error) in
-                if error != nil {
-                    return
-                }
-                // 取到结果
-                guard  let resultDic :[String : AnyObject] = result else { return }
-                if resultDic["code"]!.isEqual(1) {
-//                    let data = resultDic["data"] as! [String : AnyObject]
-                }
-            }
+   
         }
         
        AgoraRtm.kit?.send(rtmMessage, toPeer: String(name), sendMessageOptions: option, completion: { (error) in
@@ -342,7 +310,7 @@ private extension SendMessageViewController {
         switch type {
         case .peer(let name):
             let option = AgoraRtmSendMessageOptions()
-            option.enableOfflineMessaging = (AgoraRtm.oneToOneMessageType == .offline ? true : false)
+            
             
             AgoraRtm.kit?.queryPeersOnlineStatus([name], completion: {[weak self] (peerOnlineStatus, peersOnlineErrorCode) in
                 guard peersOnlineErrorCode == .ok else {
@@ -352,14 +320,9 @@ private extension SendMessageViewController {
                 Log(peerOnlineStatus)
                 let status:AgoraRtmPeerOnlineStatus = peerOnlineStatus![0]
                 
-//                if (status.isOnline == true) { // 在线
-//                    option.enableOfflineMessaging = true
-//                } else { // 离线
-//                    option.enableOfflineMessaging = false
-//                }
-                
                 option.enableHistoricalMessaging = true
-//
+                option.enableOfflineMessaging = true
+                
                 let rtmMessage = AgoraRtmMessage(text: message)
                 self!.send(rtmMessage: rtmMessage, type: type, name: name, option: option)
                 
@@ -409,6 +372,22 @@ extension SendMessageViewController: AgoraRtmDelegate {
         dateformatter.dateFormat = "yyyy-mm-ddThh:mm:ssZ"
 
         return dateformatter.string(from: date as Date)
+    }
+    
+    
+    private func addMgs() {
+        
+        // 添加消息
+//        addMsgRequest(type: 0, receive_id: Int(name)!, content: rtmMessage.text) { (result, error) in
+//            if error != nil {
+//                return
+//            }
+//            // 取到结果
+//            guard  let resultDic :[String : AnyObject] = result else { return }
+//            if resultDic["code"]!.isEqual(1) {
+//                    let data = resultDic["data"] as! [String : AnyObject]
+//            }
+//        }
     }
 }
 

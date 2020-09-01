@@ -30,20 +30,17 @@ class MainViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        AgoraRtmLogin()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(notifFunc(notif:)), name: NSNotification.Name(rawValue: No_Read_Num_Notif), object: nil)
-        
+        AgoraRtmLogin()
         setRedPoint()
-        
+
+        NotificationCenter.default.addObserver(self, selector: #selector(notifFunc(notif:)), name: NSNotification.Name(rawValue: No_Read_Num_Notif), object: nil)
         mgsNoRead()
-        
-//        checkUser()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-//        AgoraRtmLogout()
+        
+        AgoraRtmLogout()
     }
     
     deinit {

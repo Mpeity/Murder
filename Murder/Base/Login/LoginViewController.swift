@@ -101,6 +101,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        
+        email = ""
+        password = ""
+        nameTextField.text = nil
+        passwordTextField.text = nil
     }
 
     override func viewWillDisappear(_ animated: Bool) {

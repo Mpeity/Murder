@@ -13,7 +13,7 @@ class UserAccount : NSObject, NSCoding{
     var key : String?
     var nickname : String?
     var userId : Int?
-
+    var head : String?
 
     /**
      * Instantiate the instance using the passed dictionary values to set the properties values
@@ -22,6 +22,7 @@ class UserAccount : NSObject, NSCoding{
         key = dictionary["key"] as? String
         nickname = dictionary["nickname"] as? String
         userId = dictionary["user_id"] as? Int
+        head = dictionary["head"] as? String
     }
 
     /**
@@ -38,6 +39,9 @@ class UserAccount : NSObject, NSCoding{
         }
         if userId != nil{
             dictionary["user_id"] = userId
+        }
+        if head != nil{
+            dictionary["head"] = head
         }
         return dictionary
     }

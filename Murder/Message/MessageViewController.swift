@@ -23,25 +23,31 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     private var messageModel: MessageModel?
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "トーク"
         AgoraRtm.updateKit(delegate: self)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setUI()
-        AgoraRtmLogin()
         msgNoRead()
-
-    }
         
-
-
-
+        let peer = UserAccountViewModel.shareInstance.account?.userId
+        AgoraRtm.kit?.queryPeersOnlineStatus([String(peer!)], completion: {[weak self] (peerOnlineStatus, peersOnlineErrorCode) in
+            guard peersOnlineErrorCode == .ok else {
+                showToastCenter(msg: "AgoraRtm login error: \(peersOnlineErrorCode.rawValue)")
+                return
+            }
+            Log(peerOnlineStatus)
+            let status:AgoraRtmPeerOnlineStatus = peerOnlineStatus![0]
+            if (status.isOnline == true) { // 在线
+            } else { // 离线
+                self?.AgoraRtmLogin()
+            }
+        })
+    }
 }
 
 // MARK: - LoadData
@@ -218,14 +224,6 @@ extension MessageViewController {
         default:
             break
         }
-//        if indexPath.row == 0  {
-//            let vc = ApplyFriendsViewController()
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        } else {
-//            let vc = SendMessageViewController()
-//            vc.type = .peer("挣大把钱钱")
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
     }
 }
 
@@ -243,14 +241,9 @@ extension MessageViewController: AgoraRtmDelegate {
         let account = UserAccountViewModel.shareInstance.account?.userId
         AgoraRtm.updateKit(delegate: self)
         AgoraRtm.current = String(account!)
-
         AgoraRtm.kit?.login(byToken: nil, user: String(account!)) { [weak self] (errorCode) in
-            
             print(String(account!))
-            
-            
             guard errorCode == .ok else {
-                
                 showToastCenter(msg: "AgoraRtm login error: \(errorCode.rawValue)")
                 return
             }
@@ -258,25 +251,14 @@ extension MessageViewController: AgoraRtmDelegate {
         }
     }
     
-    // 退出账号
-    func AgoraRtmLogout() {
-        guard AgoraRtm.status == .online else {
-            return
-        }
-        AgoraRtm.kit?.logout(completion: { (error) in
-            guard error == .ok else {
-                return
-            }
-            AgoraRtm.status = .offline
-        })
-    }
-    
     // Receive one to one offline messages
-    func rtmKit(_ kit: AgoraRtmKit, messageReceived message: AgoraRtmMessage, fromPeer peerId: String) {
-        AgoraRtm.add(offlineMessage: message, from: peerId)
-    }
+//    func rtmKit(_ kit: AgoraRtmKit, messageReceived message: AgoraRtmMessage, fromPeer peerId: String) {
+//        AgoraRtm.add(offlineMessage: message, from: peerId)
+//    }
+//
+//    func rtmKit(_ kit: AgoraRtmKit, imageMessageReceived message: AgoraRtmImageMessage, fromPeer peerId: String) {
+//        AgoraRtm.add(offlineMessage: message, from: peerId)
+//    }
     
-    func rtmKit(_ kit: AgoraRtmKit, imageMessageReceived message: AgoraRtmImageMessage, fromPeer peerId: String) {
-        AgoraRtm.add(offlineMessage: message, from: peerId)
-    }
+    
 }

@@ -47,11 +47,18 @@ class CreateRoomHeaderView: UIView {
             authorLabel.text = model.author
             
             numLabel.text = String(model.peopleNum) + "人"
+            if !model.tag.isEmpty {
+                let item1 = model.tag[0]
+                if item1 != nil {
+                    themeLabel.text = item1.tagName
+                }
+                
+                let item2 = model.tag[1]
+                if item2 != nil {
+                    difficultyLabel.text = item2.tagName
+                }
+            }
             
-            let item1 = model.tag[0]
-            themeLabel.text = item1.tagName
-            let item2 = model.tag[1]
-            difficultyLabel.text = item2.tagName
         }
     }
 

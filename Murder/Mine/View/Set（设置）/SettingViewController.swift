@@ -70,7 +70,8 @@ extension SettingViewController {
         self.view.addSubview(confirmBtn)
         confirmBtn.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(15)
-            make.right.equalToSuperview().offset(-15)
+//            make.right.equalToSuperview().offset(-15)
+            make.width.equalTo(FULL_SCREEN_WIDTH-30)
             make.height.equalTo(50)
             if #available(iOS 11.0, *) {
                 make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(-10)
@@ -132,9 +133,40 @@ extension SettingViewController {
 }
 
 extension SettingViewController {
+    
     @objc func confirmBtnAction() {
         UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
+        userLogout()
+        AgoraRtmLogout()
     }
+    
+    // 退出账号
+    func AgoraRtmLogout() {
+        guard AgoraRtm.status == .online else {
+            return
+        }
+        AgoraRtm.kit?.logout(completion: { (error) in
+            guard error == .ok else {
+                return
+            }
+            AgoraRtm.status = .offline
+        })
+    }
+    
+    func userLogout() {
+        //删除归档文件
+        let defaultManager = FileManager.default
+        if defaultManager.isDeletableFile(atPath: UserAccountViewModel.shareInstance.accountPath) {
+            do {
+                try defaultManager.removeItem(atPath: UserAccountViewModel.shareInstance.accountPath)
+            } catch  {
+                
+            }
+            
+        }
+        
+    }
+    
 }
 
 extension SettingViewController {

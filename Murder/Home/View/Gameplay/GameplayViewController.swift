@@ -1021,10 +1021,10 @@ extension GameplayViewController {
 //            self!.agoraKit.leaveChannel(nil)
 //            self?.agoraStatus.muteAllRemote = false
 //            self?.agoraStatus.muteLocalAudio = false
-//            self?.popScriptDetailVC()
             
             self!.dissolutionRequest(status: 1)
             self!.dissolveView.isHidden = true
+            self?.popScriptDetailVC()
         }
         
         // 发起解散
@@ -1050,20 +1050,23 @@ extension GameplayViewController {
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
+                
             }
         }
     }
     
     //MARK: 退出房间
     func popScriptDetailVC() {
-        Log(navigationController?.viewControllers)
-        let arr: [UIViewController] = navigationController!.viewControllers
-        for childVC:UIViewController in arr  {
-            if childVC.isKind(of: ScriptDetailsViewController.self) {
-                let popVC: ScriptDetailsViewController = childVC as! ScriptDetailsViewController
-                navigationController?.popToViewController(popVC, animated: true)
-            }
-        }
+//        Log(navigationController?.viewControllers)
+//        let arr: [UIViewController] = navigationController!.viewControllers
+//        for childVC:UIViewController in arr  {
+//            if childVC.isKind(of: ScriptDetailsViewController.self) {
+//                let popVC: ScriptDetailsViewController = childVC as! ScriptDetailsViewController
+//                navigationController?.popToViewController(popVC, animated: true)
+//            }
+//        }
+        
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     //MARK: 消息按钮
@@ -1177,22 +1180,20 @@ extension GameplayViewController {
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
+                if self?.script_node_id == 6 {
+                    self?.script_node_id = -1
+                }
+                
             }
         }
         
         switch stage {
         case 1:
             // 故事背景
-//            timerView.isHidden = false
-//            timer?.fire()
             collectionView.reloadData()
             break
         case 2:
             // 自我介绍
-//            timerCount = 0
-//            timerView.isHidden = true
-            
-            
             break
         case 3:
             // 阅读剧本
@@ -1226,9 +1227,13 @@ extension GameplayViewController {
 //            voteInfoBtn.isHidden = false
 //            voteResultBtn.isHidden = false
             
+            
             break
             
         default:
+            
+            self.navigationController?.popToRootViewController(animated: true)
+            
             break
         }
     }
