@@ -8,13 +8,61 @@
 
 import Foundation
 
+// 准备阶段
+class ReadyResult : NSObject {
 
-class Result : NSObject {
+    var readyOk : Int?
+    var roomId : Int?
+    var scriptRoleId : Int?
+    var status : Int?
+    var scriptId : Int?
+    
 
-    var roomId : Int!
-    var roomScriptNodeId : Int!
-    var scriptRoleId : Int!
-    var status : Int!
+
+    /**
+     * Instantiate the instance using the passed dictionary values to set the properties values
+     */
+    init(fromDictionary dictionary: [String:Any]){
+        readyOk = dictionary["ready_ok"] as? Int
+        roomId = dictionary["room_id"] as? Int
+        scriptRoleId = dictionary["script_role_id"] as? Int
+        status = dictionary["status"] as? Int
+        scriptId = dictionary["script_id"] as? Int
+    }
+
+    /**
+     * Returns all the available property values in the form of [String:Any] object where the key is the approperiate json key and the value is the value of the corresponding property
+     */
+    func toDictionary() -> [String:Any]
+    {
+        var dictionary = [String:Any]()
+        if readyOk != nil{
+            dictionary["ready_ok"] = readyOk
+        }
+        if roomId != nil{
+            dictionary["room_id"] = roomId
+        }
+        if scriptRoleId != nil{
+            dictionary["script_role_id"] = scriptRoleId
+        }
+        if status != nil{
+            dictionary["status"] = status
+        }
+        if scriptId != nil{
+            dictionary["script_id"] = scriptId
+        }
+        return dictionary
+    }
+}
+
+// 游戏中
+class GameResult : NSObject {
+
+    var roomId : Int?
+    var roomScriptNodeId : Int?
+    var scriptRoleId : Int?
+    var status : Int?
+    var scriptId : Int?
 
 
     /**
@@ -25,6 +73,7 @@ class Result : NSObject {
         roomScriptNodeId = dictionary["room_script_node_id"] as? Int
         scriptRoleId = dictionary["script_role_id"] as? Int
         status = dictionary["status"] as? Int
+        scriptId = dictionary["script_id"] as? Int
     }
 
     /**
@@ -45,6 +94,9 @@ class Result : NSObject {
         if status != nil{
             dictionary["status"] = status
         }
+        if scriptId != nil{
+            dictionary["script_id"] = scriptId
+        }
         return dictionary
     }
 }
@@ -52,8 +104,9 @@ class Result : NSObject {
 
 class CheckUserModel : NSObject {
 
-    var result : Result!
-    var stage : Int!
+    var readyResult : ReadyResult?
+    var gameResult : GameResult?
+    var stage : Int?
 
     /**
      * Instantiate the instance using the passed dictionary values to set the properties values
@@ -68,12 +121,12 @@ class CheckUserModel : NSObject {
             break
         case 1:
             if let resultData = dictionary["result"] as? [String:Any]{
-                result = Result(fromDictionary: resultData)
+                readyResult = ReadyResult(fromDictionary: resultData)
             }
             break
         case 2:
             if let resultData = dictionary["result"] as? [String:Any]{
-                result = Result(fromDictionary: resultData)
+                gameResult = GameResult(fromDictionary: resultData)
             }
             break
         default:
@@ -87,9 +140,15 @@ class CheckUserModel : NSObject {
     func toDictionary() -> [String:Any]
     {
         var dictionary = [String:Any]()
-        if result != nil{
-            dictionary["result"] = result.toDictionary()
+        if readyResult != nil {
+            dictionary["result"] = readyResult!.toDictionary()
         }
+        if gameResult != nil {
+            dictionary["result"] = gameResult!.toDictionary()
+        }
+//        if result != nil{
+//            dictionary["result"] = result.toDictionary()
+//        }
         if stage != nil{
             dictionary["stage"] = stage
         }

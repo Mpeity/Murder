@@ -83,8 +83,11 @@ class PrepareRoomCell: UITableViewCell {
                     // 状态【0未开始1已准备2游戏中3已结束】
                     if roomUserModel?.status == 1 {
                         prepareBtn.isHidden = false
+                        progressLabel.isHidden = true
                     } else {
                         prepareBtn.isHidden = true
+                        progressLabel.isHidden = false
+
                     }
                 }
             } else {

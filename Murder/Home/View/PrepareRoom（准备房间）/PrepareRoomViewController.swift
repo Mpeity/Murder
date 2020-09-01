@@ -133,12 +133,15 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
         
         setUI()
         
-        loadData()
+        
         
 //        loadImage()
         
-        checkLocalScriptWith()
         
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.loadData()
+        }
 
     }
     
@@ -171,10 +174,13 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
                                 self!.loadAllImages = false
                                 self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
                                 Thread.detachNewThreadSelector(#selector(self!.loadProgress), toTarget: self!, with: nil)
-                            } else {
-//                                self!.loadAllImages = true
+                                break
                             }
                         }
+                        
+                        // 本地有剧本数据
+                        self?.refreshUI()
+                        
                     } else {
                     
                         self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
@@ -303,13 +309,9 @@ extension PrepareRoomViewController {
                         if self.progressArr.count == arr?.count {
                             self.loadAllImages = true
                             newProgress = 1.0 * 100
-//                            if self!.readyRoomModel?.readyOk! == 1  && self!.loadAllImages == true { // 准备完毕
-//                                let vc = GameplayViewController()
-//                                vc.script_node_id = self!.readyRoomModel!.firstScriptNodeId!
-//                                vc.room_id = self!.readyRoomModel?.roomId
-//                                vc.script_id = self!.script_id
-//                                self!.navigationController?.pushViewController(vc, animated: true)
-//                            }
+                            DispatchQueue.main.async { [weak self] in
+                                self?.refreshUI()
+                            }
                         }
                     }
 
@@ -360,25 +362,11 @@ extension PrepareRoomViewController {
                 self?.readyRoomModel = ReadyRoomModel(fromDictionary: resultData)
                 if self?.readyRoomModel != nil {
                     self?.refreshUI()
-                    self?.tableView.reloadData()
+                    
+                    self?.checkLocalScriptWith()
                 }
                 
-//                if self!.readyRoomModel?.readyOk! == 1  && self!.loadAllImages == true { // 准备完毕
-//                    let vc = GameplayViewController()
-//                    vc.script_node_id = self!.readyRoomModel!.firstScriptNodeId!
-//                    vc.room_id = self!.readyRoomModel?.roomId
-//                    vc.script_id = self!.script_id
-//                    self!.navigationController?.pushViewController(vc, animated: true)
-//                }
                 
-                
-//                if self!.readyRoomModel?.readyOk! == 1  { // 准备完毕
-//                    let vc = GameplayViewController()
-//                    vc.script_node_id = self!.readyRoomModel!.firstScriptNodeId!
-//                    vc.room_id = self!.readyRoomModel?.roomId
-//                    vc.script_id = self!.script_id
-//                    self!.navigationController?.pushViewController(vc, animated: true)
-//                }
                 
             } else {
                 
@@ -391,6 +379,9 @@ extension PrepareRoomViewController {
 extension PrepareRoomViewController {
     
     private func refreshUI() {
+        
+        tableView.reloadData()
+        
         if readyRoomModel?.scriptName != nil {
             gameNameLabel.text = readyRoomModel?.scriptName
         } else {
@@ -438,6 +429,36 @@ extension PrepareRoomViewController {
                 }
             }
         }
+    
+        // 房间准备完毕标识【1全部准备完毕0未全部准备完毕】
+        let type = readyRoomModel?.readyOk!
+        if type == 1 {
+            let vc = GameplayViewController()
+            vc.script_node_id = readyRoomModel!.firstScriptNodeId!
+            vc.room_id = readyRoomModel?.roomId
+            vc.script_id = script_id
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+        // status【0正常1已开局2已结束3已解散】
+        let status = readyRoomModel?.status!
+        switch type {
+        case 0:
+            
+            break
+        case 1:
+            
+            break
+        case 2:
+            
+            break
+        case 3: // 解散
+            self.navigationController?.popToRootViewController(animated: true)
+            break
+        default:
+            break
+        }
+        
     }
     
     private func setUI() {
@@ -767,7 +788,8 @@ extension PrepareRoomViewController {
                 
             }
             commonView.removeFromSuperview()
-            self?.navigationController?.popViewController(animated: true)
+//            self?.navigationController?.popViewController(animated: true)
+            self?.navigationController?.popToRootViewController(animated: true)
         }
         
         // 站起
@@ -1151,7 +1173,6 @@ extension PrepareRoomViewController: WebSocketDelegate {
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-//        Log("websocketDidReceiveMessage=\(socket)\(text)")
 
         let dic = getDictionaryFromJSONString(jsonString: text)
         current_client_id = dic["client_id"] as? String
@@ -1160,6 +1181,9 @@ extension PrepareRoomViewController: WebSocketDelegate {
             bindRequest(scene: 1, client_id: current_client_id, datas: datas) { (result, error) in
             }
         } else if (dic["type"] as? String == "script_download"){
+            
+            Log("script_download-websocketDidReceiveMessage=\(socket)\(text)")
+
             let userId = dic["user_id"] as! Int
             let datas = dic["datas"] as! Float
             let s = String(format:"%.2f",datas)
@@ -1168,21 +1192,49 @@ extension PrepareRoomViewController: WebSocketDelegate {
             let userIndex = getIndexWithUserIsSpeaking(uid: UInt(bitPattern: userId))!
             let userList = readyRoomModel?.roomUserList
             let model = userList![userIndex]
-            if model.scriptRoleId == 0 { // 未选择角色
-                prepareBtn.isUserInteractionEnabled = false
-                prepareBtn.setTitle("ダウンロード中:\(progress)%", for: .normal)
-                if progress == 100.0 {
-                    prepareBtn.setTitle("準備", for: .normal)
-                    prepareBtn.isUserInteractionEnabled = true
+            
+            if model.status == 0 { // 未开始
+                if model.scriptRoleId == 0 { // 未选择角色
+                    prepareBtn.isUserInteractionEnabled = false
+                    prepareBtn.setTitle("ダウンロード中:\(progress)%", for: .normal)
+                    if progress == 100.0 {
+                        prepareBtn.setTitle("準備", for: .normal)
+                        prepareBtn.isUserInteractionEnabled = true
+                    }
+                    
+                } else {
+                    if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
+                        cell.progressLabel.isHidden = false
+                        
+                        cell.progressLabel.text = String("\(progress)%")
+                        tableView.reloadData()
+                    }
                 }
-                
-            } else {
+                if progress == 100.0 || progress == 100.00 ||  progress == 100  {
+                    if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
+                        cell.progressLabel.text = String("\(progress)%")
+                        cell.prepareBtn.isHidden = true
+                        cell.progressLabel.isHidden = true
+                        tableView.reloadData()
+                    }
+                }
+            } else { // 已准备
                 if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
+                    cell.prepareBtn.isHidden = true
                     cell.progressLabel.isHidden = false
                     cell.progressLabel.text = String("\(progress)%")
                     tableView.reloadData()
                 }
+                if progress == 100.0 || progress == 100.00 ||  progress == 100  {
+                    if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
+                        cell.progressLabel.text = String("\(progress)%")
+                        cell.progressLabel.isHidden = true
+                        cell.prepareBtn.isHidden = false
+                        tableView.reloadData()
+                    }
+                }
             }
+
             
         } else {
             // 取到结果
@@ -1193,32 +1245,10 @@ extension PrepareRoomViewController: WebSocketDelegate {
                 
                 Log("websocketDidReceiveMessage----数据更新了")
                 Log("websocketDidReceiveMessage=\(socket)\(text)")
-//                Log(resultData)
                 
                 readyRoomModel = ReadyRoomModel(fromDictionary: resultData)
                 if readyRoomModel != nil {
                     refreshUI()
-                    tableView.reloadData()
-                }
-
-                let type = readyRoomModel?.readyOk!
-                switch type {
-                case 1: // 准备好了
-                    let vc = GameplayViewController()
-                    vc.script_node_id = readyRoomModel!.firstScriptNodeId!
-                    vc.room_id = readyRoomModel?.roomId
-                    vc.script_id = script_id
-                    self.navigationController?.pushViewController(vc, animated: true)
-                    
-                    break
-                case 2:
-                    
-                    break
-                case 3: // 解散
-                    self.navigationController?.popToRootViewController(animated: true)
-                    break
-                default:
-                    break
                 }
             } else {
                 

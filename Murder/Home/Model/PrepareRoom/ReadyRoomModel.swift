@@ -20,6 +20,8 @@ class ReadyRoomModel : NSObject {
     var scriptName : String?
     var scriptRoleList : [ScriptRoleModel]?
     var tagText : String?
+    var status : Int?
+
 
 
     /**
@@ -47,6 +49,8 @@ class ReadyRoomModel : NSObject {
             }
         }
         tagText = dictionary["tag_text"] as? String
+        status = dictionary["status"] as? Int
+
     }
 
     /**
@@ -89,6 +93,9 @@ class ReadyRoomModel : NSObject {
         }
         if tagText != nil{
             dictionary["tag_text"] = tagText
+        }
+        if status != nil{
+            dictionary["status"] = status
         }
         return dictionary
     }

@@ -28,6 +28,10 @@ class HomeViewController: UIViewController,UITextFieldDelegate {
     private var roomList: [HomeRoomModel] =  [HomeRoomModel]()
     private var bannerList: [HomeBannerModel] = [HomeBannerModel]()
     
+    
+    private var checkUserModel: CheckUserModel?
+
+    
     private lazy var textInputView : InputTextView! = {
         let inputView = InputTextView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         inputView.delegate = self
@@ -56,6 +60,9 @@ class HomeViewController: UIViewController,UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         setUI()
         
+        checkUser()
+
+        
 //        loadRefresh()
     }
     
@@ -68,6 +75,37 @@ class HomeViewController: UIViewController,UITextFieldDelegate {
 
 //MARK:- 网络请求
 extension HomeViewController {
+    
+    private func checkUser() {
+        checkUrlRequest {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                self?.checkUserModel = CheckUserModel(fromDictionary: data)
+                
+                if self?.checkUserModel!.stage == 1 {
+                    let model = self?.checkUserModel?.readyResult
+                    let vc = PrepareRoomViewController()
+                    vc.room_id = model?.roomId
+                    vc.script_id = model?.scriptId
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                    
+                } else if (self?.checkUserModel!.stage == 2) {
+                    let model = self?.checkUserModel?.gameResult
+                    let vc = GameplayViewController()
+                    vc.script_node_id = model?.roomScriptNodeId
+                    vc.room_id = model?.roomId
+                    vc.script_id = model?.scriptId
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }
+    }
+    
     // 加载更多
     @objc func loadMore() {
         page_no += 1

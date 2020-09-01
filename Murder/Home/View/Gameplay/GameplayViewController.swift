@@ -1371,16 +1371,23 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
             if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
                 
                 cell.r_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
-                remainingCount = itemModel.user?.point! as! Int
-                
-                if itemModel.secretTalkId! == nil, itemModel.secretTalkId! == "0" {
-                    cell.r_miLabel.isHidden = true
-                } else {
-                   let indexStr = (itemModel.secretTalkId! as NSString).components(separatedBy: "_").last
-                    cell.r_miLabel.isHidden = false
-                    cell.r_miLabel.text = "密\(indexStr!)"
+                if itemModel.user?.point != nil {
+                    remainingCount = itemModel.user?.point! as! Int
                 }
                 
+                if itemModel.secretTalkId == nil {
+                    cell.r_miLabel.isHidden = true
+                } else {
+                    if itemModel.secretTalkId! == "0" {
+                        cell.r_miLabel.isHidden = true
+                    } else {
+                       let indexStr = (itemModel.secretTalkId! as NSString).components(separatedBy: "_").last
+                        cell.r_miLabel.isHidden = false
+                        cell.r_miLabel.text = "密\(indexStr!)"
+                    }
+                }
+                
+
                 
                 // 是否有人发起解散申请
                 if itemModel.applyDismiss == 1  { // 是

@@ -14,6 +14,8 @@ class MainViewController: UITabBarController {
     
     lazy var imageNames = ["home","script","message","script"]
     
+    var checkUserModel: CheckUserModel?
+    
     var redPoint = UIView()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,7 +38,7 @@ class MainViewController: UITabBarController {
         
         mgsNoRead()
         
-        checkUser()
+//        checkUser()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -148,7 +150,7 @@ extension MainViewController {
     }
     
     private func checkUser() {
-        checkUrlRequest { (result, error) in
+        checkUrlRequest {[weak self] (result, error) in
             if error != nil {
                 return
             }
@@ -156,6 +158,14 @@ extension MainViewController {
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
+                self?.checkUserModel = CheckUserModel(fromDictionary: data)
+                
+                if self?.checkUserModel!.stage == 1 {
+                    let vc = PrepareRoomViewController()
+                    
+                } else if (self?.checkUserModel!.stage == 2) {
+                    
+                }
                 
                 
                 
