@@ -13,9 +13,12 @@ let MyFriendsListCellId = "MyFriendsListCellId"
 
 class MyFriendsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
-    private var myTableView: UITableView!
-    
     var isShare: Bool = false
+    
+    var shareModel: ScriptDetailModel?
+    
+    
+    private var myTableView: UITableView!
     
     // 标题
     private var titleLabel: UILabel = UILabel()
@@ -200,6 +203,7 @@ extension MyFriendsListViewController {
         if isShare { // 分享 显示分享card
             let commonView = ShareScriptCard(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
             commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            
             self.view.addSubview(commonView)
             
         } else {

@@ -8,6 +8,7 @@
 
 import UIKit
 import MJRefresh
+import SVProgressHUD
 
 
 
@@ -41,6 +42,12 @@ class HomeViewController: UIViewController,UITextFieldDelegate {
         inputView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         return inputView
     }()
+    
+    // 剧本数据
+    private var scriptSourceModel : ScriptSourceModel?
+    
+    private var progressArr = [AnyObject]()
+    
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -58,10 +65,20 @@ class HomeViewController: UIViewController,UITextFieldDelegate {
         self.view.backgroundColor = UIColor.white
         // 监听键盘弹出
         NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
         setUI()
         
-        checkUser()
+        
 
+        
+        
+//        let backgroundQueue = DispatchQueue(label: "com.onevcat.concurrency.backgroundQueue")
+//        backgroundQueue.async {
+//            self.checkUser()
+//        }
+        
+        self.checkUser()
+        
         
 //        loadRefresh()
     }
@@ -76,33 +93,137 @@ class HomeViewController: UIViewController,UITextFieldDelegate {
 //MARK:- 网络请求
 extension HomeViewController {
     
+    //MARK:- 检测本地是否有当前剧本数据
+    func checkLocalScriptWith(script_id: Int?) {
+//        SVProgressHUD.show(withStatus: "加载中")
+        if (script_id != nil){
+            scriptSourceRequest(script_id: script_id!) {[weak self] (result, error) in
+                
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                if resultDic["code"]!.isEqual(1) {
+                    let data = resultDic["data"] as! [String : AnyObject]
+                    self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
+                    
+                    if (UserDefaults.standard.value(forKey: String(script_id!)) != nil) {
+                        
+                        let localData = ScriptLocalData.shareInstance.getNormalDefult(key: String(script_id!))
+                        let dic = localData as! Dictionary<String, AnyObject>
+                        
+                        let arr = self?.scriptSourceModel?.scriptNodeMapList!
+
+                        for item in arr! {
+                            if (!dic.keys.contains(item.attachmentId) || dic[item.attachmentId] == nil) {
+                                // 下载当前图片
+                                self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
+                                Thread.detachNewThreadSelector(#selector(self!.loadProgress), toTarget: self!, with: nil)
+                                break
+                            }
+                        }
+                        
+                        // 本地有剧本数据
+                        DispatchQueue.main.async { [weak self] in
+                            self?.gotoVC()
+                        }
+                    } else {
+                    
+                        self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
+                        Thread.detachNewThreadSelector(#selector(self!.loadProgress), toTarget: self!, with: nil)
+                                
+                    }
+                }
+            }
+        }
+    }
+    
+    @objc func loadProgress() {
+        
+        let arr = self.scriptSourceModel?.scriptNodeMapList!
+        // 任务1
+        let arrCount = arr?.count
+        
+        
+        let queue = OperationQueue()
+        queue.name = "Download queue"
+        queue.maxConcurrentOperationCount = 1
+
+        for (index,viewModel) in arr!.enumerated() {
+            let operation = BlockOperation { () -> Void in
+                ImageDownloader.shareInstance.loadImageProgress(currentIndex: index, script: (self.scriptSourceModel?.script!)!, scriptNodeMapModel: viewModel) { (progress, response, error) in
+                    
+
+                    let new = progress
+                    let scale = 1.0/Double(arrCount!)
+                    let newIndex = Double(index)+1.0
+                    var newProgress = new! * newIndex * scale * 100
+                    Log("newProgress---\(newProgress)")
+                    if response != nil {
+                        self.progressArr.append(response as AnyObject)
+                        if self.progressArr.count == arr?.count {
+                            newProgress = 1.0 * 100
+                            DispatchQueue.main.async { [weak self] in
+                                self?.gotoVC()
+                            }
+                        }
+                    }
+                }
+            }
+
+            queue.addOperation(operation)
+        }
+    }
+        
+    
     private func checkUser() {
+        SVProgressHUD.show(withStatus: "加载中")
         checkUrlRequest {[weak self] (result, error) in
+            SVProgressHUD.dismiss()
             if error != nil {
                 return
             }
+
             // 取到结果
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
                 self?.checkUserModel = CheckUserModel(fromDictionary: data)
                 
+                var script_id  = -1
                 if self?.checkUserModel!.stage == 1 {
                     let model = self?.checkUserModel?.readyResult
-                    let vc = PrepareRoomViewController()
-                    vc.room_id = model?.roomId
-                    vc.script_id = model?.scriptId
-                    self?.navigationController?.pushViewController(vc, animated: true)
+                    script_id = model!.scriptId!
                     
                 } else if (self?.checkUserModel!.stage == 2) {
                     let model = self?.checkUserModel?.gameResult
-                    let vc = GameplayViewController()
-                    vc.script_node_id = model?.roomScriptNodeId
-                    vc.room_id = model?.roomId
-                    vc.script_id = model?.scriptId
-                    self?.navigationController?.pushViewController(vc, animated: true)
+                    script_id = model!.scriptId!
                 }
+//                self?.checkLocalScriptWith(script_id: script_id)
+                
+                self?.gotoVC()
             }
+        }
+    }
+    
+    func gotoVC() {
+        SVProgressHUD.dismiss()
+        if self.checkUserModel!.stage == 1 {
+            let model = self.checkUserModel?.readyResult
+            let vc = PrepareRoomViewController()
+            vc.room_id = model?.roomId
+            vc.script_id = model?.scriptId
+            self.navigationController?.pushViewController(vc, animated: true)
+            return
+        } else if (self.checkUserModel!.stage == 2) {
+            let model = self.checkUserModel?.gameResult
+            let vc = GameplayViewController()
+            vc.script_node_id = model?.roomScriptNodeId
+            vc.room_id = model?.roomId
+            vc.script_id = model?.scriptId
+            self.navigationController?.pushViewController(vc, animated: true)
+            return
         }
     }
     

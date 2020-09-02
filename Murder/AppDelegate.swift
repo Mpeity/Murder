@@ -44,12 +44,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.backgroundColor = UIColor.white
 
         self.window?.rootViewController = defaultViewController
+        
 //        self.window?.rootViewController =  BaseNavigationViewController(rootViewController: PrepareRoomViewController())
 //        self.window?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
         
         self.window?.makeKeyAndVisible()
-        
-        
         return true
     }
     

@@ -38,9 +38,8 @@ class MainViewController: UITabBarController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        AgoraRtmLogout()
+        super.viewWillDisappear(animated)        
+//        AgoraRtmLogout()
     }
     
     deinit {
@@ -85,7 +84,7 @@ extension MainViewController: AgoraRtmDelegate {
             
             guard errorCode == .ok else {
                 
-                showToastCenter(msg: "AgoraRtm login error: \(errorCode.rawValue)")
+                showToastCenter(msg: "main-AgoraRtm login error: \(errorCode.rawValue)")
                 return
             }
             AgoraRtm.status = .online

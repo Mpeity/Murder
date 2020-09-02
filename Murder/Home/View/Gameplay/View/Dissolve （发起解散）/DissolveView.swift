@@ -58,28 +58,38 @@ class DissolveView: UIView {
     //MARK: - 发起解散 - 取消
     @IBAction func dissolutionCancelBtnAvtion(_ sender: Any) {
         // 隐藏视图
-        dissolutionBtnCancelBlcok?()
+        if dissolutionBtnCancelBlcok != nil {
+            dissolutionBtnCancelBlcok!()
+        }
     }
     
     //MARK: - 发起解散 - 发起
     @IBAction func dissolutionStartAction(_ sender: Any) {
-        dissolutionView.isHidden = false
-        votingView.isHidden = true
-        dissolutionBtnStartBlcok?()
+//        dissolutionView.isHidden = false
+//        votingView.isHidden = true
+        if dissolutionBtnStartBlcok != nil {
+            dissolutionBtnStartBlcok!()
+        }
     }
     
     
     //MARK: - 解散
     @IBAction func dissolutionBtnAction(_ sender: Any) {
-        dissolutionView.isHidden = true
-        votingView.isHidden = true
-        dissolutionBtnTapBlcok?()
+//        dissolutionView.isHidden = true
+//        votingView.isHidden = true
+         if dissolutionBtnTapBlcok != nil {
+            dissolutionBtnTapBlcok!()
+        }
     }
     //MARK: - 不解散
     @IBAction func noDissolutionBtnAction(_ sender: Any) {
         // 隐藏视图
-        hideView()
-        dissolutionBtnNoBlcok?()
+//        hideView()
+//        dissolutionView.isHidden = true
+//        votingView.isHidden = true
+        if dissolutionBtnNoBlcok != nil {
+            dissolutionBtnNoBlcok!()
+        }
     }
     
     

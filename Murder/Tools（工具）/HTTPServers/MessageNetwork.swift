@@ -135,7 +135,7 @@ func passApplyFriendRequest(friend_apply_id: Int ,finished: @escaping(_ reslut: 
 
 
 //MARK:- 消息新增
-private let add_msg_url = "/msg/msg/add_msg"
+private let add_msg_url = "/api/msg/add_msg"
 /** 消息列表
  * @params [参数名] [类型] [是否必传]
  * type [int]    是    消息类型【0text1剧本邀请2剧本3好友申请】
@@ -144,7 +144,7 @@ private let add_msg_url = "/msg/msg/add_msg"
  */
 func addMsgRequest(type: Int, receive_id: Int, content: String, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
     
-    let urlString = friend_apply_list_url
+    let urlString = add_msg_url
     let parameters = ["type": type, "receive_id": receive_id, "content": content] as [String : AnyObject]
     NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
@@ -160,6 +160,22 @@ func msgNoReadRequest(finished: @escaping(_ reslut: [String: AnyObject]?, _ erro
     
     let urlString = msg_no_read_num_url
     NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: nil) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+//MARK:- 消息对话
+private let msg_talk_url = "/api/msg/msg_talk"
+/** 消息列表
+ * @params [参数名] [类型] [是否必传]
+ * receive_id [string]    是    对方用户ID
+ * page_no [int]    是    页码
+ * page_size [int]    是    条数
+ */
+func msgTalkListRequest(receive_id: Int, page_no: Int, page_size: Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {    
+    let urlString = msg_talk_url
+    let parameters = ["receive_id": receive_id,"page_no": page_no, "page_size": page_size] as [String : AnyObject]
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }

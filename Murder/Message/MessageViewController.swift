@@ -19,7 +19,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     private var page_no = 1
     
-    private var page_size = 1
+    private var page_size = 15
     
     private var messageModel: MessageModel?
     
@@ -37,7 +37,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
         let peer = UserAccountViewModel.shareInstance.account?.userId
         AgoraRtm.kit?.queryPeersOnlineStatus([String(peer!)], completion: {[weak self] (peerOnlineStatus, peersOnlineErrorCode) in
             guard peersOnlineErrorCode == .ok else {
-                showToastCenter(msg: "AgoraRtm login error: \(peersOnlineErrorCode.rawValue)")
+                showToastCenter(msg: "message-AgoraRtm login error: \(peersOnlineErrorCode.rawValue)")
                 return
             }
             Log(peerOnlineStatus)
@@ -244,7 +244,7 @@ extension MessageViewController: AgoraRtmDelegate {
         AgoraRtm.kit?.login(byToken: nil, user: String(account!)) { [weak self] (errorCode) in
             print(String(account!))
             guard errorCode == .ok else {
-                showToastCenter(msg: "AgoraRtm login error: \(errorCode.rawValue)")
+                showToastCenter(msg: "login-AgoraRtm login error: \(errorCode.rawValue)")
                 return
             }
             AgoraRtm.status = .online

@@ -55,7 +55,7 @@ class UserAccount : NSObject, NSCoding{
          key = aDecoder.decodeObject(forKey: "key") as? String
          nickname = aDecoder.decodeObject(forKey: "nickname") as? String
          userId = aDecoder.decodeObject(forKey: "user_id") as? Int
-
+         head = aDecoder.decodeObject(forKey: "head") as? String
     }
 
     /**
@@ -72,6 +72,9 @@ class UserAccount : NSObject, NSCoding{
         }
         if userId != nil{
             aCoder.encode(userId, forKey: "user_id")
+        }
+        if head != nil{
+            aCoder.encode(head, forKey: "head")
         }
 
     }

@@ -46,7 +46,7 @@ class CreateRoomViewController: UIViewController {
     
     var cover: String! {
         didSet {
-            guard let cover = cover else {
+            guard cover != nil else {
                 return
             }
 //            coverImgView.setImageWith(URL(string: cover))

@@ -38,8 +38,16 @@ class SendMessageViewController: UIViewController {
     // 
     private var rightBtn: UIButton = UIButton()
     
+    private var page_no = 1
+    
+    private var page_size = 15
     
     lazy var list = [Message]()
+    
+    var msgList: [MsgTalkModel]?  = [MsgTalkModel]()
+    
+    
+    var currentMgsTalkModel: MsgTalkModel? = MsgTalkModel(fromDictionary: [:])
     
     var type: ChatType?
 
@@ -65,7 +73,9 @@ class SendMessageViewController: UIViewController {
         
         setUI()
         
-        getHistoryList()
+        getMsgList()
+        
+//        getHistoryList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,6 +91,28 @@ class SendMessageViewController: UIViewController {
     }
     
 
+}
+
+extension SendMessageViewController {
+    private func getMsgList() {
+        msgTalkListRequest(receive_id: messageListModel!.userId!, page_no: page_no, page_size: page_size) {[weak self] (result, error) in
+            
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                for item in MessageContentModel(fromDictionary: data).list! {
+                    let dic = getDictionaryFromJSONString(jsonString: item.content!)
+                    let model = MsgTalkModel(fromDictionary: dic as! [String : Any])
+                    self?.msgList?.append(model)
+                    self?.tableView.reloadData()
+                }
+            }
+        }
+    }
 }
 
 
@@ -129,25 +161,38 @@ extension SendMessageViewController {
 
 extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return list.count
+        return msgList?.count ?? 0
+        
+//        return list
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var msg = list[indexPath.row]
-        let type : CellType = msg.userId == AgoraRtm.current ? .right : .left
+//        var msg = list[indexPath.row]
+//        let type : CellType = msg.userId == AgoraRtm.current ? .right : .left
+//        let cell = tableView.dequeueReusableCell(withIdentifier: MessageTextCellId, for: indexPath) as! MessageTextCell
+//        cell.backgroundColor = UIColor.clear
+//        cell.selectionStyle = .none
+//        msg.typeStr = type
+//        cell.messageModel = msg
+        
+        
+        let msg = msgList![indexPath.row]
+        let type : CellType = String(msg.sendId!) == AgoraRtm.current ? .right : .left
         let cell = tableView.dequeueReusableCell(withIdentifier: MessageTextCellId, for: indexPath) as! MessageTextCell
         cell.backgroundColor = UIColor.clear
         cell.selectionStyle = .none
         msg.typeStr = type
-        cell.messageModel = msg
+        cell.messageTalkModel = msg
+    
         return cell
-
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let mgs = list[indexPath.row]
-        return mgs.cellHeight ?? 0
+//        let mgs = list[indexPath.row]
+        let msg = msgList?[indexPath.row]
+        
+        return msg!.cellHeight ?? 90
     }
 }
 
@@ -205,18 +250,39 @@ extension SendMessageViewController: UITextFieldDelegate {
             let head = self?.messageListModel?.head
             let size = self?.getSizeWithContent(content: content!)
             
-            let msg = Message(userId: user, text: content, mediaId: mediaId, thumbnail: thumbnail, cellHeight: size?.height, head: head)
+//            let time = getTime()
+//            var dic = [:] as [String : Any?]
+//            dic["type"] = 1
+//            dic["content"] = text
+//            dic["send_id"] = UserAccountViewModel.shareInstance.account?.userId
+//            dic["target_id"] = messageListModel!.userId
+//            dic["time_ms"] = time
             
-            self!.list.append(msg)
+            self?.currentMgsTalkModel?.content = content
+            self?.currentMgsTalkModel?.cellHeight = size?.height
+            self?.currentMgsTalkModel?.sendId = UserAccountViewModel.shareInstance.account?.userId
+            self?.currentMgsTalkModel?.type = 1
+            self?.currentMgsTalkModel?.timeMs = self?.getTime()
+            self?.currentMgsTalkModel?.targetId = Int(user)
+            self?.currentMgsTalkModel?.head = head
             
-            if self!.list.count > 100 {
-                self!.list.removeFirst()
-            }
+            
+            let msgModel = self?.currentMgsTalkModel
+            
+            self!.msgList!.append(msgModel!)
+
+            
+//            let msg = Message(userId: user, text: content, mediaId: mediaId, thumbnail: thumbnail, cellHeight: size?.height, head: head)
+//
+//            self!.list.append(msg)
+//
+//            if self!.list.count > 100 {
+//                self!.list.removeFirst()
+//            }
 
             self!.tableView.reloadData()
 
-            let end = IndexPath(row: self!.list.count - 1, section: 0)
-            
+            let end = IndexPath(row: self!.msgList!.count - 1, section: 0)
             self!.tableView.scrollToRow(at: end, at: .bottom, animated: true)
         }
     }
@@ -278,6 +344,7 @@ private extension SendMessageViewController {
             guard let `self` = self else {
                 return
             }
+            
             guard (state == 0 || state == 4) else {
                 showToastCenter(msg: "send \(type.description) message error: \(state)")
                 Log("send \(type.description) message error: \(state)")
@@ -295,8 +362,7 @@ private extension SendMessageViewController {
                     self.appendMessage(user: current, content: nil, mediaId: imageMessage.mediaId, thumbnail: imageMessage.thumbnail)
                 }
             }
-            
-   
+            self.addMgs(text: rtmMessage.text)
         }
         
        AgoraRtm.kit?.send(rtmMessage, toPeer: String(name), sendMessageOptions: option, completion: { (error) in
@@ -314,7 +380,7 @@ private extension SendMessageViewController {
             
             AgoraRtm.kit?.queryPeersOnlineStatus([name], completion: {[weak self] (peerOnlineStatus, peersOnlineErrorCode) in
                 guard peersOnlineErrorCode == .ok else {
-                    showToastCenter(msg: "AgoraRtm login error: \(peersOnlineErrorCode.rawValue)")
+                    showToastCenter(msg: "send-AgoraRtm login error: \(peersOnlineErrorCode.rawValue)")
                     return
                 }
                 Log(peerOnlineStatus)
@@ -354,7 +420,7 @@ extension SendMessageViewController: AgoraRtmDelegate {
     
     private func getHistoryList() {
         let name = messageListModel?.userId
-        let start_time = "2020-08-01T01:24:10Z"
+        let start_time = "2020-08-31T01:24:10Z"
         let end_time = "2020-09-01T00:00:10Z"
             
         getRTMHistory(source: AgoraRtm.current!, destination: String(name!), start_time: start_time, end_time: end_time) { (result, error) in
@@ -375,19 +441,60 @@ extension SendMessageViewController: AgoraRtmDelegate {
     }
     
     
-    private func addMgs() {
-        
-        // 添加消息
-//        addMsgRequest(type: 0, receive_id: Int(name)!, content: rtmMessage.text) { (result, error) in
-//            if error != nil {
-//                return
-//            }
-//            // 取到结果
-//            guard  let resultDic :[String : AnyObject] = result else { return }
-//            if resultDic["code"]!.isEqual(1) {
-//                    let data = resultDic["data"] as! [String : AnyObject]
-//            }
+    private func addMgs(text: String) {
+//        // 添加消息
+//        {
+//        "type":1, //1文字 2 剧本详情 3 剧本邀请
+//        "content":"内容",
+//        "script_id":1,
+//        "script_name":"剧本名字",
+//        "script_cover":"剧本封面",
+//        "script_des":"剧本简介",
+//        "room_id":"房间id",
+//        "send_id":"发送者id",
+//        "target_id":"接受者id",
+//        "time_ms":"1587009745719"//13位时间戳
 //        }
+        let time = getTime()
+        var dic = [:] as [String : Any?]
+        dic["type"] = 1
+        dic["content"] = text
+        dic["send_id"] = UserAccountViewModel.shareInstance.account?.userId
+        dic["target_id"] = messageListModel!.userId
+        dic["time_ms"] = time
+            
+        dic["script_id"] = nil
+        dic["script_name"] = nil
+        dic["script_cover"] = nil
+        dic["script_des"] = nil
+        dic["room_id"] = nil
+        
+        let json = getJSONStringFromDictionary(dictionary: dic as NSDictionary)
+        addMsgRequest(type: 0, receive_id: messageListModel!.userId!, content: json) { (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                Log(resultDic["msg"])
+            }
+        }
+    }
+    
+    func getTime() -> String {
+        //获取当前时间
+        let now = NSDate()
+        // 创建一个日期格式器
+        let dformatter = DateFormatter()
+        dformatter.dateFormat = "yyyy年MM月dd日 HH:mm:ss"
+        print("当前日期时间：\(dformatter.string(from: now as Date))")
+         
+        //当前时间的时间戳
+        let timeInterval:TimeInterval = now.timeIntervalSince1970*1000
+        let timeStamp = Int(timeInterval)
+        print("当前时间的时间戳：\(timeStamp)")
+        return String(timeStamp)
     }
 }
 

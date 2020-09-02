@@ -142,6 +142,8 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
         DispatchQueue.main.async { [weak self] in
             self?.loadData()
         }
+        
+//        self.loadData()
 
     }
     
@@ -438,6 +440,7 @@ extension PrepareRoomViewController {
             vc.room_id = readyRoomModel?.roomId
             vc.script_id = script_id
             self.navigationController?.pushViewController(vc, animated: true)
+            return
         }
         
         // status【0正常1已开局2已结束3已解散】
@@ -847,13 +850,6 @@ extension PrepareRoomViewController {
     //MARK:-  准备/取消准备
     @objc func prepareBtnAction(button: UIButton) {
         // 站起状态或者未选择状态 提示先选择角色
-        
-//        let vc = GameplayViewController()
-//       vc.script_node_id = readyRoomModel!.firstScriptNodeId!
-//       vc.room_id = readyRoomModel?.roomId
-//       vc.script_id = script_id
-//       self.navigationController?.pushViewController(vc, animated: true)
-//        return
         
         let uid = UserAccountViewModel.shareInstance.account?.userId!
         guard let index = getIndexWithUserIsSpeaking(uid: UInt(bitPattern: uid!)) else { return }

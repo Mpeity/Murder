@@ -8,6 +8,7 @@
 
 import UIKit
 import CLToast
+import SVProgressHUD
 
 private var email = ""
 private var password = ""
@@ -43,8 +44,9 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         
         email = nameTextField.text!
         password = passwordTextField.text!
-        
+        SVProgressHUD.show(withStatus: "加载中")
         loadLogin(email: email, password: password) {[weak self] (result, error) in
+            SVProgressHUD.dismiss()
             if error != nil {
                 return
             }

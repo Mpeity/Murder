@@ -13,9 +13,9 @@ class ShareScriptCard: UIView {
     var isShareScript: Bool = true
     
     @IBOutlet var contentView: UIView!
-    // 性别
-    @IBOutlet weak var commonLabel: UILabel!
     
+    @IBOutlet weak var commonLabel: UILabel!
+    // 性别
     @IBOutlet weak var sexImgView: UIImageView!
     
     @IBOutlet weak var tipLabel: UILabel!
@@ -38,6 +38,23 @@ class ShareScriptCard: UIView {
     @IBOutlet weak var sendBtn: UIButton!
     
     @IBOutlet weak var cancelBtn: UIButton!
+    
+    var shareModel: ScriptDetailModel?{
+        didSet {
+            if shareModel != nil {
+                if shareModel?.cover != nil {
+                    let cover = shareModel?.cover
+                    coverImgView.setImageWith(URL(string: cover!))
+                }
+                
+                if shareModel?.name != nil {
+                    nameLabel.text = shareModel?.name!
+                }
+                
+                
+            }
+        }
+    }
     
     
     //初始化时将xib中的view添加进来

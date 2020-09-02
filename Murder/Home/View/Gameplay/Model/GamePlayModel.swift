@@ -12,6 +12,7 @@ class GamePlayRoomModel : NSObject {
 
     var roomId : Int?
     var scriptId : Int?
+    // 房间状态【0未开始1已开局2已结束3已解散】
     var status : Int?
 
 

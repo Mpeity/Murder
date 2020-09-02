@@ -439,8 +439,45 @@ extension GameplayViewController {
         // 申请解散弹框
         self.view.addSubview(dissolveView)
         dissolveView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        dissolveView.isHidden = true
+        // 不解散
+        dissolveView.dissolutionBtnNoBlcok = {[weak self] () ->() in
+            
+            self!.dissolutionRequest(status: 1)
+            self!.dissolveView.votingView.isHidden = true
+            self!.dissolveView.dissolutionView.isHidden = true
+            self!.dissolveView.isHidden = true
+            
+        }
         
+        // 解散
+        dissolveView.dissolutionBtnTapBlcok = {[weak self] () ->() in
+            // 退出当前剧本，离开群聊频道
+            self!.agoraKit.leaveChannel(nil)
+            self?.agoraStatus.muteAllRemote = false
+            self?.agoraStatus.muteLocalAudio = false
+            
+            self!.dissolutionRequest(status: 3)
+            self!.dissolveView.votingView.isHidden = true
+            self!.dissolveView.dissolutionView.isHidden = true
+            self!.dissolveView.isHidden = true
+        }
+        
+        // 发起解散
+        dissolveView.dissolutionBtnStartBlcok = {[weak self] () ->() in
+            // 【1拒绝解散3解散状态】
+            self!.dissolutionRequest(status: 3)
+            self!.dissolveView.votingView.isHidden = true
+            self!.dissolveView.dissolutionView.isHidden = true
+            self!.dissolveView.isHidden = true
+        }
+        
+        // 取消发起
+        dissolveView.dissolutionBtnCancelBlcok = {[weak self] () ->() in
+            self!.dissolveView.votingView.isHidden = true
+            self!.dissolveView.dissolutionView.isHidden = true
+            self!.dissolveView.isHidden = true
+        }
+        dissolveView.isHidden = true
     }
     
     /// 添加红点
@@ -953,7 +990,8 @@ extension GameplayViewController {
                 let data = resultDic["data"] as! [String : AnyObject]
                 let resultData = data["search_clue_result"] as! [String : AnyObject]
                 let clueResultModel = SearchClueResultModel(fromDictionary: resultData)
-                let threadCardView = ThreadCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+//                let threadCardView = ThreadCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                let threadCardView = ThreadNewCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
                 threadCardView.clueResultModel = clueResultModel
                 threadCardView.script_place_id = script_place_id
                 threadCardView.room_id = self!.room_id
@@ -1008,36 +1046,6 @@ extension GameplayViewController {
     @objc func exitBtnAction(button: UIButton) {
         dissolveView.isHidden = false
         dissolveView.dissolutionView.isHidden = false
-        
-        // 不解散
-        dissolveView.dissolutionBtnNoBlcok = {[weak self] () in
-           self!.dissolutionRequest(status: 1)
-            self!.dissolveView.isHidden = true
-        }
-        
-        // 解散
-        dissolveView.dissolutionBtnTapBlcok = {[weak self] () in
-            // 退出当前剧本，离开群聊频道
-//            self!.agoraKit.leaveChannel(nil)
-//            self?.agoraStatus.muteAllRemote = false
-//            self?.agoraStatus.muteLocalAudio = false
-            
-            self!.dissolutionRequest(status: 1)
-            self!.dissolveView.isHidden = true
-            self?.popScriptDetailVC()
-        }
-        
-        // 发起解散
-        dissolveView.dissolutionBtnStartBlcok = {[weak self] () in
-            // 【1拒绝解散3解散状态】
-            self!.dissolutionRequest(status: 3)
-            self!.dissolveView.isHidden = true
-        }
-        
-        // 取消发起
-        dissolveView.dissolutionBtnCancelBlcok = {[weak self] () in
-            self!.dissolveView.isHidden = true
-        }
     }
     
     // 解散接口
@@ -1067,6 +1075,7 @@ extension GameplayViewController {
 //        }
         
         self.navigationController?.popToRootViewController(animated: true)
+        return
     }
     
     //MARK: 消息按钮
@@ -1190,7 +1199,7 @@ extension GameplayViewController {
         switch stage {
         case 1:
             // 故事背景
-            collectionView.reloadData()
+//            collectionView.reloadData()
             break
         case 2:
             // 自我介绍
@@ -1551,6 +1560,11 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, didAudioMuted muted: Bool, byUid uid: UInt) {
         // 当频道里的用户开始或停止发送音频流的时候，会收到这个回调。在界面的用户头像上显示或隐藏静音标记
+//        let userList = gamePlayModel?.scriptRoleList
+        guard let gamePlayModel = gamePlayModel else {
+            return
+        }
+        
         Log("muted\(muted)")
         let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid))!
         let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as! GameplayViewCell
@@ -1665,6 +1679,11 @@ extension GameplayViewController: WebSocketDelegate {
                 refreshUI()
                 
                 script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
+                
+                if gamePlayModel?.room.status! == 3  { // 房间已经解散
+                    showToastCenter(msg: "房间已解散!")
+                    popScriptDetailVC()
+                }
                 
                 if script_node_id == 5 { // 答题
                     if gamePlayModel?.scriptNodeResult.scriptQuestionList.count != 0 {

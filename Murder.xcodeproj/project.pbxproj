@@ -113,13 +113,15 @@
 		986A540F24EB89E8004140F3 /* ScriptSourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A540E24EB89E8004140F3 /* ScriptSourceModel.swift */; };
 		986A541124EBAAB7004140F3 /* ScriptNodeMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A541024EBAAB7004140F3 /* ScriptNodeMapModel.swift */; };
 		986B5A1C24FDEDED00DFCBB5 /* CheckUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986B5A1B24FDEDED00DFCBB5 /* CheckUserModel.swift */; };
+		986B5A1E24FF464D00DFCBB5 /* ThreadNewCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986B5A1D24FF464D00DFCBB5 /* ThreadNewCardView.swift */; };
+		986B5A2224FF46DF00DFCBB5 /* ThreadNewCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 986B5A2124FF46DF00DFCBB5 /* ThreadNewCardView.xib */; };
+		986B5A2424FFB44200DFCBB5 /* MessageContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986B5A2324FFB44200DFCBB5 /* MessageContentModel.swift */; };
 		986D9EB824F3917A005E6B03 /* VoteAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986D9EB624F3917A005E6B03 /* VoteAnswerCell.swift */; };
 		986D9EBD24F392D2005E6B03 /* VoteAnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 986D9EBB24F392D2005E6B03 /* VoteAnswerCell.xib */; };
 		986D9EC024F39650005E6B03 /* VoteCommonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986D9EBE24F39650005E6B03 /* VoteCommonCell.swift */; };
 		986D9EC124F39650005E6B03 /* VoteCommonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 986D9EBF24F39650005E6B03 /* VoteCommonCell.xib */; };
 		986DEA0C24F9079500853917 /* MessageNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DEA0B24F9079500853917 /* MessageNetwork.swift */; };
 		986DEA0F24F9175900853917 /* MessageListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DEA0E24F9175900853917 /* MessageListModel.swift */; };
-		986DFDCE24F89BE9005F2C8A /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DFDCD24F89BE9005F2C8A /* MessageModel.swift */; };
 		986DFDD024F8EA98005F2C8A /* ScriptLogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DFDCF24F8EA98005F2C8A /* ScriptLogModel.swift */; };
 		986DFDD224F8F115005F2C8A /* ScriptLogDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DFDD124F8F115005F2C8A /* ScriptLogDetailModel.swift */; };
 		9871EB3C24E41D9D006464A4 /* ScriptModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9871EB3B24E41D9D006464A4 /* ScriptModel.swift */; };
@@ -383,13 +385,15 @@
 		986A540E24EB89E8004140F3 /* ScriptSourceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptSourceModel.swift; sourceTree = "<group>"; };
 		986A541024EBAAB7004140F3 /* ScriptNodeMapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptNodeMapModel.swift; sourceTree = "<group>"; };
 		986B5A1B24FDEDED00DFCBB5 /* CheckUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckUserModel.swift; sourceTree = "<group>"; };
+		986B5A1D24FF464D00DFCBB5 /* ThreadNewCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadNewCardView.swift; sourceTree = "<group>"; };
+		986B5A2124FF46DF00DFCBB5 /* ThreadNewCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThreadNewCardView.xib; sourceTree = "<group>"; };
+		986B5A2324FFB44200DFCBB5 /* MessageContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageContentModel.swift; sourceTree = "<group>"; };
 		986D9EB624F3917A005E6B03 /* VoteAnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteAnswerCell.swift; sourceTree = "<group>"; };
 		986D9EBB24F392D2005E6B03 /* VoteAnswerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VoteAnswerCell.xib; sourceTree = "<group>"; };
 		986D9EBE24F39650005E6B03 /* VoteCommonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteCommonCell.swift; sourceTree = "<group>"; };
 		986D9EBF24F39650005E6B03 /* VoteCommonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VoteCommonCell.xib; sourceTree = "<group>"; };
 		986DEA0B24F9079500853917 /* MessageNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageNetwork.swift; sourceTree = "<group>"; };
 		986DEA0E24F9175900853917 /* MessageListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListModel.swift; sourceTree = "<group>"; };
-		986DFDCD24F89BE9005F2C8A /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		986DFDCF24F8EA98005F2C8A /* ScriptLogModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptLogModel.swift; sourceTree = "<group>"; };
 		986DFDD124F8F115005F2C8A /* ScriptLogDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptLogDetailModel.swift; sourceTree = "<group>"; };
 		9871EB3B24E41D9D006464A4 /* ScriptModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptModel.swift; sourceTree = "<group>"; };
@@ -783,7 +787,7 @@
 				983A225824DA54D200532BB9 /* MessageScriptInviteCell.xib */,
 				983A225B24DA5A1000532BB9 /* MessageTextCell.swift */,
 				983A225C24DA5A1000532BB9 /* MessageTextCell.xib */,
-				986DFDCD24F89BE9005F2C8A /* MessageModel.swift */,
+				986B5A2324FFB44200DFCBB5 /* MessageContentModel.swift */,
 			);
 			path = "SendMessage（发消息）";
 			sourceTree = "<group>";
@@ -906,6 +910,8 @@
 				98820FB224CA98050005EBDD /* ThreadRightCell.xib */,
 				98820FB524CAB7160005EBDD /* ThreadCardView.swift */,
 				98820FB724CAB7210005EBDD /* ThreadCardView.xib */,
+				986B5A1D24FF464D00DFCBB5 /* ThreadNewCardView.swift */,
+				986B5A2124FF46DF00DFCBB5 /* ThreadNewCardView.xib */,
 			);
 			path = "Thread（线索）";
 			sourceTree = "<group>";
@@ -1385,6 +1391,7 @@
 				98649DD224CE7B17005AA9C3 /* SynopsisViewCell.xib in Resources */,
 				0451A36F24C1AC9000E69085 /* Script.storyboard in Resources */,
 				98820FBF24CACCF50005EBDD /* QuestionView.xib in Resources */,
+				986B5A2224FF46DF00DFCBB5 /* ThreadNewCardView.xib in Resources */,
 				98820FC324CACF6B0005EBDD /* QuestionViewCell.xib in Resources */,
 				98038F5524D7A27200CBCEE7 /* MarqueeViewCell.xib in Resources */,
 				04C3A9D624C1808D001DD90D /* Assets.xcassets in Resources */,
@@ -1572,6 +1579,7 @@
 				98A79B3024D1056500ECBD2A /* PrepareRoomViewController.swift in Sources */,
 				9875840924E3CAA6008795C5 /* ScriptRoleModel.swift in Sources */,
 				98A268CE24D938C4004B9D53 /* AnswerView.swift in Sources */,
+				986B5A1E24FF464D00DFCBB5 /* ThreadNewCardView.swift in Sources */,
 				98A79B3724D1591B00ECBD2A /* OutOfRoomView.swift in Sources */,
 				9866C16424E4E09E00810516 /* MineNetwork.swift in Sources */,
 				983A225D24DA5A1000532BB9 /* MessageTextCell.swift in Sources */,
@@ -1581,6 +1589,7 @@
 				9868A32B24C98D2A009FD8F4 /* PopMenuViewCell.swift in Sources */,
 				98649DEB24CEDAB2005AA9C3 /* ScriptDetailsViewController.swift in Sources */,
 				98B26A7224F2045600671202 /* SearchClueResultModel.swift in Sources */,
+				986B5A2424FFB44200DFCBB5 /* MessageContentModel.swift in Sources */,
 				9844205024EE13CF001A0D7C /* GPNodeMapListModel.swift in Sources */,
 				98C8D2D124CDDA0E006C76D0 /* AboutUsViewController.swift in Sources */,
 				98B4A1D924D41445007CE295 /* ShareScriptCard.swift in Sources */,
@@ -1616,7 +1625,6 @@
 				983FD1A724D27CE40041D79E /* ApplyFriendsListCell.swift in Sources */,
 				9866C16724E4E2EB00810516 /* MineModel.swift in Sources */,
 				98649DD124CE7B17005AA9C3 /* SynopsisViewCell.swift in Sources */,
-				986DFDCE24F89BE9005F2C8A /* MessageModel.swift in Sources */,
 				9868A31524C9312E009FD8F4 /* CollogueRoomView.swift in Sources */,
 				988D4D6024CC856100C4B979 /* MineListCell.swift in Sources */,
 				98649DE924CECF6C005AA9C3 /* Tools.swift in Sources */,

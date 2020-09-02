@@ -320,6 +320,7 @@ extension ScriptDetailsViewController: ShareViewDelegate {
     func shareFriendsBtnClick() {
         let vc = MyFriendsListViewController()
         vc.isShare = true
+        vc.shareModel = scriptDetailModel
         navigationController?.pushViewController(vc, animated: true)
     }
     
