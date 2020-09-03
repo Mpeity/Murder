@@ -36,6 +36,7 @@ class ScriptViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        navigationController?.navigationBar.isHidden = false
         NotificationCenter.default.addObserver(self, selector: #selector(loadChange(notif:)), name: NSNotification.Name(rawValue: Script_Change_Notif), object: nil)
     }
     
@@ -43,6 +44,10 @@ class ScriptViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewWillDisappear(animated)
         
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return false
     }
     
     override func viewDidLoad() {

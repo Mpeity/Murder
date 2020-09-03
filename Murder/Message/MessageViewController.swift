@@ -183,9 +183,9 @@ extension MessageViewController {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let model = messageModel?.list?[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: MessageListCellId, for: indexPath) as! MessageListCell
         cell.selectionStyle = .none
-        let model = messageModel?.list?[indexPath.row]
         cell.itemModel = model
         cell.avatarImgTapBlcok = {() in
             let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
@@ -203,19 +203,13 @@ extension MessageViewController {
         let type = model?.type
         
         switch type {
-        case 0:
+        case 0,1,2:
             let vc = SendMessageViewController()
 //            let userId = model?.userId
 //            vc.type = .peer(String(userId!))
             vc.messageListModel = model
             self.navigationController?.pushViewController(vc, animated: true)
             break
-        case 1:
-            break
-    
-        case 2:
-            break
-            
         case 3:
             let vc = ApplyFriendsViewController()
             self.navigationController?.pushViewController(vc, animated: true)

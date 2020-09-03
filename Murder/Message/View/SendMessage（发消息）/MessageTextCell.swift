@@ -41,22 +41,21 @@ class MessageTextCell: UITableViewCell {
         didSet {
             if messageTalkModel != nil {
                 
-                let rightHidden = messageTalkModel?.typeStr == .left ? true : false
+                let rightHidden = messageTalkModel?.cellType == .left ? true : false
                 rightView.isHidden = rightHidden
                 leftView.isHidden = !rightHidden
                 
                 let timeStr = getDateStr(timeStamp: (messageTalkModel?.timeMs!)!)
                 timeLabel.text = timeStr
                 
-                let head = messageTalkModel?.head
-//                leftAvatarView.setImageWith(URL(string: head!))
+                if messageTalkModel?.head != nil {
+                    let head = messageTalkModel?.head
+                    leftAvatarView.setImageWith(URL(string: head!))
+                }
                 
                 let mine = UserAccountViewModel.shareInstance.account?.head
                 rightAvatarView.setImageWith(URL(string: mine!))
-                
-                leftAvatarView.setImageWith(URL(string: mine!))
-                
-                let content = messageTalkModel?.content
+                                
 //                //通过富文本来设置行间距
 //                let paraph = NSMutableParagraphStyle()
 //                //将行间距设置为28
@@ -74,10 +73,11 @@ class MessageTextCell: UITableViewCell {
 //
 //                rightTextLabel.attributedText = NSAttributedString(string: content!, attributes: attributes)
                 
-                leftTextLabel.text = content!
-                rightTextLabel.text = content!
-
-                
+                if messageTalkModel?.content != nil {
+                    let content = messageTalkModel?.content
+                    leftTextLabel.text = content!
+                    rightTextLabel.text = content!
+                }
             }
         }
     }
@@ -183,13 +183,4 @@ extension MessageTextCell {
         }
     }
     
-    func getDateStr(timeStamp:String) -> String {
-        let interval:TimeInterval = TimeInterval.init(timeStamp)!
-        let date = Date(timeIntervalSince1970: interval*0.001)
-        let dateformatter = DateFormatter()
-        //自定义日期格式
-        dateformatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return dateformatter.string(from: date as Date)
-    }
-
 }

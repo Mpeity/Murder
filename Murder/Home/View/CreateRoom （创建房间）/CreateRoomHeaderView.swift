@@ -38,22 +38,25 @@ class CreateRoomHeaderView: UIView {
             guard let model = model else {
                 return
             }
+            if model.cover != nil{
+                coverImgView.setImageWith(URL(string: model.cover!))
+            }
+            if model.name != nil {
+                nameLabel.text = model.name!
+            }
             
-            coverImgView.setImageWith(URL(string: model.cover), placeholder: UIImage(named: ""))
-            nameLabel.text = model.name
-            
-            commonLabel.text = "\(String(model.duration)) | \(String(model.wordNum))"
+            commonLabel.text = "\(String(model.duration!)) | \(String(model.wordNum!))"
             
             authorLabel.text = model.author
             
-            numLabel.text = String(model.peopleNum) + "人"
-            if !model.tag.isEmpty {
-                let item1 = model.tag[0]
+            numLabel.text = String(model.peopleNum!) + "人"
+            if !model.tag!.isEmpty {
+                let item1 = model.tag![0]
                 if item1 != nil {
                     themeLabel.text = item1.tagName
                 }
                 
-                let item2 = model.tag[1]
+                let item2 = model.tag![1]
                 if item2 != nil {
                     difficultyLabel.text = item2.tagName
                 }

@@ -302,7 +302,7 @@ extension ScriptDetailsViewController {
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) { // 免费获取剧本成功
                 let vc = CreateRoomViewController()
-                vc.script_id = self!.scriptDetailModel.scriptId
+                vc.script_id = self!.scriptDetailModel.scriptId!
                 vc.name = self!.scriptDetailModel.name
                 vc.cover = self!.scriptDetailModel.cover
                 self!.navigationController?.pushViewController(vc, animated: true)
@@ -319,7 +319,7 @@ extension ScriptDetailsViewController {
 extension ScriptDetailsViewController: ShareViewDelegate {
     func shareFriendsBtnClick() {
         let vc = MyFriendsListViewController()
-        vc.isShare = true
+        vc.isShare = 1
         vc.shareModel = scriptDetailModel
         navigationController?.pushViewController(vc, animated: true)
     }

@@ -11,6 +11,29 @@ import UIKit
 import Alamofire
 import CLToast
 
+func getDateStr(timeStamp:String) -> String {
+    let interval:TimeInterval = TimeInterval.init(timeStamp)!
+    let date = Date(timeIntervalSince1970: interval*0.001)
+    let dateformatter = DateFormatter()
+    //自定义日期格式
+    dateformatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    return dateformatter.string(from: date as Date)
+}
+
+func getTime() -> String {
+    //获取当前时间
+    let now = NSDate()
+    // 创建一个日期格式器
+    let dformatter = DateFormatter()
+    dformatter.dateFormat = "yyyy年MM月dd日 HH:mm:ss"
+    print("当前日期时间：\(dformatter.string(from: now as Date))")
+     
+    //当前时间的时间戳
+    let timeInterval:TimeInterval = now.timeIntervalSince1970*1000
+    let timeStamp = Int(timeInterval)
+    print("当前时间的时间戳：\(timeStamp)")
+    return String(timeStamp)
+}
 
 func imageWithImage(image: UIImage, size: CGSize) -> UIImage {
     UIGraphicsBeginImageContext(size)

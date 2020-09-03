@@ -205,22 +205,8 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
         
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
         NotificationCenter.default.removeObserver(self)
-        
-//        // 退出当前剧本，离开群聊频道
-//        agoraKit.leaveChannel(nil)
-//        agoraStatus.muteAllRemote = false
-//        agoraStatus.muteLocalAudio = false
-//        outRoomRequest(room_id: room_id) { (result, error) in
-//            if error != nil {
-//                return
-//            }
-//            // 取到结果
-//            guard  let resultDic :[String : AnyObject] = result else { return }
-//            if resultDic["code"]!.isEqual(1) {
-//            }
-//
-//        }
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -832,9 +818,17 @@ extension PrepareRoomViewController {
     
     //MARK:- 邀请按钮
     @objc func inviteBtnAction(button: UIButton) {
-        let commonView = PrepareRoomShareView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+//        let commonView = PrepareRoomShareView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+//        commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+//        self.view.addSubview(commonView)
+        
+        let commonView = ShareView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        self.view.addSubview(commonView)
+        commonView.shareCopyBtn.isHidden = true
+        commonView.delegate = self
+        UIApplication.shared.keyWindow?.addSubview(commonView)
+        
+        
     }
     
     //MARK:- 消息按钮
@@ -1260,6 +1254,32 @@ extension PrepareRoomViewController: WebSocketDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+    }
+    
+    
+}
+
+//MARK: - 分享代理
+extension PrepareRoomViewController: ShareViewDelegate {
+    func shareFriendsBtnClick() {
+        let vc = MyFriendsListViewController()
+        vc.isShare = 2
+        let model = ScriptDetailModel(fromDictionary: [ : ])
+        model.scriptId = readyRoomModel?.scriptId
+        model.cover = readyRoomModel?.scriptCover
+        model.name = readyRoomModel?.scriptName
+        model.introduction = readyRoomModel?.introduction
+        model.roomId = readyRoomModel?.roomId
+        vc.shareModel = model
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func shareLineBtnClick() {
+        
+    }
+    
+    func shareCopyBtnClick() {
         
     }
     

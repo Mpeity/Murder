@@ -51,20 +51,25 @@ class GamePlayModel : NSObject{
     var room : GamePlayRoomModel!
     var scriptNodeResult : GPScriptNodeResultModel!
     var scriptRoleList : [GPScriptRoleListModel]!
-    var gameUserClueList : [GameUserClueListModel]!
+    
+    
+    
+//    var gameUserClueList : [GameUserClueListModel]!
 
 
     /**
      * Instantiate the instance using the passed dictionary values to set the properties values
      */
     init(fromDictionary dictionary: [String:Any]){
-        gameUserClueList = [GameUserClueListModel]()
-        if let gameUserClueListArray = dictionary["game_user_clue_list"] as? [[String:Any]]{
-            for dic in gameUserClueListArray{
-                let value = GameUserClueListModel(fromDictionary: dic)
-                gameUserClueList.append(value)
-            }
-        }
+        
+//        gameUserClueList = [GameUserClueListModel]()
+//        if let gameUserClueListArray = dictionary["game_user_clue_list"] as? [[String:Any]]{
+//            for dic in gameUserClueListArray{
+//                let value = GameUserClueListModel(fromDictionary: dic)
+//                gameUserClueList.append(value)
+//            }
+//        }
+        
         if let roomData = dictionary["room"] as? [String:Any]{
             room = GamePlayRoomModel(fromDictionary: roomData)
         }
@@ -91,13 +96,13 @@ class GamePlayModel : NSObject{
     {
         var dictionary = [String:Any]()
         
-        if gameUserClueList != nil{
-            var dictionaryElements = [[String:Any]]()
-            for gameUserClueListElement in gameUserClueList {
-                dictionaryElements.append(gameUserClueListElement.toDictionary())
-            }
-            dictionary["game_user_clue_list"] = dictionaryElements
-        }
+//        if gameUserClueList != nil{
+//            var dictionaryElements = [[String:Any]]()
+//            for gameUserClueListElement in gameUserClueList {
+//                dictionaryElements.append(gameUserClueListElement.toDictionary())
+//            }
+//            dictionary["game_user_clue_list"] = dictionaryElements
+//        }
         
         if room != nil{
             dictionary["room"] = room.toDictionary()

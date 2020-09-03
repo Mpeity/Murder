@@ -40,10 +40,29 @@ class MessageListCell: UITableViewCell {
             if itemModel.nickname != nil {
                 nicknameLabel.text = itemModel.nickname!
             }
-            
-            if itemModel.content != nil {
-                messageLabel.text = itemModel.content!
+
+            // 消息类型 0text 1剧本邀请 2剧本 3好友申请
+            let type = itemModel.type
+
+            switch type {
+            case 0:
+                if itemModel.content != nil {
+                    let dic = getDictionaryFromJSONString(jsonString: itemModel.content!)
+                    let msgModel = MsgTalkModel(fromDictionary: dic as! [String : Any])
+                    messageLabel.text = msgModel.content!
+                }
+                break
+            case 1,2,3:
+                if itemModel.content != nil {
+                    messageLabel.text = itemModel.content!
+                }
+                break
+
+            default:
+                break
             }
+            
+            
             if itemModel.createTime != nil {
                 timeLabel.text = itemModel.createTime!
             }

@@ -39,6 +39,14 @@ class ShareScriptCard: UIView {
     
     @IBOutlet weak var cancelBtn: UIButton!
     
+    
+    var friendsModel: FriendListModel? {
+        didSet {
+            
+        }
+    }
+
+    
     var shareModel: ScriptDetailModel?{
         didSet {
             if shareModel != nil {
@@ -51,7 +59,26 @@ class ShareScriptCard: UIView {
                     nameLabel.text = shareModel?.name!
                 }
                 
+
+                if isShareScript {
+                    // 剧本详情
+                    nameTopConstraint.constant = 21.5
+                    idLabel.isHidden = true
+                    layoutIfNeeded()
+                } else {
+                    // 剧本邀请
+                    nameTopConstraint.constant = 10
+                    idLabel.isHidden = false
+                    layoutIfNeeded()
+                    // 剧本邀请
+                    idLabel.isHidden = false
+                    if shareModel?.roomId != nil {
+                        let roomId = shareModel!.roomId!
+                        idLabel.text = "ID:\(roomId)"
+                    }
+                }
                 
+                commonLabel.text = UserAccountViewModel.shareInstance.account?.nickname
             }
         }
     }
@@ -84,6 +111,7 @@ extension ShareScriptCard {
         sendBtn.setTitleColor(UIColor.white, for: .normal)
         sendBtn.setTitle("送信", for: .normal)
         sendBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        sendBtn.addTarget(self, action: #selector(sendBtnAction), for: .touchUpInside)
         
         commonLabel.textColor = HexColor(DarkGrayColor)
         commonLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
@@ -98,10 +126,12 @@ extension ShareScriptCard {
         idLabel.font = UIFont.systemFont(ofSize: 12)
         
         if isShareScript {
+            // 剧本详情
             nameTopConstraint.constant = 21.5
             idLabel.isHidden = true
             layoutIfNeeded()
         } else {
+            // 剧本邀请
             nameTopConstraint.constant = 10
             idLabel.isHidden = false
             layoutIfNeeded()
@@ -113,10 +143,91 @@ extension ShareScriptCard {
 }
 
 extension ShareScriptCard {
+    // 发送
+    @objc private func sendBtnAction() {
+        addMgs()
+    }
+    
+    
     // 取消
     @objc private func hideView() {
         contentView = nil
         self.removeFromSuperview()
+    }
+    
+    private func addMgs() {
+//        // 添加消息
+//        {
+//        "type":1, //1文字 2 剧本详情 3 剧本邀请
+//        "content":"内容",
+//        "script_id":1,
+//        "script_name":"剧本名字",
+//        "script_cover":"剧本封面",
+//        "script_des":"剧本简介",
+//        "room_id":"房间id",
+//        "send_id":"发送者id",
+//        "target_id":"接受者id",
+//        "time_ms":"1587009745719"//13位时间戳
+//        }
+        
+        
+        let time = getTime()
+        var dic = [:] as [String : Any?]
+        dic["content"] = nil
+        dic["target_id"] = friendsModel?.userId
+        dic["send_id"] = UserAccountViewModel.shareInstance.account?.userId
+        dic["time_ms"] = time
+        
+        var type = -1
+        if isShareScript { // 剧本分享
+            dic["type"] = 2
+            dic["script_id"] = shareModel?.scriptId
+            dic["script_name"] = shareModel?.name
+            dic["script_cover"] = shareModel?.cover
+            dic["script_des"] = shareModel?.introduction
+            dic["room_id"] = nil
+            type = 2
+        } else { // 剧本邀请
+            type = 1
+            dic["type"] = 3
+            dic["script_id"] = shareModel?.scriptId
+            dic["script_name"] = shareModel?.name
+            dic["script_cover"] = shareModel?.cover
+            dic["script_des"] = shareModel?.introduction
+            dic["room_id"] = shareModel?.roomId
+        }
+        
+        let json = getJSONStringFromDictionary(dictionary: dic as NSDictionary)
+        // 消息类型【0text1剧本邀请2剧本3好友申请】
+        addMsgRequest(type: type, receive_id: (friendsModel?.userId)!, content: json) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                Log(resultDic["msg"])
+            }
+            showToastCenter(msg: resultDic["msg"] as! String)
+            let nav = self?.findNavController()
+            nav?.popViewController(animated: true)
+        }
+    }
+    //查找视图对象的响应者链条中的导航视图控制器
+    func findNavController() -> UINavigationController? {
+        
+        //遍历响应者链条
+        var next = self.next
+        //开始遍历
+        while next != nil {
+           //判断next 是否是导航视图控制器
+           if let nextobj = next as? UINavigationController {
+               return nextobj
+           }
+           //如果不是导航视图控制器 就继续获取下一个响应者的下一个响应者
+           next = next?.next
+        }
+       return nil
     }
 }
 

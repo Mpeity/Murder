@@ -134,6 +134,7 @@ extension RecordDetailViewController {
         myTableView.dataSource = self
         myTableView.separatorStyle = .none
         myTableView.rowHeight = 100
+        myTableView.backgroundColor = HexColor("#F5F5F5")
         self.view.addSubview(myTableView)
         myTableView.register(UINib(nibName: "RecordDetailViewCell", bundle: nil), forCellReuseIdentifier: RecordDetailCellId)
         myTableView.tableHeaderView = tableHeaderView

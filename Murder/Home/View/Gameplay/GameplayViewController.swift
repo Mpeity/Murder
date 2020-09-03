@@ -152,9 +152,12 @@ class GameplayViewController: UIViewController {
     var userList: Array = ["かごめ","サクラ","こはく","コナン","さんご"]
     
     var imageList: Array = ["image0","image1","image2","image3","image4"]
-    
+
     // 游戏进行中Model
-    var gamePlayModel : GamePlayModel?
+    private var gamePlayModel : GamePlayModel?
+    
+    // 当前自己的角色Model
+    private var currentScriptRoleModel :GPScriptRoleListModel?
     
     // 密谈
     let collogueRoomView = CollogueRoomView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
@@ -187,6 +190,8 @@ class GameplayViewController: UIViewController {
         super.viewWillDisappear(animated)
 //        timer?.invalidate()
 //        timer = nil
+        
+        userLogout()
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -216,6 +221,16 @@ extension GameplayViewController {
                 if resultDic["code"]!.isEqual(1) {
                     let data = resultDic["data"] as! [String : AnyObject]
                     self?.gamePlayModel = GamePlayModel(fromDictionary: data)
+                    let scriptRoleList = self?.gamePlayModel!.scriptRoleList
+                    
+                    for itemModel in scriptRoleList! {
+                        let userId = itemModel.user.userId
+                        if userId == UserAccountViewModel.shareInstance.account?.userId {
+                            self?.currentScriptRoleModel = itemModel
+                            break
+                        }
+                    }
+                    
                     self?.stage = self?.gamePlayModel?.scriptNodeResult.nodeType!
                     self?.refreshUI()
                     
@@ -266,6 +281,13 @@ extension GameplayViewController {
            gameNameLabel.text = ""
         }
         
+        
+
+        // 配置按钮
+        if gamePlayModel?.scriptNodeResult.buttonName != nil {
+            commonBtn.setTitle(gamePlayModel?.scriptNodeResult.buttonName!, for: .normal)
+        }
+        
         // 密谈数量
         let collogueBtnNum = gamePlayModel?.script.secretTalkRoomNum
         collogueLabel.text = String(collogueBtnNum!)
@@ -279,15 +301,14 @@ extension GameplayViewController {
             preference.drawing.message = gamePlayModel?.scriptNodeResult!.describe as! String
         }
         
-        
-        if gamePlayModel?.scriptNodeResult.scriptNodeMapList! != nil {
-            let model = gamePlayModel?.scriptNodeResult.scriptNodeMapList?[0]
+        if currentScriptRoleModel?.scriptNodeMapList != nil {
+            let model = currentScriptRoleModel?.scriptNodeMapList?[0]
             drawImage(model: model)
         }
         
-        if gamePlayModel?.scriptNodeResult.scriptNodeMapList != nil {
+        if currentScriptRoleModel?.scriptNodeMapList != nil {
             popMenuView.type = "place"
-            popMenuView.titleArray = (gamePlayModel?.scriptNodeResult.scriptNodeMapList!)! as [AnyObject]
+            popMenuView.titleArray = (currentScriptRoleModel?.scriptNodeMapList!)! as [AnyObject]
             popMenuView.snp.remakeConstraints { (make) in
                 make.centerX.equalToSuperview()
                 make.top.equalTo(placeBtn.snp.bottom).offset(5)
@@ -297,7 +318,7 @@ extension GameplayViewController {
         }
         
         //
-        let mapList = gamePlayModel?.scriptNodeResult.scriptNodeMapList!
+        let mapList = currentScriptRoleModel?.scriptNodeMapList!
         for item in mapList! {
             let mapId = item.scriptNodeMapId
             switch mapId {
@@ -451,11 +472,6 @@ extension GameplayViewController {
         
         // 解散
         dissolveView.dissolutionBtnTapBlcok = {[weak self] () ->() in
-            // 退出当前剧本，离开群聊频道
-            self!.agoraKit.leaveChannel(nil)
-            self?.agoraStatus.muteAllRemote = false
-            self?.agoraStatus.muteLocalAudio = false
-            
             self!.dissolutionRequest(status: 3)
             self!.dissolveView.votingView.isHidden = true
             self!.dissolveView.dissolutionView.isHidden = true
@@ -958,9 +974,11 @@ extension GameplayViewController {
         
 
         
-        
+        if currentScriptRoleModel?.user?.point != nil {
+            remainingCount = currentScriptRoleModel!.user!.point!
+        }
         remainingView.isHidden = false
-        remainingCount -= 1
+//        remainingCount -= 1
         let remainingString = "カウントダウン：\(remainingCount)"
         let remainingRanStr = String(remainingCount)
         let remainingAttrstring:NSMutableAttributedString = NSMutableAttributedString(string:remainingString)
@@ -1063,17 +1081,19 @@ extension GameplayViewController {
         }
     }
     
-    //MARK: 退出房间
-    func popScriptDetailVC() {
-//        Log(navigationController?.viewControllers)
-//        let arr: [UIViewController] = navigationController!.viewControllers
-//        for childVC:UIViewController in arr  {
-//            if childVC.isKind(of: ScriptDetailsViewController.self) {
-//                let popVC: ScriptDetailsViewController = childVC as! ScriptDetailsViewController
-//                navigationController?.popToViewController(popVC, animated: true)
-//            }
-//        }
+    //MARK: 解散房间是 退出声网/断开socekt
+    private func userLogout() {
+        // 退出当前剧本，离开群聊频道
+        agoraKit.leaveChannel(nil)
+        agoraStatus.muteAllRemote = false
+        agoraStatus.muteLocalAudio = false
         
+        SingletonSocket.sharedInstance.socket.disconnect()
+    }
+    
+    //MARK: 退出房间
+    private func popRootVC() {
+        userLogout()
         self.navigationController?.popToRootViewController(animated: true)
         return
     }
@@ -1148,7 +1168,7 @@ extension GameplayViewController {
 //        script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
         
         let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-        readScriptView.scriptData = gamePlayModel?.scriptNodeResult.chapter
+        readScriptView.scriptData = currentScriptRoleModel?.chapter
         readScriptView.room_id = gamePlayModel?.room.roomId
         readScriptView.script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
         readScriptView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
@@ -1164,7 +1184,8 @@ extension GameplayViewController {
         threadView.script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
 
         threadView.room_id = gamePlayModel?.room.roomId
-        threadView.gameUserClueList = gamePlayModel?.gameUserClueList
+//        threadView.gameUserClueList = gamePlayModel?.gameUserClueList
+        threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
         self.view.addSubview(threadView)
     }
     
@@ -1180,6 +1201,11 @@ extension GameplayViewController {
     @objc func commonBtnAction(button: UIButton) {
 //        节点类型【1故事背景2自我介绍3剧本阅读4搜证5答题6结算】
         script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
+        
+        if script_node_id == 6 {
+            popRootVC()
+            return
+        }
         
         gameReadyRequest(room_id: room_id, current_script_node_id: script_node_id!) {[weak self] (result, error) in
             if error != nil {
@@ -1218,17 +1244,7 @@ extension GameplayViewController {
 //            remainingView.isHidden = true
 //            voteInfoBtn.isHidden = false
 //            voteResultBtn.isHidden = false
-            
-            // 答题有数据
-//            if gamePlayModel?.scriptNodeResult.scriptQuestionList.count != 0 {
-//                let commonView = QuestionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-//                commonView.room_id = room_id
-//                commonView.script_node_id = script_node_id
-//                commonView.scriptQuestionList = gamePlayModel?.scriptNodeResult.scriptQuestionList
-//                commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-//                self.view.addSubview(commonView)
-//            }
-            
+        
             break
             
         case 6:
@@ -1303,7 +1319,8 @@ extension GameplayViewController: CollogueRoomViewDelegate {
 extension GameplayViewController: PopMenuViewDelegate {
     func cellDidSelected(index: Int, model: AnyObject?) {
         let currentIndex = index
-        let itemModel = gamePlayModel?.scriptNodeResult.scriptNodeMapList![currentIndex]
+//        let itemModel = gamePlayModel?.scriptNodeResult.scriptNodeMapList![currentIndex]
+        let itemModel = currentScriptRoleModel?.scriptNodeMapList![currentIndex]
         
         drawImage(model: itemModel)
         
@@ -1361,9 +1378,8 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
             }
             if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
                 cell.l_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
-                remainingCount = itemModel.user?.point! as! Int
                 
-                if itemModel.secretTalkId == nil, itemModel.secretTalkId == "0" {
+                if itemModel.secretTalkId == nil, itemModel.secretTalkId == 0 {
                     cell.l_miLabel.isHidden = true
                 } else {
 //                   let indexStr = (itemModel.secretTalkId! as NSString).components(separatedBy: "_").last
@@ -1385,17 +1401,15 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
             if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
                 
                 cell.r_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
-                if itemModel.user?.point != nil {
-                    remainingCount = itemModel.user?.point! as! Int
-                }
+
                 
                 if itemModel.secretTalkId == nil {
                     cell.r_miLabel.isHidden = true
                 } else {
-                    if itemModel.secretTalkId! == "0" {
+                    if itemModel.secretTalkId! == 0 {
                         cell.r_miLabel.isHidden = true
                     } else {
-                       let indexStr = (itemModel.secretTalkId! as NSString).components(separatedBy: "_").last
+                       let indexStr = (String(itemModel.secretTalkId!) as NSString).components(separatedBy: "_").last
                         cell.r_miLabel.isHidden = false
                         cell.r_miLabel.text = "密\(indexStr!)"
                     }
@@ -1541,43 +1555,41 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, didOfflineOfUid uid: UInt, reason: AgoraUserOfflineReason) {
         // 当用户离开时，从用户列表中清除
-        let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid))!
-        let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as! GameplayViewCell
-        if index%2 == 0 {
-            cell.l_comImgView.isHidden = false
-            cell.l_comImgView.image = UIImage(named: "leave_icon")
-            cell.l_voiceView.isHidden = true
-            cell.l_voiceImgView.isHidden = true
-            cell.l_animation = false
-        } else {
-            cell.r_comImgView.isHidden = false
-            cell.r_comImgView.image = UIImage(named: "leave_icon")
-            cell.r_voiceView.isHidden = true
-            cell.r_voiceImgView.isHidden = true
-            cell.r_animation = false
+        if let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid)),
+        let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
+            
+            if index%2 == 0 {
+                cell.l_comImgView.isHidden = false
+                cell.l_comImgView.image = UIImage(named: "leave_icon")
+                cell.l_voiceView.isHidden = true
+                cell.l_voiceImgView.isHidden = true
+                cell.l_animation = false
+            } else {
+                cell.r_comImgView.isHidden = false
+                cell.r_comImgView.image = UIImage(named: "leave_icon")
+                cell.r_voiceView.isHidden = true
+                cell.r_voiceImgView.isHidden = true
+                cell.r_animation = false
+            }
         }
     }
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, didAudioMuted muted: Bool, byUid uid: UInt) {
         // 当频道里的用户开始或停止发送音频流的时候，会收到这个回调。在界面的用户头像上显示或隐藏静音标记
-//        let userList = gamePlayModel?.scriptRoleList
-        guard let gamePlayModel = gamePlayModel else {
-            return
-        }
         
-        Log("muted\(muted)")
-        let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid))!
-        let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as! GameplayViewCell
-        if index%2 == 0 {
-            cell.l_comImgView.isHidden = !muted
-            cell.l_comImgView.image = UIImage(named: "image0")
-            cell.l_voiceView.isHidden = muted
-            cell.l_voiceImgView.isHidden = muted
-        } else {
-            cell.r_comImgView.isHidden = !muted
-            cell.r_comImgView.image = UIImage(named: "image0")
-            cell.r_voiceView.isHidden = muted
-            cell.r_voiceImgView.isHidden = muted
+        if let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid)),
+        let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
+            if index%2 == 0 {
+               cell.l_comImgView.isHidden = !muted
+               cell.l_comImgView.image = UIImage(named: "image0")
+               cell.l_voiceView.isHidden = muted
+               cell.l_voiceImgView.isHidden = muted
+            } else {
+               cell.r_comImgView.isHidden = !muted
+               cell.r_comImgView.image = UIImage(named: "image0")
+               cell.r_voiceView.isHidden = muted
+               cell.r_voiceImgView.isHidden = muted
+            }
         }
     }
     
@@ -1682,15 +1694,15 @@ extension GameplayViewController: WebSocketDelegate {
                 
                 if gamePlayModel?.room.status! == 3  { // 房间已经解散
                     showToastCenter(msg: "房间已解散!")
-                    popScriptDetailVC()
+                    popRootVC()
                 }
                 
-                if script_node_id == 5 { // 答题
-                    if gamePlayModel?.scriptNodeResult.scriptQuestionList.count != 0 {
+                if script_node_id == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题
+                    if currentScriptRoleModel?.scriptQuestionList?.count != 0 {
                         let commonView = QuestionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
                         commonView.room_id = room_id
                         commonView.script_node_id = script_node_id
-                        commonView.scriptQuestionList = gamePlayModel?.scriptNodeResult.scriptQuestionList
+                        commonView.scriptQuestionList = currentScriptRoleModel?.scriptQuestionList
                         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
                         self.view.addSubview(commonView)
                     }

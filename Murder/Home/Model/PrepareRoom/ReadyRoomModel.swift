@@ -12,16 +12,17 @@ import Foundation
 class ReadyRoomModel : NSObject {
 
     var firstScriptNodeId : Int?
-    var readyOk : Int?
     var introduction : String?
     var isLock : Int?
+    var readyOk : Int?
     var roomId : Int?
     var roomUserList : [RoomUserModel]?
+    var scriptId : Int?
     var scriptName : String?
     var scriptRoleList : [ScriptRoleModel]?
-    var tagText : String?
     var status : Int?
-
+    var tagText : String?
+    var scriptCover : String?
 
 
     /**
@@ -40,6 +41,7 @@ class ReadyRoomModel : NSObject {
                 roomUserList!.append(value)
             }
         }
+        scriptId = dictionary["script_id"] as? Int
         scriptName = dictionary["script_name"] as? String
         scriptRoleList = [ScriptRoleModel]()
         if let scriptRoleListArray = dictionary["script_role_list"] as? [[String:Any]]{
@@ -48,8 +50,10 @@ class ReadyRoomModel : NSObject {
                 scriptRoleList!.append(value)
             }
         }
-        tagText = dictionary["tag_text"] as? String
         status = dictionary["status"] as? Int
+        tagText = dictionary["tag_text"] as? String
+        
+        scriptCover = dictionary["script_cover"] as? String
 
     }
 
@@ -81,8 +85,14 @@ class ReadyRoomModel : NSObject {
             }
             dictionary["room_user_list"] = dictionaryElements
         }
+        if scriptId != nil{
+            dictionary["script_id"] = scriptId
+        }
         if scriptName != nil{
             dictionary["script_name"] = scriptName
+        }
+        if scriptCover != nil{
+            dictionary["script_cover"] = scriptCover
         }
         if scriptRoleList != nil{
             var dictionaryElements = [[String:Any]]()
@@ -91,14 +101,14 @@ class ReadyRoomModel : NSObject {
             }
             dictionary["script_role_list"] = dictionaryElements
         }
-        if tagText != nil{
-            dictionary["tag_text"] = tagText
-        }
         if status != nil{
             dictionary["status"] = status
         }
+        if tagText != nil{
+            dictionary["tag_text"] = tagText
+        }
         return dictionary
     }
-
 }
+
 

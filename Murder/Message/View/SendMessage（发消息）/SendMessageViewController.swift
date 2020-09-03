@@ -22,6 +22,10 @@ enum ChatType {
 
 private let MessageTextCellId = "MessageTextCellId"
 
+private let MessageScriptCellId = "MessageScriptCellId"
+
+private let MessageScriptInviteCellId = "MessageScriptInviteCell"
+
 class SendMessageViewController: UIViewController {
     
     @IBOutlet weak var bottomView: UIView!
@@ -126,7 +130,13 @@ extension SendMessageViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        
         tableView.register(UINib(nibName: "MessageTextCell", bundle: nil), forCellReuseIdentifier: MessageTextCellId)
+        
+        tableView.register(UINib(nibName: "MessageScriptCell", bundle: nil), forCellReuseIdentifier: MessageScriptCellId)
+        
+        tableView.register(UINib(nibName: "MessageScriptInviteCell", bundle: nil), forCellReuseIdentifier: MessageScriptInviteCellId)
+        
         // 隐藏cell系统分割线
         tableView.separatorStyle = .none;
         tableView.backgroundColor = HexColor("F5F5F5")
@@ -167,31 +177,65 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-//        var msg = list[indexPath.row]
-//        let type : CellType = msg.userId == AgoraRtm.current ? .right : .left
-//        let cell = tableView.dequeueReusableCell(withIdentifier: MessageTextCellId, for: indexPath) as! MessageTextCell
-//        cell.backgroundColor = UIColor.clear
-//        cell.selectionStyle = .none
-//        msg.typeStr = type
-//        cell.messageModel = msg
-        
+
         
         let msg = msgList![indexPath.row]
-        let type : CellType = String(msg.sendId!) == AgoraRtm.current ? .right : .left
-        let cell = tableView.dequeueReusableCell(withIdentifier: MessageTextCellId, for: indexPath) as! MessageTextCell
-        cell.backgroundColor = UIColor.clear
-        cell.selectionStyle = .none
-        msg.typeStr = type
-        cell.messageTalkModel = msg
-    
-        return cell
+
+        let cellType : CellType = String(msg.sendId!) == AgoraRtm.current ? .right : .left
+        msg.cellType = cellType
+        msg.head = messageListModel?.head
+        
+        // "type":1, //1文字 2 剧本详情 3 剧本邀请
+        
+        let type = msg.type
+        
+        if type == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: MessageTextCellId, for: indexPath) as! MessageTextCell
+            cell.backgroundColor = UIColor.clear
+            cell.selectionStyle = .none
+            cell.messageTalkModel = msg
+            return cell
+        } else if type == 2 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: MessageScriptCellId, for: indexPath) as! MessageScriptCell
+            cell.backgroundColor = UIColor.clear
+            cell.selectionStyle = .none
+            msg.cellHeight = 120.0
+            cell.messageTalkModel = msg
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: MessageScriptInviteCellId, for: indexPath) as! MessageScriptInviteCell
+            cell.backgroundColor = UIColor.clear
+            cell.selectionStyle = .none
+            msg.cellHeight = 145.0
+            cell.messageTalkModel = msg
+            return cell
+        }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let mgs = list[indexPath.row]
-        let msg = msgList?[indexPath.row]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        let msg = msgList![indexPath.row]
+
+        let cellType : CellType = String(msg.sendId!) == AgoraRtm.current ? .right : .left
+        msg.cellType = cellType
+        msg.head = messageListModel?.head
+        
+        // "type":1, //1文字 2 剧本详情 3 剧本邀请
+        let type = msg.type
+        
+        if type == 1 {
+            
+        } else if type == 2 {
+            let vc = ScriptDetailsViewController()
+            vc.script_id = msg.scriptId
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            joinRoom(room_id: msg.roomId!, room_password: nil, script_id: msg.scriptId!, hasPassword: false)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {        
+        let msg = msgList?[indexPath.row]
         return msg!.cellHeight ?? 90
     }
 }
@@ -210,6 +254,25 @@ extension SendMessageViewController {
         commonView.itemModel  = messageListModel
         UIApplication.shared.keyWindow?.addSubview(commonView)
     }
+    
+    func joinRoom(room_id: Int, room_password: String?, script_id: Int, hasPassword: Bool) {
+            joinRoomRequest(room_id: room_id, room_password: room_password, hasPassword: hasPassword) {[weak self] (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                if resultDic["code"]!.isEqual(1) {
+                    let vc = PrepareRoomViewController()
+                    vc.room_id = room_id
+                    vc.script_id = script_id
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                    
+                } else {
+                    showToastCenter(msg: "暗証番号が正しくありません")
+                }
+            }
+        }
 }
 
 extension SendMessageViewController: UITextFieldDelegate {
@@ -247,30 +310,21 @@ extension SendMessageViewController: UITextFieldDelegate {
     
     func appendMessage(user: String, content: String?, mediaId: String?, thumbnail: Data?) {
         DispatchQueue.main.async { [weak self] in
-            let head = self?.messageListModel?.head
-            let size = self?.getSizeWithContent(content: content!)
             
-//            let time = getTime()
-//            var dic = [:] as [String : Any?]
-//            dic["type"] = 1
-//            dic["content"] = text
-//            dic["send_id"] = UserAccountViewModel.shareInstance.account?.userId
-//            dic["target_id"] = messageListModel!.userId
-//            dic["time_ms"] = time
+            let size = self?.getSizeWithContent(content: content!)
             
             self?.currentMgsTalkModel?.content = content
             self?.currentMgsTalkModel?.cellHeight = size?.height
             self?.currentMgsTalkModel?.sendId = UserAccountViewModel.shareInstance.account?.userId
             self?.currentMgsTalkModel?.type = 1
-            self?.currentMgsTalkModel?.timeMs = self?.getTime()
-            self?.currentMgsTalkModel?.targetId = Int(user)
-            self?.currentMgsTalkModel?.head = head
-            
+            self?.currentMgsTalkModel?.timeMs = getTime()
+            self?.currentMgsTalkModel?.targetId = self?.messageListModel?.userId            
             
             let msgModel = self?.currentMgsTalkModel
             
             self!.msgList!.append(msgModel!)
 
+            self?.currentMgsTalkModel = nil
             
 //            let msg = Message(userId: user, text: content, mediaId: mediaId, thumbnail: thumbnail, cellHeight: size?.height, head: head)
 //
@@ -482,19 +536,5 @@ extension SendMessageViewController: AgoraRtmDelegate {
         }
     }
     
-    func getTime() -> String {
-        //获取当前时间
-        let now = NSDate()
-        // 创建一个日期格式器
-        let dformatter = DateFormatter()
-        dformatter.dateFormat = "yyyy年MM月dd日 HH:mm:ss"
-        print("当前日期时间：\(dformatter.string(from: now as Date))")
-         
-        //当前时间的时间戳
-        let timeInterval:TimeInterval = now.timeIntervalSince1970*1000
-        let timeStamp = Int(timeInterval)
-        print("当前时间的时间戳：\(timeStamp)")
-        return String(timeStamp)
-    }
 }
 

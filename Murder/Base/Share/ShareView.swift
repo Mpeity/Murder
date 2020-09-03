@@ -70,7 +70,8 @@ extension ShareView {
         let shareLineBtnTap = UITapGestureRecognizer(target: self, action: #selector(shareLineBtnAction))
         shareLineBtn.addGestureRecognizer(shareLineBtnTap)
 
-
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideView))
+        titleLabel.addGestureRecognizer(tap)
     }
     
 

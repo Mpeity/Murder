@@ -12,8 +12,8 @@ import MJRefresh
 let MyFriendsListCellId = "MyFriendsListCellId"
 
 class MyFriendsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
-
-    var isShare: Bool = false
+    // 0文本 1剧本详情 2剧本邀请
+    var isShare: Int = 0
     
     var shareModel: ScriptDetailModel?
     
@@ -57,6 +57,10 @@ class MyFriendsListViewController: UIViewController, UITableViewDelegate, UITabl
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return false
     }
     
     deinit {
@@ -129,7 +133,7 @@ extension MyFriendsListViewController {
 //        rightBtn.setImage(UIImage(named: "send_message_r_icon"), for: .normal)
 //        rightBtn.addTarget(self, action: #selector(rightBtnAction), for: .touchUpInside)
         
-        if !isShare {
+        if isShare == 0 {
             let btn = UIButton()
             btn.setImage(UIImage(named: "message_addbuddy"), for: .normal)
             btn.addTarget(self, action: #selector(rightBtnAction), for: .touchUpInside)
@@ -200,20 +204,20 @@ extension MyFriendsListViewController {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if isShare { // 分享 显示分享card
+        let model = friendsModel?.list[indexPath.row]
+        // 0文本 1剧本详情 2剧本邀请
+        if isShare != 0 { // 分享 显示分享card
+            let isShareScript = isShare == 1 ? true : false
+            
             let commonView = ShareScriptCard(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
             commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-            
+            commonView.isShareScript = isShareScript
+            commonView.shareModel = shareModel
+            commonView.friendsModel = model
             self.view.addSubview(commonView)
-            
         } else {
-//            let RecordDetailVC = RecordDetailViewController()
-//            self.navigationController?.pushViewController(RecordDetailVC, animated: true)
             
             let vc = SendMessageViewController()
-            
-            let model = friendsModel?.list[indexPath.row]
-            
             let messageListModel = MessageListModel(fromDictionary: [:])
             messageListModel.head = model?.head
             messageListModel.level = model?.level
@@ -221,12 +225,9 @@ extension MyFriendsListViewController {
             messageListModel.userId = model?.userId
             messageListModel.nickname = model?.nickname
             
-            
             vc.messageListModel = messageListModel
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        
-
     }
 
     

@@ -47,7 +47,7 @@ class MessageContentModel : NSObject {
 class MsgTalkModel : NSObject {
     
     
-    var typeStr: CellType?
+    var cellType: CellType?
 
     // for text message
     var text: String?

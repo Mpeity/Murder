@@ -10,19 +10,30 @@ import Foundation
 
 
 class GPScriptNodeResultModel : NSObject {
-
+    
+    
     var buttonName : String?
-    var chapter : [GPChapterModel]?
     var describe : String?
     var minExperience : Int?
+    var myRoleId : Int?
     var nodeName : String?
     var nodeType : Int?
     var orderNum : Int?
+    var readyOk : Int?
     var scriptNodeId : Int?
-    var scriptNodeMapList : [GPNodeMapListModel]?
-    var scriptPlaceList : [GPPlaceListModel]?
-    var scriptQuestionList : [ScriptQuestionListModel]!
-    var myRoleId : Int!
+
+//    var buttonName : String?
+//    var chapter : [GPChapterModel]?
+//    var describe : String?
+//    var minExperience : Int?
+//    var nodeName : String?
+//    var nodeType : Int?
+//    var orderNum : Int?
+//    var scriptNodeId : Int?
+//    var scriptNodeMapList : [GPNodeMapListModel]?
+//    var scriptPlaceList : [GPPlaceListModel]?
+//    var scriptQuestionList : [ScriptQuestionListModel]!
+//    var myRoleId : Int!
 
 
 
@@ -32,13 +43,13 @@ class GPScriptNodeResultModel : NSObject {
     init(fromDictionary dictionary: [String:Any]){
         
         buttonName = dictionary["button_name"] as? String
-        chapter = [GPChapterModel]()
-        if let chapterArray = dictionary["chapter"] as? [[String:Any]]{
-            for dic in chapterArray{
-                let value = GPChapterModel(fromDictionary: dic)
-                chapter?.append(value)
-            }
-        }
+//        chapter = [GPChapterModel]()
+//        if let chapterArray = dictionary["chapter"] as? [[String:Any]]{
+//            for dic in chapterArray{
+//                let value = GPChapterModel(fromDictionary: dic)
+//                chapter?.append(value)
+//            }
+//        }
         describe = dictionary["describe"] as? String
         minExperience = dictionary["min_experience"] as? Int
         nodeName = dictionary["node_name"] as? String
@@ -47,26 +58,26 @@ class GPScriptNodeResultModel : NSObject {
         scriptNodeId = dictionary["script_node_id"] as? Int
         myRoleId = dictionary["my_role_id"] as? Int
 
-        scriptNodeMapList = [GPNodeMapListModel]()
-        if let scriptNodeMapListArray = dictionary["script_node_map_list"] as? [[String:Any]]{
-            for dic in scriptNodeMapListArray{
-                let value = GPNodeMapListModel(fromDictionary: dic)
-                scriptNodeMapList?.append(value)
-            }
-        }
-        if let scriptPlaceListArray = dictionary["script_place_list"] as? [[String:Any]]{
-            for dic in scriptPlaceListArray{
-                let value = GPPlaceListModel(fromDictionary: dic)
-                scriptPlaceList?.append(value)
-            }
-        }
-        scriptQuestionList = [ScriptQuestionListModel]()
-        if let scriptQuestionListArray = dictionary["script_question_list"] as? [[String:Any]]{
-            for dic in scriptQuestionListArray{
-                let value = ScriptQuestionListModel(fromDictionary: dic)
-                scriptQuestionList.append(value)
-            }
-        }
+//        scriptNodeMapList = [GPNodeMapListModel]()
+//        if let scriptNodeMapListArray = dictionary["script_node_map_list"] as? [[String:Any]]{
+//            for dic in scriptNodeMapListArray{
+//                let value = GPNodeMapListModel(fromDictionary: dic)
+//                scriptNodeMapList?.append(value)
+//            }
+//        }
+//        if let scriptPlaceListArray = dictionary["script_place_list"] as? [[String:Any]]{
+//            for dic in scriptPlaceListArray{
+//                let value = GPPlaceListModel(fromDictionary: dic)
+//                scriptPlaceList?.append(value)
+//            }
+//        }
+//        scriptQuestionList = [ScriptQuestionListModel]()
+//        if let scriptQuestionListArray = dictionary["script_question_list"] as? [[String:Any]]{
+//            for dic in scriptQuestionListArray{
+//                let value = ScriptQuestionListModel(fromDictionary: dic)
+//                scriptQuestionList.append(value)
+//            }
+//        }
     }
 
     /**
@@ -78,13 +89,13 @@ class GPScriptNodeResultModel : NSObject {
         if buttonName != nil{
             dictionary["button_name"] = buttonName
         }
-        if chapter != nil{
-            var dictionaryElements = [[String:Any]]()
-            for chapterElement in chapter! {
-                dictionaryElements.append(chapterElement.toDictionary())
-            }
-            dictionary["chapter"] = dictionaryElements
-        }
+//        if chapter != nil{
+//            var dictionaryElements = [[String:Any]]()
+//            for chapterElement in chapter! {
+//                dictionaryElements.append(chapterElement.toDictionary())
+//            }
+//            dictionary["chapter"] = dictionaryElements
+//        }
         if describe != nil{
             dictionary["describe"] = describe
         }
@@ -106,27 +117,27 @@ class GPScriptNodeResultModel : NSObject {
         if scriptNodeId != nil{
             dictionary["script_node_id"] = scriptNodeId
         }
-        if scriptNodeMapList != nil{
-            var dictionaryElements = [[String:Any]]()
-            for scriptNodeMapListElement in scriptNodeMapList! {
-                dictionaryElements.append(scriptNodeMapListElement.toDictionary())
-            }
-            dictionary["script_node_map_list"] = dictionaryElements
-        }
-        if scriptPlaceList != nil{
-            var dictionaryElements = [[String:Any]]()
-            for scriptPlaceListElement in scriptPlaceList! {
-                dictionaryElements.append(scriptPlaceListElement.toDictionary())
-            }
-            dictionary["script_place_list"] = dictionaryElements
-        }
-        if scriptQuestionList != nil{
-            var dictionaryElements = [[String:Any]]()
-            for scriptQuestionListElement in scriptQuestionList {
-                dictionaryElements.append(scriptQuestionListElement.toDictionary())
-            }
-            dictionary["script_question_list"] = dictionaryElements
-        }
+//        if scriptNodeMapList != nil{
+//            var dictionaryElements = [[String:Any]]()
+//            for scriptNodeMapListElement in scriptNodeMapList! {
+//                dictionaryElements.append(scriptNodeMapListElement.toDictionary())
+//            }
+//            dictionary["script_node_map_list"] = dictionaryElements
+//        }
+//        if scriptPlaceList != nil{
+//            var dictionaryElements = [[String:Any]]()
+//            for scriptPlaceListElement in scriptPlaceList! {
+//                dictionaryElements.append(scriptPlaceListElement.toDictionary())
+//            }
+//            dictionary["script_place_list"] = dictionaryElements
+//        }
+//        if scriptQuestionList != nil{
+//            var dictionaryElements = [[String:Any]]()
+//            for scriptQuestionListElement in scriptQuestionList {
+//                dictionaryElements.append(scriptQuestionListElement.toDictionary())
+//            }
+//            dictionary["script_question_list"] = dictionaryElements
+//        }
         return dictionary
     }
 }

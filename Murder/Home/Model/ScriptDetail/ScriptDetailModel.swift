@@ -9,19 +9,25 @@
 import Foundation
 
 class ScriptDetailModel : NSObject{
-    var author : String!
-    var cover : String!
-    var difficult : Int!
-    var difficultText : String!
-    var duration : Int!
-    var durationText : String!
-    var introduction : String!
-    var name : String!
-    var peopleNum : Int!
-    var role : [RoleModel]!
-    var scriptId : Int!
-    var tag : [TagModel]!
-    var wordNum : Int!
+    
+    var roomId: Int?
+
+    
+    var author : String?
+    var cover : String?
+    var difficult : Int?
+    var difficultText : String?
+    var duration : Int?
+    var durationText : String?
+    var introduction : String?
+    var name : String?
+    var peopleNum : Int?
+    var role : [RoleModel]?
+    var scriptId : Int?
+    var tag : [TagModel]?
+    var wordNum : Int?
+    
+    
     
     
     /**
@@ -41,7 +47,7 @@ class ScriptDetailModel : NSObject{
         if let roleArray = dictionary["role"] as? [[String:Any]]{
             for dic in roleArray{
                 let value = RoleModel(fromDictionary: dic)
-                role.append(value)
+                role?.append(value)
             }
         }
         scriptId = dictionary["script_id"] as? Int
@@ -49,7 +55,7 @@ class ScriptDetailModel : NSObject{
         if let tagArray = dictionary["tag"] as? [[String:Any]]{
             for dic in tagArray{
                 let value = TagModel(fromDictionary: dic)
-                tag.append(value)
+                tag?.append(value)
             }
         }
         wordNum = dictionary["word_num"] as? Int
@@ -90,7 +96,7 @@ class ScriptDetailModel : NSObject{
         }
         if role != nil{
             var dictionaryElements = [[String:Any]]()
-            for roleElement in role {
+            for roleElement in role! {
                 dictionaryElements.append(roleElement.toDictionary())
             }
             dictionary["role"] = dictionaryElements
@@ -100,7 +106,7 @@ class ScriptDetailModel : NSObject{
         }
         if tag != nil{
             var dictionaryElements = [[String:Any]]()
-            for tagElement in tag {
+            for tagElement in tag! {
                 dictionaryElements.append(tagElement.toDictionary())
             }
             dictionary["tag"] = dictionaryElements
