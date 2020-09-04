@@ -329,7 +329,10 @@ extension ScriptDetailsViewController: ShareViewDelegate {
     }
     
     func shareCopyBtnClick() {
-        
+        let past = UIPasteboard.general
+        // pasteboardStr就是你要复制的字符串
+        past.string =  scriptDetailModel.shareUrl
+        showToastCenter(msg: "复制成功")
     }
     
     

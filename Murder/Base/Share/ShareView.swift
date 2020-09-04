@@ -97,12 +97,18 @@ extension ShareView {
     @objc private func shareLineBtnAction() {
         contentView = nil
         self.removeFromSuperview()
+        if delegate != nil {
+            delegate.shareLineBtnClick()
+        }
     }
     
     // 分享拷贝
     @objc private func shareCopyBtnAction() {
         contentView = nil
         self.removeFromSuperview()
+        if delegate != nil {
+            delegate.shareCopyBtnClick()
+        }
     }
     
 }

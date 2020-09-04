@@ -137,11 +137,7 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
         
         setUI()
         
-        
-        
 //        loadImage()
-        
-        
         
         DispatchQueue.main.async { [weak self] in
             self?.loadData()
@@ -153,11 +149,8 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     
     //MARK:- 检测本地是否有当前剧本数据
     func checkLocalScriptWith() {
-        
         if (script_id != nil){
-            
             scriptSourceRequest(script_id: script_id) {[weak self] (result, error) in
-                
                 if error != nil {
                     return
                 }
@@ -186,12 +179,9 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
                         
                         // 本地有剧本数据
                         self?.refreshUI()
-                        
                     } else {
-                    
                         self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
                         Thread.detachNewThreadSelector(#selector(self!.loadProgress), toTarget: self!, with: nil)
-                                
                     }
                 }
             }
@@ -251,7 +241,6 @@ extension PrepareRoomViewController {
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
                 
-                
             } else {
                 
             }
@@ -278,10 +267,9 @@ extension PrepareRoomViewController {
 
     @objc func loadProgress() {
         let arr = self.scriptSourceModel?.scriptNodeMapList!
+        
         // 任务1
         let arrCount = arr?.count
-        
-        
         let queue = OperationQueue()
         queue.name = "Download queue"
         queue.maxConcurrentOperationCount = 1
@@ -311,7 +299,6 @@ extension PrepareRoomViewController {
                     let s = String(format:"%.2f",newProgress)
                     let p = Float(s)!
                     print("当前进度:\(index):\(p)")
-//                    print(p)
 
                     let progressData = ["type":"script_download" ,"scene": "1", "user_id": UserAccountViewModel.shareInstance.account?.userId! ?? 0, "group_id" : self.room_id!, "datas": p] as [String: AnyObject]
                     let progressStr = getJSONStringFromDictionary(dictionary: progressData as NSDictionary)
@@ -322,18 +309,6 @@ extension PrepareRoomViewController {
 
             queue.addOperation(operation)
         }
-        
-        
-        print("1:\(Thread.current)")
-//        queue.sync {
-            print("1:\(Thread.current)")
-            for (index,viewModel) in arr!.enumerated() {
-//                queue.async {
-                
-                    print("1:\(Thread.current)")
-//                }
-            }
-//        }
     }
     
     
@@ -353,13 +328,9 @@ extension PrepareRoomViewController {
                 
                 self?.readyRoomModel = ReadyRoomModel(fromDictionary: resultData)
                 if self?.readyRoomModel != nil {
-                    self?.refreshUI()
-                    
+                    self?.loadDataRefreshUI()
                     self?.checkLocalScriptWith()
                 }
-                
-                
-                
             } else {
                 
             }
@@ -369,6 +340,58 @@ extension PrepareRoomViewController {
 
 
 extension PrepareRoomViewController {
+    
+    private func loadDataRefreshUI() {
+        tableView.reloadData()
+        
+        if readyRoomModel?.scriptName != nil {
+            gameNameLabel.text = readyRoomModel?.scriptName
+        } else {
+           gameNameLabel.text = ""
+        }
+        
+        if readyRoomModel?.isLock != nil {
+            if readyRoomModel?.isLock! == 1 {
+                lockBtn.setImage(UIImage(named: "createroom_locked"), for: .normal)
+
+            } else {
+                lockBtn.setImage(UIImage(named: "createroom_lock"), for: .normal)
+            }
+        }
+        
+        if readyRoomModel?.introduction != nil {
+            let message = readyRoomModel?.introduction
+            preference.drawing.message =  message!
+        }
+        
+        if readyRoomModel?.roomId != nil {
+            currentLabel.text = "ルームID：\(readyRoomModel?.roomId! ?? 0)"
+        }
+        roleCount = readyRoomModel?.scriptRoleList?.count as! Int
+        playerCount = readyRoomModel?.roomUserList?.count as! Int
+        
+        choiceLabel.text = "キャラクターを選択（\(playerCount)/\(roleCount)）"
+        let userList = readyRoomModel?.roomUserList
+        for itemModel in userList! {
+            if (itemModel.userId == UserAccountViewModel.shareInstance.account?.userId) {
+                if itemModel.status == 1 { // 准备
+                    prepareBtn.setTitle("準備取り消し", for: . normal)
+                    prepareBtn.gradientClearLayerColor(cornerRadius: 20)
+                    prepareBtn.layer.borderColor = HexColor(MainColor).cgColor
+                    prepareBtn.layer.cornerRadius = 20
+                    prepareBtn.layer.borderWidth = 1
+                    prepareBtn.setTitleColor(HexColor(MainColor), for: .normal)
+                    prepareBtn.isSelected = true
+                } else { // 取消准备
+                    prepareBtn.setTitle("準備", for: .normal)
+                    prepareBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 20)
+                    prepareBtn.setTitleColor(UIColor.white, for: .normal)
+                    prepareBtn.layer.borderWidth = 0
+                    prepareBtn.isSelected = false
+                }
+            }
+        }
+    }
     
     private func refreshUI() {
         

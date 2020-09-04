@@ -160,6 +160,7 @@
 		988D4D6024CC856100C4B979 /* MineListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988D4D5E24CC856100C4B979 /* MineListCell.swift */; };
 		988D4D6124CC856100C4B979 /* MineListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 988D4D5F24CC856100C4B979 /* MineListCell.xib */; };
 		988D4D6524CC8D4200C4B979 /* MineTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988D4D6424CC8D4200C4B979 /* MineTableHeaderView.swift */; };
+		988DD9D5250234A400638F7B /* LogoutTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988DD9D4250234A400638F7B /* LogoutTools.swift */; };
 		98A268C024D90EF4004B9D53 /* VoteResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A268BF24D90EF4004B9D53 /* VoteResultView.swift */; };
 		98A268C324D9148D004B9D53 /* VoteResultViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A268C124D9148D004B9D53 /* VoteResultViewCell.swift */; };
 		98A268C424D9148D004B9D53 /* VoteResultViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A268C224D9148D004B9D53 /* VoteResultViewCell.xib */; };
@@ -436,6 +437,7 @@
 		988D4D5E24CC856100C4B979 /* MineListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineListCell.swift; sourceTree = "<group>"; };
 		988D4D5F24CC856100C4B979 /* MineListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MineListCell.xib; sourceTree = "<group>"; };
 		988D4D6424CC8D4200C4B979 /* MineTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineTableHeaderView.swift; sourceTree = "<group>"; };
+		988DD9D4250234A400638F7B /* LogoutTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutTools.swift; sourceTree = "<group>"; };
 		98A268BF24D90EF4004B9D53 /* VoteResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteResultView.swift; sourceTree = "<group>"; };
 		98A268C124D9148D004B9D53 /* VoteResultViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteResultViewCell.swift; sourceTree = "<group>"; };
 		98A268C224D9148D004B9D53 /* VoteResultViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VoteResultViewCell.xib; sourceTree = "<group>"; };
@@ -1134,6 +1136,7 @@
 				9866C16324E4E09E00810516 /* MineNetwork.swift */,
 				986A540C24EB796D004140F3 /* ImageDownloader.swift */,
 				986DEA0B24F9079500853917 /* MessageNetwork.swift */,
+				988DD9D4250234A400638F7B /* LogoutTools.swift */,
 			);
 			path = HTTPServers;
 			sourceTree = "<group>";
@@ -1663,6 +1666,7 @@
 				986B5A1C24FDEDED00DFCBB5 /* CheckUserModel.swift in Sources */,
 				98C8D2AF24CDA0F1006C76D0 /* RecordListViewController.swift in Sources */,
 				983FD1A424D27C170041D79E /* ApplyFriendsViewController.swift in Sources */,
+				988DD9D5250234A400638F7B /* LogoutTools.swift in Sources */,
 				98F08BFB24E239ED0033DFBA /* HomeRoomModel.swift in Sources */,
 				986DEA0F24F9175900853917 /* MessageListModel.swift in Sources */,
 				98038F5124D7A1A700CBCEE7 /* MarqueeView.swift in Sources */,

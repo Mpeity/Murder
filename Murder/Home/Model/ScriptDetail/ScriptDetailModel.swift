@@ -8,11 +8,12 @@
 
 import Foundation
 
-class ScriptDetailModel : NSObject{
+
+class ScriptDetailModel : NSObject {
     
     var roomId: Int?
 
-    
+
     var author : String?
     var cover : String?
     var difficult : Int?
@@ -20,16 +21,16 @@ class ScriptDetailModel : NSObject{
     var duration : Int?
     var durationText : String?
     var introduction : String?
+    var isHave : Int?
     var name : String?
     var peopleNum : Int?
     var role : [RoleModel]?
     var scriptId : Int?
+    var shareUrl : String?
     var tag : [TagModel]?
     var wordNum : Int?
-    
-    
-    
-    
+
+
     /**
      * Instantiate the instance using the passed dictionary values to set the properties values
      */
@@ -41,6 +42,7 @@ class ScriptDetailModel : NSObject{
         duration = dictionary["duration"] as? Int
         durationText = dictionary["duration_text"] as? String
         introduction = dictionary["introduction"] as? String
+        isHave = dictionary["is_have"] as? Int
         name = dictionary["name"] as? String
         peopleNum = dictionary["people_num"] as? Int
         role = [RoleModel]()
@@ -58,6 +60,7 @@ class ScriptDetailModel : NSObject{
                 tag?.append(value)
             }
         }
+        shareUrl = dictionary["share_url"] as? String
         wordNum = dictionary["word_num"] as? Int
     }
 
@@ -88,6 +91,9 @@ class ScriptDetailModel : NSObject{
         if introduction != nil{
             dictionary["introduction"] = introduction
         }
+        if isHave != nil{
+            dictionary["is_have"] = isHave
+        }
         if name != nil{
             dictionary["name"] = name
         }
@@ -111,14 +117,14 @@ class ScriptDetailModel : NSObject{
             }
             dictionary["tag"] = dictionaryElements
         }
+        if shareUrl != nil{
+            dictionary["share_url"] = shareUrl
+        }
         if wordNum != nil{
             dictionary["word_num"] = wordNum
         }
         return dictionary
     }
-    
-    override func setValue(_ value: Any?, forUndefinedKey key: String) {
-        
-    }
 
 }
+
