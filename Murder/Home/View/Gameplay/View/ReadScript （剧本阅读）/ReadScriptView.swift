@@ -35,8 +35,8 @@ class ReadScriptView: UIView {
 //                for item:GPChapterModel in scriptData as! [GPChapterModel] {
 //                    arr.append(item.name as AnyObject)
 //                }
-                tableView.reloadData()
                 popMenuView.titleArray = scriptData!
+                tableView.reloadData()
 
             }
         }

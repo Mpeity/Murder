@@ -1149,27 +1149,29 @@ extension GameplayViewController {
     //MARK: 剧本
     @objc func scriptBtnAction(button: UIButton) {
 //        script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
-        
-        let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-        readScriptView.scriptData = currentScriptRoleModel?.chapter
-        readScriptView.room_id = gamePlayModel?.room.roomId
-        readScriptView.script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
-        readScriptView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
-        readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        self.view.addSubview(readScriptView)
-        
+        if currentScriptRoleModel?.chapter?.count != 0{
+            let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            readScriptView.scriptData = currentScriptRoleModel?.chapter
+            readScriptView.room_id = gamePlayModel?.room.roomId
+            readScriptView.script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
+            readScriptView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
+            readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            self.view.addSubview(readScriptView)
+        }
     }
     
     //MARK: 线索
     @objc func threadBtnBtnAction(button: UIButton) {
-        let threadView = ThreadView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-        threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        threadView.script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
+        if currentScriptRoleModel?.gameUserClueList?.count != 0 {
+            let threadView = ThreadView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            threadView.script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
 
-        threadView.room_id = gamePlayModel?.room.roomId
-//        threadView.gameUserClueList = gamePlayModel?.gameUserClueList
-        threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
-        self.view.addSubview(threadView)
+            threadView.room_id = gamePlayModel?.room.roomId
+            threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
+            self.view.addSubview(threadView)
+        }
+
     }
     
     
