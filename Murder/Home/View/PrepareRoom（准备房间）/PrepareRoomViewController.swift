@@ -15,7 +15,11 @@ let PrepareRoomCellId = "PrepareRoomCellId"
 
 class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
 
-    var script_id: Int!
+    var script_id: Int!{
+        didSet {
+            Log("PrepareRoomViewController---\(script_id)")
+        }
+    }
     
     var room_id: Int!
     

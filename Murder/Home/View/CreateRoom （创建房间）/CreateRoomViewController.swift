@@ -100,11 +100,9 @@ extension CreateRoomViewController {
                 let resultData = data["result"] as! [String : AnyObject]
                 
                 let room_id = (resultData["room_id"] as! NSString).intValue
-                
-                Log(room_id)
                 let vc = PrepareRoomViewController()
                 vc.room_id = Int(room_id)
-                
+                vc.script_id = script_id
                 self!.navigationController?.pushViewController(vc, animated: true)
             } else {
                 

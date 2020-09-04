@@ -20,16 +20,16 @@ class GameplayViewController: UIViewController {
         
     var room_id: Int!
     
-    var script_id: Int?
+    var script_id: Int? {
+        didSet {
+            Log("这一个页面的script_id是---\(script_id)")
+        }
+    }
 
-    
     private var current_client_id: String!
-
-    // 滑动视图
-//    @IBOutlet weak var scrollView: UIScrollView!
-//    // 背景图片
-//    @IBOutlet weak var bgImgView: UIImageView!
     
+    
+
     private var scrollView: UIScrollView!
        // 背景图片
     private var bgImgView: UIImageView! = UIImageView()
@@ -76,10 +76,9 @@ class GameplayViewController: UIViewController {
     private var popMenuView = PopMenuView()
     
     // 倒计时
-//    private var timer: Timer?
     private var timerView = UIView()
     private var timerLabel = UILabel()
-    private var timerCount = 600
+    
     
     // 剩余次数
     private var remainingView = UIView()
@@ -188,9 +187,6 @@ class GameplayViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-//        timer?.invalidate()
-//        timer = nil
-        
         userLogout()
     }
     
@@ -211,7 +207,6 @@ class GameplayViewController: UIViewController {
 extension GameplayViewController {
     func gamePlaying() {
         if script_node_id != 0 {
-//            script_node_id = 5
             gameIngRequest(room_id: room_id, script_node_id: script_node_id!) {[weak self] (result, error) in
                 if error != nil {
                     return
@@ -249,8 +244,9 @@ extension GameplayViewController {
 extension GameplayViewController {
     
     func getImagePathWith(attachmentId: String) -> String? {
-        
+        Log("这里有图片吗------2----\(script_id)")
         guard let script_id = script_id else {
+            Log("这里没有图片------7")
             return nil
         }
         
@@ -261,9 +257,12 @@ extension GameplayViewController {
             
             let lastPath = filePath?.components(separatedBy: "/").last
             let imagePath = NSHomeDirectory() + "/Documents/" + lastPath!
+            Log("这里有图片吗------3")
             if !imagePath.isEmpty {
+                Log("这里有图片------5")
                 return imagePath
             } else {
+                Log("这里没有图片------4")
                 return nil
             }
         }
@@ -280,8 +279,12 @@ extension GameplayViewController {
         } else {
            gameNameLabel.text = ""
         }
-        
-        
+        // 绘制地图
+        if currentScriptRoleModel?.scriptNodeMapList != nil {
+            Log("这里有图片吗------1")
+            let model = currentScriptRoleModel?.scriptNodeMapList?[0]
+            drawImage(model: model)
+        }
 
         // 配置按钮
         if gamePlayModel?.scriptNodeResult.buttonName != nil {
@@ -301,10 +304,7 @@ extension GameplayViewController {
             preference.drawing.message = gamePlayModel?.scriptNodeResult!.describe as! String
         }
         
-        if currentScriptRoleModel?.scriptNodeMapList != nil {
-            let model = currentScriptRoleModel?.scriptNodeMapList?[0]
-            drawImage(model: model)
-        }
+
         
         if currentScriptRoleModel?.scriptNodeMapList != nil {
             popMenuView.type = "place"
@@ -373,6 +373,8 @@ extension GameplayViewController {
     func drawImage(model: GPNodeMapListModel?) {
         guard let imagePath = getImagePathWith(attachmentId: (model?.attachmentId!)!) else { return }
             let image = UIImage(contentsOfFile: imagePath)
+        
+            Log("这里有图片------6\(image!)")
         
             let height = FULL_SCREEN_HEIGHT
             let scale = CGFloat(FULL_SCREEN_HEIGHT / (image?.size.height)!)
@@ -947,25 +949,6 @@ extension GameplayViewController {
     }
     
     
-    //MARK: - 倒计时
-    @objc func countDown() {
-        timerCount -= 1
-        let string = "カウントダウン\(timerCount)s"
-        let ranStr = String(timerCount)
-        let attrstring:NSMutableAttributedString = NSMutableAttributedString(string:string)
-        let str = NSString(string: string)
-        let theRange = str.range(of: ranStr)
-        attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#ED2828"), range: theRange)
-        timerLabel.attributedText = attrstring
-        if timerCount == 0 {
-            // 进入下一个阶段
-            timerCount = 0
-            timerView.isHidden = false
-            
-        }
-        
-    }
-    
     //MARK: - 搜查
     @objc func searchBtnAction(button: UIButton) {
         
@@ -1084,9 +1067,9 @@ extension GameplayViewController {
     //MARK: 解散房间是 退出声网/断开socekt
     private func userLogout() {
         // 退出当前剧本，离开群聊频道
-        agoraKit.leaveChannel(nil)
         agoraStatus.muteAllRemote = false
         agoraStatus.muteLocalAudio = false
+        agoraKit.leaveChannel(nil)
         
         SingletonSocket.sharedInstance.socket.disconnect()
     }
@@ -1215,8 +1198,11 @@ extension GameplayViewController {
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
-                if self?.script_node_id == 6 {
-                    self?.script_node_id = -1
+                let countdown = data["countdown"] as! Int
+                if countdown == 1 { // 调用倒计时接口
+                    gameCountdownRequest(room_id: self!.room_id, script_node_id: self!.script_node_id!) { (result, error) in
+                        
+                    }
                 }
                 
             }
@@ -1681,11 +1667,14 @@ extension GameplayViewController: WebSocketDelegate {
             bindRequest(scene: 1, client_id: current_client_id, datas: datas) { (result, error) in
             }
         } else if (dic["type"] as? String == "game_ing") {
+            // 隐藏倒计时
+            timerView.isHidden = true
+            
             guard  let resultDic :[String : AnyObject] = dic as? [String : AnyObject] else { return }
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
                 Log("gameplay--websocketDidReceiveMessage=\(socket)\(text)")
-
+                
                 gamePlayModel = GamePlayModel(fromDictionary: data)
                 stage = gamePlayModel?.scriptNodeResult.nodeType!
                 refreshUI()
@@ -1716,6 +1705,7 @@ extension GameplayViewController: WebSocketDelegate {
             
             
         } else if (dic["type"] as? String == "game_countdown") { // 倒计时
+            timerView.isHidden = false
             guard  let resultDic :[String : AnyObject] = dic as? [String : AnyObject] else { return }
             if resultDic["code"]!.isEqual(1) {
                 
@@ -1724,7 +1714,11 @@ extension GameplayViewController: WebSocketDelegate {
                 Log("gameplay--websocketDidReceiveMessage=\(socket)\(data)")
 
                 let count = data["countdown"] as! Int
-                timerView.isHidden = false
+                if script_node_id == 5 {
+                    timerView.isHidden = true
+                } else {
+                    timerView.isHidden = false
+                }
                 if count == 0 {
                     timerView.isHidden = true
                 }

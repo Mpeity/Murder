@@ -324,6 +324,8 @@ extension HomeViewController {
                 let vc = PrepareRoomViewController()
                 vc.room_id = room_id
                 vc.script_id = script_id
+                
+                
                 self?.navigationController?.pushViewController(vc, animated: true)
                 
             } else {

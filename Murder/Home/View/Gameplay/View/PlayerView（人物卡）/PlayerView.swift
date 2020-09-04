@@ -54,7 +54,7 @@ class PlayerView: UIView {
                 
                 if itemModel?.user?.userId != nil {
                     let id = itemModel?.user?.userId!
-                    IDLabel.text = String(id!)
+                    IDLabel.text = "ID:\(String(id!))"
                 }
             }
         }
@@ -169,7 +169,7 @@ extension PlayerView {
         // 角色
         roleNameLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
 
-        
+        roleImgView.layer.cornerRadius = 30
         // 玩家
         playerImgView.layer.cornerRadius = 30
         playerNameLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
@@ -178,9 +178,7 @@ extension PlayerView {
         IDLabel.layer.cornerRadius = 7.5
         IDLabel.layer.masksToBounds = true
 
-        
         applyBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
-        
     }
 }
 

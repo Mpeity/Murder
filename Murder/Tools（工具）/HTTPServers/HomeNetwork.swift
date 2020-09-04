@@ -385,3 +385,19 @@ func checkUrlRequest(finished: @escaping(_ reslut: [String: AnyObject]?, _ error
         finished(result as? [String : AnyObject], error)
     }
 }
+
+//MARK:- 游戏倒计时【异步调用】
+private let game_countdown_url = "/api/game/game_countdown"
+/** 注册接口
+ * @params [参数名] [类型] [是否必传]
+ * room_id [int]    是    房间ID
+ * script_node_id [int]    是    游戏节点ID
+ */
+func gameCountdownRequest(room_id: Int, script_node_id: Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = game_countdown_url
+    let parameters = ["room_id" : room_id, "script_node_id" : script_node_id] as [String : AnyObject]
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
