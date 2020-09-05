@@ -114,9 +114,6 @@ class GameplayViewController: UIViewController {
     // 未知按钮名称
     var commonBtn: UIButton = UIButton()
     
-    // 阶段
-    var stage: Int? = -1
-    
     // 举手
     var handsUp = false
     
@@ -216,17 +213,6 @@ extension GameplayViewController {
                 if resultDic["code"]!.isEqual(1) {
                     let data = resultDic["data"] as! [String : AnyObject]
                     self?.gamePlayModel = GamePlayModel(fromDictionary: data)
-                    let scriptRoleList = self?.gamePlayModel!.scriptRoleList
-                    
-                    for itemModel in scriptRoleList! {
-                        let userId = itemModel.user.userId
-                        if userId == UserAccountViewModel.shareInstance.account?.userId {
-                            self?.currentScriptRoleModel = itemModel
-                            break
-                        }
-                    }
-                    
-                    self?.stage = self?.gamePlayModel?.scriptNodeResult.nodeType!
                     self?.refreshUI()
                     
                 } else {
@@ -274,6 +260,17 @@ extension GameplayViewController {
 extension GameplayViewController {
     
     private func refreshUI() {
+        
+        if let scriptRoleList = gamePlayModel!.scriptRoleList {
+            for itemModel in scriptRoleList {
+                let userId = itemModel.user.userId
+                if userId == UserAccountViewModel.shareInstance.account?.userId {
+                    currentScriptRoleModel = itemModel
+                    break
+                }
+            }
+        }
+
         if gamePlayModel?.script != nil {
             gameNameLabel.text = gamePlayModel?.script.scriptName
         } else {
@@ -1148,7 +1145,6 @@ extension GameplayViewController {
     
     //MARK: 剧本
     @objc func scriptBtnAction(button: UIButton) {
-//        script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
         if currentScriptRoleModel?.chapter?.count != 0{
             let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
             readScriptView.scriptData = currentScriptRoleModel?.chapter
@@ -1203,51 +1199,20 @@ extension GameplayViewController {
                 let countdown = data["countdown"] as! Int
                 if countdown == 1 { // 调用倒计时接口
                     gameCountdownRequest(room_id: self!.room_id, script_node_id: self!.script_node_id!) { (result, error) in
+                        if error != nil {
+                            return
+                        }
+                        // 取到结果
+                        guard  let resultDic :[String : AnyObject] = result else { return }
+                        if resultDic["code"]!.isEqual(1) {
+                    
+                            
+                        }
                         
                     }
                 }
                 
             }
-        }
-        
-        switch stage {
-        case 1:
-            // 故事背景
-//            collectionView.reloadData()
-            break
-        case 2:
-            // 自我介绍
-            break
-        case 3:
-            // 阅读剧本
-            
-            break
-        case 4:
-            // 搜证
-//            remainingView.isHidden = true
-            
-            break
-        case 5:
-            // 5 答题
-//            remainingView.isHidden = true
-//            voteInfoBtn.isHidden = false
-//            voteResultBtn.isHidden = false
-        
-            break
-            
-        case 6:
-            // 6 结算
-//            voteInfoBtn.isHidden = false
-//            voteResultBtn.isHidden = false
-            
-            
-            break
-            
-        default:
-            
-            self.navigationController?.popToRootViewController(animated: true)
-            
-            break
         }
     }
     
@@ -1678,7 +1643,7 @@ extension GameplayViewController: WebSocketDelegate {
                 Log("gameplay--websocketDidReceiveMessage=\(socket)\(text)")
                 
                 gamePlayModel = GamePlayModel(fromDictionary: data)
-                stage = gamePlayModel?.scriptNodeResult.nodeType!
+                                
                 refreshUI()
                 
                 script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
@@ -1690,12 +1655,25 @@ extension GameplayViewController: WebSocketDelegate {
                 
                 if script_node_id == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题
                     if currentScriptRoleModel?.scriptQuestionList?.count != 0 {
+                    
                         let commonView = QuestionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
                         commonView.room_id = room_id
                         commonView.script_node_id = script_node_id
                         commonView.scriptQuestionList = currentScriptRoleModel?.scriptQuestionList
                         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
                         self.view.addSubview(commonView)
+                        // 答题 触发倒计时
+                        gameCountdownRequest(room_id: room_id, script_node_id: script_node_id!) { (result, error) in
+                            if error != nil {
+                                return
+                            }
+                            // 取到结果
+                            guard  let resultDic :[String : AnyObject] = result else { return }
+                            if resultDic["code"]!.isEqual(1) {
+                        
+                            }
+                            
+                        }
                     }
                 }
                 if script_node_id == 6 {

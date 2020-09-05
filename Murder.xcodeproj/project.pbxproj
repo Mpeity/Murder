@@ -161,6 +161,7 @@
 		988D4D6124CC856100C4B979 /* MineListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 988D4D5F24CC856100C4B979 /* MineListCell.xib */; };
 		988D4D6524CC8D4200C4B979 /* MineTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988D4D6424CC8D4200C4B979 /* MineTableHeaderView.swift */; };
 		988DD9D5250234A400638F7B /* LogoutTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988DD9D4250234A400638F7B /* LogoutTools.swift */; };
+		988DD9D72502964800638F7B /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 988DD9D62502964800638F7B /* UserNotifications.framework */; };
 		98A268C024D90EF4004B9D53 /* VoteResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A268BF24D90EF4004B9D53 /* VoteResultView.swift */; };
 		98A268C324D9148D004B9D53 /* VoteResultViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A268C124D9148D004B9D53 /* VoteResultViewCell.swift */; };
 		98A268C424D9148D004B9D53 /* VoteResultViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A268C224D9148D004B9D53 /* VoteResultViewCell.xib */; };
@@ -438,6 +439,8 @@
 		988D4D5F24CC856100C4B979 /* MineListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MineListCell.xib; sourceTree = "<group>"; };
 		988D4D6424CC8D4200C4B979 /* MineTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineTableHeaderView.swift; sourceTree = "<group>"; };
 		988DD9D4250234A400638F7B /* LogoutTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutTools.swift; sourceTree = "<group>"; };
+		988DD9D62502964800638F7B /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		988DD9D8250296AB00638F7B /* Murder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Murder.entitlements; sourceTree = "<group>"; };
 		98A268BF24D90EF4004B9D53 /* VoteResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteResultView.swift; sourceTree = "<group>"; };
 		98A268C124D9148D004B9D53 /* VoteResultViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteResultViewCell.swift; sourceTree = "<group>"; };
 		98A268C224D9148D004B9D53 /* VoteResultViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VoteResultViewCell.xib; sourceTree = "<group>"; };
@@ -524,6 +527,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				988DD9D72502964800638F7B /* UserNotifications.framework in Frameworks */,
 				9874929024F74A8F00D6FD21 /* SystemConfiguration.framework in Frameworks */,
 				9874928E24F74A7D00D6FD21 /* libresolv.tbd in Frameworks */,
 				9874928C24F74A6C00D6FD21 /* libc++.tbd in Frameworks */,
@@ -642,6 +646,7 @@
 		04C3A9CB24C18089001DD90D /* Murder */ = {
 			isa = PBXGroup;
 			children = (
+				988DD9D8250296AB00638F7B /* Murder.entitlements */,
 				98CA02C924C6BFFC009EF0ED /* Dependence */,
 				98CA02AF24C583EF009EF0ED /* Base */,
 				98CA029724C52921009EF0ED /* Tools（工具） */,
@@ -696,6 +701,7 @@
 		648EE0226342890925EB5896 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				988DD9D62502964800638F7B /* UserNotifications.framework */,
 				9874928F24F74A8F00D6FD21 /* SystemConfiguration.framework */,
 				9874928D24F74A7D00D6FD21 /* libresolv.tbd */,
 				9874928724F7485600D6FD21 /* libc++.tbd */,
@@ -1880,6 +1886,7 @@
 			baseConfigurationReference = ED48888C3AEA291C0B61940F /* Pods-Murder.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 48HJ3652RV;
@@ -1905,6 +1912,7 @@
 			baseConfigurationReference = 3704029FC11209923C1106EA /* Pods-Murder.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 48HJ3652RV;

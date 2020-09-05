@@ -52,6 +52,8 @@ class HomeViewController: UIViewController,UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        
+        loadRefresh()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

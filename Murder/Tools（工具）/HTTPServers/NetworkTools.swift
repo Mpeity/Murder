@@ -9,11 +9,11 @@
 import AFNetworking
 import CLToast
 
-let SocketUrl = "ws://192.168.0.194"
-let BaseUrl = "http://192.168.0.194"
+//let SocketUrl = "ws://192.168.0.194"
+//let BaseUrl = "http://192.168.0.194"
 
-//let BaseUrl = "https://mousha.mx5918.com"
-//let SocketUrl = "ws://mousha.mx5918.com"
+let BaseUrl = "https://mousha.mx5918.com"
+let SocketUrl = "ws://mousha.mx5918.com"
 
 enum MethodType {
     case GET

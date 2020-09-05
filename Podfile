@@ -22,8 +22,12 @@ target 'Murder' do
   pod 'YYKit'
   # 弹框
   pod 'CLToast'
-  
+  # websocket
   pod 'Starscream'
+  # 友盟
+  pod 'UMCCommon'
+  pod 'UMCPush'
+  pod 'UMCSecurityPlugins'
 
   target 'MurderTests' do
     inherit! :search_paths

@@ -106,6 +106,10 @@ class ThreadNewCardView: UIView {
                     
                     commonWidth.constant = imgSize.width
                     commonHeight.constant = imgSize.height + 64
+                    
+                    Log(commonView.frame)
+                    
+                    layoutIfNeeded()
                 }
                 if clueResultModel?.isGoing == 1 { // 可深入
                     deepBtn.layer.cornerRadius = 22
