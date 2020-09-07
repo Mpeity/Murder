@@ -33,7 +33,7 @@ class BillingInfoViewCell: UITableViewCell {
             if itemModel != nil {
                 
                 if itemModel?.userHead != nil {
-                    headerImgView.setImageWith(URL(string: (itemModel?.userHead!)!))
+                    avartImgView.setImageWith(URL(string: (itemModel?.userHead!)!))
                 }
                 
                 if itemModel?.userNickname != nil {
@@ -41,7 +41,8 @@ class BillingInfoViewCell: UITableViewCell {
                 }
                 
                 if itemModel?.roleHead != nil {
-                    avartImgView.setImageWith(URL(string: (itemModel?.roleHead!)!))
+                    
+                    headerImgView.setImageWith(URL(string: (itemModel?.roleHead!)!))
                 }
                 
                 if itemModel?.roleName != nil {
