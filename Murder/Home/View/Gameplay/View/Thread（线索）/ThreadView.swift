@@ -33,6 +33,11 @@ class ThreadView: UIView {
                 return
             }            
             leftTableView.reloadData()
+            let indexPath = IndexPath(row: 0, section: 0)
+            leftTableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
+            let model = gameUserClueList![indexPath.row]
+            clueList =  model.clueList
+            rightTableView.reloadData()
         }
     }
 

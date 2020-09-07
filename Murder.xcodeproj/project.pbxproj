@@ -34,6 +34,8 @@
 		98038F5D24D7BBA200CBCEE7 /* PrepareRoomShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98038F5C24D7BBA200CBCEE7 /* PrepareRoomShareView.xib */; };
 		98038F6024D82E7200CBCEE7 /* GameplayViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98038F5E24D82E7200CBCEE7 /* GameplayViewCell.swift */; };
 		98038F6124D82E7200CBCEE7 /* GameplayViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98038F5F24D82E7200CBCEE7 /* GameplayViewCell.xib */; };
+		982E01902504CC7500F37A1C /* UMPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 982E018F2504CC7500F37A1C /* UMPush.framework */; };
+		982E01922504CC8500F37A1C /* UMCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 982E01912504CC8500F37A1C /* UMCommon.framework */; };
 		983A225524DA54A600532BB9 /* MessageScriptCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983A225324DA54A600532BB9 /* MessageScriptCell.swift */; };
 		983A225624DA54A600532BB9 /* MessageScriptCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 983A225424DA54A600532BB9 /* MessageScriptCell.xib */; };
 		983A225924DA54D200532BB9 /* MessageScriptInviteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983A225724DA54D200532BB9 /* MessageScriptInviteCell.swift */; };
@@ -308,6 +310,8 @@
 		98038F5C24D7BBA200CBCEE7 /* PrepareRoomShareView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrepareRoomShareView.xib; sourceTree = "<group>"; };
 		98038F5E24D82E7200CBCEE7 /* GameplayViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameplayViewCell.swift; sourceTree = "<group>"; };
 		98038F5F24D82E7200CBCEE7 /* GameplayViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameplayViewCell.xib; sourceTree = "<group>"; };
+		982E018F2504CC7500F37A1C /* UMPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UMPush.framework; path = Pods/UMCPush/UMPush.framework; sourceTree = "<group>"; };
+		982E01912504CC8500F37A1C /* UMCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UMCommon.framework; path = Pods/UMCCommon/UMCommon.framework; sourceTree = "<group>"; };
 		983A225324DA54A600532BB9 /* MessageScriptCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageScriptCell.swift; sourceTree = "<group>"; };
 		983A225424DA54A600532BB9 /* MessageScriptCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageScriptCell.xib; sourceTree = "<group>"; };
 		983A225724DA54D200532BB9 /* MessageScriptInviteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageScriptInviteCell.swift; sourceTree = "<group>"; };
@@ -527,6 +531,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				982E01922504CC8500F37A1C /* UMCommon.framework in Frameworks */,
+				982E01902504CC7500F37A1C /* UMPush.framework in Frameworks */,
 				988DD9D72502964800638F7B /* UserNotifications.framework in Frameworks */,
 				9874929024F74A8F00D6FD21 /* SystemConfiguration.framework in Frameworks */,
 				9874928E24F74A7D00D6FD21 /* libresolv.tbd in Frameworks */,
@@ -701,6 +707,8 @@
 		648EE0226342890925EB5896 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				982E01912504CC8500F37A1C /* UMCommon.framework */,
+				982E018F2504CC7500F37A1C /* UMPush.framework */,
 				988DD9D62502964800638F7B /* UserNotifications.framework */,
 				9874928F24F74A8F00D6FD21 /* SystemConfiguration.framework */,
 				9874928D24F74A7D00D6FD21 /* libresolv.tbd */,
@@ -1887,21 +1895,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 48HJ3652RV;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = CL9DD7K65A;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Murder/Dependence",
+					"$(PROJECT_DIR)/Pods/UMCPush",
+					"$(PROJECT_DIR)/Pods/UMCCommon",
 				);
 				INFOPLIST_FILE = Murder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cn.murder;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.com.murder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = murderkfzsNew;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1913,21 +1923,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 48HJ3652RV;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = CL9DD7K65A;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Murder/Dependence",
+					"$(PROJECT_DIR)/Pods/UMCPush",
+					"$(PROJECT_DIR)/Pods/UMCCommon",
 				);
 				INFOPLIST_FILE = Murder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cn.murder;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.com.murder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = murderkfzsNew;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

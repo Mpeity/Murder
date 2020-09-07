@@ -62,13 +62,27 @@ class ThreadNewCardView: UIView {
                 script_place_id = clueListModel?.scriptPlaceId
                 script_clue_id = clueListModel?.scriptClueId
                 if clueListModel?.attachment != nil {
-                    
+                    var imgSize = CGSize()
                     let size = getImageSize(clueResultModel?.attachment!)
-                    
-                    
+                    if size.width >= FULL_SCREEN_WIDTH {
+                        imgSize.width = FULL_SCREEN_WIDTH
+                        let scale = FULL_SCREEN_WIDTH / size.width
+                        imgSize.height = size.height * scale
+                    }
                     Log(size)
+                    Log(imgSize)
                     
                     imgView.setImageWith(URL(string: (clueResultModel?.attachment!)!))
+                    imgView.size = imgSize
+                    imgView.sizeToFit()
+                    scrollView.contentSize = imgSize
+                    
+                    commonWidth.constant = imgSize.width
+                    commonHeight.constant = imgSize.height + 64
+                    
+                    Log(commonView.frame)
+                    
+                    layoutIfNeeded()
                 }
                 if clueListModel?.isGoing == 1 { // 可深入
                     deepBtn.layer.cornerRadius = 22
@@ -103,9 +117,21 @@ class ThreadNewCardView: UIView {
                     imgView.size = imgSize
                     imgView.sizeToFit()
                     scrollView.contentSize = imgSize
+                    scrollView.size = imgSize
                     
                     commonWidth.constant = imgSize.width
                     commonHeight.constant = imgSize.height + 64
+            
+                    
+                    commonView.snp.makeConstraints { (make) in
+                        make.width.equalTo(commonWidth.constant)
+                        make.height.equalTo(commonHeight.constant)
+                        make.centerX.equalToSuperview()
+                        make.centerY.equalToSuperview()
+                    }
+                    
+                    commonView.layoutIfNeeded()
+
                     
                     Log(commonView.frame)
                     

@@ -42,19 +42,18 @@ extension ImageDownloader {
         }
         .responseData { response in
             if let imagePath = response.destinationURL?.path {
-                script.scripId = 1
-                
-                if (UserDefaults.standard.value(forKey: String(script.scripId!)) != nil) {
-                    let data = ScriptLocalData.shareInstance.getNormalDefult(key: String(script.scripId!))
+
+                if (UserDefaults.standard.value(forKey: String(script.scriptId!)) != nil) {
+                    let data = ScriptLocalData.shareInstance.getNormalDefult(key: String(script.scriptId!))
                     var dic = data as! Dictionary<String, AnyObject>
                     let itemKey = String(scriptNodeMapModel.attachmentId)
                     dic.updateValue(imagePath as AnyObject, forKey: itemKey)
-                    createScriptLocalData(key: String(script.scripId!), value: dic as AnyObject)
+                    createScriptLocalData(key: String(script.scriptId!), value: dic as AnyObject)
                 } else {
                     var dic = Dictionary<String, AnyObject>()
                     let itemKey = String(scriptNodeMapModel.attachmentId)
                     dic.updateValue(imagePath as AnyObject, forKey: itemKey)
-                    createScriptLocalData(key: String(script.scripId!), value: dic as AnyObject)
+                    createScriptLocalData(key: String(script.scriptId!), value: dic as AnyObject)
                 }
                 
             }
@@ -86,25 +85,18 @@ extension ImageDownloader {
         }
         .responseData { response in
             if let imagePath = response.destinationURL?.path,let image = UIImage(contentsOfFile: imagePath)  {
-                script.scripId = 1
-                
-                
-            
-                print("imagePath:\(imagePath)")
-                print("image:\(image)")
 
-
-                if (UserDefaults.standard.value(forKey: String(script.scripId!)) != nil) {
-                    let data = ScriptLocalData.shareInstance.getNormalDefult(key: String(script.scripId!))
+                if (UserDefaults.standard.value(forKey: String(script.scriptId!)) != nil) {
+                    let data = ScriptLocalData.shareInstance.getNormalDefult(key: String(script.scriptId!))
                     var dic = data as! Dictionary<String, AnyObject>
                     let itemKey = String(scriptNodeMapModel.attachmentId)
                     dic.updateValue(imagePath as AnyObject, forKey: itemKey)
-                    createScriptLocalData(key: String(script.scripId!), value: dic as AnyObject)
+                    createScriptLocalData(key: String(script.scriptId!), value: dic as AnyObject)
                 } else {
                     var dic = Dictionary<String, AnyObject>()
                     let itemKey = String(scriptNodeMapModel.attachmentId)
                     dic.updateValue(imagePath as AnyObject, forKey: itemKey)
-                    createScriptLocalData(key: String(script.scripId!), value: dic as AnyObject)
+                    createScriptLocalData(key: String(script.scriptId!), value: dic as AnyObject)
                 }
                 
             }

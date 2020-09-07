@@ -131,7 +131,6 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initWebSocketSingle()
         
         initAgoraKit()
         
@@ -139,11 +138,11 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
         
 //        loadImage()
         
-        DispatchQueue.main.async { [weak self] in
-            self?.loadData()
-        }
+//        DispatchQueue.main.async { [weak self] in
+//            self?.loadData()
+//        }
         
-//        self.loadData()
+        self.loadData()
 
     }
     
@@ -175,10 +174,14 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
                                 Thread.detachNewThreadSelector(#selector(self!.loadProgress), toTarget: self!, with: nil)
                                 break
                             }
+                            
+                            Log("break")
+                        }
+                        DispatchQueue.main.async { [weak self] in
+                            // 本地有剧本数据
+                            self?.refreshUI()
                         }
                         
-                        // 本地有剧本数据
-                        self?.refreshUI()
                     } else {
                         self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
                         Thread.detachNewThreadSelector(#selector(self!.loadProgress), toTarget: self!, with: nil)
@@ -191,6 +194,9 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        initWebSocketSingle()
+
         navigationController?.navigationBar.isHidden = true
         
         // 监听键盘弹出
@@ -198,6 +204,7 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     }
         
     override func viewWillDisappear(_ animated: Bool) {
+        
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.isHidden = false
         NotificationCenter.default.removeObserver(self)
@@ -328,7 +335,10 @@ extension PrepareRoomViewController {
                 
                 self?.readyRoomModel = ReadyRoomModel(fromDictionary: resultData)
                 if self?.readyRoomModel != nil {
-                    self?.loadDataRefreshUI()
+                    DispatchQueue.main.async { [weak self] in
+                        self?.loadDataRefreshUI()
+                    }
+                    
                     self?.checkLocalScriptWith()
                 }
             } else {
@@ -406,7 +416,6 @@ extension PrepareRoomViewController {
         if readyRoomModel?.isLock != nil {
             if readyRoomModel?.isLock! == 1 {
                 lockBtn.setImage(UIImage(named: "createroom_locked"), for: .normal)
-
             } else {
                 lockBtn.setImage(UIImage(named: "createroom_lock"), for: .normal)
             }
@@ -458,7 +467,7 @@ extension PrepareRoomViewController {
         
         // status【0正常1已开局2已结束3已解散】
         let status = readyRoomModel?.status!
-        switch type {
+        switch status {
         case 0:
             
             break
@@ -1186,6 +1195,9 @@ extension PrepareRoomViewController: WebSocketDelegate {
     }
     
     func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
+        
+        showToastCenter(msg: "websocketDidDisconnect")
+        
          Log("websocketDidDisconnect=\(socket)\(error)")
     }
     
@@ -1265,7 +1277,9 @@ extension PrepareRoomViewController: WebSocketDelegate {
                 
                 readyRoomModel = ReadyRoomModel(fromDictionary: resultData)
                 if readyRoomModel != nil {
-                    refreshUI()
+                    DispatchQueue.main.async { [weak self] in
+                        self?.refreshUI()
+                    }
                 }
             } else {
                 

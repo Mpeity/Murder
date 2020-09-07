@@ -193,6 +193,13 @@ extension RecordDetailViewController {
     @objc func truthBtnAction() {
         let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        readScriptView.type = "truth"
+        readScriptView.scriptData = scriptLogDetailModel?.chapterList
+        readScriptView.room_id = Int((scriptLogDetailModel?.script?.roomId!)!)
+//        readScriptView.script_role_id = scriptLogDetailModel?.scriptNodeResult.myRoleId
+//        readScriptView.script_node_id = scriptLogDetailModel?.scriptNodeResult.scriptNodeId
+        readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        
         readScriptView.scriptData = scriptLogDetailModel?.chapterList
         self.view.addSubview(readScriptView)
     }

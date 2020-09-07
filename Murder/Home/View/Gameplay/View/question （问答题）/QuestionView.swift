@@ -22,7 +22,7 @@ class QuestionView: UIView {
     // 题目性质 单选/多选
     var propertyLabel: UILabel = UILabel()
     // 倒计时
-    private var timer: Timer?
+//    private var timer: Timer?
     private var timerCount = 600
     // 倒计时
     var countLabel: UILabel = UILabel()
@@ -117,7 +117,6 @@ class QuestionView: UIView {
         
     override init(frame: CGRect) {
         super.init(frame: frame)
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countDown), userInfo: nil, repeats: true)
         setUI()
     }
     
@@ -126,8 +125,7 @@ class QuestionView: UIView {
     }
     
     deinit {
-        timer?.invalidate()
-        timer = nil
+        
     }
 
 }
@@ -303,7 +301,7 @@ extension QuestionView {
 extension QuestionView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return choiceArr!.count
+        return choiceArr?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -481,10 +479,10 @@ extension QuestionView {
         let theRange = str.range(of: ranStr)
         attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#ED2828"), range: theRange)
         countLabel.attributedText = attrstring
+        
         if timerCount == 0 {
             // 进入下一个阶段
             timerCount = 0
-            timer?.invalidate()
         }
         
     }

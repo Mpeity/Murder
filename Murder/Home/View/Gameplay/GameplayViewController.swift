@@ -157,7 +157,9 @@ class GameplayViewController: UIViewController {
     
     // 密谈
     let collogueRoomView = CollogueRoomView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-
+    
+    // 答题页面
+    let commonQuestionView = QuestionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -168,8 +170,6 @@ class GameplayViewController: UIViewController {
         
         setUI()
         
-         
-        
         getiPhoneBatteryState()
         
         gamePlaying()
@@ -179,7 +179,7 @@ class GameplayViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)        
         navigationController?.navigationBar.isHidden = true
-//        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countDown), userInfo: nil, repeats: true)
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -187,13 +187,17 @@ class GameplayViewController: UIViewController {
         userLogout()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+    }
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
     deinit {
-//        timer?.invalidate()
-//        timer = nil
+
     }
 
 }
@@ -261,6 +265,17 @@ extension GameplayViewController {
     
     private func refreshUI() {
         
+        let size =  collectionView.collectionViewLayout.collectionViewContentSize
+        
+        let count = gamePlayModel!.scriptRoleList?.count ?? 0
+        
+        let one = count / 2
+        
+        let two = count % 2
+        
+        collectionView.frame = CGRect(x: 0, y: 50+NAVIGATION_BAR_HEIGHT, width: FULL_SCREEN_WIDTH, height: CGFloat(96 * (one + two)))
+        collectionView.reloadData()
+        
         if let scriptRoleList = gamePlayModel!.scriptRoleList {
             for itemModel in scriptRoleList {
                 let userId = itemModel.user.userId
@@ -301,7 +316,6 @@ extension GameplayViewController {
             preference.drawing.message = gamePlayModel?.scriptNodeResult!.describe as! String
         }
         
-
         
         if currentScriptRoleModel?.scriptNodeMapList != nil {
             popMenuView.type = "place"
@@ -363,7 +377,6 @@ extension GameplayViewController {
         }
         
         
-        collectionView.reloadData()
     }
     
     //MARK:- 绘制地图
@@ -1198,18 +1211,20 @@ extension GameplayViewController {
                 let data = resultDic["data"] as! [String : AnyObject]
                 let countdown = data["countdown"] as! Int
                 if countdown == 1 { // 调用倒计时接口
-                    gameCountdownRequest(room_id: self!.room_id, script_node_id: self!.script_node_id!) { (result, error) in
-                        if error != nil {
-                            return
-                        }
-                        // 取到结果
-                        guard  let resultDic :[String : AnyObject] = result else { return }
-                        if resultDic["code"]!.isEqual(1) {
-                    
+                    if self!.script_node_id! != 5 {
+                        gameCountdownRequest(room_id: self!.room_id, script_node_id: self!.script_node_id!) { (result, error) in
+                            if error != nil {
+                                return
+                            }
+                            // 取到结果
+                            guard  let resultDic :[String : AnyObject] = result else { return }
+                            if resultDic["code"]!.isEqual(1) {
+                        
+                            }
                             
                         }
-                        
                     }
+                    
                 }
                 
             }
@@ -1656,12 +1671,14 @@ extension GameplayViewController: WebSocketDelegate {
                 if script_node_id == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题
                     if currentScriptRoleModel?.scriptQuestionList?.count != 0 {
                     
-                        let commonView = QuestionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-                        commonView.room_id = room_id
-                        commonView.script_node_id = script_node_id
-                        commonView.scriptQuestionList = currentScriptRoleModel?.scriptQuestionList
-                        commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-                        self.view.addSubview(commonView)
+                        self.view.addSubview(commonQuestionView)
+                        commonQuestionView.room_id = room_id
+                        commonQuestionView.script_node_id = script_node_id
+                        commonQuestionView.scriptQuestionList = currentScriptRoleModel?.scriptQuestionList
+                        commonQuestionView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                        
+                        
+                        
                         // 答题 触发倒计时
                         gameCountdownRequest(room_id: room_id, script_node_id: script_node_id!) { (result, error) in
                             if error != nil {
@@ -1677,6 +1694,7 @@ extension GameplayViewController: WebSocketDelegate {
                     }
                 }
                 if script_node_id == 6 {
+                    commonQuestionView.isHidden = true
                     voteInfoBtn.isHidden = false
                     voteResultBtn.isHidden = false
                 }
@@ -1692,23 +1710,33 @@ extension GameplayViewController: WebSocketDelegate {
                 let data = resultDic["data"] as! [String : AnyObject]
                 
                 Log("gameplay--websocketDidReceiveMessage=\(socket)\(data)")
-
+                
                 let count = data["countdown"] as! Int
-                if script_node_id == 5 {
-                    timerView.isHidden = true
-                } else {
-                    timerView.isHidden = false
-                }
                 if count == 0 {
                     timerView.isHidden = true
+                    commonQuestionView.countLabel.isHidden = true
                 }
+                
                 let string = "カウントダウン\(count)s"
                 let ranStr = String(count)
                 let attrstring:NSMutableAttributedString = NSMutableAttributedString(string:string)
                 let str = NSString(string: string)
                 let theRange = str.range(of: ranStr)
                 attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#ED2828"), range: theRange)
-                timerLabel.attributedText = attrstring
+                
+                if script_node_id == 5 {
+                    commonQuestionView.countLabel.isHidden = false
+                    commonQuestionView.countLabel.textColor = HexColor(LightDarkGrayColor)
+                    commonQuestionView.countLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+                    timerView.isHidden = true
+                    commonQuestionView.countLabel.attributedText = attrstring
+
+                } else {
+                    commonQuestionView.countLabel.isHidden = true
+                    timerView.isHidden = false
+                    timerLabel.attributedText = attrstring
+
+                }
             }
             
         }

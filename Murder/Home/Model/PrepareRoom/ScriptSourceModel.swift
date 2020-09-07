@@ -11,7 +11,7 @@ import Foundation
 
 class Script : NSObject {
 
-    var scripId : Int?
+    var scriptId : Int?
     var scriptName : String?
 
 
@@ -19,7 +19,7 @@ class Script : NSObject {
      * Instantiate the instance using the passed dictionary values to set the properties values
      */
     init(fromDictionary dictionary: [String:Any]){
-        scripId = dictionary["scrip_id"] as? Int
+        scriptId = dictionary["script_id"] as? Int
         scriptName = dictionary["script_name"] as? String
     }
 
@@ -29,8 +29,8 @@ class Script : NSObject {
     func toDictionary() -> [String:Any]
     {
         var dictionary = [String:Any]()
-        if scripId != nil{
-            dictionary["scrip_id"] = scripId
+        if scriptId != nil{
+            dictionary["script_id"] = scriptId
         }
         if scriptName != nil{
             dictionary["script_name"] = scriptName

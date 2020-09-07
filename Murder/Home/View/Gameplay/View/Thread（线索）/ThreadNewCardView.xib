@@ -89,10 +89,10 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="9Y1-bd-a7h" secondAttribute="bottom" id="5ZS-wy-wTD"/>
-                        <constraint firstAttribute="height" constant="493" id="9sp-dN-ybb"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" id="9sp-dN-ybb"/>
                         <constraint firstItem="9Y1-bd-a7h" firstAttribute="top" secondItem="A8m-aS-fJv" secondAttribute="bottom" id="IvZ-I1-pzX"/>
                         <constraint firstAttribute="trailing" secondItem="A8m-aS-fJv" secondAttribute="trailing" id="Me0-Vs-Wlt"/>
-                        <constraint firstAttribute="width" constant="343" id="ayy-cd-Amw"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" id="ayy-cd-Amw"/>
                         <constraint firstItem="A8m-aS-fJv" firstAttribute="leading" secondItem="bcZ-26-hdM" secondAttribute="leading" id="dpx-Xx-hVu"/>
                         <constraint firstItem="A8m-aS-fJv" firstAttribute="top" secondItem="bcZ-26-hdM" secondAttribute="top" id="m4b-DI-xbH"/>
                         <constraint firstAttribute="bottom" secondItem="9Y1-bd-a7h" secondAttribute="bottom" id="owh-SS-aYX"/>
@@ -103,11 +103,11 @@
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
-                <constraint firstItem="bcZ-26-hdM" firstAttribute="centerY" secondItem="Vku-qw-C2p" secondAttribute="centerY" id="9TE-Br-oT3"/>
-                <constraint firstItem="bcZ-26-hdM" firstAttribute="centerX" secondItem="Vku-qw-C2p" secondAttribute="centerX" id="VhF-o4-5Kg"/>
+                <constraint firstItem="bcZ-26-hdM" firstAttribute="centerY" secondItem="Vku-qw-C2p" secondAttribute="centerY" id="UHP-Qq-Ukf"/>
                 <constraint firstItem="bcZ-26-hdM" firstAttribute="trailing" secondItem="Vku-qw-C2p" secondAttribute="trailingMargin" id="ZbF-at-gXR"/>
                 <constraint firstItem="bcZ-26-hdM" firstAttribute="top" secondItem="S3J-4R-bWr" secondAttribute="top" constant="87" id="lwJ-j8-EJ9"/>
                 <constraint firstItem="bcZ-26-hdM" firstAttribute="leading" secondItem="Vku-qw-C2p" secondAttribute="leadingMargin" id="mhd-ds-slF"/>
+                <constraint firstItem="bcZ-26-hdM" firstAttribute="top" secondItem="S3J-4R-bWr" secondAttribute="top" constant="87" id="v3f-qE-LH1"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="S3J-4R-bWr"/>
             <point key="canvasLocation" x="921.73913043478262" y="58.928571428571423"/>

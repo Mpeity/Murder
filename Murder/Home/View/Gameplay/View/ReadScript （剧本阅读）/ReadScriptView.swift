@@ -20,22 +20,31 @@ class ReadScriptView: UIView {
     
     private let label = UILabel()
     
+
+    
     // 我的id
     var script_role_id : Int!
     
     var room_id : Int?
     
     var script_node_id: Int?
+    
+    var type :String?
 
     
     var scriptData : [AnyObject]? {
         didSet {
             if !scriptData!.isEmpty{
-//                var arr = [AnyObject]()
-//                for item:GPChapterModel in scriptData as! [GPChapterModel] {
-//                    arr.append(item.name as AnyObject)
-//                }
+
                 popMenuView.titleArray = scriptData!
+                popMenuView.type = type
+                popMenuView.snp.remakeConstraints { (make) in
+                    make.centerX.equalToSuperview()
+                    make.bottom.equalTo(bottomBtn.snp.top).offset(5)
+                    make.height.equalTo(55*popMenuView.titleArray.count + 20)
+                    make.width.equalTo(136)
+                }
+                
                 tableView.reloadData()
 
             }
@@ -62,21 +71,21 @@ extension ReadScriptView {
         
 
         let bgView = UIView()
-        bgView.backgroundColor = UIColor.white
+        bgView.backgroundColor = UIColor.green
         self.addSubview(bgView)
         
         bgView.snp.makeConstraints { (make) in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
-            if #available(iOS 11.0, *) {
-                let height = 537 + 34
-                make.height.equalTo(height)
-
-            } else {
-                make.height.equalTo(537)
-            }
-           
+            make.height.equalTo(537)
+//            if #available(iOS 11.0, *) {
+//                let height = 537 + 34
+//                make.height.equalTo(height)
+//            } else {
+//                make.height.equalTo(537)
+//            }
+            
         }
         bgView.layoutIfNeeded()
         bgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)
@@ -105,8 +114,7 @@ extension ReadScriptView {
             make.right.equalToSuperview()
             make.left.equalToSuperview()
             make.height.equalTo(50)
-            make.bottom.equalToSuperview().offset(250)
-
+            make.bottom.equalToSuperview().offset(500)
         }
         
         
@@ -118,6 +126,7 @@ extension ReadScriptView {
             make.width.equalTo(136)
         }
         popMenuView.delegate = self
+        popMenuView.type = type
         popMenuView.imageName = "menu_catalogue"
         popMenuView.cellRowHeight = 55
         popMenuView.lineColor = HexColor(hex: "#FFFFFF", alpha: 0.05)
@@ -138,28 +147,40 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReadScriptCellId, for: indexPath) as! ReadScriptViewCell
         cell.selectionStyle = .none
         
-        let model = scriptData![indexPath.row] as! GPChapterModel
-        cell.itemModel = model
-        cell.textViewTapBlcok = {(param)->() in
-            if param {
-                self.showBottomView()
-            } else {
-                self.hideBottomView()
+        
+        if type == "script" {
+            let model = scriptData![indexPath.row] as! GPChapterModel
+            cell.itemModel = model
+            cell.textViewTapBlcok = {(param)->() in
+                if param {
+                    self.showBottomView()
+                } else {
+                    self.hideBottomView()
+                }
+                
             }
-            
+            return cell
+        } else {
+            let model = scriptData![indexPath.row] as! ScriptLogChapterModel
+            cell.logChapterModel = model
+            cell.textViewTapBlcok = {(param)->() in
+                if param {
+                    self.showBottomView()
+                } else {
+                    self.hideBottomView()
+                }
+                
+            }
+            return cell
         }
-        return cell
+        
+        
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-//        let model = scriptData![indexPath.row] as! GPChapterModel
 
-        
         let view = UIView()
         view.backgroundColor = UIColor.white
-        
-        
         
         view.addSubview(label)
         label.snp.makeConstraints { (make) in
@@ -194,15 +215,35 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let model = scriptData![indexPath.row] as! GPChapterModel
-        
-        let height = model.content?.ga_heightForComment(fontSize: 15, width: FULL_SCREEN_WIDTH-30)
-        
-        if height! <= CGFloat(492.0) {
-            return 492
+        if type == "script" {
+            let model = scriptData![indexPath.row] as! GPChapterModel
+            
+            let height = model.content?.ga_heightForComment(fontSize: 15, width: FULL_SCREEN_WIDTH-30)
+            
+            if height! <= CGFloat(492.0) {
+                return 492
+            }
+            return height!
+        } else {
+            let model = scriptData![indexPath.row] as! ScriptLogChapterModel
+            
+            let height = model.content?.ga_heightForComment(fontSize: 15, width: FULL_SCREEN_WIDTH-30)
+            
+            if height! <= CGFloat(492.0) {
+                return 492
+            }
+            return height!
         }
-        return height!
+        
+        
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+    }
+    
+    
 }
 
 
@@ -244,7 +285,7 @@ extension ReadScriptView {
                 make.right.equalToSuperview()
                 make.left.equalToSuperview()
                 make.height.equalTo(50)
-                make.bottom.equalToSuperview().offset(250)
+                make.bottom.equalToSuperview().offset(500)
             }
         }
         
@@ -257,20 +298,34 @@ extension ReadScriptView {
 extension ReadScriptView: PopMenuViewDelegate {
     func cellDidSelected(index: Int, model: AnyObject?) {
         
+        if type! == "script" {
+            let currentIndex = index
+            let indexPath = IndexPath(row: currentIndex, section: 0)
+            let item = scriptData![currentIndex] as! GPChapterModel
+            label.text = "【 \(item.name!) 】"
+            tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+            
+            let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"game_status_type":"chapter_see","key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
+            let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
+            SingletonSocket.sharedInstance.socket.write(string: mapJson)
+        } else {
+            let currentIndex = index
+            let indexPath = IndexPath(row: currentIndex, section: 0)
+            let item = scriptData![currentIndex] as! ScriptLogChapterModel
+            label.text = "【 \(item.name!) 】"
+            tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        
+        }
                 
         
-        let currentIndex = index
-        let indexPath = IndexPath(row: currentIndex, section: 0)
-        let model = scriptData![currentIndex] as! GPChapterModel
-        label.text = "【 \(model.name!) 】"
-        tableView.scrollToRow(at: indexPath, at: .none, animated: true)
         
         
-        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"game_status_type":"chapter_see","key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
+//        let script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
+//        let secret_talk_id = index+1
+//        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"secret_talk_id":secret_talk_id,"game_status_type":"secret_talk","key":(UserAccountViewModel.shareInstance.account?.key!)! as String] as [String : AnyObject]
         
-        let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
-        
-        SingletonSocket.sharedInstance.socket.write(string: mapJson)
+//        let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
+//        SingletonSocket.sharedInstance.socket.write(string: mapJson)
         
     }
         
@@ -278,6 +333,20 @@ extension ReadScriptView: PopMenuViewDelegate {
 
 extension ReadScriptView {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        if type! == "script" {
+            let y = scrollView.contentOffset.y
+            let index = Int(y / 492)
+            let item = scriptData![index] as! GPChapterModel
+            label.text = "【 \(item.name!) 】"
+        } else {
+            let y = scrollView.contentOffset.y
+            let index = Int(y / 492)
+            let item = scriptData![index] as! ScriptLogChapterModel
+            label.text = "【 \(item.name!) 】"
+        }
+         
+        
         hideBottomView()
     }
 }

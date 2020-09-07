@@ -30,13 +30,25 @@ class PopMenuViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-        if type == "script" {
+        
+        if type == "place" {
             if selected {
                 contentLabel.textColor = HexColor(MainColor)
             } else {
                 contentLabel.textColor = HexColor("#999999")
             }
-        } else {
+        }
+        if type == "script" {
+            if selected {
+                imageView?.isHidden = false
+                contentLabel.textColor = HexColor(MainColor)
+            } else {
+                imageView?.isHidden = true
+                contentLabel.textColor = UIColor.white
+            }
+        }
+        
+        if type == "truth" {
             if selected {
                 imageView?.isHidden = false
                 contentLabel.textColor = HexColor(MainColor)

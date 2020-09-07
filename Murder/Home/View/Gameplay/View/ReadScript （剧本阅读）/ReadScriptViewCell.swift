@@ -29,6 +29,14 @@ class ReadScriptViewCell: UITableViewCell {
         }
     }
     
+    var logChapterModel: ScriptLogChapterModel? {
+        didSet {
+            if logChapterModel != nil {
+                textView.text = logChapterModel?.content
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -38,16 +46,12 @@ class ReadScriptViewCell: UITableViewCell {
         
         // 这个属性设置的是容器到文字之间的距离
         textView.textContainerInset = UIEdgeInsets(top: 22, left: 0, bottom: 15, right: 0)
-        
-        
 
-    
-        
         textView.backgroundColor = HexColor("#F5F5F5")
         textView.textColor = HexColor("#666666")
         textView.font = UIFont.systemFont(ofSize: 15.0)
         textView.isEditable = false
-        textView.isScrollEnabled = true
+        textView.isScrollEnabled = false
         textView.showsVerticalScrollIndicator = false
         textView.showsHorizontalScrollIndicator = false
         

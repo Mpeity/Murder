@@ -30,6 +30,9 @@ class PopMenuView: UIView {
     var contentTextFont : CGFloat = 15
     var isHideImg: Bool = false
     
+    var selectIndexPath: IndexPath = IndexPath(row: 0, section: 0)
+
+    
     var titleArray = [AnyObject]() {
         didSet {
             if !titleArray.isEmpty {
@@ -39,7 +42,10 @@ class PopMenuView: UIView {
                     make.left.right.equalToSuperview()
                     make.height.equalTo(count*55)
                 }
+                
                 tableView.reloadData()
+                let indexPath = IndexPath(row: 0, section: 0)
+                tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
             }
             
         }
@@ -66,26 +72,6 @@ class PopMenuView: UIView {
 
 extension PopMenuView {
     private func setUI() {
-        
-
-//        let bgView = UIView()
-//        bgView.backgroundColor = UIColor.white
-//        self.addSubview(bgView)
-//
-//        bgView.snp.makeConstraints { (make) in
-//            make.left.equalToSuperview()
-//            make.right.equalToSuperview()
-//            make.bottom.equalToSuperview()
-//            if #available(iOS 11.0, *) {
-//                make.height.equalTo(339)
-//
-//            } else {
-//                make.height.equalTo(305)
-//            }
-//
-//        }
-//        bgView.layoutIfNeeded()
-//        bgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)
         
         bgImgView = UIImageView()
         bgImgView.isUserInteractionEnabled = true
@@ -143,6 +129,7 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
                 cell.point.isHidden = true
             }
             cell.contentLabel.text = model.name! as String
+
         }
         
         if type == "truth" {
@@ -151,7 +138,7 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
             cell.contentLabel.text = model.name! as String
         }
         
-        
+        cell.type = type
         cell.contentLabel.backgroundColor = UIColor.clear
         cell.contentLabel.textColor = contentTextColor
         cell.backgroundColor = UIColor.clear
@@ -180,9 +167,11 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
                 let model = titleArray[indexPath.row] as! GPNodeMapListModel
                 delegate?.cellDidSelected(index: indexPath.row, model: model)
 
-                
             case "script":
                 let model = titleArray[indexPath.row]
+                delegate?.cellDidSelected(index: indexPath.row, model: model)
+            case "truth":
+                let model = titleArray[indexPath.row] as! ScriptLogChapterModel
                 delegate?.cellDidSelected(index: indexPath.row, model: model)
             default:
                 break
