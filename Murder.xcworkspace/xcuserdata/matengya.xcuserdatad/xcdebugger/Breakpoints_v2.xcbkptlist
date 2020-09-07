@@ -457,8 +457,8 @@
             filePath = "Murder/Home/View/PrepareRoom&#xff08;&#x51c6;&#x5907;&#x623f;&#x95f4;&#xff09;/PrepareRoomViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1261"
-            endingLineNumber = "1261"
+            startingLineNumber = "1251"
+            endingLineNumber = "1251"
             landmarkName = "websocketDidReceiveMessage(socket:text:)"
             landmarkType = "7">
          </BreakpointContent>
