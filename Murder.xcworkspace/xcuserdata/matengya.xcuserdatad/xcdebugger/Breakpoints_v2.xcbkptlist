@@ -856,8 +856,8 @@
             filePath = "Murder/Tools&#xff08;&#x5de5;&#x5177;&#xff09;/Tools.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "277"
-            endingLineNumber = "277"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
             landmarkName = "getSignalStrength()"
             landmarkType = "9">
          </BreakpointContent>

@@ -138,16 +138,13 @@ func batterState(commonView: UIView, x: CGFloat, y: CGFloat, width: CGFloat, hei
     let batteryLevel  = UIDevice.current.batteryLevel
 //    let batteryStatus  = NSString(format:"%0.0f%%",batteryLevel*100) as String
     
-    
-    Log(batteryLevel)
-    
-    let bgView = UIView(frame: CGRect(x: lineWidth, y: y+CGFloat(lineWidth), width: CGFloat(batteryLevel)*width, height: height-CGFloat(lineWidth*2)))
+    let bgView = UIView(frame: CGRect(x: lineWidth, y: y+CGFloat(lineWidth), width: CGFloat(batteryLevel)*(width-2*lineWidth), height: height-CGFloat(lineWidth*2)))
     bgView.layer.cornerRadius = 1
     bgView.backgroundColor = UIColor.white
     commonView.addSubview(bgView)
 
     
-    let batteryView = UIView(frame: CGRect(x: lineWidth, y: y+CGFloat(lineWidth), width: CGFloat(batteryLevel)*width, height: height-CGFloat(lineWidth*2)))
+    let batteryView = UIView(frame: CGRect(x: lineWidth, y: y+CGFloat(lineWidth), width: CGFloat(batteryLevel)*(width-2*lineWidth), height: height-CGFloat(lineWidth*2)))
     batteryView.layer.cornerRadius = 1
     batteryView.backgroundColor = UIColor.init(red: 0.324, green: 0.941, blue: 0.413, alpha: 1.0)
     
