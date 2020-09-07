@@ -917,15 +917,16 @@ extension PrepareRoomViewController {
             status = 0
         }
 
-        for speaker in userList! {
-            let userId = ("\(speaker.userId!)" as NSString).integerValue
-
-            if uid == userId {
-                if let index = getIndexWithUserIsSpeaking(uid: UInt(userId)), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
-                    cell.prepareBtn.isHidden = button.isSelected
-                }
-            }
-        }
+//        for speaker in userList! {
+//            let userId = ("\(speaker.userId!)" as NSString).integerValue
+//
+//            if uid == userId {
+//                if let index = getIndexWithUserIsSpeaking(uid: UInt(userId)), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
+//                    cell.prepareBtn.isHidden = button.isSelected
+//                }
+//            }
+//        }
+        
         // 更新 准备状态
         gameStart(status: status)
     }

@@ -435,6 +435,7 @@
 		98820FBE24CACCF50005EBDD /* QuestionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionView.xib; sourceTree = "<group>"; };
 		98820FC024CACF6B0005EBDD /* QuestionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewCell.swift; sourceTree = "<group>"; };
 		98820FC124CACF6B0005EBDD /* QuestionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionViewCell.xib; sourceTree = "<group>"; };
+		9882884A2505F6A3003B5C78 /* Murder-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Murder-Bridging-Header.h"; sourceTree = "<group>"; };
 		988D4D5924CC7A7100C4B979 /* MessageListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListCell.swift; sourceTree = "<group>"; };
 		988D4D5A24CC7A7100C4B979 /* MessageListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageListCell.xib; sourceTree = "<group>"; };
 		988D4D5E24CC856100C4B979 /* MineListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineListCell.swift; sourceTree = "<group>"; };
@@ -632,6 +633,7 @@
 				04C3A9CA24C18089001DD90D /* Products */,
 				5DD8721778C8367CF62801CA /* Pods */,
 				648EE0226342890925EB5896 /* Frameworks */,
+				9882884A2505F6A3003B5C78 /* Murder-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1337,6 +1339,7 @@
 				TargetAttributes = {
 					04C3A9C824C18089001DD90D = {
 						CreatedOnToolsVersion = 11.6;
+						LastSwiftMigration = 1170;
 					};
 					04C3A9DE24C1808E001DD90D = {
 						CreatedOnToolsVersion = 11.6;
@@ -1908,6 +1911,7 @@
 			baseConfigurationReference = ED48888C3AEA291C0B61940F /* Pods-Murder.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -1926,6 +1930,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cn.com.murder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = murderkfzsNew;
+				SWIFT_OBJC_BRIDGING_HEADER = "Murder-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1936,6 +1942,7 @@
 			baseConfigurationReference = 3704029FC11209923C1106EA /* Pods-Murder.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -1954,6 +1961,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cn.com.murder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = murderkfzsNew;
+				SWIFT_OBJC_BRIDGING_HEADER = "Murder-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

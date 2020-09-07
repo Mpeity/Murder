@@ -43,6 +43,13 @@ class ThreadNewCardView: UIView {
     @IBOutlet weak var commonHeight: NSLayoutConstraint!
     
     @IBOutlet weak var commonWidth: NSLayoutConstraint!
+    // 顶部距离
+    @IBOutlet weak var topContraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var leftConstraint: NSLayoutConstraint!
+    
+    
+    @IBOutlet weak var rightConstraint: NSLayoutConstraint!
     
     // 关闭
     @IBOutlet weak var cancelBtn: UIButton!
@@ -121,20 +128,21 @@ class ThreadNewCardView: UIView {
                     
                     commonWidth.constant = imgSize.width
                     commonHeight.constant = imgSize.height + 64
-            
+                    topContraint.constant = (FULL_SCREEN_HEIGHT-commonHeight.constant)*0.5
+                    leftConstraint.constant = (FULL_SCREEN_WIDTH - commonWidth.constant) * 0.5
+                    rightConstraint.constant = (FULL_SCREEN_WIDTH - commonWidth.constant) * 0.5
                     
-                    commonView.snp.makeConstraints { (make) in
-                        make.width.equalTo(commonWidth.constant)
+                    commonView.snp.remakeConstraints { (make) in
                         make.height.equalTo(commonHeight.constant)
+                        make.left.equalToSuperview().offset(leftConstraint.constant)
+                        make.right.equalToSuperview().offset(rightConstraint.constant)
                         make.centerX.equalToSuperview()
                         make.centerY.equalToSuperview()
                     }
-                    
                     commonView.layoutIfNeeded()
 
                     
                     Log(commonView.frame)
-                    
                     layoutIfNeeded()
                 }
                 if clueResultModel?.isGoing == 1 { // 可深入

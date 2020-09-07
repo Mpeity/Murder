@@ -606,6 +606,7 @@ extension GameplayViewController {
 //        currentNetworkType()
         AlamofiremonitorNet()
         
+        
         // 电量
         bgView.addSubview(electricityView)
         electricityView.backgroundColor = HexColor("#20014D")
@@ -1162,6 +1163,7 @@ extension GameplayViewController {
     @objc func scriptBtnAction(button: UIButton) {
         if currentScriptRoleModel?.chapter?.count != 0{
             let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            readScriptView.type = "script"
             readScriptView.scriptData = currentScriptRoleModel?.chapter
             readScriptView.room_id = gamePlayModel?.room.roomId
             readScriptView.script_role_id = gamePlayModel?.scriptNodeResult.myRoleId

@@ -29,15 +29,18 @@ class ReadScriptView: UIView {
     
     var script_node_id: Int?
     
-    var type :String?
+    var type :String? {
+        didSet {
+            
+        }
+    }
 
     
     var scriptData : [AnyObject]? {
         didSet {
             if !scriptData!.isEmpty{
-
-                popMenuView.titleArray = scriptData!
                 popMenuView.type = type
+                popMenuView.titleArray = scriptData!
                 popMenuView.snp.remakeConstraints { (make) in
                     make.centerX.equalToSuperview()
                     make.bottom.equalTo(bottomBtn.snp.top).offset(5)
@@ -218,21 +221,25 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
         if type == "script" {
             let model = scriptData![indexPath.row] as! GPChapterModel
             
-            let height = model.content?.ga_heightForComment(fontSize: 15, width: FULL_SCREEN_WIDTH-30)
+//            let height = model.content?.ga_heightForComment(fontSize: 15, width: FULL_SCREEN_WIDTH-30)
+            let font = UIFont.systemFont(ofSize: 15)
+            let height = stringSingleHeightWithWidth(text: model.content, width: FULL_SCREEN_WIDTH-30, font: font)
             
-            if height! <= CGFloat(492.0) {
+            if height <= CGFloat(492.0) {
                 return 492
             }
-            return height!
+            return height
         } else {
             let model = scriptData![indexPath.row] as! ScriptLogChapterModel
             
-            let height = model.content?.ga_heightForComment(fontSize: 15, width: FULL_SCREEN_WIDTH-30)
+//            let height = model.content?.ga_heightForComment(fontSize: 15, width: FULL_SCREEN_WIDTH-30)
+            let font = UIFont.systemFont(ofSize: 15)
+            let height = stringSingleHeightWithWidth(text: model.content, width: FULL_SCREEN_WIDTH-30, font: font)
             
-            if height! <= CGFloat(492.0) {
+            if height <= CGFloat(492.0) {
                 return 492
             }
-            return height!
+            return height
         }
         
         

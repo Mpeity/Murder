@@ -29,6 +29,12 @@ class ScriptDetailsViewController: UIViewController {
     private var createBtn: UIButton = UIButton()
     
     private var scriptDetailModel: ScriptDetailModel!
+    
+    private var contentSelected: Bool? = false{
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
 
     override func viewWillAppear(_ animated: Bool) {
@@ -213,6 +219,10 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
                 cell.content = scriptDetailModel!.introduction
             }
             cell.selectionStyle = .none
+//            cell.boultBtnBlock = {[weak self](param) in
+//                self?.contentSelected = param
+//            }
+
             return cell
 
         } else {
@@ -220,7 +230,6 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
             let cell = RoleIntroductionCell(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: 82))
             if scriptDetailModel != nil {
                 cell.role = scriptDetailModel!.role!
-
             }
             cell.selectionStyle = .none
             return cell
@@ -236,7 +245,6 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
             header.titleLabel.text = "キャラクター紹介"
         default:
             break
-            
         }
         
         return header
@@ -246,21 +254,35 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             let cell = tableView.cellForRow(at: indexPath) as? SynopsisViewCell
-            cell?.cellHeight = 200
-            tableView.reloadData()
-
+            if cell!.isSelected {
+                contentSelected = true
+            } else {
+                contentSelected = false
+            }
         }
-        
     }
     
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        if indexPath.section == 0 {
-//            let cell = tableView.cellForRow(at: indexPath) as? SynopsisViewCell
-//            return cell?.cellHeight ?? 200
-//        } else {
-//            return 82
-//        }
-//    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            if scriptDetailModel != nil {
+                let string =  scriptDetailModel!.introduction!
+                let font = UIFont.systemFont(ofSize: 14)
+                var height = stringSingleHeightWithWidth(text: string, width: FULL_SCREEN_WIDTH-40, font: font)
+                if height < 82 {
+                    height = 82
+                }
+                if contentSelected! {
+                    return height
+                } else {
+                    return 82
+                }
+            } else {
+                return 82
+            }
+        } else {
+            return 82
+        }
+    }
     
     
     

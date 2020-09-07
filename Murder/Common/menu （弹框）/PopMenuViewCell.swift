@@ -31,14 +31,14 @@ class PopMenuViewCell: UITableViewCell {
 
         // Configure the view for the selected state
         
-        if type == "place" {
+        if type! == "place" {
             if selected {
                 contentLabel.textColor = HexColor(MainColor)
             } else {
                 contentLabel.textColor = HexColor("#999999")
             }
         }
-        if type == "script" {
+        if type! == "script" {
             if selected {
                 imageView?.isHidden = false
                 contentLabel.textColor = HexColor(MainColor)
@@ -48,7 +48,7 @@ class PopMenuViewCell: UITableViewCell {
             }
         }
         
-        if type == "truth" {
+        if type! == "truth" {
             if selected {
                 imageView?.isHidden = false
                 contentLabel.textColor = HexColor(MainColor)

@@ -110,7 +110,7 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: PopMenuViewCellId, for: indexPath) as! PopMenuViewCell
         cell.contentLabel.textAlignment = .center
         
-        if type == "place" {
+        if type! == "place" {
             let model = titleArray[indexPath.row] as! GPNodeMapListModel
             cell.contentLabel.text = model.name! as String
             if model.see == 0 {
@@ -120,7 +120,7 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        if type == "script" {
+        if type! == "script" {
             let model = titleArray[indexPath.row] as! GPChapterModel
             // 是否查看【1是0否】
             if model.see == 0 {
@@ -132,7 +132,7 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
 
         }
         
-        if type == "truth" {
+        if type! == "truth" {
             let model = titleArray[indexPath.row] as! ScriptLogChapterModel
             // 是否查看【1是0否】
             cell.contentLabel.text = model.name! as String

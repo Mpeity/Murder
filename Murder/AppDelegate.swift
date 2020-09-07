@@ -10,7 +10,7 @@ import UIKit
 import Bugly
 import AgoraRtmKit
 
-//import UMessages
+
 
  
 @UIApplicationMain
@@ -23,23 +23,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return isLogin ? UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() :  BaseNavigationViewController(rootViewController: LoginViewController())
     }
 
+    // 接收到远程通知
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        
+    }
+    
+//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//
+//
+//    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
         // Bugly
-        
         let buglyConfig = BuglyConfig()
         buglyConfig.reportLogLevel = .error
         buglyConfig.unexpectedTerminatingDetectionEnable = true
         buglyConfig.debugMode = true
         Bugly.start(withAppId: BUGLY_APP_ID, config: buglyConfig)
         
-        
-//        let device = NSData.init(data: deviceToken)
-//        let device_Token = device.description.replacingOccurrences(of: "<", with: "").replacingOccurrences(of: ">", with: "").replacingOccurrences(of: " ", with: "")
-//        CLog(item: "deviceToken: \(device_Token)")
-        
+        // UM
+        UMConfigure.initWithAppkey(UMAppKey, channel: "App Store")
+        UMConfigure.setLogEnabled(true)
+        application.registerForRemoteNotifications()
 
         UITabBar.appearance().tintColor = HexColor("#9A57EF")
 
@@ -54,6 +61,67 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window?.makeKeyAndVisible()
         return true
+    }
+    
+    
+    ///请求完成后会调用把获取的deviceToken返回给我们
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        var deviceId = String()
+        if #available(iOS 13.0, *) {
+            let bytes = [UInt8](deviceToken)
+            for item in bytes {
+                deviceId += String(format:"%02x", item&0x000000FF)
+            }
+            print("iOS 13 deviceToken：\(deviceId)")
+        } else {
+            let device = NSData(data: deviceToken)
+            deviceId = device.description.replacingOccurrences(of:"<", with:"").replacingOccurrences(of:">", with:"").replacingOccurrences(of:" ", with:"")
+            print("我的deviceToken：\(deviceId)")
+        }
+    }
+    
+    
+    /**
+      UNUserNotificationCenterDelegate
+    */
+    //iOS10以下使用这个方法接收通知
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+    
+       UMessage.didReceiveRemoteNotification(userInfo)
+       
+    }
+    
+      
+    @available(iOS 10.0, *)
+    //iOS10新增：处理前台收到通知的代理方法
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        if (notification.request.trigger?.isKind(of: UNPushNotificationTrigger.self))! {
+           let info = userInfo as NSDictionary
+           print(info)
+           //应用处于前台时的远程推送接受
+           UMessage.setAutoAlert(false)
+           UMessage.didReceiveRemoteNotification(userInfo)
+        }else{
+           //应用处于前台时的远程推送接受
+        }
+        completionHandler([.alert,.sound,.badge])
+    }
+   
+
+
+    @available(iOS 10.0, *)
+   //iOS10新增：处理后台点击通知的代理方法
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        if (response.notification.request.trigger?.isKind(of: UNPushNotificationTrigger.self))! {
+           let info = userInfo as NSDictionary
+           print(info)
+           //应用处于后台时的远程推送接受
+           UMessage.didReceiveRemoteNotification(userInfo)
+        }else{
+           //应用处于前台时的远程推送接受
+        }
     }
     
     
@@ -77,77 +145,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
-
-func initUMPush() {
-//    //推送
-//    UMessage.start(withAppkey: UMAppKey, launchOptions: launchOptions, httpsEnable: true)
-//    UMessage.registerForRemoteNotifications()
-//
-//    //iOS10必须添加下面这段代码
-//    if #available(iOS 10.0, *) {
-//        let center = UNUserNotificationCenter.current
-//        center().delegate = self
-//        center().requestAuthorization(options:[.badge,.alert,.sound] , completionHandler: { (granted, error) in
-//            if granted {
-//                //点击允许
-//                //这里可以添加一些自己的逻辑
-//            }else{
-//                //点击不允许
-//                //这里可以添加一些自己的逻辑
-//            }
-//        })
-//
-//    } else {
-//        // Fallback on earlier versions
-//    }
-//    //打开日志，方便调试
-//    UMessage.setLogEnabled(true)
-}
-
-
-// 友盟推送配置
-func umPushConfig()  {
-//    // push组件基本功能配置
-//    let entity = UMessageRegisterEntity.init()
-//    //type是对推送的几个参数的选择，可以选择一个或者多个。默认是三个全部打开，即：声音，弹窗，角标
-//    entity.types = Int(UMessageAuthorizationOptions.badge.rawValue|UMessageAuthorizationOptions.sound.rawValue|UMessageAuthorizationOptions.alert.rawValue)
-//    if #available(iOS 10.0, *) {
-//        let action1 = UNNotificationAction.init(identifier: "action1_identifier", title: "打开应用", options: .foreground)
-//        let action2 = UNNotificationAction.init(identifier: "action2_identifier", title: "忽略", options: .foreground)
-//        //UNNotificationCategoryOptionNone
-//        //UNNotificationCategoryOptionCustomDismissAction  清除通知被触发会走通知的代理方法
-//        //UNNotificationCategoryOptionAllowInCarPlay       适用于行车模式
-//        let category1 = UNNotificationCategory.init(identifier: "category1", actions: [action1, action2], intentIdentifiers: [], options: .customDismissAction)
-//        let categories = NSSet.init(objects: category1)
-//        entity.categories = (categories as! Set<AnyHashable>)
-//        UNUserNotificationCenter.current().delegate = self
-//        UMessage.registerForRemoteNotifications(launchOptions: CSCConfig.sharedInstance.lauchOptions, entity: entity) { (granted, error) in
-//            if granted {
-//
-//            } else {
-//
-//            }
-//        }
-//
-//    } else {
-//        // Fallback on earlier versions
-//        let action1 = UIMutableUserNotificationAction.init()
-//        action1.identifier = "action1_identifier"
-//        action1.title = "打开应用"
-//        action1.activationMode = .foreground
-//        let action2 = UIMutableUserNotificationAction.init()
-//        action2.identifier = "action2_identifier"
-//        action2.title = "忽略"
-//        action2.activationMode = .background //当点击的时候不启动程序，在后台处理
-//        action2.isAuthenticationRequired = true //需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
-//        action2.isDestructive = true
-//        let actionCategory1 = UIMutableUserNotificationCategory.init()
-//        actionCategory1.identifier = "category1" // 这组动作的唯一标示
-//        actionCategory1.setActions([action1, action2], for: .default)
-//        let categories = NSSet.init(objects: actionCategory1)
-//        entity.categories = (categories as! Set<AnyHashable>)
-//    }
-}
 
 
 

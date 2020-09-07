@@ -313,6 +313,7 @@ extension SendMessageViewController: UITextFieldDelegate {
             
             let size = self?.getSizeWithContent(content: content!)
             
+            self?.currentMgsTalkModel = MsgTalkModel(fromDictionary: [:])
             self?.currentMgsTalkModel?.content = content
             self?.currentMgsTalkModel?.cellHeight = size?.height
             self?.currentMgsTalkModel?.sendId = UserAccountViewModel.shareInstance.account?.userId
@@ -347,7 +348,9 @@ extension SendMessageViewController: UITextFieldDelegate {
         var height: CGFloat = 90
         if width > FULL_SCREEN_WIDTH - 170 {
             width = FULL_SCREEN_WIDTH - 170
-            height = content.ga_heightForComment(fontSize: 15, width: width)
+//            height = content.ga_heightForComment(fontSize: 15, width: width)
+            let font = UIFont.systemFont(ofSize: 15)
+            height = stringSingleHeightWithWidth(text: content, width: width, font: font)
             height += 75
         }
         

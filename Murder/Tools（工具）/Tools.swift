@@ -192,6 +192,55 @@ func getiPhoneBatteryState() -> String {
     return state;
 }
 
+//func getSignalStrength() {
+//    UIApplication *app = [UIApplication sharedApplication];
+//    NSArray *subviews = [[[app valueForKey:@"statusBar"] valueForKey:@"foregroundView"] subviews];
+//    NSString *dataNetworkItemView = nil;
+//
+//    for (id subview in subviews) {
+//        if([subview isKindOfClass:    [NSClassFromString(@"UIStatusBarDataNetworkItemView") class]]) {
+//        dataNetworkItemView = subview;
+//        break;
+//        }
+//     }
+//    int signalStrength = [[dataNetworkItemView valueForKey:@"_wifiStrengthBars"] intValue];
+//
+//    NSLog(@"signal %d", signalStrength);
+//}
+
+
+func getNetworkType() {
+//
+//    UIApplication *app = [UIApplication sharedApplication];
+//    NSArray *subviews = [[[app valueForKeyPath:@"statusBar"] valueForKeyPath:@"foregroundView"] subviews];
+//    for (id subview in subviews) {
+//        if ([subview isKindOfClass:NSClassFromString(@"UIStatusBarDataNetworkItemView")]) {
+//        int networkType = [[subview valueForKeyPath:@"dataNetworkType"] intValue];
+//        switch (networkType) {
+//            case 0:
+//                NSLog(@"NONE");
+//                break;
+//            case 1:
+//                NSLog(@"2G");
+//                break;
+//            case 2:
+//                NSLog(@"3G");
+//                break;
+//            case 3:
+//                NSLog(@"4G");
+//                break;
+//            case 5:
+//            {
+//                NSLog(@"WIFI");
+//            }
+//                break;
+//            default:
+//                break;
+//            }
+//        }
+//    }
+    
+}
 
 
 //MARK:- 获取设备网络状态
@@ -261,7 +310,7 @@ func stringSizeWithString(text: String?, width: CGFloat, font: UIFont) -> CGSize
     let attributedStr = NSMutableAttributedString(string: text)
     let paragaraphStryle = NSMutableParagraphStyle()
     paragaraphStryle.lineSpacing = 5
-    attributedStr.addAttributes([NSAttributedString.Key.paragraphStyle : paragaraphStryle], range: NSMakeRange(0, text.lengthOfBytes(using: .utf8)))
+    attributedStr.addAttributes([NSAttributedString.Key.paragraphStyle : paragaraphStryle], range: NSMakeRange(0, (text as NSString).length))
     // 生成一个统一计算文本高度的Label
     let stringLabel = UILabel()
     stringLabel.numberOfLines = 0

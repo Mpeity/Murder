@@ -175,8 +175,10 @@ extension MessageTextCell {
             if width >= FULL_SCREEN_WIDTH - 170 {
                 width = FULL_SCREEN_WIDTH - 170
             }
-            let height = rightTextLabel.text?.ga_heightForComment(fontSize: 15, width: width)
+//            let height = rightTextLabel.text?.ga_heightForComment(fontSize: 15, width: width)
             
+            let font = UIFont.systemFont(ofSize: 15)
+            let height = stringSingleHeightWithWidth(text: rightTextLabel.text!, width: width, font: font)
             cellHeight = height
             
             Log("height===\(height ?? 0)")
