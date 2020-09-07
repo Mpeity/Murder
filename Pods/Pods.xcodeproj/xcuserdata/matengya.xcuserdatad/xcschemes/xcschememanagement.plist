@@ -94,12 +94,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>UMCPush.xcscheme</key>
+		<key>UMCCommonLog.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>UMCSecurityPlugins.xcscheme</key>
+		<key>UMCPush.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

@@ -34,8 +34,6 @@
 		98038F5D24D7BBA200CBCEE7 /* PrepareRoomShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98038F5C24D7BBA200CBCEE7 /* PrepareRoomShareView.xib */; };
 		98038F6024D82E7200CBCEE7 /* GameplayViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98038F5E24D82E7200CBCEE7 /* GameplayViewCell.swift */; };
 		98038F6124D82E7200CBCEE7 /* GameplayViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98038F5F24D82E7200CBCEE7 /* GameplayViewCell.xib */; };
-		982E01902504CC7500F37A1C /* UMPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 982E018F2504CC7500F37A1C /* UMPush.framework */; };
-		982E01922504CC8500F37A1C /* UMCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 982E01912504CC8500F37A1C /* UMCommon.framework */; };
 		983A225524DA54A600532BB9 /* MessageScriptCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983A225324DA54A600532BB9 /* MessageScriptCell.swift */; };
 		983A225624DA54A600532BB9 /* MessageScriptCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 983A225424DA54A600532BB9 /* MessageScriptCell.xib */; };
 		983A225924DA54D200532BB9 /* MessageScriptInviteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983A225724DA54D200532BB9 /* MessageScriptInviteCell.swift */; };
@@ -531,8 +529,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				982E01922504CC8500F37A1C /* UMCommon.framework in Frameworks */,
-				982E01902504CC7500F37A1C /* UMPush.framework in Frameworks */,
 				988DD9D72502964800638F7B /* UserNotifications.framework in Frameworks */,
 				9874929024F74A8F00D6FD21 /* SystemConfiguration.framework in Frameworks */,
 				9874928E24F74A7D00D6FD21 /* libresolv.tbd in Frameworks */,
@@ -1280,6 +1276,7 @@
 				04C3A9C724C18089001DD90D /* Resources */,
 				245F5B65671E863A49665C97 /* [CP] Embed Pods Frameworks */,
 				98D8A34F24DBEE3300469923 /* CopyFiles */,
+				DA4700E6D15A5570754742A2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1544,6 +1541,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA4700E6D15A5570754742A2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Murder/Pods-Murder-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Murder/Pods-Murder-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Murder/Pods-Murder-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

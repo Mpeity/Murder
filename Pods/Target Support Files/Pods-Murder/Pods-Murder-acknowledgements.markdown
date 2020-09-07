@@ -464,12 +464,12 @@ THE SOFTWARE.
 Copyright 2011 - 2019 umeng.com. All rights reserved.
 
 
-## UMCPush
+## UMCCommonLog
 
 Copyright 2011 - 2018 umeng.com. All rights reserved.
 
 
-## UMCSecurityPlugins
+## UMCPush
 
 Copyright 2011 - 2018 umeng.com. All rights reserved.
 

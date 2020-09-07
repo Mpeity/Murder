@@ -109,25 +109,6 @@ func showToastCenter(msg: String, _ cornerRadius:CGFloat = 25) {
  */
 
 func batterState(commonView: UIView, x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, cornerRadius: CGFloat, lineWidth: CGFloat, strokeColor: UIColor) {
-//    UIBezierPath *path1 = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(x, y, w, h) cornerRadius:2];
-//    CAShapeLayer *batteryLayer = [CAShapeLayer layer];
-//    batteryLayer.lineWidth = lineW;
-//    batteryLayer.strokeColor = [UIColor blackColor].CGColor;
-//    batteryLayer.fillColor = [UIColor clearColor].CGColor;
-//    batteryLayer.path = [path1 CGPath];
-//    [self.view.layer addSublayer:batteryLayer];
-//
-//    UIBezierPath *path2 = [UIBezierPath bezierPath];
-//    [path2 moveToPoint:CGPointMake(x+w+1, y+h/3)];
-//    [path2 addLineToPoint:CGPointMake(x+w+1, y+h*2/3)];
-//    CAShapeLayer *layer2 = [CAShapeLayer layer];
-//    layer2.lineWidth = 2;
-//    layer2.strokeColor = [UIColor blackColor].CGColor;
-//    layer2.fillColor = [UIColor clearColor].CGColor;
-//    layer2.path = [path2 CGPath];
-//    [self.view.layer addSublayer:layer2];
-    
-    
     
     let path1 = UIBezierPath(roundedRect: CGRect(x: x, y: y, width: width, height: height), cornerRadius: cornerRadius)
     let batterLayer = CAShapeLayer()
@@ -150,14 +131,28 @@ func batterState(commonView: UIView, x: CGFloat, y: CGFloat, width: CGFloat, hei
 
     
     // 绘制进度
+    //设置batteryMonitoringEnabled为YES来获取电池信息
+    UIDevice.current.isBatteryMonitoringEnabled = true
+    
+    //电池百分比
+    let batteryLevel  = UIDevice.current.batteryLevel
+//    let batteryStatus  = NSString(format:"%0.0f%%",batteryLevel*100) as String
     
     
+    Log(batteryLevel)
     
-//    //绘制进度
-//    batteryView = [[UIView alloc]initWithFrame:CGRectMake(x,y+lineW, 0, h-lineW*2)];
-//    batteryView.layer.cornerRadius = 2;
-//    batteryView.backgroundColor = [UIColor colorWithRed:0.324 green:0.941 blue:0.413 alpha:1.000];
-//    [self.view addSubview:batteryView];
+    let bgView = UIView(frame: CGRect(x: lineWidth, y: y+CGFloat(lineWidth), width: CGFloat(batteryLevel)*width, height: height-CGFloat(lineWidth*2)))
+    bgView.layer.cornerRadius = 1
+    bgView.backgroundColor = UIColor.white
+    commonView.addSubview(bgView)
+
+    
+    let batteryView = UIView(frame: CGRect(x: lineWidth, y: y+CGFloat(lineWidth), width: CGFloat(batteryLevel)*width, height: height-CGFloat(lineWidth*2)))
+    batteryView.layer.cornerRadius = 1
+    batteryView.backgroundColor = UIColor.init(red: 0.324, green: 0.941, blue: 0.413, alpha: 1.0)
+    
+    commonView.addSubview(batteryView)
+
 
 }
 

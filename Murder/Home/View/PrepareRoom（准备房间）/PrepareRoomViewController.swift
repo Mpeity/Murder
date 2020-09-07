@@ -598,13 +598,15 @@ extension PrepareRoomViewController {
         AlamofiremonitorNet()
         // 电量
         bgView.addSubview(electricityView)
-        electricityView.backgroundColor = UIColor.green
+        electricityView.backgroundColor = HexColor("#20014D")
         electricityView.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-12.5)
             make.top.equalToSuperview().offset(12)
             make.width.equalTo(25)
             make.height.equalTo(10)
         }
+        
+        batterState(commonView: electricityView, x: 0, y: 0, width: 25, height: 10, cornerRadius: 0.5, lineWidth: 1, strokeColor: UIColor.white)
         
         // 当前房间号
         bgView.addSubview(currentLabel)

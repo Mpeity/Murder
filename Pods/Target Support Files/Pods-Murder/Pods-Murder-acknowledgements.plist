@@ -566,7 +566,7 @@ THE SOFTWARE.
 			<key>License</key>
 			<string>Copyright</string>
 			<key>Title</key>
-			<string>UMCPush</string>
+			<string>UMCCommonLog</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -577,7 +577,7 @@ THE SOFTWARE.
 			<key>License</key>
 			<string>Copyright</string>
 			<key>Title</key>
-			<string>UMCSecurityPlugins</string>
+			<string>UMCPush</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
