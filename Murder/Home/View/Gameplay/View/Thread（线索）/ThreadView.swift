@@ -191,7 +191,8 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
             hideView()
             
             let itemModel = clueList![indexPath.row]
-            let threadCardView = ThreadCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+//            let threadCardView = ThreadCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            let threadCardView = ThreadNewCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
             threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
             threadCardView.room_id = room_id
             threadCardView.clueListModel = itemModel

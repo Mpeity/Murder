@@ -70,26 +70,40 @@ class ThreadNewCardView: UIView {
                 script_clue_id = clueListModel?.scriptClueId
                 if clueListModel?.attachment != nil {
                     var imgSize = CGSize()
-                    let size = getImageSize(clueResultModel?.attachment!)
-                    if size.width >= FULL_SCREEN_WIDTH {
-                        imgSize.width = FULL_SCREEN_WIDTH
-                        let scale = FULL_SCREEN_WIDTH / size.width
-                        imgSize.height = size.height * scale
+                    let size = getImageSize(clueListModel?.attachment!)
+                    if size.height != 0, size.width != 0 {
+                        if size.width >= FULL_SCREEN_WIDTH {
+                            imgSize.width = FULL_SCREEN_WIDTH
+                            let scale = FULL_SCREEN_WIDTH / size.width
+                            imgSize.height = size.height * scale
+                        }
+                        Log(size)
+                        Log(imgSize)
+                        
+                        imgView.setImageWith(URL(string: (clueListModel?.attachment!)!))
+                        imgView.size = imgSize
+                        imgView.sizeToFit()
+                        scrollView.contentSize = imgSize
+                        
+                        commonWidth.constant = imgSize.width
+                        commonHeight.constant = imgSize.height + 64
+
+                        topContraint.constant = (FULL_SCREEN_HEIGHT-commonHeight.constant)*0.5
+                        leftConstraint.constant = (FULL_SCREEN_WIDTH - commonWidth.constant) * 0.5
+                        rightConstraint.constant = (FULL_SCREEN_WIDTH - commonWidth.constant) * 0.5
+                        
+                        commonView.snp.remakeConstraints { (make) in
+                            make.height.equalTo(commonHeight.constant)
+                            make.left.equalToSuperview().offset(leftConstraint.constant)
+                            make.right.equalToSuperview().offset(rightConstraint.constant)
+                            make.width.equalTo(commonWidth.constant)
+                                                
+                        //                        make.centerX.equalToSuperview()
+                        //                        make.centerY.equalToSuperview()
+                        }
+                        commonView.layoutIfNeeded()
                     }
-                    Log(size)
-                    Log(imgSize)
                     
-                    imgView.setImageWith(URL(string: (clueResultModel?.attachment!)!))
-                    imgView.size = imgSize
-                    imgView.sizeToFit()
-                    scrollView.contentSize = imgSize
-                    
-                    commonWidth.constant = imgSize.width
-                    commonHeight.constant = imgSize.height + 64
-                    
-                    Log(commonView.frame)
-                    
-                    layoutIfNeeded()
                 }
                 if clueListModel?.isGoing == 1 { // 可深入
                     deepBtn.layer.cornerRadius = 22
@@ -151,7 +165,7 @@ class ThreadNewCardView: UIView {
 
                     
                     Log(commonView.frame)
-//                    layoutIfNeeded()
+//
                 }
                 if clueResultModel?.isGoing == 1 { // 可深入
                     deepBtn.layer.cornerRadius = 22

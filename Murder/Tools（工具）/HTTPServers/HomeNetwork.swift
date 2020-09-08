@@ -334,9 +334,9 @@ private let game_ready_url = "/api/game/game_ready"
  * @params [参数名] [类型] [是否必传]
  * room_id [int]    是    房间ID
  */
-func gameReadyRequest(room_id: Int,current_script_node_id : Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+func gameReadyRequest(role_id: Int ,room_id: Int,current_script_node_id : Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
     let urlString = game_ready_url
-    let parameters = ["room_id" : room_id, "current_script_node_id": current_script_node_id] as [String : AnyObject]
+    let parameters = ["role_id": role_id, "room_id": room_id, "current_script_node_id": current_script_node_id] as [String : AnyObject]
     NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }

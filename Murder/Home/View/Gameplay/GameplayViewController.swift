@@ -1179,6 +1179,7 @@ extension GameplayViewController {
     @objc func threadBtnBtnAction(button: UIButton) {
         if currentScriptRoleModel?.gameUserClueList?.count != 0 {
             let threadView = ThreadView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            
             threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
             threadView.script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
 
@@ -1207,7 +1208,7 @@ extension GameplayViewController {
             return
         }
         
-        gameReadyRequest(room_id: room_id, current_script_node_id: script_node_id!) {[weak self] (result, error) in
+        gameReadyRequest(role_id: (gamePlayModel?.scriptNodeResult.myRoleId)!, room_id: room_id, current_script_node_id: script_node_id!) {[weak self] (result, error) in
             if error != nil {
                 return
             }
@@ -1353,13 +1354,17 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
             if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
                 cell.l_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
                 
-                if itemModel.secretTalkId == nil, itemModel.secretTalkId == 0 {
-                    cell.l_miLabel.isHidden = true
-                } else {
-//                   let indexStr = (itemModel.secretTalkId! as NSString).components(separatedBy: "_").last
-//                    cell.l_miLabel.isHidden = false
-//                    cell.l_miLabel.text = "密\(indexStr!)"
-                }
+               if itemModel.secretTalkId == nil {
+                   cell.r_miLabel.isHidden = true
+               } else {
+                   if itemModel.secretTalkId! == 0 {
+                       cell.r_miLabel.isHidden = true
+                   } else {
+                      let indexStr = itemModel.secretTalkId!
+                      cell.l_miLabel.isHidden = false
+                      cell.l_miLabel.text = "密\(indexStr)"
+                   }
+               }
                 
                 
                 // 是否有人发起解散申请
@@ -1383,9 +1388,9 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                     if itemModel.secretTalkId! == 0 {
                         cell.r_miLabel.isHidden = true
                     } else {
-                       let indexStr = (String(itemModel.secretTalkId!) as NSString).components(separatedBy: "_").last
-                        cell.r_miLabel.isHidden = false
-                        cell.r_miLabel.text = "密\(indexStr!)"
+                       let indexStr = itemModel.secretTalkId!
+                       cell.l_miLabel.isHidden = false
+                       cell.l_miLabel.text = "密\(indexStr)"
                     }
                 }
                 

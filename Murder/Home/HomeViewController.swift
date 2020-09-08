@@ -97,7 +97,7 @@ extension HomeViewController {
     
     //MARK:- 检测本地是否有当前剧本数据
     func checkLocalScriptWith(script_id: Int?) {
-//        SVProgressHUD.show(withStatus: "加载中")
+        SVProgressHUD.show(withStatus: "加载中")
         if (script_id != nil){
             scriptSourceRequest(script_id: script_id!) {[weak self] (result, error) in
                 

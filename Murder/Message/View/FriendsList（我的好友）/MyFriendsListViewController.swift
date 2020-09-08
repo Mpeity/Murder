@@ -252,29 +252,26 @@ extension MyFriendsListViewController: InputTextViewDelegate  {
     
     func commonBtnClick() {
         textInputView.removeFromSuperview()
-        
         let user_id = Int(textInputView.textFieldView.text!)
-        userFindRequest(user_id: user_id!) { (result, error) in
-            if error != nil {
-                return
-            }
-            // 取到结果
-            guard  let resultDic :[String : AnyObject] = result else { return }
-            
-            if resultDic["code"]!.isEqual(1) {
-                let data = resultDic["data"] as! [String : AnyObject]
-                let resultData = data["result"] as! [String : AnyObject]
-                let userFindModel = UserFindModel(fromDictionary: resultData)
-                let commonView = ApplyFriendView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-                commonView.userFindModel = userFindModel
-                commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-                UIApplication.shared.keyWindow?.addSubview(commonView)
+        if user_id != nil {
+            userFindRequest(user_id: user_id!) { (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                
+                if resultDic["code"]!.isEqual(1) {
+                    let data = resultDic["data"] as! [String : AnyObject]
+                    let resultData = data["result"] as! [String : AnyObject]
+                    let userFindModel = UserFindModel(fromDictionary: resultData)
+                    let commonView = ApplyFriendView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                    commonView.userFindModel = userFindModel
+                    commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                    UIApplication.shared.keyWindow?.addSubview(commonView)
+                }
             }
         }
-        
-
-        
-        
     }
     
     @objc func keyboardWillChangeFrame(notif: Notification) {
