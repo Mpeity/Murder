@@ -26,8 +26,7 @@ class SynopsisViewCell: UITableViewCell {
             guard let content = content else {
                 return
             }
-//            contentLabel.text = content
-            
+            contentLabel.text = content
         }
     }
     
@@ -39,8 +38,6 @@ class SynopsisViewCell: UITableViewCell {
         
         contentLabel.textColor = HexColor(LightGrayColor)
         boultBtn.addTarget(self, action: #selector(boultBtnAction(button:)), for: .touchUpInside)
-        contentLabel.text = "「あの人と出会えることは神様の恩賜だろう。しかしあの人と愛し合うことは腐れ縁だとう。」 あなたの名前はフラ、昔あなたのお爺さんは一応役人だ、でも上司から陥れられ、一族は落ちぶれた。幼いあなたは伶人になって、家族と離れ離れになってしまった、自分の本名も覚えられない。数年後、あなたは伊勢守の上泉家に買われ、家の侍女となった。「あの人と出会えることは神様の恩賜だろう。しかしあの人と愛し合うことは腐れ縁だとう。」 あなたの名前はフラ、昔あなたのお爺さんは一応役人だ、でも上司から陥れられ、一族は落ちぶれた。幼いあなたは伶人になって、家族と離れ離れになってしまった、自分の本名も覚えられない。数年後、あなたは伊勢守の上泉家に買われ、家の侍女となった"
-        
     }
     
     
@@ -51,8 +48,10 @@ class SynopsisViewCell: UITableViewCell {
         // Configure the view for the selected state
         if selected {
             boultBtn.isSelected = true
+            boultBtn.setImage(UIImage(named: "jiantou_up"), for: .normal)
         } else {
             boultBtn.isSelected = false
+            boultBtn.setImage(UIImage(named: "jiantou_down"), for: .normal)
         }
     }
     

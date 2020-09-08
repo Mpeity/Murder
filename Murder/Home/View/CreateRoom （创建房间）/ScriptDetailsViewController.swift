@@ -222,7 +222,6 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
 //            cell.boultBtnBlock = {[weak self](param) in
 //                self?.contentSelected = param
 //            }
-
             return cell
 
         } else {
@@ -254,10 +253,9 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             let cell = tableView.cellForRow(at: indexPath) as? SynopsisViewCell
-            if cell!.isSelected {
-                contentSelected = true
-            } else {
-                contentSelected = false
+            contentSelected = !contentSelected!
+            if contentSelected!  {
+                cell!.isSelected = contentSelected!
             }
         }
     }
@@ -267,12 +265,14 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
             if scriptDetailModel != nil {
                 let string =  scriptDetailModel!.introduction!
                 let font = UIFont.systemFont(ofSize: 14)
+                
                 var height = stringSingleHeightWithWidth(text: string, width: FULL_SCREEN_WIDTH-40, font: font)
+                
                 if height < 82 {
                     height = 82
                 }
                 if contentSelected! {
-                    return height
+                    return height + 24
                 } else {
                     return 82
                 }

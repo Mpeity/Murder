@@ -69,7 +69,6 @@ extension NetworkTools {
     func requestWithToken(urlString: String, method: MethodType, parameters: [String : AnyObject]?, finished: @escaping(_ reslut: AnyObject?, _ error: Error?) -> ()) {
 
         let key = UserAccountViewModel.shareInstance.account?.key as AnyObject?
-//        let key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMTgiLCJpc3MiOiJodHRwOlwvXC9oYW9odWx1Lm14NTkxOC5jb20iLCJhdWQiOiJodHRwOlwvXC9oYW9odWx1Lm14NTkxOC5jb20iLCJpYXQiOjE1OTg0OTYxODksIm5iZiI6MTU5ODQ5NjE4OSwiZXhwIjoxNjAxMDg4MTg5fQ.6hFCzwnH52SQSwig2fm2O-ea06F5B2UocGB4DXVPWGs"
         
         NetworkTools.shareInstance.requestSerializer.setValue((key as! String), forHTTPHeaderField: "key")
         

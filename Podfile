@@ -31,6 +31,9 @@ target 'Murder' do
   pod 'UMCCommonLog'
 #  pod 'UMCSecurityPlugins'
 
+  
+  pod 'ReachabilitySwift'
+
   target 'MurderTests' do
     inherit! :search_paths
     # Pods for testing
