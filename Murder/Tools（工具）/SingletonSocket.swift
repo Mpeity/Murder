@@ -30,54 +30,54 @@ class SingletonSocket: NSObject  {
         return Static.instance
     }
     
-    func websocketDidConnect(socket: WebSocketClient) {
-         //设置重连次数，解决无限重连问题
-        reConnectTime = 0
-    }
-
-    func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
-        //执行重新连接方法
-        socketReconnect()
-    }
-
-    func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-    }
-
-    func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-        print(" WebSocketSingle DidReceiveMessage data:",data)
-    }
+//    func websocketDidConnect(socket: WebSocketClient) {
+//         //设置重连次数，解决无限重连问题
+//        reConnectTime = 0
+//    }
+//
+//    func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
+//        //执行重新连接方法
+//        socketReconnect()
+//    }
+//
+//    func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
+//    }
+//
+//    func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
+//        print(" WebSocketSingle DidReceiveMessage data:",data)
+//    }
     
 }
 
 
-extension SingletonSocket {
-    //socket 重连逻辑
-    func socketReconnect() {
-        //判断网络情况，如果网络正常，可以执行重连
-        if reachability.connection != .none {
-            //设置重连次数，解决无限重连问题
-            reConnectTime =  reConnectTime + 1
-            if reConnectTime < 5 {
-                //添加重连延时执行，防止某个时间段，全部执行
-                let time: TimeInterval = 2.0
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
-                    if !SingletonSocket.sharedInstance.socket.isConnected {
-                        SingletonSocket.sharedInstance.socket.connect()
-                        SingletonSocket.sharedInstance.socket.disconnect()
-                    }
+//socket 重连逻辑
+func socketReconnect() {
+    //判断网络情况，如果网络正常，可以执行重连
+    if reachability.connection != .none {
+        //设置重连次数，解决无限重连问题
+        reConnectTime =  reConnectTime + 1
+        if reConnectTime < 5 {
+            //添加重连延时执行，防止某个时间段，全部执行
+            let time: TimeInterval = 2.0
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
+                if !SingletonSocket.sharedInstance.socket.isConnected {
+                    SingletonSocket.sharedInstance.socket.connect()
+                    SingletonSocket.sharedInstance.socket.disconnect()
                 }
-            } else {
-                //提示重连失败
             }
         } else {
-            //提示无网络
+            //提示重连失败
+            showToastCenter(msg: "服务器被妖怪抓走了")
         }
+    } else {
+        //提示无网络
+        showToastCenter(msg: "网络开小差了哟")
     }
+}
 
 //socket主动断开，放在app进入后台时，数据进入缓存。app再进入前台，app出现卡死的情况
-    func socketDisConnect() {
-        if SingletonSocket.sharedInstance.socket.isConnected {
-            SingletonSocket.sharedInstance.socket.disconnect()
-        }
+func socketDisConnect() {
+    if SingletonSocket.sharedInstance.socket.isConnected {
+        SingletonSocket.sharedInstance.socket.disconnect()
     }
 }

@@ -33,6 +33,7 @@ class HomeListHeaderView: UIView {
     var bannerArr: [HomeBannerModel] = [HomeBannerModel]()
     
     var userModel: HomeUserModel!
+    
     var bannerList: [HomeBannerModel] = [HomeBannerModel]()
     
     var homeViewModel: HomeViewModel! {
@@ -41,12 +42,18 @@ class HomeListHeaderView: UIView {
                 return
             }
             
-            let userModel = homeViewModel.userModel
-            headImgView.setImageWith(URL(string: userModel.head), placeholder: UIImage(named: ""))
-            
-            nicknameLabel.text = userModel.nickname
-            
-            levelLabel.text = userModel.level
+            if homeViewModel.userModel != nil {
+                let userModel = homeViewModel.userModel
+                headImgView.setImageWith(URL(string: userModel.head), placeholder: UIImage(named: ""))
+                
+                if userModel.nickname != nil {
+                    nicknameLabel.text = userModel.nickname
+                }
+                
+                if userModel.level != nil {
+                    levelLabel.text = userModel.level
+                }
+            }
             
             infoView.layoutIfNeeded()
             
@@ -56,7 +63,7 @@ class HomeListHeaderView: UIView {
             var arr = Array<Any>()
             for item in homeViewModel.bannerModelArr {
                 let model = item
-                arr.append(model.img)
+                arr.append(model.img as Any)
             }
             
             scrollView = SDCycleScrollView(frame: CGRect(x: 0, y: 0, width: 345*SCALE_SCREEN, height: 150), imageNamesGroup: arr)!
@@ -67,7 +74,6 @@ class HomeListHeaderView: UIView {
             
             scrollView.clickItemOperationBlock = { [weak self] (currentIndex) in
                 let bannerModel = homeViewModel.bannerModelArr[currentIndex]
-                
             }
                     
         }

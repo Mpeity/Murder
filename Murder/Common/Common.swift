@@ -16,6 +16,9 @@ let Script_Change_Notif = "Script_Change_Notif"
 // 是否有未读消息通知
 let No_Read_Num_Notif = "No_Read_Num_Notif"
 
+// 删除好友
+let Delete_Friend_Notif = "Delete_Friend_Notif"
+
 
 // MARK:- 常量
 let app_key = "135761428"

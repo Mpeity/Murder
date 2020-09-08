@@ -52,6 +52,7 @@ class MyFriendsListViewController: UIViewController, UITableViewDelegate, UITabl
         super.viewWillAppear(animated)
         // 监听键盘弹出
         NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        loadRefresh()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

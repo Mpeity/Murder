@@ -195,6 +195,8 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        socketDisConnect()
+        
         initWebSocketSingle()
 
         navigationController?.navigationBar.isHidden = true
@@ -1185,13 +1187,17 @@ extension PrepareRoomViewController: WebSocketDelegate {
     
     func websocketDidConnect(socket: WebSocketClient) {
         Log("websocketDidConnect=\(socket)")
+         //设置重连次数，解决无限重连问题
+         reConnectTime = 0
     }
     
     func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
         
         showToastCenter(msg: "websocketDidDisconnect")
+        //执行重新连接方法
+        socketReconnect()
         
-         Log("websocketDidDisconnect=\(socket)\(error)")
+//        Log("websocketDidDisconnect=\(socket)\(error)")
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {

@@ -8,6 +8,7 @@
 
 import AFNetworking
 import CLToast
+import SVProgressHUD
 
 //let SocketUrl = "ws://192.168.0.189"
 //let BaseUrl = "http://192.168.0.189"
@@ -75,6 +76,7 @@ extension NetworkTools {
         let urlStr = BaseUrl + urlString
         let successCallBack = { (task: URLSessionDataTask , result: Any?) -> Void in            
             if let resultData: [String : AnyObject]  = result as? [String : AnyObject] {
+                SVProgressHUD.dismiss()
                 if resultData["code"]!.isEqual(1) {
                     finished(result as AnyObject?, nil)
                 } else if resultData["code"]!.isEqual(2011) {
@@ -96,6 +98,7 @@ extension NetworkTools {
         }
         let failureCallBack = { (task: URLSessionDataTask?, error: Error) -> Void in
             finished(nil, error)
+            SVProgressHUD.dismiss()
         }
     
         if method == .GET {
@@ -111,7 +114,7 @@ extension NetworkTools {
         let urlStr = BaseUrl + urlString
                 
         let successCallBack = { (task: URLSessionDataTask , result: Any?) -> Void in
-            
+            SVProgressHUD.dismiss()
             if let resultData: [String : AnyObject]  = result as? [String : AnyObject] {
                 
                 if resultData["code"]!.isEqual(1) {
@@ -127,7 +130,7 @@ extension NetworkTools {
         }
         
         let failureCallBack = { (task: URLSessionDataTask?, error: Error) -> Void in
-            
+            SVProgressHUD.dismiss()
             finished(nil, error)
         }
     

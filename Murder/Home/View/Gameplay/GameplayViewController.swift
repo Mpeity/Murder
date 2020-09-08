@@ -118,6 +118,8 @@ class GameplayViewController: UIViewController {
     var handsUp = false
     
     var voiceHide = false
+    
+    var node_type: Int? = 0
     // 当前id
     var script_node_id: Int? = 0
     // 我的id
@@ -1200,7 +1202,7 @@ extension GameplayViewController {
 //        节点类型【1故事背景2自我介绍3剧本阅读4搜证5答题6结算】
         script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
         
-        if script_node_id == 6 {
+        if gamePlayModel?.scriptNodeResult.nodeType == 6 {
             popRootVC()
             return
         }
@@ -1215,7 +1217,7 @@ extension GameplayViewController {
                 let data = resultDic["data"] as! [String : AnyObject]
                 let countdown = data["countdown"] as! Int
                 if countdown == 1 { // 调用倒计时接口
-                    if self!.script_node_id! != 5 {
+                    if self?.gamePlayModel?.scriptNodeResult.nodeType != 5 {
                         gameCountdownRequest(room_id: self!.room_id, script_node_id: self!.script_node_id!) { (result, error) in
                             if error != nil {
                                 return
@@ -1637,10 +1639,15 @@ extension GameplayViewController: WebSocketDelegate {
     
     func websocketDidConnect(socket: WebSocketClient) {
         Log("gameplay--websocketDidConnect=\(socket)")
+        //设置重连次数，解决无限重连问题
+        reConnectTime = 0
     }
     
     func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
          Log("gameplay--websocketDidDisconnect=\(socket)\(error)")
+        
+        //执行重新连接方法
+        socketReconnect()
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
@@ -1672,7 +1679,7 @@ extension GameplayViewController: WebSocketDelegate {
                     popRootVC()
                 }
                 
-                if script_node_id == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题
+                if gamePlayModel?.scriptNodeResult.nodeType == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题
                     if currentScriptRoleModel?.scriptQuestionList?.count != 0 {
                     
                         self.view.addSubview(commonQuestionView)

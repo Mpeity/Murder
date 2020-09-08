@@ -202,9 +202,9 @@ extension HomeViewController {
                     let model = self?.checkUserModel?.gameResult
                     script_id = model!.scriptId!
                 }
-//                self?.checkLocalScriptWith(script_id: script_id)
+                self?.checkLocalScriptWith(script_id: script_id)
                 
-                self?.gotoVC()
+//                self?.gotoVC()
             }
         }
     }
@@ -472,13 +472,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     self!.textInputView.textFieldView.becomeFirstResponder()
                     UIApplication.shared.keyWindow?.addSubview(self!.textInputView)
                 } else {
-                    if model.userScriptStatus == 0 { // 未拥有该剧本
-                        let vc = ScriptDetailsViewController()
-                        vc.script_id = model.scriptId
-                        self?.navigationController?.pushViewController(vc, animated: true)
-                    } else {
-                        self?.joinRoom(room_id: model.roomId, room_password: nil, script_id: model.scriptId, hasPassword: false)
-                    }
+//                    if model.userScriptStatus == 0 { // 未拥有该剧本
+//                        let vc = ScriptDetailsViewController()
+//                        vc.script_id = model.scriptId
+//                        self?.navigationController?.pushViewController(vc, animated: true)
+//                    } else {
+//                        self?.joinRoom(room_id: model.roomId, room_password: nil, script_id: model.scriptId, hasPassword: false)
+//                    }
+                    
+                    self?.joinRoom(room_id: model.roomId, room_password: nil, script_id: model.scriptId, hasPassword: false)
                     
                 }
             }

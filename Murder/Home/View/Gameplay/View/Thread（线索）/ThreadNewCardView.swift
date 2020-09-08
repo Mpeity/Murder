@@ -116,6 +116,12 @@ class ThreadNewCardView: UIView {
                         imgSize.width = FULL_SCREEN_WIDTH
                         let scale = FULL_SCREEN_WIDTH / size.width
                         imgSize.height = size.height * scale
+                    } else if (size.width <= 300.0) {
+                        imgSize.width = 300.0
+                        let scale = 300.0 / size.width
+                        imgSize.height = size.height * scale
+                    } else {
+                        imgSize = size
                     }
                     Log(size)
                     Log(imgSize)
@@ -136,14 +142,16 @@ class ThreadNewCardView: UIView {
                         make.height.equalTo(commonHeight.constant)
                         make.left.equalToSuperview().offset(leftConstraint.constant)
                         make.right.equalToSuperview().offset(rightConstraint.constant)
-                        make.centerX.equalToSuperview()
-                        make.centerY.equalToSuperview()
+                        make.width.equalTo(commonWidth.constant)
+                        
+//                        make.centerX.equalToSuperview()
+//                        make.centerY.equalToSuperview()
                     }
                     commonView.layoutIfNeeded()
 
                     
                     Log(commonView.frame)
-                    layoutIfNeeded()
+//                    layoutIfNeeded()
                 }
                 if clueResultModel?.isGoing == 1 { // 可深入
                     deepBtn.layer.cornerRadius = 22

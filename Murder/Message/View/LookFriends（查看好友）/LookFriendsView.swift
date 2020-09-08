@@ -128,6 +128,7 @@ extension LookFriendsView {
     
     @objc private func deleteBtnAction() {
 
+        self.isHidden = true
         let commonView = DeleteFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         commonView.deleteBtnTapBlcok = {[weak self] () in
@@ -143,6 +144,8 @@ extension LookFriendsView {
 //                    let data = resultDic["data"] as! [String : AnyObject]
                     self?.contentView = nil
                     self?.removeFromSuperview()
+                    
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Delete_Friend_Notif), object: nil)
                 }
             }
         }

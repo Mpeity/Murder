@@ -84,17 +84,28 @@ class SendMessageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteFriend), name: NSNotification.Name(rawValue: Delete_Friend_Notif), object: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
+    
+
     
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
     
 
+}
+
+//MARK:- notifi
+extension SendMessageViewController {
+    @objc func deleteFriend() {
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 extension SendMessageViewController {
@@ -194,6 +205,8 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
             cell.backgroundColor = UIColor.clear
             cell.selectionStyle = .none
             cell.messageTalkModel = msg
+            let size = getSizeWithContent(content: msg.content!)
+            msg.cellHeight = size.height
             return cell
         } else if type == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: MessageScriptCellId, for: indexPath) as! MessageScriptCell
@@ -222,7 +235,6 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
         
         // "type":1, //1文字 2 剧本详情 3 剧本邀请
         let type = msg.type
-        
         if type == 1 {
             
         } else if type == 2 {
@@ -346,7 +358,7 @@ extension SendMessageViewController: UITextFieldDelegate {
     private func getSizeWithContent(content: String) -> CGSize {
         var width = labelWidth(text: content, height: 15, fontSize: 15)
         var height: CGFloat = 90
-        if width > FULL_SCREEN_WIDTH - 170 {
+        if width >= FULL_SCREEN_WIDTH - 170 {
             width = FULL_SCREEN_WIDTH - 170
 //            height = content.ga_heightForComment(fontSize: 15, width: width)
             let font = UIFont.systemFont(ofSize: 15)
