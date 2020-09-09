@@ -1040,7 +1040,8 @@ extension GameplayViewController {
             // 取到结果
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
-                let data = resultDic["data"] as! [String : AnyObject]
+                
+            let data = resultDic["data"] as! [String : AnyObject]
 
             } else {
                 
@@ -1201,7 +1202,35 @@ extension GameplayViewController {
     //MARK: 系统配置未知按钮
     @objc func commonBtnAction(button: UIButton) {
 //        节点类型【1故事背景2自我介绍3剧本阅读4搜证5答题6结算】
+        
         script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
+        
+        if gamePlayModel?.scriptNodeResult.nodeType == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题
+            if currentScriptRoleModel?.scriptQuestionList?.count != 0 {
+                self.view.addSubview(commonQuestionView)
+                commonQuestionView.room_id = room_id
+                commonQuestionView.script_node_id = script_node_id
+                commonQuestionView.scriptQuestionList = currentScriptRoleModel?.scriptQuestionList
+                commonQuestionView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                
+                
+                
+                // 答题 触发倒计时
+                gameCountdownRequest(room_id: room_id, script_node_id: script_node_id!) { (result, error) in
+                    if error != nil {
+                        return
+                    }
+                    // 取到结果
+                    guard  let resultDic :[String : AnyObject] = result else { return }
+                    if resultDic["code"]!.isEqual(1) {
+
+                    }
+
+                }
+                
+                return
+            }
+        }
         
         if gamePlayModel?.scriptNodeResult.nodeType == 6 {
             popRootVC()
@@ -1709,7 +1738,7 @@ extension GameplayViewController: WebSocketDelegate {
                         }
                     }
                 }
-                if script_node_id == 6 {
+                if gamePlayModel?.scriptNodeResult.nodeType == 6 {
                     commonQuestionView.isHidden = true
                     voteInfoBtn.isHidden = false
                     voteResultBtn.isHidden = false
@@ -1740,7 +1769,7 @@ extension GameplayViewController: WebSocketDelegate {
                 let theRange = str.range(of: ranStr)
                 attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#ED2828"), range: theRange)
                 
-                if script_node_id == 5 {
+                if gamePlayModel?.scriptNodeResult.nodeType == 5 {
                     commonQuestionView.countLabel.isHidden = false
                     commonQuestionView.countLabel.textColor = HexColor(LightDarkGrayColor)
                     commonQuestionView.countLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)

@@ -70,7 +70,7 @@ extension ScriptViewController {
         let obj = notif.object as! [String : AnyObject]
         
         let tagString = obj["tagString"] as! String
-        let tag = obj["tag"] as! Int
+        let tag = obj["tag"] as! Int + 1
         
         switch tagString {
             // 人数
@@ -92,7 +92,8 @@ extension ScriptViewController {
         default:
             break
         }
-        loadScriptList()
+//        loadScriptList()
+        loadRefresh()
     }
     
     @objc private func loadMore() {

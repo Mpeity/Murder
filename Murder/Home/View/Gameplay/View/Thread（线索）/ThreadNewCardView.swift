@@ -102,6 +102,8 @@ class ThreadNewCardView: UIView {
                         //                        make.centerY.equalToSuperview()
                         }
                         commonView.layoutIfNeeded()
+                        
+                        layoutIfNeeded()
                     }
                     
                 }
@@ -281,6 +283,9 @@ extension ThreadNewCardView {
             return CGSize.zero
         }
         let tempUrl = URL(string: urlStr)
+        if tempUrl == nil {
+            return CGSize(width: 0, height: 0)
+        }
         let imageSourceRef = CGImageSourceCreateWithURL(tempUrl! as CFURL, nil)
         var width: CGFloat = 0
         var height: CGFloat = 0
