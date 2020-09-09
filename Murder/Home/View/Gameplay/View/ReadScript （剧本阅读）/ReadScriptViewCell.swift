@@ -24,6 +24,7 @@ class ReadScriptViewCell: UITableViewCell {
     var itemModel: GPChapterModel? {
         didSet {
             if itemModel != nil {
+                textViewSelected = false
                 textView.text = itemModel?.content
             }
         }
@@ -76,9 +77,9 @@ extension ReadScriptViewCell {
         
         textViewSelected = !textViewSelected
         if textViewSelected {
-            print("textViewSelected")
+            print("textViewSelected\(textViewSelected)")
         } else {
-            print("no_textViewSelected")
+            print("no_textViewSelected\(textViewSelected)")
         }
         textViewTapBlcok!(textViewSelected)
         

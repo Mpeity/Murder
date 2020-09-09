@@ -194,17 +194,16 @@ extension HomeViewController {
                 self?.checkUserModel = CheckUserModel(fromDictionary: data)
                 
                 var script_id  = -1
-                if self?.checkUserModel!.stage == 1 {
-                    let model = self?.checkUserModel?.readyResult
-                    script_id = model!.scriptId!
-                    
-                } else if (self?.checkUserModel!.stage == 2) {
-                    let model = self?.checkUserModel?.gameResult
-                    script_id = model!.scriptId!
+                if self?.checkUserModel!.stage != 0 {
+                    if self?.checkUserModel!.stage == 1 {
+                        let model = self?.checkUserModel?.readyResult
+                        script_id = model!.scriptId!
+                    } else if (self?.checkUserModel!.stage == 2) {
+                        let model = self?.checkUserModel?.gameResult
+                        script_id = model!.scriptId!
+                    }
+                    self?.checkLocalScriptWith(script_id: script_id)
                 }
-                self?.checkLocalScriptWith(script_id: script_id)
-                
-//                self?.gotoVC()
             }
         }
     }

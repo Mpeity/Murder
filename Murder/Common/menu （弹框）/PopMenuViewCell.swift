@@ -40,20 +40,20 @@ class PopMenuViewCell: UITableViewCell {
         }
         if type! == "script" {
             if selected {
-                imageView?.isHidden = false
+                imgView?.isHidden = false
                 contentLabel.textColor = HexColor(MainColor)
             } else {
-                imageView?.isHidden = true
+                imgView?.isHidden = true
                 contentLabel.textColor = UIColor.white
             }
         }
         
         if type! == "truth" {
             if selected {
-                imageView?.isHidden = false
+                imgView?.isHidden = false
                 contentLabel.textColor = HexColor(MainColor)
             } else {
-                imageView?.isHidden = true
+                imgView?.isHidden = true
                 contentLabel.textColor = UIColor.white
             }
         }

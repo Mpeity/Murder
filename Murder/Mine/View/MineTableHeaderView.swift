@@ -46,7 +46,7 @@ class MineTableHeaderView: UIView {
             }
             
             if mineModel.headId != nil {
-                identifyLabel.text = "ID:\(mineModel.headId!)"
+                identifyLabel.text = "ID:\(mineModel.userId!)"
             }
         }
     }

@@ -248,6 +248,7 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
+        
     }
     
     
@@ -256,7 +257,7 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
 
 extension ReadScriptView {
     @objc func hideView() {
-        self.removeFromSuperview()
+        self.isHidden = true
     }
     
     @objc func bottomBtnAction(button:UIButton) {
@@ -312,9 +313,11 @@ extension ReadScriptView: PopMenuViewDelegate {
             label.text = "【 \(item.name!) 】"
             tableView.scrollToRow(at: indexPath, at: .top, animated: true)
             
-            let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"game_status_type":"chapter_see","key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
+            let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"game_status_type":"chapter_see","script_role_chapter_id":item.scriptRoleChapterId!,"key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
             let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
             SingletonSocket.sharedInstance.socket.write(string: mapJson)
+            popMenuView.selectIndexPath = indexPath
+            
         } else {
             let currentIndex = index
             let indexPath = IndexPath(row: currentIndex, section: 0)

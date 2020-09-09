@@ -124,9 +124,10 @@ class GameplayViewController: UIViewController {
     var script_node_id: Int? = 0
     // 我的id
     var script_role_id : Int!
-
+    // 发起解散
     var dissolveView = DissolveView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-    
+    // 剧本阅读
+    var readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     
     private lazy var collectionView: UICollectionView = {
         
@@ -330,55 +331,60 @@ extension GameplayViewController {
             }
         }
         
-        //
-        let mapList = currentScriptRoleModel?.scriptNodeMapList!
-        for item in mapList! {
-            let mapId = item.scriptNodeMapId
-            switch mapId {
-            case 1: // 背景地图
-                if item.see == 0 {
-                    hideRedPoint(commonView: placeBtn)
-                } else {
-                    addRedPoint(commonView: placeBtn, x: 30, y: 5)
-                }
-                
-                break
-            case 2: // 自我介绍地图
-                if item.see == 0 {
-                    
-                } else {
-                    
-                }
-                break
-            case 3: // 剧本阅读
-                if item.see == 0 {
-                    addRedPoint(commonView: scriptBtn, x: 30, y: 5)
-                } else {
-                    hideRedPoint(commonView: scriptBtn)
-                }
-                break
-            case 4: // 搜证
-                if item.see == 0 {
-                    addRedPoint(commonView: threadBtn, x: 30, y: 5)
-                } else {
-                    hideRedPoint(commonView: threadBtn)
-                }
-                break
-                
-            case 5: // 答题
-                if item.see == 0 {
-                    
-                } else {
-                    
-                }
-                break
-                
-            default:
-                break
-            }
+        // 更新 剧本小红点
+        if currentScriptRoleModel?.chapter != nil {
+            readScriptView.scriptData = currentScriptRoleModel?.chapter
         }
         
-        
+        //
+        let mapList = currentScriptRoleModel?.scriptNodeMapList!
+        if mapList != nil {
+            for item in mapList! {
+                let mapId = item.scriptNodeMapId
+                switch mapId {
+                case 1: // 背景地图
+                    if item.see == 0 {
+                        hideRedPoint(commonView: placeBtn)
+                    } else {
+                        addRedPoint(commonView: placeBtn, x: 30, y: 5)
+                    }
+                    
+                    break
+                case 2: // 自我介绍地图
+                    if item.see == 0 {
+                        
+                    } else {
+                        
+                    }
+                    break
+                case 3: // 剧本阅读
+                    if item.see == 0 {
+                        addRedPoint(commonView: scriptBtn, x: 30, y: 5)
+                    } else {
+                        hideRedPoint(commonView: scriptBtn)
+                    }
+                    break
+                case 4: // 搜证
+                    if item.see == 0 {
+                        addRedPoint(commonView: threadBtn, x: 30, y: 5)
+                    } else {
+                        hideRedPoint(commonView: threadBtn)
+                    }
+                    break
+                    
+                case 5: // 答题
+                    if item.see == 0 {
+                        
+                    } else {
+                        
+                    }
+                    break
+                    
+                default:
+                    break
+                }
+            }
+        }
     }
     
     //MARK:- 绘制地图
@@ -508,6 +514,11 @@ extension GameplayViewController {
             self!.dissolveView.isHidden = true
         }
         dissolveView.isHidden = true
+        
+        // 剧本阅读
+        readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        readScriptView.isHidden = true
+//        self.view.addSubview(readScriptView)
     }
     
     /// 添加红点
@@ -674,8 +685,8 @@ extension GameplayViewController {
         addRedPoint(commonView: placeBtn, x: 64, y: 1.5)
         
         
-        
         self.view.addSubview(popMenuView)
+        popMenuView.type = "place"
         popMenuView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalTo(placeBtn.snp.bottom).offset(5)
@@ -691,6 +702,7 @@ extension GameplayViewController {
         popMenuView.refresh()
         popMenuView.isHidden = true
         popMenuView.delegate = self
+
         
         
         
@@ -1165,14 +1177,16 @@ extension GameplayViewController {
     //MARK: 剧本
     @objc func scriptBtnAction(button: UIButton) {
         if currentScriptRoleModel?.chapter?.count != 0{
-            let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            
+            if !self.view.subviews.contains(readScriptView) {
+                self.view.addSubview(readScriptView)
+            }
+            readScriptView.isHidden = false
             readScriptView.type = "script"
             readScriptView.scriptData = currentScriptRoleModel?.chapter
             readScriptView.room_id = gamePlayModel?.room.roomId
             readScriptView.script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
             readScriptView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
-            readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-            self.view.addSubview(readScriptView)
         }
     }
     
@@ -1337,14 +1351,14 @@ extension GameplayViewController: PopMenuViewDelegate {
 //        script_clue_id INT 游戏线索ID
 //        game_status_type STRING [ready_ok 准备状态【1准备0取消准备】 mute【是否静音【1是0否】】 clue_is_read线索是否查看【1是】chapter_see【剧本是否查看【1是0否】】 ]
         
+
+        
 //        {“type”:”game_status”,”scene”:1,”room_id”:83,”group_id”:83,”script_node_id”:1,”status”:1,”script_role_id”:2,”game_status_type”:”mute”,”key”:”eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJpc3MiOiJodHRwOlwvXC9oYW9odWx1Lm14NTkxOC5jb20iLCJhdWQiOiJodHRwOlwvXC9oYW9odWx1Lm14NTkxOC5jb20iLCJpYXQiOjE1OTc2MjY2MDEsIm5iZiI6MTU5NzYyNjYwMSwiZXhwIjoxNjAwMjE4NjAxfQ.4O2XDLAmiM-EwHVVKk27rEFqOm_ocoox0Td7FJSI3w8”}
+        let script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
+        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":itemModel?.scriptNodeId!,"status":1,"script_role_id":script_role_id,"game_status_type":"map_see","key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
         
-//        let script_role_id = 0
-//        let mapData = ["type":"game_status","scene":1,"room_id":room_id,"group_id":room_id,"script_node_id":itemModel?.scriptNodeId,"status":1,"script_role_id":script_role_id,"game_status_type":"chapter_see","key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
-//        let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
-//
-//        SingletonSocket.sharedInstance.socket.write(string: mapJson)
-        
+        let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
+        SingletonSocket.sharedInstance.socket.write(string: mapJson)
     }
 }
 

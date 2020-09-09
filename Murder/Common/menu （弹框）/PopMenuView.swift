@@ -42,10 +42,9 @@ class PopMenuView: UIView {
                     make.left.right.equalToSuperview()
                     make.height.equalTo(count*55)
                 }
-                
                 tableView.reloadData()
-                let indexPath = IndexPath(row: 0, section: 0)
-                tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
+                Log(selectIndexPath)
+                tableView.selectRow(at: selectIndexPath, animated: true, scrollPosition: .bottom)
             }
             
         }
@@ -110,7 +109,10 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: PopMenuViewCellId, for: indexPath) as! PopMenuViewCell
         cell.contentLabel.textAlignment = .center
         
+        
         if type! == "place" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: PopMenuViewCellId, for: indexPath) as! PopMenuViewCell
+            cell.contentLabel.textAlignment = .center
             let model = titleArray[indexPath.row] as! GPNodeMapListModel
             cell.contentLabel.text = model.name! as String
             if model.see == 0 {
@@ -118,10 +120,31 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
             } else {
                 cell.point.isHidden = true
             }
-        }
-        
-        if type! == "script" {
+            cell.type = type
+            cell.contentLabel.backgroundColor = UIColor.clear
+            cell.contentLabel.textColor = contentTextColor
+            cell.backgroundColor = UIColor.clear
+            cell.lineView.backgroundColor = lineColor
+
+            if indexPath.row == titleArray.count-1 {
+                cell.lineView.isHidden = true
+            } else {
+                cell.lineView.isHidden = false
+
+            }
+            cell.contentLabel.font = UIFont.systemFont(ofSize: contentTextFont)
+            cell.selectionStyle = .none
+            return cell
+
+        } else if type! == "script" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: PopMenuViewCellId, for: indexPath) as! PopMenuViewCell
+            cell.contentLabel.textAlignment = .center
             let model = titleArray[indexPath.row] as! GPChapterModel
+            if selectIndexPath == indexPath {
+                cell.isSelected = true
+            } else {
+                cell.isSelected = false
+            }
             // 是否查看【1是0否】
             if model.see == 0 {
                 cell.point.isHidden = false
@@ -129,35 +152,42 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
                 cell.point.isHidden = true
             }
             cell.contentLabel.text = model.name! as String
+            cell.type = type
+            cell.contentLabel.backgroundColor = UIColor.clear
+            cell.contentLabel.textColor = contentTextColor
+            cell.backgroundColor = UIColor.clear
+            cell.lineView.backgroundColor = lineColor
 
-        }
-        
-        if type! == "truth" {
+            if indexPath.row == titleArray.count-1 {
+                cell.lineView.isHidden = true
+            } else {
+                cell.lineView.isHidden = false
+
+            }
+            cell.contentLabel.font = UIFont.systemFont(ofSize: contentTextFont)
+            cell.selectionStyle = .none
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: PopMenuViewCellId, for: indexPath) as! PopMenuViewCell
+            cell.contentLabel.textAlignment = .center
             let model = titleArray[indexPath.row] as! ScriptLogChapterModel
             // 是否查看【1是0否】
             cell.contentLabel.text = model.name! as String
-        }
-        
-        cell.type = type
-        cell.contentLabel.backgroundColor = UIColor.clear
-        cell.contentLabel.textColor = contentTextColor
-        cell.backgroundColor = UIColor.clear
-        cell.lineView.backgroundColor = lineColor
-        if isHideImg {
-             cell.imgView.isHidden = true
-        } else {
-             cell.imgView.isHidden = false
-        }
+            cell.type = type
+            cell.contentLabel.backgroundColor = UIColor.clear
+            cell.contentLabel.textColor = contentTextColor
+            cell.backgroundColor = UIColor.clear
+            cell.lineView.backgroundColor = lineColor
 
-        if indexPath.row == titleArray.count-1 {
-            cell.lineView.isHidden = true
-        } else {
-            cell.lineView.isHidden = false
-
+            if indexPath.row == titleArray.count-1 {
+                cell.lineView.isHidden = true
+            } else {
+                cell.lineView.isHidden = false
+            }
+            cell.contentLabel.font = UIFont.systemFont(ofSize: contentTextFont)
+            cell.selectionStyle = .none
+            return cell
         }
-        cell.contentLabel.font = UIFont.systemFont(ofSize: contentTextFont)
-        cell.selectionStyle = .none
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
