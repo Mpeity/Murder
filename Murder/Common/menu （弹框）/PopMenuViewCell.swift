@@ -21,7 +21,7 @@ class PopMenuViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        imgView.isHidden = false
+        imgView.isHidden = true
         point.isHidden = true
         point.layer.cornerRadius = 3
     }

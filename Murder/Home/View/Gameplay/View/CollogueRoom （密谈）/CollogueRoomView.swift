@@ -24,6 +24,9 @@ class CollogueRoomView: UIView {
     var roomCount : Int? = 0 {
         didSet {
             tableView.reloadData()
+            if selectIndexPath != nil {
+                tableView.selectRow(at: selectIndexPath, animated: true, scrollPosition: .bottom)
+            }
         }
     }
     
@@ -42,10 +45,14 @@ class CollogueRoomView: UIView {
     
     private var uid : Int?
     
+    var selectIndexPath: IndexPath?
+
+    
     var itemModel: GPScriptRoleListModel? {
         didSet {
             uid = itemModel?.user?.userId
             tableView.reloadData()
+            
         }
     }
     
@@ -123,13 +130,28 @@ extension CollogueRoomView: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: CollogueRoomCellId, for: indexPath) as! CollogueRoomViewCell
         cell.contentLabel.text = "密談室" + "\(indexPath.row+1)"
         cell.selectionStyle = .none
+        if selectIndexPath != nil {
+            if selectIndexPath == indexPath {
+                cell.isSelected = true
+                cell.leaveBtn.isHidden = false
+                cell.commonBtn.isHidden = true
+            } else {
+                cell.isSelected = false
+                cell.commonBtn.isHidden = true
+            }
+        } else {
+            cell.isSelected = false
+            cell.commonBtn.isHidden = false
+        }
+
+        
         let channelId = "密談室" + "\(indexPath.row+1)"
         uid = UserAccountViewModel.shareInstance.account?.userId
         cell.commonBtnActionBlcok = {[weak self] () in
             // 加入私聊频道
 //            self!.agoraKit.leaveChannel(nil)
 //            self!.agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: self!.uid!), joinSuccess: nil)
-            
+            self!.tableView.reloadData()
             if self?.delegate != nil {
                 self!.delegate!.commonBtnTapAction(index: indexPath.row)
             }
@@ -154,6 +176,24 @@ extension CollogueRoomView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let cell = tableView.cellForRow(at: indexPath) as? CollogueRoomViewCell
+        
+        
+        if cell!.isSelected {
+            if self.delegate != nil {
+                self.delegate!.commonBtnTapAction(index: indexPath.row)
+            }
+            Log(cell!.isSelected )
+        } else {
+            
+            Log(cell!.isSelected )
+            
+            if self.delegate != nil {
+                self.delegate!.leaveBtnTapAction(index: indexPath.row)
+            }
+        }
+        
     }
     
 }

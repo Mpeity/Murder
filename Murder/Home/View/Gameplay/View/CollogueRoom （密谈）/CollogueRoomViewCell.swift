@@ -39,6 +39,15 @@ class CollogueRoomViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+        
+//        if selected {
+//            commonBtn.isHidden = true
+//            leaveBtn.isHidden = false
+//        } else {
+//            commonBtn.isHidden = false
+//            leaveBtn.isHidden = true
+//        }
+        
     }
     
     
@@ -66,7 +75,7 @@ extension CollogueRoomViewCell {
     }
     
     @objc func leaveBtnAction() {
-        commonBtn.isHidden = false
+        commonBtn.isHidden = true
         leaveBtn.isHidden = true
         leaveBtnActionBlcok!()
     }

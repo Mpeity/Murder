@@ -170,6 +170,8 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: PopMenuViewCellId, for: indexPath) as! PopMenuViewCell
             cell.contentLabel.textAlignment = .center
+            cell.selectionStyle = .none
+
             let model = titleArray[indexPath.row] as! ScriptLogChapterModel
             // 是否查看【1是0否】
             cell.contentLabel.text = model.name! as String
@@ -185,7 +187,6 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
                 cell.lineView.isHidden = false
             }
             cell.contentLabel.font = UIFont.systemFont(ofSize: contentTextFont)
-            cell.selectionStyle = .none
             return cell
         }
     }

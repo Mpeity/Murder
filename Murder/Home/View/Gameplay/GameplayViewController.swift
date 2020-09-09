@@ -129,6 +129,9 @@ class GameplayViewController: UIViewController {
     // 剧本阅读
     var readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     
+    
+//    var ownSecretTalkId: Int? = 0
+    
     private lazy var collectionView: UICollectionView = {
         
            
@@ -159,7 +162,8 @@ class GameplayViewController: UIViewController {
     private var currentScriptRoleModel :GPScriptRoleListModel?
     
     // 密谈
-    let collogueRoomView = CollogueRoomView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+    var collogueRoomView: CollogueRoomView?
+    
     
     // 答题页面
     let commonQuestionView = QuestionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
@@ -173,7 +177,7 @@ class GameplayViewController: UIViewController {
         
         setUI()
         
-        getiPhoneBatteryState()
+//        getiPhoneBatteryState()
         
         gamePlaying()
     }
@@ -220,6 +224,7 @@ extension GameplayViewController {
                 if resultDic["code"]!.isEqual(1) {
                     let data = resultDic["data"] as! [String : AnyObject]
                     self?.gamePlayModel = GamePlayModel(fromDictionary: data)
+                    self?.joinSecretTalk()
                     self?.refreshUI()
                     
                 } else {
@@ -265,6 +270,33 @@ extension GameplayViewController {
 
 // MARK: - setUI
 extension GameplayViewController {
+    
+    private func joinSecretTalk() {
+        if let scriptRoleList = gamePlayModel!.scriptRoleList {
+            for itemModel in scriptRoleList {
+                let userId = itemModel.user.userId
+                if userId == UserAccountViewModel.shareInstance.account?.userId {
+                    currentScriptRoleModel = itemModel
+                    break
+                }
+            }
+        }
+        
+        if (currentScriptRoleModel?.secretTalkId)! > 0 {
+            let index = (currentScriptRoleModel?.secretTalkId!)! - 1
+            commonBtnTapAction(index: index)
+            if collogueRoomView == nil {
+                collogueRoomView = CollogueRoomView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                collogueRoomView!.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                collogueRoomView?.roomCount = gamePlayModel?.script.secretTalkRoomNum
+                collogueRoomView?.room_id = room_id
+                collogueRoomView?.delegate = self
+                collogueRoomView?.selectIndexPath = IndexPath(row: index, section: 0)
+                self.view.addSubview(collogueRoomView!)
+                collogueRoomView?.isHidden = true
+            }
+        }
+    }
     
     private func refreshUI() {
         
@@ -917,14 +949,7 @@ extension GameplayViewController {
         }
         collogueBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_collogue", title: "密談", cornerRadius: 25, color: "#20014D")
         collogueBtn.addTarget(self, action: #selector(collogueBtnAction(button:)), for: .touchUpInside)
-        // 密谈视图
-        collogueRoomView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        collogueRoomView.isHidden = true
-        collogueRoomView.delegate = self
-        self.view.addSubview(collogueRoomView)
         
-        
-
         collogueLabel.textColor = UIColor.black
         collogueLabel.font = UIFont.systemFont(ofSize: 10)
         collogueLabel.textAlignment = .center
@@ -1208,9 +1233,21 @@ extension GameplayViewController {
     
     //MARK:- 密谈
     @objc func collogueBtnAction(button: UIButton) {
-        collogueRoomView.isHidden = false
-        collogueRoomView.roomCount = gamePlayModel?.script.secretTalkRoomNum
-        collogueRoomView.room_id = room_id
+        // 密谈视图
+        
+        if collogueRoomView == nil {
+            collogueRoomView = CollogueRoomView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            collogueRoomView!.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            collogueRoomView?.roomCount = gamePlayModel?.script.secretTalkRoomNum
+            collogueRoomView?.room_id = room_id
+            collogueRoomView?.delegate = self
+            self.view.addSubview(collogueRoomView!)
+        }
+        if currentScriptRoleModel?.secretTalkId! == 0 {
+            collogueRoomView?.selectIndexPath = nil
+            collogueRoomView?.roomCount = gamePlayModel?.script.secretTalkRoomNum
+        }
+        collogueRoomView?.isHidden = false
     }
     
     //MARK: 系统配置未知按钮
@@ -1295,7 +1332,12 @@ extension GameplayViewController {
 extension GameplayViewController: CollogueRoomViewDelegate {
     // 进入密谈室
     func commonBtnTapAction(index: Int) {
-        let channelId = "\(room_id!)_" + "\(index+1)"
+        agoraKit.leaveChannel(nil)
+        
+        let channelId = "\(room_id!)_" + "chat\(index+1)"
+        
+        // 纪录自己加入的密谈室
+        
         // 加入私聊频道
         let uid = UserAccountViewModel.shareInstance.account?.userId
         agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: uid!), joinSuccess: nil)
@@ -1310,25 +1352,27 @@ extension GameplayViewController: CollogueRoomViewDelegate {
     }
     // 退出密谈室
     func leaveBtnTapAction(index: Int) {
-        collogueRoomView.isHidden = true
-        // 离开密谈 重新至回游戏中
-        agoraKit.delegate = self
-        // 通信模式下默认为听筒，demo中将它切为外放
-        agoraKit.setDefaultAudioRouteToSpeakerphone(true)
-
-        // 从私聊返回案发现场时，重新加入案发现场的群聊频道
-        let uid = UserAccountViewModel.shareInstance.account?.userId
-        agoraKit.joinChannel(byToken: nil, channelId: "\(room_id!)", info: nil, uid: UInt(bitPattern: uid!) , joinSuccess: nil)
         
         let script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
-        
-//        let script_clue_id = itemModel.scriptClueId
         let script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
         let secret_talk_id = index+1
         let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":0,"script_role_id":script_role_id!,"secret_talk_id":secret_talk_id,"game_status_type":"secret_talk","key":(UserAccountViewModel.shareInstance.account?.key!)! as String] as [String : AnyObject]
         
         let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
         SingletonSocket.sharedInstance.socket.write(string: mapJson)
+        
+        
+        
+        collogueRoomView!.isHidden = true
+        // 离开密谈 重新至回游戏中
+        agoraKit.delegate = self
+        // 通信模式下默认为听筒，demo中将它切为外放
+        agoraKit.setDefaultAudioRouteToSpeakerphone(true)
+
+        // 从私聊返回案发现场时，重新加入案发现场的群聊频道
+        let uid:UInt = UInt(bitPattern: (UserAccountViewModel.shareInstance.account?.userId!)!)
+        agoraKit.joinChannel(byToken: nil, channelId: String(room_id!), info: nil, uid: uid , joinSuccess: nil)
+
     }
     
 }
@@ -1341,21 +1385,8 @@ extension GameplayViewController: PopMenuViewDelegate {
         let itemModel = currentScriptRoleModel?.scriptNodeMapList![currentIndex]
         
         drawImage(model: itemModel)
-        
-//        请求参数:
-//        请求参数【json字符串格式】
-//        type STRING game_status 【游戏状态】
-//        room_id INT 房间ID
-//        script_node_id INT 游戏节点ID
-//        script_role_id INT 游戏角色ID
-//        script_clue_id INT 游戏线索ID
-//        game_status_type STRING [ready_ok 准备状态【1准备0取消准备】 mute【是否静音【1是0否】】 clue_is_read线索是否查看【1是】chapter_see【剧本是否查看【1是0否】】 ]
-        
-
-        
-//        {“type”:”game_status”,”scene”:1,”room_id”:83,”group_id”:83,”script_node_id”:1,”status”:1,”script_role_id”:2,”game_status_type”:”mute”,”key”:”eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJpc3MiOiJodHRwOlwvXC9oYW9odWx1Lm14NTkxOC5jb20iLCJhdWQiOiJodHRwOlwvXC9oYW9odWx1Lm14NTkxOC5jb20iLCJpYXQiOjE1OTc2MjY2MDEsIm5iZiI6MTU5NzYyNjYwMSwiZXhwIjoxNjAwMjE4NjAxfQ.4O2XDLAmiM-EwHVVKk27rEFqOm_ocoox0Td7FJSI3w8”}
         let script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
-        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":itemModel?.scriptNodeId!,"status":1,"script_role_id":script_role_id,"game_status_type":"map_see","key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
+        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":itemModel?.scriptNodeId!,"status":1,"script_role_id":script_role_id,"game_status_type":"map_see","script_node_map_id":itemModel?.scriptNodeMapId!,"key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
         
         let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
         SingletonSocket.sharedInstance.socket.write(string: mapJson)
@@ -1394,22 +1425,10 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
             } else {
                 cell.l_handsUp.isHidden = true
             }
+            var ownSecretTalkId = 0
             if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
+                ownSecretTalkId = itemModel.secretTalkId!
                 cell.l_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
-                
-               if itemModel.secretTalkId == nil {
-                   cell.r_miLabel.isHidden = true
-               } else {
-                   if itemModel.secretTalkId! == 0 {
-                       cell.r_miLabel.isHidden = true
-                   } else {
-                      let indexStr = itemModel.secretTalkId!
-                      cell.l_miLabel.isHidden = false
-                      cell.l_miLabel.text = "密\(indexStr)"
-                   }
-               }
-                
-                
                 // 是否有人发起解散申请
                 if itemModel.applyDismiss == 1  { // 是
                     dissolveView.isHidden = false
@@ -1417,28 +1436,67 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                     dissolveView.dissolutionView.isHidden = true
                 }
             }
-
-        } else {
             
-            if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
-                
-                cell.r_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
+            if ownSecretTalkId != 0 { // 进入密谈室
+                if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
+                    let indexStr = itemModel.secretTalkId!
+                    cell.l_miLabel.isHidden = false
+                    cell.l_miLabel.text = "密\(indexStr)"
+                    cell.l_comImgView.isHidden = true
 
-                
-                if itemModel.secretTalkId == nil {
-                    cell.r_miLabel.isHidden = true
                 } else {
-                    if itemModel.secretTalkId! == 0 {
-                        cell.r_miLabel.isHidden = true
+                    if itemModel.secretTalkId == nil {
+                        cell.l_miLabel.isHidden = true
+                        cell.l_comImgView.isHidden = false
+                        cell.l_comImgView.image = UIImage(named: "image0")
                     } else {
-                       let indexStr = itemModel.secretTalkId!
-                       cell.l_miLabel.isHidden = false
-                       cell.l_miLabel.text = "密\(indexStr)"
+                        if itemModel.secretTalkId! == 0 {
+                            cell.l_miLabel.isHidden = true
+                            cell.l_comImgView.image = UIImage(named: "image0")
+                            cell.l_comImgView.isHidden = false
+                        } else {
+                            
+                            let indexStr = itemModel.secretTalkId!
+                            if indexStr == ownSecretTalkId {
+                                cell.l_miLabel.isHidden = false
+                                cell.l_miLabel.text = "密\(indexStr)"
+                                cell.l_comImgView.isHidden = true
+
+                            } else {
+                                cell.l_comImgView.image = UIImage(named: "image0")
+                                cell.l_comImgView.isHidden = false
+                                cell.l_miLabel.isHidden = true
+                            }
+                            
+                        }
                     }
                 }
                 
+            } else {
+                if itemModel.secretTalkId == nil {
+                    cell.l_miLabel.isHidden = true
+                    cell.l_comImgView.image = UIImage(named: "image0")
+                } else {
+                    if itemModel.secretTalkId! == 0 {
+                        cell.l_miLabel.isHidden = true
+                        cell.l_comImgView.image = UIImage(named: "image0")
+                        cell.l_comImgView.isHidden = false
+                    } else {
+                        
+                        let indexStr = itemModel.secretTalkId!
+                        cell.l_miLabel.isHidden = false
+                        cell.l_miLabel.text = "密\(indexStr)"
+                        cell.l_comImgView.isHidden = true
 
-                
+                    }
+                }
+            }
+           
+        } else {
+            var ownSecretTalkId  = 0
+            if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
+                ownSecretTalkId = itemModel.secretTalkId!
+                cell.r_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
                 // 是否有人发起解散申请
                 if itemModel.applyDismiss == 1  { // 是
                     dissolveView.isHidden = false
@@ -1446,6 +1504,9 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                     dissolveView.dissolutionView.isHidden = true
                 }
             }
+            
+            
+            
             cell.r_avatarImgView.setImageWith(URL(string: itemModel.head!))
             cell.rightView.isHidden = false
             cell.leftView.isHidden = true
@@ -1456,6 +1517,59 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                 cell.r_handsUp.isHidden = false
             } else {
                 cell.r_handsUp.isHidden = true
+            }
+            
+            if ownSecretTalkId != 0 { // 进入密谈室
+                if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
+                    let indexStr = itemModel.secretTalkId!
+                    cell.r_miLabel.isHidden = false
+                    cell.r_miLabel.text = "密\(indexStr)"
+                    cell.r_comImgView.isHidden = true
+
+                } else {
+                    if itemModel.secretTalkId == nil {
+                        cell.r_miLabel.isHidden = true
+                        cell.r_comImgView.image = UIImage(named: "image0")
+                    } else {
+                        if itemModel.secretTalkId! == 0 {
+                            cell.r_miLabel.isHidden = true
+                            cell.r_comImgView.image = UIImage(named: "image0")
+                            cell.r_comImgView.isHidden = false
+                        } else {
+                            
+                            let indexStr = itemModel.secretTalkId!
+                            if indexStr == ownSecretTalkId {
+                                cell.r_miLabel.isHidden = false
+
+                                cell.r_miLabel.text = "密\(indexStr)"
+                                cell.r_comImgView.isHidden = true
+
+                            } else {
+                                cell.r_comImgView.image = UIImage(named: "image0")
+                                cell.r_comImgView.isHidden = false
+                                cell.r_miLabel.isHidden = true
+                            }
+                            
+                        }
+                    }
+                }
+                
+            } else {
+                if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
+                    cell.r_miLabel.isHidden = true
+                    cell.r_comImgView.isHidden = true
+
+                } else {
+                    if itemModel.secretTalkId! == 0 {
+                        cell.r_miLabel.isHidden = true
+                        cell.r_comImgView.isHidden = true
+                    } else {
+                        let indexStr = itemModel.secretTalkId!
+                        cell.r_miLabel.isHidden = false
+                        cell.r_miLabel.text = "密\(indexStr)"
+                        cell.r_comImgView.isHidden = true
+                    }
+                }
             }
         }
          return cell
