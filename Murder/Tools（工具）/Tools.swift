@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Alamofire
 import CLToast
+import SVProgressHUD
 
 func getDateStr(timeStamp:String) -> String {
     let interval:TimeInterval = TimeInterval.init(timeStamp)!

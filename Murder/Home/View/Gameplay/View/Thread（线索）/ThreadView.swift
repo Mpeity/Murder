@@ -26,6 +26,8 @@ class ThreadView: UIView {
     var room_id : Int?
     // 我的id
     var script_role_id : Int?
+    
+    var script_node_id : Int?
         
     var gameUserClueList: [GameUserClueListModel]? {
         didSet {
@@ -210,7 +212,6 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
             
             
             
-            let script_node_id = itemModel.scriptNodeId
             let script_clue_id = itemModel.scriptClueId
             let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"script_clue_id":script_clue_id!,"game_status_type":"clue_is_read","key":(UserAccountViewModel.shareInstance.account?.key!)! as String] as [String : AnyObject]
             
