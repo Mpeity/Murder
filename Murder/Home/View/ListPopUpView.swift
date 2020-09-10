@@ -20,9 +20,12 @@ class ListPopUpView: UIView {
     @IBOutlet weak var nameLabel: UILabel!
     // 房间ID
     @IBOutlet weak var roomIdLabel: UILabel!
+    @IBOutlet weak var scoreView: UIView!
     // 评分
+    @IBOutlet weak var scoreIcon: UIImageView!
     @IBOutlet weak var scoreLabel: UILabel!
     // 时长
+    @IBOutlet weak var timeView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
     // 进入房间
     @IBOutlet weak var enterBtn: UIButton!
@@ -38,9 +41,20 @@ class ListPopUpView: UIView {
             guard let roomModel = roomModel else {
                 return
             }
-            nameLabel.text = roomModel.scriptName
-            roomIdLabel.text = "ルームID：\(String(roomModel.roomId))"
+            if roomModel.scriptName != nil {
+                nameLabel.text = roomModel.scriptName
+            }
+            
+            if roomModel.roomId != nil {
+                roomIdLabel.text = "ルームID：\(String(roomModel.roomId))"
+            }
+            
+            if roomModel.durationText != nil {
+                timeLabel.text = roomModel.durationText
+            }
+            
             scoreLabel.text = roomModel.durationText
+            
         }
     }
     
@@ -76,10 +90,13 @@ extension ListPopUpView {
         roomIdLabel.textColor = HexColor(LightGrayColor)
         roomIdLabel.font = UIFont.systemFont(ofSize: 11)
         
+        scoreView.isHidden = true
         scoreLabel.textColor = HexColor(DarkGrayColor)
-        scoreLabel.font = UIFont.systemFont(ofSize: 11)
+        scoreLabel.font = UIFont.systemFont(ofSize: 18)
+        scoreIcon.isHidden = true
+        
         timeLabel.textColor = HexColor(DarkGrayColor)
-        timeLabel.font = UIFont.systemFont(ofSize: 11)
+        timeLabel.font = UIFont.systemFont(ofSize: 18)
         
         enterBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
         enterBtn.addTarget(self, action: #selector(enterBtnAction), for: .touchUpInside)

@@ -37,7 +37,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     
     // 下一步
     @IBOutlet weak var nextBtn: UIButton!
-    // 
+    @IBOutlet weak var nextBtnWidth: NSLayoutConstraint!
+    //
     @IBOutlet weak var nextBtnTopConstraint: NSLayoutConstraint!
     // 提示
     @IBOutlet weak var tipLabel: UILabel!
@@ -143,6 +144,13 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
 extension RegisterViewController {
     private func setUI() {
         
+        nextBtnWidth.constant = (FULL_SCREEN_WIDTH - 37.5*2)
+        nextBtnTopConstraint.constant = 25
+        nextBtn.setTitle("次へ", for: .normal)
+        nextBtn.setTitleColor(UIColor.white, for: .normal)
+        nextBtn.layoutIfNeeded()
+        nextBtn.gradientColor(start: "#3522F2", end: "934BFE", cornerRadius: 25)
+        
         oneMoreBtn.isHidden = false
         timeLabel.isHidden = true
         timeLabel.textColor = HexColor("#FE2126")
@@ -163,10 +171,7 @@ extension RegisterViewController {
         oneMoreBtn.setTitleColor(HexColor("#FE2126"), for: .normal)
         oneMoreBtn.addTarget(self, action: #selector(oneMoreBtnAction), for: .touchUpInside)
         
-        nextBtnTopConstraint.constant = 25
-        nextBtn.setTitle("下一步", for: .normal)
-        nextBtn.setTitleColor(UIColor.white, for: .normal)
-        nextBtn.gradientColor(start: "#3522F2", end: "934BFE", cornerRadius: 25)
+        
         tipLabel.attributedText = getNSAttributedString(str: "利用規約」に同意してログインする 拷贝", color: LightGrayColor)
         
     }

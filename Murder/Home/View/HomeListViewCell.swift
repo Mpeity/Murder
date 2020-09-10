@@ -44,8 +44,8 @@ class HomeListViewCell: UITableViewCell {
             peopleNum = String(roomModel.userNum)
             name = roomModel.scriptName
             
-            let string = "\(roomNum)/\(peopleNum)   \(name)"
-            let ranStr = "/\(peopleNum)"
+            let string = "\(peopleNum)/\(roomNum)   \(name)"
+            let ranStr = "/\(roomNum)"
             let attrstring:NSMutableAttributedString = NSMutableAttributedString(string:string)
             let str = NSString(string: string)
             let theRange = str.range(of: ranStr)

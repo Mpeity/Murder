@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -15,8 +15,11 @@
                 <outlet property="enterBtn" destination="2Tj-WC-YWN" id="H80-JM-smf"/>
                 <outlet property="nameLabel" destination="blV-ys-DyW" id="axi-k0-pgG"/>
                 <outlet property="roomIdLabel" destination="quU-dd-cfE" id="JzS-QA-tFr"/>
+                <outlet property="scoreIcon" destination="6ya-n3-DF6" id="IhC-MY-doh"/>
                 <outlet property="scoreLabel" destination="D5d-lR-FoG" id="PS2-Xb-T8W"/>
+                <outlet property="scoreView" destination="YCb-vG-28S" id="jdS-cl-ylJ"/>
                 <outlet property="timeLabel" destination="JIc-81-HPb" id="RQj-wr-dXd"/>
+                <outlet property="timeView" destination="gIz-00-ZBe" id="nAW-Eo-Oty"/>
                 <outlet property="topConstraint" destination="5bl-PW-5Bz" id="vDs-nF-BFM"/>
             </connections>
         </placeholder>

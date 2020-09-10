@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CLToast
 import SVProgressHUD
 
 private var email = ""
@@ -32,6 +31,9 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     // 忘记密码
     @IBOutlet weak var forgetPasswordLabel: UILabel!
     
+    
+    
+    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     
     // MARK: - 注册按钮响应事件
     @IBAction func registerBtnAction(_ sender: Any) {
@@ -122,6 +124,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
 extension LoginViewController {
     
     private func setUI() {
+        
+//        widthConstraint.constant = (FULL_SCREEN_WIDTH - 37 * 2 - 15) * 0.5
+        
+        registerBtn.layoutIfNeeded()
+        loginBtn.layoutIfNeeded()
         
         nameTextField.textColor = HexColor(DarkGrayColor)
         nameTextField.font = UIFont.systemFont(ofSize: 15)

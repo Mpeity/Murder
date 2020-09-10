@@ -67,6 +67,7 @@ class HomeListHeaderView: UIView {
             }
             
             scrollView = SDCycleScrollView(frame: CGRect(x: 0, y: 0, width: 345*SCALE_SCREEN, height: 150), imageNamesGroup: arr)!
+            scrollView.autoScrollTimeInterval = 5.0
             bannerView.addSubview(scrollView)
             scrollView.layer.cornerRadius = 10
             scrollView.layer.masksToBounds = true

@@ -31,6 +31,7 @@ class SetPasswordsViewController: UIViewController {
     // 确认密码
     @IBOutlet weak var confirmBtn: UIButton!
     
+    @IBOutlet weak var confiemBtnWidth: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,10 +68,13 @@ extension SetPasswordsViewController {
         moreView.layer.borderWidth = 0.5
         moreView.layer.borderColor = HexColor("#CCCCCC").cgColor
 
+        confiemBtnWidth.constant = (FULL_SCREEN_WIDTH - 37.5*2)
+        confirmBtn.layoutIfNeeded()
         confirmBtn.setTitleColor(UIColor.white, for: .normal)
         confirmBtn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         confirmBtn.gradientColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
         confirmBtn.layer.cornerRadius = 25
+        
 //        confirmBtn.isUserInteractionEnabled = false
         
         confirmBtn.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)
