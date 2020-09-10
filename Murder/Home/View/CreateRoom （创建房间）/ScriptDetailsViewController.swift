@@ -219,9 +219,19 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
                 cell.content = scriptDetailModel!.introduction
             }
             cell.selectionStyle = .none
-//            cell.boultBtnBlock = {[weak self](param) in
-//                self?.contentSelected = param
-//            }
+            cell.isSelected = contentSelected
+            if cell.isSelected {
+                cell.boultBtn.isSelected = true
+                cell.boultBtn.setImage(UIImage(named: "jiantou_up"), for: .normal)
+            } else {
+                cell.boultBtn.isSelected = false
+                cell.boultBtn.setImage(UIImage(named: "jiantou_down"), for: .normal)
+            }
+            cell.boultBtnBlock = {[weak self](param) in
+                Log(param)
+                self?.contentSelected = !self!.contentSelected!
+                self?.tableView.rectForRow(at: IndexPath(row: 0, section: 0))
+            }
             return cell
 
         } else {
@@ -262,23 +272,8 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            if scriptDetailModel != nil {
-                let string =  scriptDetailModel!.introduction!
-                let font = UIFont.systemFont(ofSize: 14)
-                
-                var height = stringSingleHeightWithWidth(text: string, width: FULL_SCREEN_WIDTH-40, font: font)
-                
-                if height < 82 {
-                    height = 82
-                }
-                if contentSelected! {
-                    return height + 24
-                } else {
-                    return 82
-                }
-            } else {
-                return 82
-            }
+            let height =  getContentHeight()
+            return height
         } else {
             return 82
         }
@@ -292,6 +287,28 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
 
 
 extension ScriptDetailsViewController {
+    
+    func getContentHeight() -> CGFloat {
+        if scriptDetailModel != nil {
+            let string =  scriptDetailModel!.introduction!
+            let font = UIFont.systemFont(ofSize: 14)
+            
+            var height = stringSingleHeightWithWidth(text: string, width: FULL_SCREEN_WIDTH-40, font: font)
+            
+            if height < 82 {
+                height = 82
+            }
+            if contentSelected! {
+                return height + 24
+            } else {
+                return 82
+            }
+        } else {
+            return 82
+        }
+    }
+    
+    
     //MARK: - 返回按钮
     @objc func backBtnAction() {
         let array = self.navigationController?.viewControllers

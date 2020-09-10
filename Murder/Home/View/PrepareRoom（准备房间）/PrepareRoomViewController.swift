@@ -879,7 +879,7 @@ extension PrepareRoomViewController {
     
     //MARK:- 消息按钮
     @objc func messageBtnAction(button: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+//        self.navigationController?.popViewController(animated: true)
     }
     
     //MARK:- 声音按钮

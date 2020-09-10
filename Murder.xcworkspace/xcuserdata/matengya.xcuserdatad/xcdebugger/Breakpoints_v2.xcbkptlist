@@ -769,22 +769,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "26CC7C31-F789-4C9E-A2DD-5C88A4AE09C4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Murder/Home/View/CreateRoom &#xff08;&#x521b;&#x5efa;&#x623f;&#x95f4;&#xff09;/SynopsisViewCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "boultBtnAction(button:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "297ADFE7-DBFF-4202-B62E-AC6BFB24B05F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -1035,6 +1019,22 @@
             startingLineNumber = "152"
             endingLineNumber = "152"
             landmarkName = "commonBtnAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E61F5C42-A7F3-481B-A114-360F0E841DAC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Murder/Home/View/CreateRoom &#xff08;&#x521b;&#x5efa;&#x623f;&#x95f4;&#xff09;/ScriptDetailsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "231"
+            endingLineNumber = "231"
+            landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
