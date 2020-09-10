@@ -59,6 +59,8 @@ extension SetPasswordsViewController {
         moreTextField.delegate = self
         passwordTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .valueChanged)
         moreTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .valueChanged)
+        passwordTextField.isSecureTextEntry = true
+        moreTextField.isSecureTextEntry = true
         
         oneView.layer.cornerRadius = 25
         oneView.layer.borderWidth = 0.5

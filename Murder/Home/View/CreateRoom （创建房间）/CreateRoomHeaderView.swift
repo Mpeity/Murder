@@ -42,10 +42,9 @@ class CreateRoomHeaderView: UIView {
                 coverImgView.setImageWith(URL(string: model.cover!))
             }
             if model.name != nil {
-                nameLabel.text = model.name!
+                nameLabel.text = "著者：\(model.name!)"
             }
-            
-            commonLabel.text = "\(String(model.duration!)) | \(String(model.wordNum!))"
+            commonLabel.text = "\(String(model.duration!))時間 | \(String(model.wordNum!))字"
             
             authorLabel.text = model.author
             
@@ -84,6 +83,11 @@ class CreateRoomHeaderView: UIView {
 
 extension CreateRoomHeaderView {
     private func setUI() {
+                
+        coverImgView.layer.borderWidth = 2
+        coverImgView.layer.borderColor = UIColor.white.cgColor
+        coverImgView.layer.cornerRadius = 8
+        
         borderView.backgroundColor = UIColor.clear
         borderView.layer.borderWidth = 0.5
         borderView.layer.borderColor = UIColor.white.cgColor

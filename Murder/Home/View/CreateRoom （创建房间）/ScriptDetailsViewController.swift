@@ -107,7 +107,7 @@ extension ScriptDetailsViewController {
         }
         createBtn.layoutIfNeeded()
         createBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
-        createBtn.setTitle("無料取得", for: .normal)
+        createBtn.setTitle("無料ゲット", for: .normal)
         createBtn.setTitleColor(UIColor.white, for: .normal)
         createBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         createBtn.addTarget(self, action: #selector(createBtnAction), for: .touchUpInside)

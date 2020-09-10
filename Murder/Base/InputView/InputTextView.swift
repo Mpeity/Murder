@@ -98,6 +98,7 @@ extension InputTextView {
     }
     
     @objc func hideTapAction() {
+        textFieldView.text = ""
         textFieldView.resignFirstResponder()
         contentView = nil
         removeFromSuperview()

@@ -137,6 +137,7 @@ extension LoginViewController {
         passwordTextField.textColor = HexColor(DarkGrayColor)
         passwordTextField.font = UIFont.systemFont(ofSize: 15)
         passwordTextField.delegate = self
+        passwordTextField.isSecureTextEntry = true
         passwordTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .editingChanged)
 
         nameTextField.text = email

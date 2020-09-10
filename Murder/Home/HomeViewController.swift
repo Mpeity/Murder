@@ -39,6 +39,8 @@ class HomeViewController: UIViewController,UITextFieldDelegate {
         inputView.textFieldView.delegate = self
         inputView.titleLabel.text = "パスワードを入力"
         inputView.commonBtn.setTitle("確認", for: .normal)
+        inputView.textFieldView.keyboardType = .numberPad
+        inputView.textFieldView.placeholder = ""
         inputView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         return inputView
     }()

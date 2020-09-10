@@ -23,7 +23,7 @@ class UserAccountViewModel {
     var account : UserAccount?
     
     var isLogin : Bool {
-        if account == nil {
+        if account == nil || account?.nickname == nil || account?.nickname == "" || account?.nickname == " " {
             return false
         }
         

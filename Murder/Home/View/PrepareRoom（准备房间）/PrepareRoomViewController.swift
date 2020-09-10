@@ -94,6 +94,7 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
         commonView.commonBtn.setTitle("確認", for: .normal)
         commonView.delegate = self
         commonView.textFieldView.delegate = self
+        commonView.textFieldView.placeholder = ""
         commonView.textFieldView.keyboardType = .numberPad
         return commonView
     }()
@@ -1198,7 +1199,6 @@ extension PrepareRoomViewController: WebSocketDelegate {
     
     func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
         
-        showToastCenter(msg: "websocketDidDisconnect")
         //执行重新连接方法
         socketReconnect()
         
