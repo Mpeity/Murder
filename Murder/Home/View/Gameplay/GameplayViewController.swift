@@ -1393,7 +1393,7 @@ extension GameplayViewController: PopMenuViewDelegate {
         drawImage(model: itemModel)
         let script_role_id = gamePlayModel?.scriptNodeResult.myRoleId!
         let script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId!
-        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id,"status":1,"script_role_id":script_role_id,"game_status_type":"map_see","script_node_map_id":itemModel?.scriptNodeMapId!,"key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
+        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id,"status":1,"script_role_id":script_role_id,"game_status_type":"map_see","script_node_map_id":itemModel?.scriptNodeMapId!,"key":UserAccountViewModel.shareInstance.account?.key] as [String : Any]
         
         let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
         SingletonSocket.sharedInstance.socket.write(string: mapJson)
@@ -1616,36 +1616,7 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
 
 
 private extension GameplayViewController {
-    func updateViews() {
-//        usersCollectionView.backgroundColor = UIColor.green
-//        for item in buttons {
-//            item.imageView?.contentMode = .scaleAspectFit
-//        }
-    }
-    
-    func removeUser(uid: UInt) {
-//        for (index, user) in userList.enumerated() {
-//            if user.uid == uid {
-//                userList.remove(at: index)
-//                break
-//            }
-//        }
-    }
-    
-    func addUser(uid: UInt) {
-//        let user = UserInfo.fakeUser(uid: uid)
-//        userList.append(user)
-    }
-    
-    func updateUser(uid: UInt, isMute: Bool) {
-//        for (index, user) in userList.enumerated() {
-//            if user.uid == uid {
-//                userList[index].isMute = isMute
-//                break
-//            }
-//        }
-    }
-    
+
 
     func getIndexWithUserIsSpeaking(uid: Int) -> Int? {
         let userList = gamePlayModel?.scriptRoleList
@@ -1706,7 +1677,7 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
         let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid))
         if index != nil {
             let cell = collectionView.cellForItem(at: IndexPath(item: index!, section: 0)) as? GameplayViewCell
-            if index!%2 == 0 {
+            if index! % 2 == 0 {
                 cell?.l_comImgView.isHidden = true
             } else {
                 cell?.r_comImgView.isHidden = true
@@ -1719,7 +1690,7 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
         if let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid)),
         let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
             
-            if index%2 == 0 {
+            if index % 2 == 0 {
                 cell.l_comImgView.isHidden = false
                 cell.l_comImgView.image = UIImage(named: "leave_icon")
                 cell.l_voiceView.isHidden = true

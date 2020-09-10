@@ -30,7 +30,11 @@ class AboutUsViewController: UIViewController {
         levelLabel.textColor = HexColor(LightGrayColor)
         
         setNavigationBar()
+        
+        loadData()
     }
+    
+    
     
     
     private func setNavigationBar() {
@@ -62,6 +66,23 @@ class AboutUsViewController: UIViewController {
 }
 
 extension AboutUsViewController {
+    
+    
+    private func loadData() {
+        configRequest(identity: "about") {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let dataResult = resultDic["data"] as! [String : AnyObject]
+                let result = dataResult["result"] as! [String : AnyObject]
+                self?.tipLabel.text = result["value"] as? String
+            }
+        }
+    }
+    
     //MARK: - 返回按钮
       @objc func backBtnAction() {
           self.navigationController?.popViewController(animated: true)

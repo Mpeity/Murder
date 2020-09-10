@@ -108,6 +108,7 @@ extension RecordDetailViewController {
         evaluateBtn.layer.borderWidth = 0.5
         evaluateBtn.layer.cornerRadius = 22
         evaluateBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        evaluateBtn.addTarget(self, action: #selector(evaluateBtnAction), for: .touchUpInside)
         
         
         bottomView.addSubview(truthBtn)
@@ -189,6 +190,12 @@ extension RecordDetailViewController {
 }
 
 extension RecordDetailViewController {
+    
+    // 返回
+    @objc func evaluateBtnAction() {
+        showToastCenter(msg: "暂未开通～")
+    }
+    
     // 查看真相
     @objc func truthBtnAction() {
         let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))

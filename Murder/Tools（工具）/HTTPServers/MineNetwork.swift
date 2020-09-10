@@ -87,4 +87,19 @@ func scriptLogRequest(page_no: Int, page_size: Int, finished: @escaping(_ reslut
 }
 
 
+//MARK:- 关于我们
+private let config_url = "/api/index/config"
+/** 注册接口
+ * @params [参数名] [类型] [是否必传]
+ * page_no [int]        页码
+ * page_size [int]        条数
+ */
+func configRequest(identity: String, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = config_url
+    let parameters = ["identity": identity] as [String : AnyObject]
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
 

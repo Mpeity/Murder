@@ -14,7 +14,7 @@ class MineModel : NSObject {
     var headId : String?
     var level : String?
     var nickname : String?
-    var userId : String?
+    var userId : Int?
 
 
     /**
@@ -25,7 +25,7 @@ class MineModel : NSObject {
         headId = dictionary["head_id"] as? String
         level = dictionary["level"] as? String
         nickname = dictionary["nickname"] as? String
-        userId = dictionary["user_id"] as? String
+        userId = dictionary["user_id"] as? Int
     }
 
     /**
