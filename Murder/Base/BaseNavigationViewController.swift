@@ -12,7 +12,9 @@ class BaseNavigationViewController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationBar.tintColor = HexColor("#333333")
+        navigationBar.barTintColor = UIColor.white
+        
         // Do any additional setup after loading the view.
     }
     
@@ -21,17 +23,15 @@ class BaseNavigationViewController: UINavigationController {
         
         // 设置导航栏背景图片
 //        navigationBar.setBackgroundImage(<#T##backgroundImage: UIImage?##UIImage?#>, for: <#T##UIBarMetrics#>)
+        
         // 设置标题颜色
-        navigationBar.tintColor = HexColor("#333333")
+        
         
         // 设置标题字号
 //        navigationBar.titleTextAttributes
         
         if children.count>0{
             viewController.hidesBottomBarWhenPushed = true
-//            let leftItem = UIBarButtonItem(image: UIImage(named: "back_black"), style: .plain, target: self, action: #selector(backBtnAction))
-//            navigationController?.navigationItem.leftBarButtonItem = leftItem
-
         }
         
         super.pushViewController(viewController, animated: animated)
@@ -42,25 +42,6 @@ class BaseNavigationViewController: UINavigationController {
         navigationController?.popViewController(animated: true)
     }
     
-    
-//    //设置导航条背景图片
-//        [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"top_bg"] forBarMetrics:UIBarMetricsDefault];
-//    //设置标题颜色
-//        self.navigationBar.tintColor = [UIColor whiteColor];
-//    //通过Attributes设置标题字体颜色字号
-//        [self.navigationBar setTitleTextAttributes:@{@"NSForegroundColorAttributeName":[UIColor whiteColor]}];
-//        NSMutableDictionary *textAttrs = [NSMutableDictionary dictionary];
-//        textAttrs[NSForegroundColorAttributeName] = [UIColor whiteColor];
-//        textAttrs[NSFontAttributeName] = [UIFont boldSystemFontOfSize:18];
-//        [self.navigationBar setTitleTextAttributes:textAttrs];
-//
-//    //如果是根控制器就不显示返回按钮
-//        if (self.childViewControllers.count > 0) { // 非根控制器
-//            UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"button_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backBtnPressed)];
-//            viewController.navigationItem.leftBarButtonItem = item;
-//        }
-//        [super pushViewController:viewController animated:animated];
-//
     
 
     

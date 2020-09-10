@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -19,6 +19,7 @@
                 <outlet property="nextBtn" destination="G1k-yA-3xe" id="gce-TH-uKz"/>
                 <outlet property="nextBtnTopConstraint" destination="GDX-UR-Rag" id="D4z-a4-D7F"/>
                 <outlet property="oneMoreBtn" destination="IgD-XA-PM0" id="zLx-cZ-E6S"/>
+                <outlet property="timeLabel" destination="OiE-iE-RQy" id="JgB-qZ-UWc"/>
                 <outlet property="tipLabel" destination="eIs-pO-rEv" id="7wO-Nx-Iyy"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -88,7 +89,7 @@
                                 <constraint firstAttribute="width" constant="15" id="TH5-fz-9Ao"/>
                             </constraints>
                         </imageView>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xvu-UH-ONQ">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="認証コードを入力" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xvu-UH-ONQ">
                             <rect key="frame" x="41" y="10" width="208.5" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="T94-Uz-QUX"/>
@@ -104,6 +105,12 @@
                             </constraints>
                             <state key="normal" title="再发"/>
                         </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OiE-iE-RQy">
+                            <rect key="frame" x="272.5" y="0.0" width="50" height="50"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s7X-r2-NpW">
                             <rect key="frame" x="259.5" y="10" width="0.5" height="30"/>
                             <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
@@ -114,11 +121,15 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstItem="OiE-iE-RQy" firstAttribute="leading" secondItem="IgD-XA-PM0" secondAttribute="leading" id="2cV-ii-f89"/>
                         <constraint firstAttribute="height" constant="50" id="CFE-l3-slg"/>
                         <constraint firstItem="Xgk-9A-xbK" firstAttribute="centerY" secondItem="7B5-aK-Iqq" secondAttribute="centerY" id="Dps-uR-yug"/>
                         <constraint firstAttribute="bottom" secondItem="s7X-r2-NpW" secondAttribute="bottom" constant="10" id="Qd9-Qa-seT"/>
+                        <constraint firstItem="OiE-iE-RQy" firstAttribute="top" secondItem="IgD-XA-PM0" secondAttribute="top" id="SnI-sy-3Fv"/>
                         <constraint firstItem="Xvu-UH-ONQ" firstAttribute="leading" secondItem="Xgk-9A-xbK" secondAttribute="trailing" constant="10" id="WvW-k6-9nH"/>
+                        <constraint firstItem="OiE-iE-RQy" firstAttribute="trailing" secondItem="IgD-XA-PM0" secondAttribute="trailing" id="Y4E-CD-xdA"/>
                         <constraint firstItem="Xgk-9A-xbK" firstAttribute="leading" secondItem="7B5-aK-Iqq" secondAttribute="leading" constant="16" id="YA5-53-vmF"/>
+                        <constraint firstItem="OiE-iE-RQy" firstAttribute="bottom" secondItem="IgD-XA-PM0" secondAttribute="bottom" id="Zxj-kg-5En"/>
                         <constraint firstItem="s7X-r2-NpW" firstAttribute="top" secondItem="7B5-aK-Iqq" secondAttribute="top" constant="10" id="bir-4k-fEx"/>
                         <constraint firstItem="Xvu-UH-ONQ" firstAttribute="centerY" secondItem="7B5-aK-Iqq" secondAttribute="centerY" id="dga-tv-Yzh"/>
                         <constraint firstItem="s7X-r2-NpW" firstAttribute="leading" secondItem="Xvu-UH-ONQ" secondAttribute="trailing" constant="10" id="i30-kB-LVs"/>

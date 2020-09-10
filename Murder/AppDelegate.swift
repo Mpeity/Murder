@@ -9,9 +9,6 @@
 import UIKit
 import Bugly
 import AgoraRtmKit
-
-
-
  
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -46,15 +43,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UMConfigure.setLogEnabled(true)
         application.registerForRemoteNotifications()
         
-
-        UITabBar.appearance().tintColor = HexColor("#9A57EF")
+        setUI()
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.backgroundColor = UIColor.white
-
         self.window?.rootViewController = defaultViewController
-        
-//        self.window?.rootViewController =  BaseNavigationViewController(rootViewController: PrepareRoomViewController())
-//        self.window?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
+
         
         self.window?.makeKeyAndVisible()
         return true
@@ -142,76 +135,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
-//func initUMPush() {
-//    //推送
-//    UMessage.start(withAppkey: UMAppKey, launchOptions: launchOptions, httpsEnable: true)
-//    UMessage.registerForRemoteNotifications()
-//
-//    //iOS10必须添加下面这段代码
-//    if #available(iOS 10.0, *) {
-//        let center = UNUserNotificationCenter.current
-//        center().delegate = self
-//        center().requestAuthorization(options:[.badge,.alert,.sound] , completionHandler: { (granted, error) in
-//            if granted {
-//                //点击允许
-//                //这里可以添加一些自己的逻辑
-//            }else{
-//                //点击不允许
-//                //这里可以添加一些自己的逻辑
-//            }
-//        })
-//
-//    } else {
-//        // Fallback on earlier versions
-//    }
-//    //打开日志，方便调试
-//    UMessage.setLogEnabled(true)
-//}
 
-
-//// 友盟推送配置
-//func umPushConfig()  {
-//    // push组件基本功能配置
-//    let entity = UMessageRegisterEntity.init()
-//    //type是对推送的几个参数的选择，可以选择一个或者多个。默认是三个全部打开，即：声音，弹窗，角标
-//    entity.types = Int(UMessageAuthorizationOptions.badge.rawValue|UMessageAuthorizationOptions.sound.rawValue|UMessageAuthorizationOptions.alert.rawValue)
-//    if #available(iOS 10.0, *) {
-//        let action1 = UNNotificationAction.init(identifier: "action1_identifier", title: "打开应用", options: .foreground)
-//        let action2 = UNNotificationAction.init(identifier: "action2_identifier", title: "忽略", options: .foreground)
-//        //UNNotificationCategoryOptionNone
-//        //UNNotificationCategoryOptionCustomDismissAction  清除通知被触发会走通知的代理方法
-//        //UNNotificationCategoryOptionAllowInCarPlay       适用于行车模式
-//        let category1 = UNNotificationCategory.init(identifier: "category1", actions: [action1, action2], intentIdentifiers: [], options: .customDismissAction)
-//        let categories = NSSet.init(objects: category1)
-//        entity.categories = (categories as! Set<AnyHashable>)
-//        UNUserNotificationCenter.current().delegate = self
-//        UMessage.registerForRemoteNotifications(launchOptions: CSCConfig.sharedInstance.lauchOptions, entity: entity) { (granted, error) in
-//            if granted {
-//
-//            } else {
-//
-//            }
-//        }
-//
-//    } else {
-//        // Fallback on earlier versions
-//        let action1 = UIMutableUserNotificationAction.init()
-//        action1.identifier = "action1_identifier"
-//        action1.title = "打开应用"
-//        action1.activationMode = .foreground
-//        let action2 = UIMutableUserNotificationAction.init()
-//        action2.identifier = "action2_identifier"
-//        action2.title = "忽略"
-//        action2.activationMode = .background //当点击的时候不启动程序，在后台处理
-//        action2.isAuthenticationRequired = true //需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
-//        action2.isDestructive = true
-//        let actionCategory1 = UIMutableUserNotificationCategory.init()
-//        actionCategory1.identifier = "category1" // 这组动作的唯一标示
-//        actionCategory1.setActions([action1, action2], for: .default)
-//        let categories = NSSet.init(objects: actionCategory1)
-//        entity.categories = (categories as! Set<AnyHashable>)
-//    }
-//}
+extension AppDelegate {
+    private func setUI() {
+        UITabBar.appearance().tintColor = HexColor("#9A57EF")
+        
+    }
+}
 
 
 

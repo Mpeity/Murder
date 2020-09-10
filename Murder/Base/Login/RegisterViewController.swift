@@ -48,6 +48,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     // 获取验证码
     var getCode: Bool = true
     
+    @IBOutlet weak var timeLabel: UILabel!
     
     // 下一步
     @IBAction func nextBtnAction(_ sender: Any) {
@@ -87,11 +88,9 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                     //  倒计时开始
                     self?.timerFunc()
                     self?.getCode = false
-                    
-//                    showToastCenter(msg:"認証コードは発送済です")
-
-                } else {
-                    showToastCenter(msg: "メールアドレスのフォーマットが正しくありません、再度入力してくさい")
+                    self?.timeLabel.isHidden = false
+                    self?.oneMoreBtn.isHidden = true
+                    showToastCenter(msg:"認証コードは発送済です")
                 }
             }
             
@@ -143,6 +142,12 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
 
 extension RegisterViewController {
     private func setUI() {
+        
+        oneMoreBtn.isHidden = false
+        timeLabel.isHidden = true
+        timeLabel.textColor = HexColor("#FE2126")
+        timeLabel.font = UIFont.systemFont(ofSize: 15)
+        
         nameView.layer.cornerRadius = 25
         nameView.layer.borderWidth = 0.5
         nameView.layer.borderColor = HexColor("#CCCCCC").cgColor
@@ -156,6 +161,7 @@ extension RegisterViewController {
         codeTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .editingChanged)
         codeView.isHidden = true
         oneMoreBtn.setTitleColor(HexColor("#FE2126"), for: .normal)
+        oneMoreBtn.addTarget(self, action: #selector(oneMoreBtnAction), for: .touchUpInside)
         
         nextBtnTopConstraint.constant = 25
         nextBtn.setTitle("下一步", for: .normal)
@@ -190,13 +196,52 @@ extension RegisterViewController {
     @objc func leftBtnAction() {
         navigationController?.popViewController(animated: true)
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        nameTextField.resignFirstResponder()
+        codeTextField.resignFirstResponder()
+    }
 }
 
 //MARK:- 倒计时
 extension RegisterViewController {
     
+    @objc func oneMoreBtnAction() {
+        var scene = 1
+        // 重置密码
+        if isResetPassword! {
+            scene = 2
+        }
+        let email = nameTextField.text!
+        getCodeData(email: email, scene: String(scene))
+    }
+    
+    private func getCodeData(email: String, scene: String) {
+        // 获取验证码
+        loadCaptcha(email: String(email), scene: String(scene)) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+        
+            if resultDic["code"]!.isEqual(1) {
+                self?.nextBtnTopConstraint.constant = 100
+                self?.codeView.isHidden = false
+                self?.view.layoutIfNeeded()
+                //  倒计时开始
+                self?.timerFunc()
+                self?.getCode = false
+                self?.timeLabel.isHidden = false
+                self?.oneMoreBtn.isHidden = true
+                showToastCenter(msg:"認証コードは発送済です")
+            }
+        }
+    }
+    
     private func timerFunc() {
-        count = 300
+        count = 60
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, block: {[weak self] (_) in
             self?.countDown()
         }, repeats: true)
@@ -205,13 +250,13 @@ extension RegisterViewController {
     private func countDown() {
         count -= 1
         if count == 0 {
-            oneMoreBtn.isEnabled = true
-            oneMoreBtn.setTitle("再一次", for: .normal)
+            timeLabel.isHidden = true
+            timeLabel.text = "60s"
+            oneMoreBtn.isHidden = false
             timer?.invalidate()
             timer = nil
         } else {
-            oneMoreBtn.setTitle(String("\(count)s"), for: .normal)
-            oneMoreBtn.isEnabled = false
+            timeLabel.text = String("\(count)s")
         }
     }
 }

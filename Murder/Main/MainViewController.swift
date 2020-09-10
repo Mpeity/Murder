@@ -12,7 +12,7 @@ import AgoraRtmKit
 
 class MainViewController: UITabBarController {
     
-    lazy var imageNames = ["home","script","message","script"]
+    lazy var imageNames = ["home","script","message","mine"]
     
     var checkUserModel: CheckUserModel?
     
@@ -32,7 +32,11 @@ class MainViewController: UITabBarController {
         
         AgoraRtmLogin()
         setRedPoint()
-
+        
+        self.tabBar.tintColor = HexColor(MainColor)
+        self.tabBar.barTintColor = UIColor.white
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(notifFunc(notif:)), name: NSNotification.Name(rawValue: No_Read_Num_Notif), object: nil)
         mgsNoRead()
     }
