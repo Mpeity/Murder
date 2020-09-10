@@ -1219,7 +1219,7 @@ extension GameplayViewController {
             readScriptView.type = "script"
             readScriptView.scriptData = currentScriptRoleModel?.chapter
             readScriptView.room_id = gamePlayModel?.room.roomId
-            readScriptView.script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
+            readScriptView.script_role_id = currentScriptRoleModel?.user.scriptRoleId
             readScriptView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
         }
     }
@@ -1230,7 +1230,7 @@ extension GameplayViewController {
            let threadView = ThreadView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
            
            threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-           threadView.script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
+            threadView.script_role_id = currentScriptRoleModel?.user.scriptRoleId
             
             threadView.room_id = gamePlayModel?.room.roomId
             threadView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
@@ -1297,7 +1297,7 @@ extension GameplayViewController {
             return
         }
         
-        gameReadyRequest(role_id: (gamePlayModel?.scriptNodeResult.myRoleId)!, room_id: room_id, current_script_node_id: script_node_id!) {[weak self] (result, error) in
+        gameReadyRequest(role_id: (currentScriptRoleModel?.user.scriptRoleId)!, room_id: room_id, current_script_node_id: script_node_id!) {[weak self] (result, error) in
             if error != nil {
                 return
             }
@@ -1376,8 +1376,7 @@ extension GameplayViewController: CollogueRoomViewDelegate {
         SingletonSocket.sharedInstance.socket.write(string: mapJson)
         
         
-        
-        
+    
         agoraKit.leaveChannel(nil)
         // 离开密谈 重新至回游戏中
         agoraKit.delegate = self
@@ -1400,7 +1399,7 @@ extension GameplayViewController: PopMenuViewDelegate {
         let itemModel = currentScriptRoleModel?.scriptNodeMapList![currentIndex]
         
         drawImage(model: itemModel)
-        let script_role_id = gamePlayModel?.scriptNodeResult.myRoleId!
+        let script_role_id = currentScriptRoleModel?.user.scriptRoleId!
         let script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId!
         let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id,"status":1,"script_role_id":script_role_id,"game_status_type":"map_see","script_node_map_id":itemModel?.scriptNodeMapId!,"key":UserAccountViewModel.shareInstance.account?.key] as [String : Any]
         
