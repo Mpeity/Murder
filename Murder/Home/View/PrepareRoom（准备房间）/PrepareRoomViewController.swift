@@ -798,6 +798,11 @@ extension PrepareRoomViewController {
         
         let commonView = OutOfRoomView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        if isOwner == 1 { // 房主
+            commonView.standUpBtn.isHidden = true
+        } else {
+            commonView.standUpBtn.isHidden = false
+        }
         self.view.addSubview(commonView)
 
         // 退出房间 确认按钮
