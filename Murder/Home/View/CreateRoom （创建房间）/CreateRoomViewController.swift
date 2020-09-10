@@ -17,6 +17,7 @@ class CreateRoomViewController: UIViewController {
         inputView.delegate = self
         inputView.textFieldView.delegate = self
         inputView.textFieldView.keyboardType = .numberPad
+        inputView.textFieldView.placeholder = ""
         inputView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         return inputView
     }()
