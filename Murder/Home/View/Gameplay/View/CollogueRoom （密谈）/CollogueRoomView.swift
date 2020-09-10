@@ -152,6 +152,8 @@ extension CollogueRoomView: UITableViewDelegate, UITableViewDataSource {
 //            self!.agoraKit.leaveChannel(nil)
 //            self!.agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: self!.uid!), joinSuccess: nil)
             self!.tableView.reloadData()
+            self!.selectIndexPath = indexPath
+            self!.tableView.selectRow(at: self!.selectIndexPath, animated: true, scrollPosition: .bottom)
             if self?.delegate != nil {
                 self!.delegate!.commonBtnTapAction(index: indexPath.row)
             }
