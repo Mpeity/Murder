@@ -195,19 +195,11 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
             let itemModel = clueList![indexPath.row]
             let threadCardView = ThreadCardDetailView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
             threadCardView.script_node_id = script_node_id
-//            let threadCardView = ThreadNewCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+
             threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
             threadCardView.room_id = room_id
             threadCardView.clueListModel = itemModel
-            
-//            threadCardView.deepBtnActionBlock = {[weak self] (param)->() in
-//                
-//            }
-//            
-//            threadCardView.publicBtnActionBlock = {[weak self] (param)->() in
-//                
-//                threadCardView.removeFromSuperview()
-//            }
+
             
             UIApplication.shared.keyWindow?.addSubview(threadCardView)
             
