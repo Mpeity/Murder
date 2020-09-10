@@ -138,6 +138,7 @@
 		9875840924E3CAA6008795C5 /* ScriptRoleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875840824E3CAA6008795C5 /* ScriptRoleModel.swift */; };
 		9875840B24E3CAC4008795C5 /* RoomUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875840A24E3CAC4008795C5 /* RoomUserModel.swift */; };
 		98772D0B24DBE72C00C1C125 /* AgoraRtcKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98772D0A24DBE72C00C1C125 /* AgoraRtcKit.framework */; };
+		987A62C3250A036600C1618C /* ThreadCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987A62C2250A036600C1618C /* ThreadCardDetailView.swift */; };
 		987C611C24EA29CB00CEA48D /* GamePlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987C611B24EA29CB00CEA48D /* GamePlayModel.swift */; };
 		98820FA224CA6DA90005EBDD /* HomeListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98820FA024CA6DA90005EBDD /* HomeListViewCell.swift */; };
 		98820FA324CA6DA90005EBDD /* HomeListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98820FA124CA6DA90005EBDD /* HomeListViewCell.xib */; };
@@ -418,6 +419,7 @@
 		9875840824E3CAA6008795C5 /* ScriptRoleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptRoleModel.swift; sourceTree = "<group>"; };
 		9875840A24E3CAC4008795C5 /* RoomUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomUserModel.swift; sourceTree = "<group>"; };
 		98772D0A24DBE72C00C1C125 /* AgoraRtcKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AgoraRtcKit.framework; sourceTree = "<group>"; };
+		987A62C2250A036600C1618C /* ThreadCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadCardDetailView.swift; sourceTree = "<group>"; };
 		987C611B24EA29CB00CEA48D /* GamePlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePlayModel.swift; sourceTree = "<group>"; };
 		98820FA024CA6DA90005EBDD /* HomeListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListViewCell.swift; sourceTree = "<group>"; };
 		98820FA124CA6DA90005EBDD /* HomeListViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeListViewCell.xib; sourceTree = "<group>"; };
@@ -926,6 +928,7 @@
 				98820FB724CAB7210005EBDD /* ThreadCardView.xib */,
 				986B5A1D24FF464D00DFCBB5 /* ThreadNewCardView.swift */,
 				986B5A2124FF46DF00DFCBB5 /* ThreadNewCardView.xib */,
+				987A62C2250A036600C1618C /* ThreadCardDetailView.swift */,
 			);
 			path = "Thread（线索）";
 			sourceTree = "<group>";
@@ -1693,6 +1696,7 @@
 				98F08BF924E238860033DFBA /* HomeViewModel.swift in Sources */,
 				98CA02A524C52B9E009EF0ED /* Common.swift in Sources */,
 				98649DE324CEC6E8005AA9C3 /* MyFriendsListViewController.swift in Sources */,
+				987A62C3250A036600C1618C /* ThreadCardDetailView.swift in Sources */,
 				9844204424EE0F7A001A0D7C /* GamePlayScriptModel.swift in Sources */,
 				986B5A1C24FDEDED00DFCBB5 /* CheckUserModel.swift in Sources */,
 				98C8D2AF24CDA0F1006C76D0 /* RecordListViewController.swift in Sources */,

@@ -1052,20 +1052,19 @@ extension GameplayViewController {
                 let data = resultDic["data"] as! [String : AnyObject]
                 let resultData = data["search_clue_result"] as! [String : AnyObject]
                 let clueResultModel = SearchClueResultModel(fromDictionary: resultData)
-//                let threadCardView = ThreadCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-                let threadCardView = ThreadNewCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                let threadCardView = ThreadCardDetailView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
                 threadCardView.clueResultModel = clueResultModel
                 threadCardView.script_place_id = script_place_id
                 threadCardView.room_id = self!.room_id
                 threadCardView.script_node_id = self!.script_node_id
                 
-                threadCardView.deepBtnActionBlock = {[weak self] (param)->() in
-                }
-                
-                threadCardView.publicBtnActionBlock = {[weak self] (param)->() in
-//                    self!.publicClue(model: param, script_place_id: script_place_id)
-//                    threadCardView.removeFromSuperview()
-                }
+//                threadCardView.deepBtnActionBlock = {[weak self] (param)->() in
+//                }
+//
+//                threadCardView.publicBtnActionBlock = {[weak self] (param)->() in
+////                    self!.publicClue(model: param, script_place_id: script_place_id)
+////                    threadCardView.removeFromSuperview()
+//                }
                 
                 threadCardView.clueResultModel = clueResultModel
                 threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
