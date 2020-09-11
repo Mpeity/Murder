@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SetPasswordsViewController: UIViewController {
+class SetPasswordsViewController: UIViewController,UITextFieldDelegate {
     
     var titleString: String?
     
@@ -18,6 +18,8 @@ class SetPasswordsViewController: UIViewController {
     
     var captcha: String!
         
+    @IBOutlet weak var commonView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
     // 输入密码视图
     @IBOutlet weak var oneView: UIView!
     // 输入密码输入框
@@ -54,7 +56,11 @@ class SetPasswordsViewController: UIViewController {
 
 extension SetPasswordsViewController {
     private func setUI() {
-        
+
+        commonView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideFunc))
+        commonView.addGestureRecognizer(tap)
+
         passwordTextField.delegate = self
         moreTextField.delegate = self
         passwordTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .valueChanged)
@@ -154,7 +160,7 @@ extension SetPasswordsViewController {
 }
 
 
-extension SetPasswordsViewController:UITextFieldDelegate {
+extension SetPasswordsViewController {
 
     
 
@@ -174,15 +180,27 @@ extension SetPasswordsViewController:UITextFieldDelegate {
 //        }
 
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        passwordTextField.resignFirstResponder()
+        moreTextField.resignFirstResponder()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        passwordTextField.resignFirstResponder()
+        moreTextField.resignFirstResponder()
+    }
+    
+    @objc func hideFunc() {
+        passwordTextField.resignFirstResponder()
+        moreTextField.resignFirstResponder()
+    }
 
     
 }
 
 extension SetPasswordsViewController {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        passwordTextField.resignFirstResponder()
-        moreTextField.resignFirstResponder()
-    }
+    
 }
 
 

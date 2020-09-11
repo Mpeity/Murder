@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.backgroundColor = UIColor.white
         self.window?.rootViewController = defaultViewController
 
-//        self.window?.rootViewController = LoginViewController()
+//        self.window?.rootViewController = SetPasswordsViewController()
         
         self.window?.makeKeyAndVisible()
         return true
