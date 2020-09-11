@@ -265,13 +265,33 @@ extension MyFriendsListViewController: InputTextViewDelegate  {
                     let data = resultDic["data"] as! [String : AnyObject]
                     let resultData = data["result"] as! [String : AnyObject]
                     let userFindModel = UserFindModel(fromDictionary: resultData)
-                    let commonView = ApplyFriendView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-                    commonView.userFindModel = userFindModel
-                    commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-                    UIApplication.shared.keyWindow?.addSubview(commonView)
+                    // 是否是朋友 1是 0否
+                    if userFindModel.isFriend != nil, userFindModel.isFriend == 1 {
+                        let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                        
+                        commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                        let itemModel = MessageListModel(fromDictionary: [ : ])
+                        
+                        itemModel.head = userFindModel.head
+                        itemModel.nickname = userFindModel.nickname
+                        itemModel.sex = userFindModel.sex
+                        itemModel.level = userFindModel.level
+                        itemModel.userId = userFindModel.userId
+                        commonView.itemModel  = itemModel
+                        UIApplication.shared.keyWindow?.addSubview(commonView)
+                    } else {
+                        let commonView = ApplyFriendView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                        commonView.userFindModel = userFindModel
+                        
+                        commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                        UIApplication.shared.keyWindow?.addSubview(commonView)
+                    }
+
+                    
                 }
             }
         }
+        textInputView.textFieldView.text = ""
     }
     
     @objc func keyboardWillChangeFrame(notif: Notification) {

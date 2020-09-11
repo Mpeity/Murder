@@ -1198,10 +1198,12 @@ extension GameplayViewController {
         if button.isSelected {
             microphoneBtn.setImage(UIImage(named: "gameplay_microphone_no"), for: .normal)
             microphoneBtn.setTitleColor(HexColor("#999999"), for: .normal)
+            microphoneBtn.setTitle("マイク", for: .normal)
             voiceHide = false
         } else {
             microphoneBtn.setImage(UIImage(named: "gameplay_microphone"), for: .normal)
             microphoneBtn.setTitleColor(UIColor.white, for: .normal)
+            microphoneBtn.setTitle("ミュート", for: .normal)
             voiceHide = true
         }
         collectionView.reloadData()

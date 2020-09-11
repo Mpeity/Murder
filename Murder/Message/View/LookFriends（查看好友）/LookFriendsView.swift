@@ -103,7 +103,8 @@ extension LookFriendsView {
     private func setUI() {
 
         contentView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        playerImgView.layer.cornerRadius = 15
+        playerImgView.layer.cornerRadius = 30
+        playerImgView.layer.masksToBounds = true
         playerNameLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         levelLabel.layer.cornerRadius = 7.5
         levelLabel.layer.masksToBounds = true
