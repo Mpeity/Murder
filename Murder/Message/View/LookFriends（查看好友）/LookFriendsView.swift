@@ -98,6 +98,10 @@ extension LookFriendsView {
             }
         }
         
+        if itemModel?.userId == UserAccountViewModel.shareInstance.account?.userId {
+            deleteBtn.isHidden = true
+        }
+        
     }
     
     private func setUI() {

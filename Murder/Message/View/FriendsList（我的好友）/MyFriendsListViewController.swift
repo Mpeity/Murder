@@ -266,7 +266,7 @@ extension MyFriendsListViewController: InputTextViewDelegate  {
                     let resultData = data["result"] as! [String : AnyObject]
                     let userFindModel = UserFindModel(fromDictionary: resultData)
                     // 是否是朋友 1是 0否
-                    if userFindModel.isFriend != nil, userFindModel.isFriend == 1 {
+                    if (userFindModel.userId == UserAccountViewModel.shareInstance.account?.userId) || (userFindModel.isFriend != nil &&  userFindModel.isFriend == 1) {
                         let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
                         
                         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)

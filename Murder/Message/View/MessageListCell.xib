@@ -30,15 +30,27 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JWC-8p-QsP" userLabel="point">
-                        <rect key="frame" x="60" y="10" width="7" height="7"/>
+                        <rect key="frame" x="60" y="10" width="10" height="10"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zO5-hr-EP9">
+                                <rect key="frame" x="0.0" y="0.0" width="10" height="10"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" red="0.92941176469999998" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="7" id="NjT-69-WC1"/>
-                            <constraint firstAttribute="width" constant="7" id="tqW-52-rLD"/>
+                            <constraint firstAttribute="height" constant="10" id="NjT-69-WC1"/>
+                            <constraint firstItem="zO5-hr-EP9" firstAttribute="leading" secondItem="JWC-8p-QsP" secondAttribute="leading" id="V6b-0i-kOR"/>
+                            <constraint firstItem="zO5-hr-EP9" firstAttribute="top" secondItem="JWC-8p-QsP" secondAttribute="top" id="WYQ-n1-8tt"/>
+                            <constraint firstAttribute="bottom" secondItem="zO5-hr-EP9" secondAttribute="bottom" id="i7z-jf-Elw"/>
+                            <constraint firstAttribute="trailing" secondItem="zO5-hr-EP9" secondAttribute="trailing" id="nQS-cV-m5u"/>
+                            <constraint firstAttribute="width" constant="10" id="tqW-52-rLD"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                <real key="value" value="3.5"/>
+                                <integer key="value" value="5"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
@@ -98,6 +110,7 @@
                 <outlet property="avatarImgView" destination="h8k-h0-A6H" id="xdc-J7-HE9"/>
                 <outlet property="messageLabel" destination="Ez6-uU-QMA" id="aHS-d0-9mE"/>
                 <outlet property="nicknameLabel" destination="Uuu-WT-Upb" id="sah-zo-ZDW"/>
+                <outlet property="numLabel" destination="zO5-hr-EP9" id="yda-nn-fBq"/>
                 <outlet property="pointView" destination="JWC-8p-QsP" id="OqQ-QC-Nr8"/>
                 <outlet property="timeLabel" destination="uBQ-lg-0qd" id="RPy-m9-tjK"/>
             </connections>

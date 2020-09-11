@@ -20,6 +20,8 @@ class MessageListCell: UITableViewCell {
     @IBOutlet weak var avatarImgView: UIImageView!
     // 红色提示点
     @IBOutlet weak var pointView: UIView!
+    
+    @IBOutlet weak var numLabel: UILabel!
     // 昵称
     @IBOutlet weak var nicknameLabel: UILabel!
     // 消息
@@ -69,6 +71,7 @@ class MessageListCell: UITableViewCell {
             
             if itemModel.noReadNum ?? 0 > 0 {
                 pointView.isHidden = false
+                numLabel.text = "\(itemModel.noReadNum!)"
             } else {
                 pointView.isHidden = true
             }
@@ -78,7 +81,8 @@ class MessageListCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+        numLabel.textColor = HexColor(DarkGrayColor)
+        numLabel.font = UIFont.systemFont(ofSize: 7)
         
         nicknameLabel.textColor = HexColor(DarkGrayColor)
         timeLabel.textColor = HexColor(LightGrayColor)
