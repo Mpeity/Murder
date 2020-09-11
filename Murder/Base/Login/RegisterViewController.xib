@@ -34,14 +34,14 @@
                     <rect key="frame" x="37.5" y="70" width="339" height="50"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_name" translatesAutoresizingMaskIntoConstraints="NO" id="KhO-Yx-VgX">
-                            <rect key="frame" x="16" y="18.5" width="15" height="13"/>
+                            <rect key="frame" x="13" y="14.5" width="21" height="21"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="15" id="8SP-xf-xpV"/>
-                                <constraint firstAttribute="height" constant="13" id="aTQ-7F-y5g"/>
+                                <constraint firstAttribute="width" constant="21" id="8SP-xf-xpV"/>
+                                <constraint firstAttribute="height" constant="21" id="aTQ-7F-y5g"/>
                             </constraints>
                         </imageView>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0nq-u7-Zi0">
-                            <rect key="frame" x="41" y="10" width="282" height="30"/>
+                            <rect key="frame" x="44" y="10" width="279" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="N6Y-Ve-pU1"/>
                             </constraints>
@@ -54,7 +54,7 @@
                         <constraint firstItem="0nq-u7-Zi0" firstAttribute="centerY" secondItem="xe9-H3-CM5" secondAttribute="centerY" id="4gJ-ue-F7d"/>
                         <constraint firstItem="0nq-u7-Zi0" firstAttribute="leading" secondItem="KhO-Yx-VgX" secondAttribute="trailing" constant="10" id="Ejq-f7-cH3"/>
                         <constraint firstItem="KhO-Yx-VgX" firstAttribute="centerY" secondItem="xe9-H3-CM5" secondAttribute="centerY" id="JRi-lI-oyg"/>
-                        <constraint firstItem="KhO-Yx-VgX" firstAttribute="leading" secondItem="xe9-H3-CM5" secondAttribute="leading" constant="16" id="Lgt-Xy-kq5"/>
+                        <constraint firstItem="KhO-Yx-VgX" firstAttribute="leading" secondItem="xe9-H3-CM5" secondAttribute="leading" constant="13" id="Lgt-Xy-kq5"/>
                         <constraint firstAttribute="height" constant="50" id="d7Z-dq-wds"/>
                         <constraint firstAttribute="trailing" secondItem="0nq-u7-Zi0" secondAttribute="trailing" constant="16" id="rK1-rV-WVF"/>
                     </constraints>
@@ -84,14 +84,14 @@
                     <rect key="frame" x="37.5" y="145" width="339" height="50"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_password" translatesAutoresizingMaskIntoConstraints="NO" id="Xgk-9A-xbK">
-                            <rect key="frame" x="16" y="18.5" width="15" height="13"/>
+                            <rect key="frame" x="13" y="14.5" width="21" height="21"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="13" id="GTt-Ca-TMe"/>
-                                <constraint firstAttribute="width" constant="15" id="TH5-fz-9Ao"/>
+                                <constraint firstAttribute="height" constant="21" id="GTt-Ca-TMe"/>
+                                <constraint firstAttribute="width" constant="21" id="TH5-fz-9Ao"/>
                             </constraints>
                         </imageView>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="認証コードを入力" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xvu-UH-ONQ">
-                            <rect key="frame" x="41" y="10" width="208.5" height="30"/>
+                            <rect key="frame" x="44" y="10" width="205.5" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="T94-Uz-QUX"/>
                             </constraints>
@@ -129,7 +129,7 @@
                         <constraint firstItem="OiE-iE-RQy" firstAttribute="top" secondItem="IgD-XA-PM0" secondAttribute="top" id="SnI-sy-3Fv"/>
                         <constraint firstItem="Xvu-UH-ONQ" firstAttribute="leading" secondItem="Xgk-9A-xbK" secondAttribute="trailing" constant="10" id="WvW-k6-9nH"/>
                         <constraint firstItem="OiE-iE-RQy" firstAttribute="trailing" secondItem="IgD-XA-PM0" secondAttribute="trailing" id="Y4E-CD-xdA"/>
-                        <constraint firstItem="Xgk-9A-xbK" firstAttribute="leading" secondItem="7B5-aK-Iqq" secondAttribute="leading" constant="16" id="YA5-53-vmF"/>
+                        <constraint firstItem="Xgk-9A-xbK" firstAttribute="leading" secondItem="7B5-aK-Iqq" secondAttribute="leading" constant="13" id="YA5-53-vmF"/>
                         <constraint firstItem="OiE-iE-RQy" firstAttribute="bottom" secondItem="IgD-XA-PM0" secondAttribute="bottom" id="Zxj-kg-5En"/>
                         <constraint firstItem="s7X-r2-NpW" firstAttribute="top" secondItem="7B5-aK-Iqq" secondAttribute="top" constant="10" id="bir-4k-fEx"/>
                         <constraint firstItem="Xvu-UH-ONQ" firstAttribute="centerY" secondItem="7B5-aK-Iqq" secondAttribute="centerY" id="dga-tv-Yzh"/>

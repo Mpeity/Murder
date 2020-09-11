@@ -73,27 +73,29 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     
         // 获取验证码
         if !email.isEmptyString && getCode  {
-            // 获取验证码
-            loadCaptcha(email: String(email), scene: String(scene)) {[weak self] (result, error) in
-                if error != nil {
-                    return
-                }
-                
-                // 取到结果
-                guard  let resultDic :[String : AnyObject] = result else { return }
+//            // 获取验证码
+//            loadCaptcha(email: String(email), scene: String(scene)) {[weak self] (result, error) in
+//                if error != nil {
+//                    return
+//                }
+//
+//                // 取到结果
+//                guard  let resultDic :[String : AnyObject] = result else { return }
+//
+//                if resultDic["code"]!.isEqual(1) {
+//                    self?.nextBtnTopConstraint.constant = 100
+//                    self?.codeView.isHidden = false
+//                    self?.view.layoutIfNeeded()
+//                    //  倒计时开始
+//                    self?.timerFunc()
+//                    self?.getCode = false
+//                    self?.timeLabel.isHidden = false
+//                    self?.oneMoreBtn.isHidden = true
+//                    showToastCenter(msg:"認証コードは発送済です")
+//                }
+//            }
             
-                if resultDic["code"]!.isEqual(1) {
-                    self?.nextBtnTopConstraint.constant = 100
-                    self?.codeView.isHidden = false
-                    self?.view.layoutIfNeeded()
-                    //  倒计时开始
-                    self?.timerFunc()
-                    self?.getCode = false
-                    self?.timeLabel.isHidden = false
-                    self?.oneMoreBtn.isHidden = true
-                    showToastCenter(msg:"認証コードは発送済です")
-                }
-            }
+            getCodeData(email: email, scene: String(scene))
             
             
         }
@@ -240,7 +242,9 @@ extension RegisterViewController {
                 self?.getCode = false
                 self?.timeLabel.isHidden = false
                 self?.oneMoreBtn.isHidden = true
+                showToastCenter(msg: resultDic["msg"] as! String)
                 showToastCenter(msg:"認証コードは発送済です")
+                
             }
         }
     }

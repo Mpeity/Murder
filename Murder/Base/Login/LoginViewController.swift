@@ -22,7 +22,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     // 密码
     @IBOutlet weak var passwordTextField: UITextField!
     // 注册
-    @IBOutlet weak var registerBtn: UIButton!
+    @IBOutlet weak var registerBtn: GradienButton!
     // 登录
     @IBOutlet weak var loginBtn: GradienButton!
     
@@ -32,8 +32,10 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var forgetPasswordLabel: UILabel!
     
     
+    @IBOutlet weak var registerWidth: NSLayoutConstraint!
     
-    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var loginWidth: NSLayoutConstraint!
+    
     
     // MARK: - 注册按钮响应事件
     @IBAction func registerBtnAction(_ sender: Any) {
@@ -124,12 +126,10 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
 extension LoginViewController {
     
     private func setUI() {
-        
-//        widthConstraint.constant = (FULL_SCREEN_WIDTH - 37 * 2 - 15) * 0.5
-        
-        registerBtn.layoutIfNeeded()
-        loginBtn.layoutIfNeeded()
-        
+                
+        registerWidth.constant = (FULL_SCREEN_WIDTH - 37 * 2 - 15) * 0.5
+        loginWidth.constant = (FULL_SCREEN_WIDTH - 37 * 2 - 15) * 0.5
+                
         nameTextField.textColor = HexColor(DarkGrayColor)
         nameTextField.font = UIFont.systemFont(ofSize: 15)
         nameTextField.delegate = self
@@ -156,9 +156,6 @@ extension LoginViewController {
         // 登录
         loginBtn.setTitleColor(UIColor.white, for: .normal)
         loginBtn.titleLabel?.text = "ログイン"
-//        loginBtn.gradientColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
-        
-        loginBtn.setGradienButtonColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
         
         userAgreementLabel.attributedText = getNSAttributedString(str: "利用規約」に同意してログインする", color: LightGrayColor)
 

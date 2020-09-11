@@ -219,14 +219,14 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
                 cell.content = scriptDetailModel!.introduction
             }
             cell.selectionStyle = .none
-            cell.isSelected = contentSelected
-            if cell.isSelected {
-                cell.boultBtn.isSelected = true
-                cell.boultBtn.setImage(UIImage(named: "jiantou_up"), for: .normal)
-            } else {
-                cell.boultBtn.isSelected = false
-                cell.boultBtn.setImage(UIImage(named: "jiantou_down"), for: .normal)
-            }
+//            cell.isSelected = contentSelected!
+//            if cell.isSelected {
+//                cell.boultBtn.isSelected = true
+//                cell.boultBtn.setImage(UIImage(named: "jiantou_up"), for: .normal)
+//            } else {
+//                cell.boultBtn.isSelected = false
+//                cell.boultBtn.setImage(UIImage(named: "jiantou_down"), for: .normal)
+//            }
             cell.boultBtnBlock = {[weak self](param) in
                 Log(param)
                 self?.contentSelected = !self!.contentSelected!
