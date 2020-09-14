@@ -70,6 +70,8 @@ class MyFriendsListViewController: UIViewController, UITableViewDelegate, UITabl
     
 }
 
+
+
 // MARK: - LoadData
 extension MyFriendsListViewController {
     
@@ -201,7 +203,7 @@ extension MyFriendsListViewController {
         cell.itemModel = model
         cell.avatarImgTapBlcok = {() in
             let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-            
+            commonView.delegate = self
             commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
             let itemModel = MessageListModel(fromDictionary: [ : ])
             itemModel.head = model!.head
@@ -210,7 +212,6 @@ extension MyFriendsListViewController {
             itemModel.level = model!.level
             itemModel.userId = model!.userId
             commonView.itemModel  = itemModel
-            
             UIApplication.shared.keyWindow?.addSubview(commonView)
         }
         return cell
@@ -323,4 +324,12 @@ extension MyFriendsListViewController: InputTextViewDelegate  {
             self.textInputView.layoutIfNeeded()
         }
     }
+}
+
+
+extension MyFriendsListViewController: LookFriendsViewDelegate {
+    func DeleteFriends() {
+        loadRefresh()
+    }
+ 
 }

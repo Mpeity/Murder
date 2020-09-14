@@ -1276,9 +1276,9 @@ extension GameplayViewController {
     //MARK: 线索
     @objc func threadBtnBtnAction(button: UIButton) {
 //        if currentScriptRoleModel?.gameUserClueList?.count != 0 {
-           let threadView = ThreadView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-           
-           threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            let threadView = ThreadView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            
+            threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
             threadView.script_role_id = currentScriptRoleModel?.user.scriptRoleId
             
             threadView.room_id = gamePlayModel?.room.roomId

@@ -68,7 +68,6 @@ class SendMessageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-//        AgoraRtmLogin()
         AgoraRtm.updateKit(delegate: self)
 
         // 监听键盘弹出
@@ -206,6 +205,19 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
         let cellType : CellType = String(msg.sendId!) == AgoraRtm.current ? .right : .left
         msg.cellType = cellType
         msg.head = messageListModel?.head
+        
+        if indexPath.row == 0 {
+            msg.showTime = true
+        } else {
+            
+//            let preMsg = msgList![indexPath.row - 1]
+//            let timeMs = Float(msg.timeMs!)
+//            let preTimeMs = Float(preMsg.timeMs!)
+//            let timeInterval = timeMs! - preTimeMs!
+//            Log("timeCount--------\(timeInterval)")
+            
+            
+        }
         
         // "type":1, //1文字 2 剧本详情 3 剧本邀请
         let type = msg.type
@@ -477,11 +489,13 @@ private extension SendMessageViewController {
 // MARK: AgoraRtmDelegate
 extension SendMessageViewController: AgoraRtmDelegate {
     func rtmKit(_ kit: AgoraRtmKit, connectionStateChanged state: AgoraRtmConnectionState, reason: AgoraRtmConnectionChangeReason) {
+        
 //        showAlert("connection state changed: \(state.rawValue)") { [weak self] (_) in
 //            if reason == .remoteLogin, let strongSelf = self {
 //                strongSelf.navigationController?.popToRootViewController(animated: true)
 //            }
 //        }
+        
     }
     
     func rtmKit(_ kit: AgoraRtmKit, messageReceived message: AgoraRtmMessage, fromPeer peerId: String) {

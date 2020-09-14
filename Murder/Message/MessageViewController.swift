@@ -31,13 +31,16 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        
+        
         setUI()
         msgNoRead()
         
         let peer = UserAccountViewModel.shareInstance.account?.userId
         AgoraRtm.kit?.queryPeersOnlineStatus([String(peer!)], completion: {[weak self] (peerOnlineStatus, peersOnlineErrorCode) in
             guard peersOnlineErrorCode == .ok else {
-                showToastCenter(msg: "message-AgoraRtm login error: \(peersOnlineErrorCode.rawValue)")
+                self?.AgoraRtmLogin()
                 return
             }
             Log(peerOnlineStatus)
@@ -190,6 +193,7 @@ extension MessageViewController {
         if model?.type != 3 {
             cell.avatarImgTapBlcok = {() in
                 let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                commonView.delegate = self
                 commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
                 commonView.itemModel = model
                 UIApplication.shared.keyWindow?.addSubview(commonView)
@@ -235,16 +239,23 @@ extension MessageViewController {
 extension MessageViewController: AgoraRtmDelegate {
     // 登录
     func AgoraRtmLogin() {
-        let account = UserAccountViewModel.shareInstance.account?.userId
-        AgoraRtm.updateKit(delegate: self)
-        AgoraRtm.current = String(account!)
-        AgoraRtm.kit?.login(byToken: nil, user: String(account!)) { [weak self] (errorCode) in
-            print(String(account!))
-            guard errorCode == .ok else {
-                showToastCenter(msg: "login-AgoraRtm login error: \(errorCode.rawValue)")
-                return
+        func AgoraRtmLogin() {
+            let account = UserAccountViewModel.shareInstance.account?.userId
+            AgoraRtm.updateKit(delegate: self)
+            AgoraRtm.current = String(account!)
+
+            AgoraRtm.kit?.login(byToken: nil, user: String(account!)) { [weak self] (errorCode) in
+                
+                print(String(account!))
+                
+                guard errorCode == .ok else {
+                    UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
+                    userLogout()
+                    AgoraRtmLogout()
+                    return
+                }
+                AgoraRtm.status = .online
             }
-            AgoraRtm.status = .online
         }
     }
     
@@ -258,4 +269,11 @@ extension MessageViewController: AgoraRtmDelegate {
 //    }
     
     
+}
+
+extension MessageViewController: LookFriendsViewDelegate {
+    func DeleteFriends() {
+        loadRefresh()
+    }
+ 
 }

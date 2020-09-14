@@ -9,7 +9,15 @@
 
 import UIKit
 
+
+protocol LookFriendsViewDelegate {
+    func DeleteFriends()
+}
+
+
 class LookFriendsView: UIView {
+    
+    var delegate: LookFriendsViewDelegate?
     
     @IBOutlet var contentView: UIView!
     
@@ -138,7 +146,7 @@ extension LookFriendsView {
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         commonView.deleteBtnTapBlcok = {[weak self] () in
             let friend_id = self?.itemModel?.userId
-            deleteFriendRequest(friend_id: friend_id!) { (result, error) in
+            deleteFriendRequest(friend_id: friend_id!) {[weak self] (result, error) in
                 if error != nil {
                     return
                 }
@@ -147,6 +155,11 @@ extension LookFriendsView {
                 
                 if resultDic["code"]!.isEqual(1) {
 //                    let data = resultDic["data"] as! [String : AnyObject]
+                    
+                    if self?.delegate != nil {
+                        self?.delegate?.DeleteFriends()
+                    }
+                    
                     self?.contentView = nil
                     self?.removeFromSuperview()
                     

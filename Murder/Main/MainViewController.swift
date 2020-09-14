@@ -31,6 +31,7 @@ class MainViewController: UITabBarController {
         super.viewDidLoad()
         
         AgoraRtmLogin()
+        
         setRedPoint()
         
         self.tabBar.tintColor = HexColor(MainColor)
@@ -43,7 +44,7 @@ class MainViewController: UITabBarController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)        
-//        AgoraRtmLogout()
+        AgoraRtmLogout()
     }
     
     deinit {
@@ -85,10 +86,10 @@ extension MainViewController: AgoraRtmDelegate {
             
             print(String(account!))
             
-            
             guard errorCode == .ok else {
-                
-                showToastCenter(msg: "main-AgoraRtm login error: \(errorCode.rawValue)")
+                UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
+                userLogout()
+                self!.AgoraRtmLogout()
                 return
             }
             AgoraRtm.status = .online
@@ -107,6 +108,7 @@ extension MainViewController: AgoraRtmDelegate {
             AgoraRtm.status = .offline
         })
     }
+    
     
     // Receive one to one offline messages
     func rtmKit(_ kit: AgoraRtmKit, messageReceived message: AgoraRtmMessage, fromPeer peerId: String) {
