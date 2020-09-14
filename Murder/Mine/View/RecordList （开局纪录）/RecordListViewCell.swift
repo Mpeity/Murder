@@ -8,7 +8,15 @@
 
 import UIKit
 
+typealias CommonBtnTapBlock = () -> ()
+
+
+
 class RecordListViewCell: UITableViewCell {
+    
+    
+    var commonBtnTapClick: CommonBtnTapBlock?
+    
     // 封面
     @IBOutlet weak var coverImgView: UIImageView!
     // 名字
@@ -17,6 +25,10 @@ class RecordListViewCell: UITableViewCell {
     @IBOutlet weak var startTimeLabel: UILabel!
     // 本局时间
     @IBOutlet weak var timeLabel: UILabel!
+    
+    
+    @IBOutlet weak var commonBtn: UIButton!
+    
     
     
     var itemModel: ScriptMineListModel? {
@@ -29,11 +41,10 @@ class RecordListViewCell: UITableViewCell {
             }
             
             if itemModel.gameStartTime != nil {
-                startTimeLabel.text = itemModel.gameStartTime
+                startTimeLabel.text = "開始時間：" + itemModel.gameStartTime
             }
-            
             if itemModel.spentTimeText != nil {
-                timeLabel.text = itemModel.spentTimeText
+                timeLabel.text = "所要時間：" + itemModel.spentTimeText
             }
             
             if itemModel.scriptName != nil {
@@ -68,5 +79,15 @@ extension RecordListViewCell {
         
         timeLabel.textColor = HexColor(LightDarkGrayColor)
         timeLabel.font = UIFont.systemFont(ofSize: 12)
+        
+        commonBtn.addTarget(self, action: #selector(commonBtnAction), for: .touchUpInside)
+    }
+}
+
+extension RecordListViewCell {
+    @objc func commonBtnAction() {
+        if commonBtnTapClick != nil {
+            commonBtnTapClick!()
+        }
     }
 }

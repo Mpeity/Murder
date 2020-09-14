@@ -7,12 +7,19 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 let SynopsisViewCellId = "SynopsisViewCellId"
 
 class ScriptDetailsViewController: UIViewController {
     
     var script_id: Int!
+    
+    var user_script_text: String? {
+        didSet {
+            
+        }
+    }
     
     // 标题
     private var titleLabel: UILabel = UILabel()
@@ -64,7 +71,9 @@ class ScriptDetailsViewController: UIViewController {
 extension ScriptDetailsViewController {
     func scriptDetailsFun() {
         if script_id != nil {
+            SVProgressHUD.show(withStatus: "加载中")
             scriptDetail(script_id: script_id) { [weak self] (result, error) in
+                SVProgressHUD.dismiss()
                     if error != nil {
                         return
                     }
@@ -107,7 +116,12 @@ extension ScriptDetailsViewController {
         }
         createBtn.layoutIfNeeded()
         createBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
+
         createBtn.setTitle("無料ゲット", for: .normal)
+
+        if user_script_text != nil && user_script_text == "已拥有" {
+            createBtn.setTitle("ルームを作る", for: .normal)
+        }
         createBtn.setTitleColor(UIColor.white, for: .normal)
         createBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         createBtn.addTarget(self, action: #selector(createBtnAction), for: .touchUpInside)
@@ -216,17 +230,16 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
             let nibView = Bundle.main.loadNibNamed("SynopsisViewCell", owner: nil, options: nil)
             let cell = nibView!.first as! SynopsisViewCell
             if scriptDetailModel != nil {
+                
                 cell.content = scriptDetailModel!.introduction
             }
             cell.selectionStyle = .none
-//            cell.isSelected = contentSelected!
-//            if cell.isSelected {
-//                cell.boultBtn.isSelected = true
-//                cell.boultBtn.setImage(UIImage(named: "jiantou_up"), for: .normal)
-//            } else {
-//                cell.boultBtn.isSelected = false
-//                cell.boultBtn.setImage(UIImage(named: "jiantou_down"), for: .normal)
-//            }
+            cell.isSelected = contentSelected!
+            if cell.isSelected {
+                cell.boultBtn.setImage(UIImage(named: "jiantou_up"), for: .normal)
+            } else {
+                cell.boultBtn.setImage(UIImage(named: "jiantou_down"), for: .normal)
+            }
             cell.boultBtnBlock = {[weak self](param) in
                 Log(param)
                 self?.contentSelected = !self!.contentSelected!
@@ -299,7 +312,7 @@ extension ScriptDetailsViewController {
                 height = 82
             }
             if contentSelected! {
-                return height + 24
+                return height
             } else {
                 return 82
             }

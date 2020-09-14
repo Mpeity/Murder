@@ -73,7 +73,7 @@ class GameplayViewController: UIViewController {
     // 地点名称
     private var placeBtn: UIButton = UIButton()
     // 地点弹框
-    private var popMenuView = PopMenuView()
+    private var popMenuView = PlacePopMenuView()
     
     // 倒计时
     private var timerView = UIView()
@@ -172,8 +172,14 @@ class GameplayViewController: UIViewController {
     // 答题页面
     let commonQuestionView = QuestionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     
+    // 地点index
+    private var placeIndex: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         initWebSocketSingle()
         
@@ -228,6 +234,7 @@ extension GameplayViewController {
                 if resultDic["code"]!.isEqual(1) {
                     let data = resultDic["data"] as! [String : AnyObject]
                     self?.gamePlayModel = GamePlayModel(fromDictionary: data)
+                    
                     self?.joinSecretTalk()
                     self?.refreshUI()
                     
@@ -287,6 +294,13 @@ extension GameplayViewController {
             }
         }
         
+        // 绘制地图
+        if currentScriptRoleModel?.scriptNodeMapList != nil {
+            Log("这里有图片吗------1")
+            let model = currentScriptRoleModel?.scriptNodeMapList?[0]
+            drawImage(model: model)
+        }
+        
         if (currentScriptRoleModel?.secretTalkId)! > 0 {
             isJoinCollogueRoom = true
             let index = (currentScriptRoleModel?.secretTalkId!)! - 1
@@ -333,13 +347,7 @@ extension GameplayViewController {
         } else {
            gameNameLabel.text = ""
         }
-        // 绘制地图
-        if currentScriptRoleModel?.scriptNodeMapList != nil {
-            Log("这里有图片吗------1")
-            let model = currentScriptRoleModel?.scriptNodeMapList?[0]
-            drawImage(model: model)
-        }
-
+        
         // 配置按钮
         if gamePlayModel?.scriptNodeResult.buttonName != nil {
             commonBtn.setTitle(gamePlayModel?.scriptNodeResult.buttonName!, for: .normal)
@@ -354,13 +362,13 @@ extension GameplayViewController {
             currentLabel.text = gamePlayModel?.scriptNodeResult.nodeName
         }
         
-        if gamePlayModel?.scriptNodeResult.description != nil {
-            preference.drawing.message = gamePlayModel?.scriptNodeResult!.describe as! String
+        if gamePlayModel?.scriptNodeResult.describe != nil {
+            preference.drawing.message = gamePlayModel?.scriptNodeResult!.describe! as! String
         }
         
         
         if currentScriptRoleModel?.scriptNodeMapList != nil {
-            popMenuView.type = "place"
+            popMenuView.selectIndexPath = IndexPath(row: placeIndex, section: 0)
             popMenuView.titleArray = (currentScriptRoleModel?.scriptNodeMapList!)! as [AnyObject]
             popMenuView.snp.remakeConstraints { (make) in
                 make.centerX.equalToSuperview()
@@ -370,87 +378,115 @@ extension GameplayViewController {
             }
         }
         
+        
+        // 更新 地图小红点
+        let itemModel = currentScriptRoleModel?.scriptNodeMapList![placeIndex]
+        let placeStr = itemModel?.name
+        placeRedPoint(placeStr: placeStr!)
+        
+        
+        
+
         // 更新 剧本小红点
         if currentScriptRoleModel?.chapter != nil {
             readScriptView.scriptData = currentScriptRoleModel?.chapter
+            readScriptView.type = "script"
+            scriptRedPoint()
         }
-        
-        //
-        let mapList = currentScriptRoleModel?.scriptNodeMapList!
-        if mapList != nil {
-            for item in mapList! {
-                let mapId = item.scriptNodeMapId
-                switch mapId {
-                case 1: // 背景地图
-                    if item.see == 0 {
-                        hideRedPoint(commonView: placeBtn)
-                    } else {
-                        addRedPoint(commonView: placeBtn, x: 30, y: 5)
-                    }
-                    
-                    break
-                case 2: // 自我介绍地图
-                    if item.see == 0 {
-                        
-                    } else {
-                        
-                    }
-                    break
-                case 3: // 剧本阅读
-                    if item.see == 0 {
-                        addRedPoint(commonView: scriptBtn, x: 30, y: 5)
-                    } else {
-                        hideRedPoint(commonView: scriptBtn)
-                    }
-                    break
-                case 4: // 搜证
-                    if item.see == 0 {
-                        addRedPoint(commonView: threadBtn, x: 30, y: 5)
-                    } else {
-                        hideRedPoint(commonView: threadBtn)
-                    }
-                    break
-                    
-                case 5: // 答题
-                    if item.see == 0 {
-                        
-                    } else {
-                        
-                    }
-                    break
-                    
-                default:
-                    break
-                }
-            }
+
+        // 线索小红点
+        if currentScriptRoleModel?.gameUserClueList != nil {
+            threadRedPoint()
         }
+
     }
     
     //MARK:- 绘制地图
     func drawImage(model: GPNodeMapListModel?) {
         guard let imagePath = getImagePathWith(attachmentId: (model?.attachmentId!)!) else { return }
-            let image = UIImage(contentsOfFile: imagePath)
+        Log("这里有图片------6\(model?.attachmentId)")
         
-            Log("这里有图片------6\(image!)")
-        
-            let height = FULL_SCREEN_HEIGHT
-            let scale = CGFloat(FULL_SCREEN_HEIGHT / (image?.size.height)!)
-            let width = (image?.size.width)! * scale
-            
-            let newSize = CGSize(width: width, height: height)
-            
-            let newImage = imageWithImage(image: image!, size: newSize)
-            
-            let size = newImage.size
 
-            bgImgView.size = size
-            scrollView.contentSize = bgImgView.bounds.size
-            bgImgView.image = newImage
-            bgImgView.sizeToFit()
-                        
-            drawImagesButtons(mapModel: model!, orignalSize: (image?.size)!)
+        let image = UIImage(contentsOfFile: imagePath)
+    
+    
+
+        Log("这里有图片------6\(image!)")
+    
+        let height = FULL_SCREEN_HEIGHT
+        let scale = CGFloat(FULL_SCREEN_HEIGHT / (image?.size.height)!)
+        let width = (image?.size.width)! * scale
+        
+        let newSize = CGSize(width: width, height: height)
+        
+        let newImage = imageWithImage(image: image!, size: newSize)
             
-            placeBtn.setTitle(model?.name, for: .normal)
+        let size = newImage.size
+
+        bgImgView.size = size
+        scrollView.contentSize = bgImgView.bounds.size
+        bgImgView.image = newImage
+        bgImgView.sizeToFit()
+                    
+        drawImagesButtons(mapModel: model!, orignalSize: (image?.size)!)
+        
+        // 绘制地图小红点
+        let placeStr = model?.name
+        placeRedPoint(placeStr: placeStr!)
+    }
+    
+    //MARK:- thread redpoint
+    private func threadRedPoint() {
+         if currentScriptRoleModel?.gameUserClueList != nil {
+             let arr = currentScriptRoleModel?.gameUserClueList!
+             for item in arr! {
+                 if item.isRead == 0 { // 未查看
+                     addRedPoint(commonView: threadBtn, x: 30, y: 5)
+                     break
+                 }
+                 hideRedPoint(commonView: threadBtn)
+             }
+         }
+    }
+    
+    //MARK:- script redpoint
+    private func scriptRedPoint() {
+         if currentScriptRoleModel?.chapter != nil {
+             let arr = currentScriptRoleModel?.chapter!
+             for item in arr! {
+                 if item.see == 0 { // 未查看
+                     addRedPoint(commonView: scriptBtn, x: 30, y: 5)
+                     break
+                 }
+                 hideRedPoint(commonView: scriptBtn)
+             }
+         }
+    }
+    
+    //MARK:- place redpoint
+    private func placeRedPoint(placeStr: String) {
+        // 绘制地图小红点
+         let placeStrWidth = placeStr.ga_widthForComment(fontSize: 10.0, height: 21)
+         Log(placeStrWidth)
+         placeBtn.snp.remakeConstraints { (make) in
+             make.centerX.equalToSuperview()
+             make.top.equalTo(headerBgView.snp.bottom).offset(5)
+             make.height.equalTo(21)
+             make.width.equalTo(placeStrWidth + 35)
+         }
+         placeBtn.setTitle(placeStr, for: .normal)
+         
+         // 背景地图
+         if currentScriptRoleModel?.scriptNodeMapList != nil {
+             let arr = currentScriptRoleModel?.scriptNodeMapList!
+             for item in arr! {
+                 if item.see == 0 { // 未查看
+                     addRedPoint(commonView: placeBtn, x: placeStrWidth + 20, y: 5)
+                     break
+                 }
+                 hideRedPoint(commonView: placeBtn)
+             }
+         }
     }
     
     //MARK:- 绘制地图的按钮
@@ -562,6 +598,9 @@ extension GameplayViewController {
     
     /// 添加红点
     private func addRedPoint(commonView: UIView, x: CGFloat, y: CGFloat) {
+        
+        hideRedPoint(commonView: commonView)
+        
         let point = UIView()
         point.tag = 1234
         commonView.addSubview(point)
@@ -575,7 +614,7 @@ extension GameplayViewController {
     }
     
     private func hideRedPoint(commonView: UIView) {
-        let point = self.view.viewWithTag(1234)
+        let point = commonView.viewWithTag(1234)
         if point != nil {
             point?.removeFromSuperview()
         }
@@ -718,14 +757,16 @@ extension GameplayViewController {
             make.width.equalTo(86)
 
         }
+        placeBtn.isSelected = true
         placeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
         placeBtn.setBackgroundImage(UIImage(named: "gameplay_place"), for: .normal)
         placeBtn.addTarget(self, action: #selector(palceBtnAction(button:)), for: .touchUpInside)
-        addRedPoint(commonView: placeBtn, x: 64, y: 1.5)
+        
+        
+//        addRedPoint(commonView: placeBtn, x: 64, y: 1.5)
         
         
         self.view.addSubview(popMenuView)
-        popMenuView.type = "place"
         popMenuView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalTo(placeBtn.snp.bottom).offset(5)
@@ -905,7 +946,12 @@ extension GameplayViewController {
             make.top.equalToSuperview()
             make.size.equalTo(50)
         }
-        microphoneBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_microphone", title: "マイク", cornerRadius: 25, color: "#20014D")
+        
+        microphoneBtn.isSelected = true
+        microphoneBtn.setImage(UIImage(named: "createroom_voice"), for: .selected)
+        microphoneBtn.setImage(UIImage(named: "createroom_no_voice"), for: .normal)
+        
+//        microphoneBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_microphone", title: "マイク", cornerRadius: 25, color: "#20014D")
         microphoneBtn.addTarget(self, action: #selector(microphoneBtnAction(button:)), for: .touchUpInside)
         
         
@@ -931,7 +977,7 @@ extension GameplayViewController {
         scriptBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_script", title: "シナリオ", cornerRadius: 25, color: "#20014D")
 
         scriptBtn.addTarget(self, action: #selector(scriptBtnAction(button:)), for: .touchUpInside)
-        addRedPoint(commonView: scriptBtn, x: 30, y: 5)
+//        addRedPoint(commonView: scriptBtn, x: 30, y: 5)
         
         
         // 线索按钮
@@ -1153,14 +1199,16 @@ extension GameplayViewController {
         button.isSelected = !button.isSelected
         preference.drawing.backgroundColor = UIColor.white
         preference.drawing.textColor = HexColor(LightDarkGrayColor)
-        preference.positioning.targetPoint = CGPoint(x: button.center.x, y: button.frame.maxY+55)
+        preference.positioning.targetPoint = CGPoint(x: button.center.x, y: button.frame.maxY+10)
         preference.drawing.maxTextWidth = 231*SCALE_SCREEN
         preference.drawing.maxHeight = 208
         preference.positioning.marginLeft = 16
         preference.drawing.textAlignment = .left
         preference.animating.shouldDismiss = false
+        preference.drawing.cornerRadius = 8
         if button.isSelected {
             tipView = FETipView(preferences: preference)
+
             tipView.show()
         } else {
             tipView.dismiss()
@@ -1179,39 +1227,45 @@ extension GameplayViewController {
     
     //MARK: 地点名称按钮
     @objc func palceBtnAction(button: UIButton) {
-//        self.navigationController?.popViewController(animated: true)
-        button.isSelected = !button.isSelected
+        
         if button.isSelected {
             popMenuView.isHidden = false
+            button.isSelected = false
         } else {
             popMenuView.isHidden = true
+            button.isSelected = true
 
         }
+        
     }
     
     
     /// 底部按钮
     //MARK: 麦克风
     @objc func microphoneBtnAction(button: UIButton) {
+//        button.isSelected = !button.isSelected
+//        agoraKit.muteLocalAudioStream(button.isSelected)
+        
         button.isSelected = !button.isSelected
-        agoraKit.muteLocalAudioStream(button.isSelected)
-        if button.isSelected {
-            microphoneBtn.setImage(UIImage(named: "gameplay_microphone_no"), for: .normal)
-            microphoneBtn.setTitleColor(HexColor("#999999"), for: .normal)
-            microphoneBtn.setTitle("マイク", for: .normal)
-            voiceHide = false
-        } else {
-            microphoneBtn.setImage(UIImage(named: "gameplay_microphone"), for: .normal)
-            microphoneBtn.setTitleColor(UIColor.white, for: .normal)
-            microphoneBtn.setTitle("ミュート", for: .normal)
-            voiceHide = true
-        }
+        agoraKit.muteLocalAudioStream(!button.isSelected)
+        
+//        if button.isSelected {
+//            microphoneBtn.setImage(UIImage(named: "gameplay_microphone_no"), for: .normal)
+//            microphoneBtn.setTitleColor(HexColor("#999999"), for: .normal)
+//            microphoneBtn.setTitle("マイク", for: .normal)
+//            voiceHide = false
+//        } else {
+//            microphoneBtn.setImage(UIImage(named: "gameplay_microphone"), for: .normal)
+//            microphoneBtn.setTitleColor(UIColor.white, for: .normal)
+//            microphoneBtn.setTitle("ミュート", for: .normal)
+//            voiceHide = true
+//        }
         collectionView.reloadData()
     }
     
     //MARK: 剧本
     @objc func scriptBtnAction(button: UIButton) {
-        if currentScriptRoleModel?.chapter?.count != 0{
+//        if currentScriptRoleModel?.chapter?.count != 0{
             
             if !self.view.subviews.contains(readScriptView) {
                 self.view.addSubview(readScriptView)
@@ -1222,12 +1276,12 @@ extension GameplayViewController {
             readScriptView.room_id = gamePlayModel?.room.roomId
             readScriptView.script_role_id = currentScriptRoleModel?.user.scriptRoleId
             readScriptView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
-        }
+//        }
     }
     
     //MARK: 线索
     @objc func threadBtnBtnAction(button: UIButton) {
-        if currentScriptRoleModel?.gameUserClueList?.count != 0 {
+//        if currentScriptRoleModel?.gameUserClueList?.count != 0 {
            let threadView = ThreadView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
            
            threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
@@ -1237,7 +1291,7 @@ extension GameplayViewController {
             threadView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
             threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
            self.view.addSubview(threadView)
-        }
+//        }
 
     }
     
@@ -1336,6 +1390,17 @@ extension GameplayViewController {
         playerView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         self.view.addSubview(playerView)
     }
+    
+    
+    
+    //MARK:- 点击空白 关闭弹窗
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        popMenuView.isHidden = true
+//        placeBtn.isSelected = true
+//
+//        tipView.dismiss()
+//        stateBtn.isSelected = true
+//    }
 }
 
 //MARK:- 密谈
@@ -1351,6 +1416,14 @@ extension GameplayViewController: CollogueRoomViewDelegate {
         
         // 加入私聊频道
         agoraKit.leaveChannel(nil)
+        
+        // 因为是纯音频多人通话的场景，设置为通信模式以获得更好的音质
+        agoraKit.setChannelProfile(.communication)
+        // 通信模式下默认为听筒，demo中将它切为外放
+        agoraKit.setDefaultAudioRouteToSpeakerphone(true)
+        // 启动音量回调，用来在界面上显示房间其他人的说话音量
+        agoraKit.enableAudioVolumeIndication(1000, smooth: 30, report_vad: false)
+        
         let uid = UserAccountViewModel.shareInstance.account?.userId
         agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: uid!), joinSuccess: nil)
         
@@ -1382,7 +1455,11 @@ extension GameplayViewController: CollogueRoomViewDelegate {
         // 离开密谈 重新至回游戏中
         agoraKit.delegate = self
         // 通信模式下默认为听筒，demo中将它切为外放
-        agoraKit.setDefaultAudioRouteToSpeakerphone(true)
+        let phoneVoice = microphoneBtn.isSelected
+        agoraKit.setDefaultAudioRouteToSpeakerphone(phoneVoice)
+        // 启动音量回调，用来在界面上显示房间其他人的说话音量
+        agoraKit.enableAudioVolumeIndication(1000, smooth: 30, report_vad: false)
+        
 
         // 从私聊返回案发现场时，重新加入案发现场的群聊频道
         let uid:UInt = UInt(bitPattern: (UserAccountViewModel.shareInstance.account?.userId!)!)
@@ -1393,10 +1470,15 @@ extension GameplayViewController: CollogueRoomViewDelegate {
 }
 
 //MARK: - PopMenuDelegate
-extension GameplayViewController: PopMenuViewDelegate {
+extension GameplayViewController: PlacePopMenuViewDelegate {
     func cellDidSelected(index: Int, model: AnyObject?) {
+        
+
+        placeBtn.isSelected = true
+
+        placeIndex = index
+
         let currentIndex = index
-//        let itemModel = gamePlayModel?.scriptNodeResult.scriptNodeMapList![currentIndex]
         let itemModel = currentScriptRoleModel?.scriptNodeMapList![currentIndex]
         
         drawImage(model: itemModel)
@@ -1632,6 +1714,7 @@ private extension GameplayViewController {
         }
         return nil
     }
+    
 }
 
 
@@ -1646,7 +1729,7 @@ extension GameplayViewController {
         // 通信模式下默认为听筒，demo中将它切为外放
         agoraKit.setDefaultAudioRouteToSpeakerphone(true)
         // 启动音量回调，用来在界面上显示房间其他人的说话音量
-        agoraKit.enableAudioVolumeIndication(1000, smooth: 3, report_vad: false)
+        agoraKit.enableAudioVolumeIndication(1000, smooth: 30, report_vad: false)
         // 加入案发现场的群聊频道
 
         print(String(room_id!))

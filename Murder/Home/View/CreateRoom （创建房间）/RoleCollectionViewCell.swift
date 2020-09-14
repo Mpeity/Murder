@@ -44,11 +44,12 @@ class RoleCollectionViewCell: UICollectionViewCell {
 
 extension RoleCollectionViewCell {
     @objc func setUI() {
+        
         roleImgView.layoutIfNeeded()
         roleImgView.viewWithCorner(byRoundingCorners: [UIRectCorner.bottomLeft,UIRectCorner.topLeft], radii: 5)
-        
         bgView.layoutIfNeeded()
-        bgView.viewWithCorner(byRoundingCorners: [UIRectCorner.bottomRight,UIRectCorner.topRight], radii: 5)
+        bgView.viewWithCorner(byRoundingCorners: [[.bottomRight,.topRight]], radii: 5)
+//        setCornersRadius(bgView, radius: 5, roundingCorners: [.bottomRight,.topRight])
         bgView.backgroundColor = HexColor("F5F5F5")
     }
 }

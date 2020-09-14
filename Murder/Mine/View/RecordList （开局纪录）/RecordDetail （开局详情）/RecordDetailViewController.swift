@@ -109,12 +109,14 @@ extension RecordDetailViewController {
         evaluateBtn.layer.cornerRadius = 22
         evaluateBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         evaluateBtn.addTarget(self, action: #selector(evaluateBtnAction), for: .touchUpInside)
+        evaluateBtn.isHidden = true
         
         
         bottomView.addSubview(truthBtn)
         truthBtn.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(8)
-            make.width.equalTo(167)
+//            make.width.equalTo(167)
+            make.left.equalToSuperview().offset(15)
             make.right.equalToSuperview().offset(-15)
             make.height.equalTo(44)
         }
@@ -200,14 +202,13 @@ extension RecordDetailViewController {
     @objc func truthBtnAction() {
         let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+
         readScriptView.type = "truth"
         readScriptView.scriptData = scriptLogDetailModel?.chapterList
         readScriptView.room_id = Int((scriptLogDetailModel?.script?.roomId!)!)
 //        readScriptView.script_role_id = scriptLogDetailModel?.scriptNodeResult.myRoleId
 //        readScriptView.script_node_id = scriptLogDetailModel?.scriptNodeResult.scriptNodeId
-        readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         
-        readScriptView.scriptData = scriptLogDetailModel?.chapterList
         self.view.addSubview(readScriptView)
     }
     

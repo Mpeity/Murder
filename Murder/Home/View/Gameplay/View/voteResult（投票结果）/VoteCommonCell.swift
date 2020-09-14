@@ -30,6 +30,9 @@ class VoteCommonCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        avatarImgView.layer.cornerRadius = 22.5
+        avatarImgView.layer.masksToBounds = true
     }
 
 }

@@ -43,9 +43,9 @@ class ScriptTableViewCell: UITableViewCell {
                 timeLabel.text = scriptListModel?.durationText
             }
             
-//            if scriptListModel?.tag[0] {
-//            themeLabel.text = scriptListModel?.tag[0].tagName
-//            }
+            if scriptListModel?.tag != nil {
+                themeLabel.text = scriptListModel?.tag!.tagName
+            }
 
             if scriptListModel?.peopleNum != nil {
                 numberLabel.text = "\(scriptListModel?.peopleNum! ?? 0)人"
@@ -55,6 +55,12 @@ class ScriptTableViewCell: UITableViewCell {
                 difficultyLabel.text = scriptListModel?.difficultText!
             }
             
+            if scriptListModel?.userScriptText != nil, scriptListModel?.userScriptText != "" {
+                tagLabel.isHidden = false
+                tagLabel.text = scriptListModel?.userScriptText!
+            } else {
+                tagLabel.isHidden = true
+            }
             
         }
     }

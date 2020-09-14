@@ -75,9 +75,16 @@ class HomeListHeaderView: UIView {
             
             scrollView.clickItemOperationBlock = { [weak self] (currentIndex) in
                 let bannerModel = homeViewModel.bannerModelArr[currentIndex]
+                let vc = BannerWebViewController()
+                vc.bannerModel = bannerModel
+                vc.urlString = bannerModel.datas!
+                let nav = self?.findNavController()
+                nav?.pushViewController(vc, animated: true)
             }
                     
         }
+        
+        
     }
     
     
@@ -130,6 +137,23 @@ extension HomeListHeaderView {
 //        scrollView.layer.masksToBounds = true
 //        scrollView.backgroundColor = UIColor.white
     }
+    
+    //查找视图对象的响应者链条中的导航视图控制器
+    private func findNavController() -> UINavigationController? {
+         
+         //遍历响应者链条
+         var next = self.next
+         //开始遍历
+         while next != nil {
+            //判断next 是否是导航视图控制器
+            if let nextobj = next as? UINavigationController {
+                return nextobj
+            }
+            //如果不是导航视图控制器 就继续获取下一个响应者的下一个响应者
+            next = next?.next
+         }
+        return nil
+     }
 }
 
 extension HomeListHeaderView {

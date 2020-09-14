@@ -26,7 +26,9 @@ class CompleteInfoViewController: UIViewController, UITextFieldDelegate  {
     // 昵称输入
     @IBOutlet weak var nicknameTextfield: UITextField!
     // 立即体验
-    @IBOutlet weak var commonBtn: UIButton!
+    @IBOutlet weak var commonBtn: GradienButton!
+    
+    @IBOutlet weak var commonBtnWidth: NSLayoutConstraint!
     
     // 性别
     private var sex: String?
@@ -52,6 +54,7 @@ class CompleteInfoViewController: UIViewController, UITextFieldDelegate  {
 extension CompleteInfoViewController {
     
     private func setUI() {
+        
         photoBtn.layer.cornerRadius = 62.5
         photoBtn.layer.masksToBounds = true
         photoBtn.addTarget(self, action: #selector(photoBtnAction), for: .touchUpInside)
@@ -76,11 +79,17 @@ extension CompleteInfoViewController {
         nicknameView.layer.borderWidth = 0.5
         nicknameView.layer.borderColor = HexColor("#CCCCCC").cgColor
         nicknameTextfield.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .editingChanged)
+        nicknameTextfield.delegate = self
 
-        commonBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+        commonBtnWidth.constant = FULL_SCREEN_WIDTH - 37 * 2
+
+        commonBtn.layoutIfNeeded()
+//        commonBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+        commonBtn.setOtherGradienButtonColor(start: "#CACACA", end: "#CACACA", cornerRadius: 25)
         commonBtn.setTitleColor(UIColor.white, for: .normal)
         commonBtn.setTitle("スタット", for: .normal)
         commonBtn.addTarget(self, action: #selector(commonBtnAction), for: .touchUpInside)
+        commonBtn.isUserInteractionEnabled = false
         
     }
     
@@ -126,6 +135,8 @@ extension CompleteInfoViewController {
         womanBtn.setImage(UIImage(named: "logo_woman_selected"), for: .normal)
         manBtn.setImage(UIImage(named: "logo_man"), for: .normal)
         
+        getInfo()
+        
     }
     
     //MARK:- 男manBtn
@@ -139,6 +150,7 @@ extension CompleteInfoViewController {
         manBtn.setTitleColor(HexColor(MainColor), for: .normal)
         manBtn.layer.borderColor = HexColor(MainColor).cgColor
         manBtn.setImage(UIImage(named: "logo_man_selected"), for: .normal)
+        getInfo()
     }
     
     //MARK:- 完善信息
@@ -177,21 +189,56 @@ extension CompleteInfoViewController {
     }
     
     
+    private func getInfo() {
+        if file != nil  && sex != nil && nicknameTextfield.text != nil && nicknameTextfield.text != "" {
+            commonBtn.setOtherGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+            commonBtn.isUserInteractionEnabled = true
+
+        } else {
+//            commonBtn.setOtherGradienButtonColor(start: "#CACACA", end: "#CACACA", cornerRadius: 25)
+        }
+    }
+    
+    
     
     
 }
 
 
 extension CompleteInfoViewController {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        if nicknameTextfield.text?.count != 0 {
-            nicknameTextfield.textColor = HexColor(MainColor)
-            nicknameView.layer.borderColor = HexColor(MainColor).cgColor
-
-        } else {
-            nicknameView.layer.borderColor = HexColor("#CCCCCC").cgColor
+//    func textFieldDidChangeSelection(_ textField: UITextField) {
+//        if nicknameTextfield.text?.count != 0 {
+//            nicknameTextfield.textColor = HexColor(MainColor)
+//            nicknameView.layer.borderColor = HexColor(MainColor).cgColor
+//
+//        } else {
+//            nicknameView.layer.borderColor = HexColor("#CCCCCC").cgColor
+//        }
+//    }
+    
+   func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField.text != nil {
+            getInfo()
         }
     }
+    
+    // 利用代理方法控制字符数量
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else{
+            return true
+        }
+        let textLength = text.count + string.count - range.length
+
+        return textLength<=15
+    }
+    
+    func textFieldDidChange(textField:UITextField) {
+        if(nicknameTextfield.text! as NSString).length > 15 {
+            nicknameTextfield.text = (nicknameTextfield.text! as NSString).substring(to:15)
+        }
+        return
+    }
+
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 //        nicknameTextfield.becomeFirstResponder()
@@ -236,7 +283,7 @@ extension CompleteInfoViewController: UIImagePickerControllerDelegate & UINaviga
         if (fileManager.fileExists(atPath: filePath)){
             //取得NSURL
             
-            uploadImgae(imageData: data!,file: newData as AnyObject) { (result, error) in
+            uploadImgae(imageData: data!,file: newData as AnyObject) { [weak self](result, error) in
                 if error != nil {
                     return
                 }
@@ -247,7 +294,9 @@ extension CompleteInfoViewController: UIImagePickerControllerDelegate & UINaviga
                     let resultData = data["result"] as! [String : AnyObject]
                     let pathStr = resultData["path"] as! String
                     attachment_id = resultData["attachment_id"] as! String
-                    self.file = attachment_id
+                    self?.file = attachment_id
+                    
+                    self?.getInfo()
                 }
 
             }

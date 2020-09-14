@@ -31,7 +31,7 @@ class SetPasswordsViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var moreTextField: UITextField!
     
     // 确认密码
-    @IBOutlet weak var confirmBtn: UIButton!
+    @IBOutlet weak var confirmBtn: GradienButton!
     
     @IBOutlet weak var confiemBtnWidth: NSLayoutConstraint!
     
@@ -66,7 +66,10 @@ extension SetPasswordsViewController {
         passwordTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .valueChanged)
         moreTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .valueChanged)
         passwordTextField.isSecureTextEntry = true
+        passwordTextField.keyboardType = .numbersAndPunctuation
+
         moreTextField.isSecureTextEntry = true
+        moreTextField.keyboardType = .numbersAndPunctuation
         
         oneView.layer.cornerRadius = 25
         oneView.layer.borderWidth = 0.5
@@ -80,10 +83,11 @@ extension SetPasswordsViewController {
         confirmBtn.layoutIfNeeded()
         confirmBtn.setTitleColor(UIColor.white, for: .normal)
         confirmBtn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        confirmBtn.gradientColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
-        confirmBtn.layer.cornerRadius = 25
+//        confirmBtn.gradientColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
+//        confirmBtn.layer.cornerRadius = 25
         
-//        confirmBtn.isUserInteractionEnabled = false
+        confirmBtn.setOtherGradienButtonColor(start: "#CACACA", end: "#CACACA", cornerRadius: 25)
+        confirmBtn.isUserInteractionEnabled = false
         
         confirmBtn.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)
     }
@@ -167,17 +171,14 @@ extension SetPasswordsViewController {
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
 
+        if passwordTextField.text?.count != 0 && moreTextField.text?.count != 0 {
+            confirmBtn.setOtherGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+            confirmBtn.isUserInteractionEnabled = true
 
-//        if passwordTextField.text?.count != 0 && moreTextField.text?.count != 0{
-//            confirmBtn.gradientColor(start: "#3522f2", end: "#934BFE", cornerRadius: 25)
-//            confirmBtn.isHighlighted = false
-////            confirmBtn.isUserInteractionEnabled = true
-//
-//        } else {
-////            confirmBtn.clearGradientColor(cornerRadius: 25)
-//            confirmBtn.backgroundColor = UIColor.lightGray
-//            confirmBtn.isHighlighted = true
-//        }
+        } else {
+//            confirmBtn.setOtherGradienButtonColor(start: "#CACACA", end: "#CACACA", cornerRadius: 25)
+        }
+
 
     }
     
@@ -195,6 +196,7 @@ extension SetPasswordsViewController {
         passwordTextField.resignFirstResponder()
         moreTextField.resignFirstResponder()
     }
+
 
     
 }

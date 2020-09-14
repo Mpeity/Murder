@@ -10,6 +10,9 @@ import UIKit
 
 let ScriptTableHeaderCellId = "ScriptTableHeaderCell"
 
+
+let count = 3
+
 class ScriptTableHeaderView: UIView {
     
     var tagList: [ScriptTagModel]? {
@@ -54,7 +57,7 @@ extension ScriptTableHeaderView {
         
         
         if myTableView == nil {
-            let height = 4 * 35 + 20
+            let height = count * 35 + 20
             myTableView = UITableView(frame:  CGRect(x: 0, y: 0, width: Int(FULL_SCREEN_WIDTH), height: height), style: .plain)
             myTableView.delegate = self
             myTableView.dataSource = self
@@ -70,7 +73,7 @@ extension ScriptTableHeaderView {
 // MARK: - TableView Delegate
 extension ScriptTableHeaderView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

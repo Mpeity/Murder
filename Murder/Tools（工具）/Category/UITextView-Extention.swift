@@ -9,82 +9,69 @@
 import Foundation
 import UIKit
 
-class EWTextView: UITextView {
-    /// setNeedsDisplay调用drawRect
-    var placeHolder: String = ""{
-        didSet{
-            self.setNeedsDisplay()
-        }
-    }
-    var placeHolderColor: UIColor = UIColor.gray{
-        didSet{
-            self.setNeedsDisplay()
-        }
-    }
-    override var font: UIFont?{
-        didSet{
-            self.setNeedsDisplay()
-        }
-    }
-    override var text: String!{
-        didSet{
-            self.setNeedsDisplay()
-        }
-    }
-    override var attributedText: NSAttributedString!{
-        didSet{
-            self.setNeedsDisplay()
-        }
-    }
-    
-    override init(frame: CGRect, textContainer: NSTextContainer?) {
-        super.init(frame: frame, textContainer: textContainer)
-        /// default字号
-        self.font = UIFont.systemFont(ofSize: 14)
-        NotificationCenter.default.addObserver(self, selector: #selector(textDidChanged(noti:)), name: UITextView.textDidChangeNotification, object: self)
-    }
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    @objc func textDidChanged(noti: NSNotification)  {
-        self.setNeedsDisplay()
-    }
-    override func draw(_ rect: CGRect) {
-        if self.hasText {
-            return
-        }
-        var newRect = CGRect()
-        newRect.origin.x = 5
-        newRect.origin.y = 7
-        let size = self.placeHolder.getStringSize(rectSize: rect.size, font: self.font ?? UIFont.systemFont(ofSize: 14))
-        newRect.size.width = size.width
-        newRect.size.height = size.height
-        /// 将placeHolder画在textView上
-        (self.placeHolder as NSString).draw(in: newRect, withAttributes: [NSAttributedString.Key.font: self.font ?? UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor: self.placeHolderColor])
-    }
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        self.setNeedsDisplay()
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: UITextView.textDidChangeNotification, object: self)
-    }
-    
-}
 
-extension String {
-    /// 计算字符串的尺寸
-    ///
-    /// - Parameters:
-    ///   - text: 字符串
-    ///   - rectSize: 容器的尺寸
-    ///   - fontSize: 字体
-    /// - Returns: 尺寸
-    ///
-    public func getStringSize(rectSize: CGSize,font: UIFont) -> CGSize {
-        let str: NSString = self as NSString
-        let rect = str.boundingRect(with: rectSize, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-        return CGSize(width: ceil(rect.width), height: ceil(rect.height))
-    }
-}
+//extension UITextView {
+//
+//    var placeholderLabel:UILabel?{
+//        get{
+//            var label:UILabel? = objc_getAssociatedObject(self, &"placeholderLabel") as? UILabel
+//            if label == nil{
+//
+//                let originalText:NSAttributedString=self.attributedText
+//                self.text=""
+//                self.attributedText = originalText
+//                label = UILabel()
+//                label?.textColor=UIColor.lightGray
+//                label?.numberOfLines=0
+//                label?.isUserInteractionEnabled=false
+//                //关联label属性
+//                objc_setAssociatedObject(self, &"placeholderLabel", label, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+//                //KVO监听TextView各属性的变化，并更新placeholderLabel
+//                 NotificationCenter.default.addObserver(self, selector: #selector(self.updatePlaceholderLabel), name: NSNotification.Name.UITextViewTextDidChange, object: self)
+//                  let observingKeys = ["attributedText",
+//
+//                                         "bounds",
+//
+//                                         "font",
+//
+//                                         "frame",
+//
+//                                         "textAlignment",
+//
+//                                         "textContainerInset"]
+//
+//                    for key in observingKeys {
+//
+//                        设置监听
+//
+//                        self.addObserver(self, forKeyPath: key, options: .new, context:nil)
+//
+//                       }
+//
+//                    let hooker = DeallocHooker()
+//
+//                    //通过闭包判断TextView是否dealloc,在dealloc时移除监听
+//
+//                    hooker.deallocHandle= {
+//
+//                        NotificationCenter.default.removeObserver(self)
+//
+//                        for key in observingKeys {
+//
+//                            self.removeObserver(self, forKeyPath: key)
+//
+//                        }
+//
+//                    }
+//
+//                    objc_setAssociatedObject(self, &AssociatedKeys.deallocHooker,     hooker, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+//
+//                }
+//
+//                returnlabel
+//
+//            }
+//
+//        }
+//
+//}

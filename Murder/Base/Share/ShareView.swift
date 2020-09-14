@@ -16,6 +16,27 @@ protocol ShareViewDelegate {
 
 class ShareView: UIView {
     
+    var leftSpace: CGFloat? {
+        didSet {
+            if leftSpace != nil {
+                // 左边距
+                if leftSpace != 0  {
+                    leftConstraint.constant = leftSpace!
+                    lineLeftConstraint.constant = leftSpace! * 2.0 + 125
+                    self.layoutIfNeeded()
+                }
+            }
+        }
+    }
+    
+    @IBOutlet weak var leftConstraint: NSLayoutConstraint!
+    
+    
+    @IBOutlet weak var lineLeftConstraint: NSLayoutConstraint!
+    
+    
+    @IBOutlet weak var copyRightConstraint: NSLayoutConstraint!
+    
     var delegate: ShareViewDelegate!
 
     @IBOutlet var contentView: UIView!
@@ -56,6 +77,13 @@ class ShareView: UIView {
 extension ShareView {
     
     private func setUI() {
+        
+        leftConstraint.constant = 0
+        
+        lineLeftConstraint.constant = (FULL_SCREEN_WIDTH - 125) * 0.5
+        
+        copyRightConstraint.constant = 0
+        
         contentView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         cancelBtn.addTarget(self, action: #selector(hideView), for: .touchUpInside)
         shareFriendsBtn.isUserInteractionEnabled = true

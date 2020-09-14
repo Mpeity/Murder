@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 class ScriptListModel : NSObject {
 
     var cover : String?
@@ -18,7 +19,8 @@ class ScriptListModel : NSObject {
     var peopleNum : Int?
     var scriptId : Int?
     var scriptName : String?
-    var tag : [ScriptTagNameModel]!
+    var tag : ScriptTagNameModel?
+    var tagId : Int?
     var userScriptText : String?
 
 
@@ -34,13 +36,10 @@ class ScriptListModel : NSObject {
         peopleNum = dictionary["people_num"] as? Int
         scriptId = dictionary["script_id"] as? Int
         scriptName = dictionary["script_name"] as? String
-        tag = [ScriptTagNameModel]()
-        if let tagArray = dictionary["tag"] as? [[String:Any]]{
-            for dic in tagArray{
-                let value = ScriptTagNameModel(fromDictionary: dic)
-                tag.append(value)
-            }
+        if let tagData = dictionary["tag"] as? [String:Any]{
+            tag = ScriptTagNameModel(fromDictionary: tagData)
         }
+        tagId = dictionary["tag_id"] as? Int
         userScriptText = dictionary["user_script_text"] as? String
     }
 
@@ -75,15 +74,15 @@ class ScriptListModel : NSObject {
             dictionary["script_name"] = scriptName
         }
         if tag != nil{
-            var dictionaryElements = [[String:Any]]()
-            for tagElement in tag {
-                dictionaryElements.append(tagElement.toDictionary())
-            }
-            dictionary["tag"] = dictionaryElements
+            dictionary["tag"] = tag!.toDictionary()
+        }
+        if tagId != nil{
+            dictionary["tag_id"] = tagId
         }
         if userScriptText != nil{
             dictionary["user_script_text"] = userScriptText
         }
         return dictionary
-    }    
+    }
 }
+

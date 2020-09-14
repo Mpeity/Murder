@@ -155,22 +155,30 @@ extension RecordListViewController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordListCellId, for: indexPath) as! RecordListViewCell
         cell.selectionStyle = .none
-        cell.itemModel = scriptLogModel?.list[indexPath.row]
+        let model = scriptLogModel?.list[indexPath.row]
+        cell.itemModel = model
+        cell.commonBtnTapClick = {[weak self] () in
+            self?.gotoVC(model: model)
+        }
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = scriptLogModel?.list[indexPath.row]
-        let recordDetailVC = RecordDetailViewController()
-        recordDetailVC.room_id = model?.roomId
-        self.navigationController?.pushViewController(recordDetailVC, animated: true)
+        gotoVC(model: model)
     }
 }
 
 extension RecordListViewController {
     //MARK: - 返回按钮
-      @objc func backBtnAction() {
-          self.navigationController?.popViewController(animated: true)
-      }
+    @objc func backBtnAction() {
+        self.navigationController?.popViewController(animated: true)
+    }
+
+    private func gotoVC(model: ScriptMineListModel?) {
+        let recordDetailVC = RecordDetailViewController()
+        recordDetailVC.room_id = model?.roomId
+        self.navigationController?.pushViewController(recordDetailVC, animated: true)
+    }
 }

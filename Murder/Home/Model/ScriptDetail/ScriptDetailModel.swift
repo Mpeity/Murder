@@ -8,11 +8,9 @@
 
 import Foundation
 
-
 class ScriptDetailModel : NSObject {
     
-    var roomId: Int?
-
+     var roomId: Int?
 
     var author : String?
     var cover : String?
@@ -27,7 +25,8 @@ class ScriptDetailModel : NSObject {
     var role : [RoleModel]?
     var scriptId : Int?
     var shareUrl : String?
-    var tag : [TagModel]?
+    var tag : TagModel?
+    var tagId : Int?
     var wordNum : Int?
 
 
@@ -53,14 +52,11 @@ class ScriptDetailModel : NSObject {
             }
         }
         scriptId = dictionary["script_id"] as? Int
-        tag = [TagModel]()
-        if let tagArray = dictionary["tag"] as? [[String:Any]]{
-            for dic in tagArray{
-                let value = TagModel(fromDictionary: dic)
-                tag?.append(value)
-            }
-        }
         shareUrl = dictionary["share_url"] as? String
+        if let tagData = dictionary["tag"] as? [String:Any]{
+            tag = TagModel(fromDictionary: tagData)
+        }
+        tagId = dictionary["tag_id"] as? Int
         wordNum = dictionary["word_num"] as? Int
     }
 
@@ -110,15 +106,14 @@ class ScriptDetailModel : NSObject {
         if scriptId != nil{
             dictionary["script_id"] = scriptId
         }
-        if tag != nil{
-            var dictionaryElements = [[String:Any]]()
-            for tagElement in tag! {
-                dictionaryElements.append(tagElement.toDictionary())
-            }
-            dictionary["tag"] = dictionaryElements
-        }
         if shareUrl != nil{
             dictionary["share_url"] = shareUrl
+        }
+        if tag != nil{
+            dictionary["tag"] = tag!.toDictionary()
+        }
+        if tagId != nil{
+            dictionary["tag_id"] = tagId
         }
         if wordNum != nil{
             dictionary["word_num"] = wordNum
@@ -126,5 +121,7 @@ class ScriptDetailModel : NSObject {
         return dictionary
     }
 
+    
 }
+
 

@@ -187,12 +187,15 @@ extension MessageViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: MessageListCellId, for: indexPath) as! MessageListCell
         cell.selectionStyle = .none
         cell.itemModel = model
-        cell.avatarImgTapBlcok = {() in
-            let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-            commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-            commonView.itemModel = model
-            UIApplication.shared.keyWindow?.addSubview(commonView)
+        if model?.type != 3 {
+            cell.avatarImgTapBlcok = {() in
+                let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                commonView.itemModel = model
+                UIApplication.shared.keyWindow?.addSubview(commonView)
+            }
         }
+        
         
         return cell
     }

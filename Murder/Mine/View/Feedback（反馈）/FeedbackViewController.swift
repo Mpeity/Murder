@@ -12,7 +12,7 @@ class FeedbackViewController: UIViewController {
     // 邮箱输入
     @IBOutlet weak var textFieldView: UITextField!
     // 文字输入
-    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var textView: EWTextView!
     
     // 确认
     @IBOutlet weak var confirmBtn: UIButton!
@@ -55,7 +55,9 @@ extension FeedbackViewController {
         confirmBtn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         confirmBtn.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)
         
-//        textView.placeHolder = "お問い合わせ内容を入力"
+        
+        textView.placeHolder = "お問い合わせ内容を入力"
+//        textView.placeHolder
 //        textView.placeHolderColor = HexColor(LightGrayColor)
         textView.font = UIFont.systemFont(ofSize: 12)
     }

@@ -119,12 +119,20 @@ extension SendMessageViewController {
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
-                for item in MessageContentModel(fromDictionary: data).list! {
-                    let dic = getDictionaryFromJSONString(jsonString: item.content!)
-                    let model = MsgTalkModel(fromDictionary: dic as! [String : Any])
+                
+                let listData = data["list"] as! Array<Any>
+                
+                for item in listData {
+                    let dic = item as! [String : AnyObject]
+                    let json = dic["content"] as! String
+                    let jsonDic = getDictionaryFromJSONString(jsonString: json)
+                    
+                    let model = MsgTalkModel(fromDictionary: jsonDic as! [String : Any])
                     self?.msgList?.append(model)
                     self?.tableView.reloadData()
+                    self?.tableView.scrollToRow(at: IndexPath(row: (self?.msgList!.count)!-1, section: 0), at: .bottom, animated: false)
                 }
+
             }
         }
     }
@@ -189,24 +197,26 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
+//
+//        let size = self?.getSizeWithContent(content: content!)
+//        msgModel.cellHeight = size?.height
+        
         
         let msg = msgList![indexPath.row]
-
         let cellType : CellType = String(msg.sendId!) == AgoraRtm.current ? .right : .left
         msg.cellType = cellType
         msg.head = messageListModel?.head
         
         // "type":1, //1文字 2 剧本详情 3 剧本邀请
-        
         let type = msg.type
-        
         if type == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: MessageTextCellId, for: indexPath) as! MessageTextCell
             cell.backgroundColor = UIColor.clear
             cell.selectionStyle = .none
-            cell.messageTalkModel = msg
             let size = getSizeWithContent(content: msg.content!)
             msg.cellHeight = size.height
+            cell.messageTalkModel = msg
+            
             return cell
         } else if type == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: MessageScriptCellId, for: indexPath) as! MessageScriptCell
@@ -322,33 +332,28 @@ extension SendMessageViewController: UITextFieldDelegate {
     
     func appendMessage(user: String, content: String?, mediaId: String?, thumbnail: Data?) {
         DispatchQueue.main.async { [weak self] in
-            
-            let size = self?.getSizeWithContent(content: content!)
-            
-            self?.currentMgsTalkModel = MsgTalkModel(fromDictionary: [:])
-            self?.currentMgsTalkModel?.content = content
-            self?.currentMgsTalkModel?.cellHeight = size?.height
-            self?.currentMgsTalkModel?.sendId = UserAccountViewModel.shareInstance.account?.userId
-            self?.currentMgsTalkModel?.type = 1
-            self?.currentMgsTalkModel?.timeMs = getTime()
-            self?.currentMgsTalkModel?.targetId = self?.messageListModel?.userId            
-            
-            let msgModel = self?.currentMgsTalkModel
-            
-            self!.msgList!.append(msgModel!)
 
-            self?.currentMgsTalkModel = nil
+//            let size = self?.getSizeWithContent(content: content!)
+//
+//            self?.currentMgsTalkModel = MsgTalkModel(fromDictionary: [:])
+//            self?.currentMgsTalkModel?.content = content
+//            self?.currentMgsTalkModel?.cellHeight = size?.height
+//            self?.currentMgsTalkModel?.sendId = UserAccountViewModel.shareInstance.account?.userId
+//            self?.currentMgsTalkModel?.type = 1
+//            self?.currentMgsTalkModel?.timeMs = getTime()
+//            self?.currentMgsTalkModel?.targetId = self?.messageListModel?.userId
+//            self?.currentMgsTalkModel = nil
+
             
-//            let msg = Message(userId: user, text: content, mediaId: mediaId, thumbnail: thumbnail, cellHeight: size?.height, head: head)
-//
-//            self!.list.append(msg)
-//
-//            if self!.list.count > 100 {
-//                self!.list.removeFirst()
-//            }
+            
+            let contentDic = getDictionaryFromJSONString(jsonString: content!)
+            let msgModel = MsgTalkModel(fromDictionary: contentDic as! [String : Any])
+            let size = self?.getSizeWithContent(content: msgModel.content!)
+            msgModel.cellHeight = size?.height
+            self!.msgList!.append(msgModel)
+
 
             self!.tableView.reloadData()
-
             let end = IndexPath(row: self!.msgList!.count - 1, section: 0)
             self!.tableView.scrollToRow(at: end, at: .bottom, animated: true)
         }
@@ -409,6 +414,9 @@ private extension SendMessageViewController {
     
     func send(rtmMessage: AgoraRtmMessage, type: ChatType, name: String, option: AgoraRtmSendMessageOptions) {
         
+        let content = msgContent(text: rtmMessage.text)
+        rtmMessage.text = content
+        
         let sent = { [weak self] (state: Int) in
             guard let `self` = self else {
                 return
@@ -425,19 +433,18 @@ private extension SendMessageViewController {
             }
             
             if(rtmMessage.type == .text){
-                self.appendMessage(user: current, content: rtmMessage.text, mediaId: nil, thumbnail: nil)
+                self.appendMessage(user: current, content: content, mediaId: nil, thumbnail: nil)
             } else if(rtmMessage.type == .image){
                 if let imageMessage = rtmMessage as? AgoraRtmImageMessage {
                     self.appendMessage(user: current, content: nil, mediaId: imageMessage.mediaId, thumbnail: imageMessage.thumbnail)
                 }
             }
-            self.addMgs(text: rtmMessage.text)
+            self.addMgs(text: content)
         }
         
-       AgoraRtm.kit?.send(rtmMessage, toPeer: String(name), sendMessageOptions: option, completion: { (error) in
+        AgoraRtm.kit?.send(rtmMessage, toPeer: String(name), sendMessageOptions: option, completion: { (error) in
            sent(error.rawValue)
-       })
-        
+        })
     }
     
     func send(message: String, type: ChatType) {
@@ -453,7 +460,6 @@ private extension SendMessageViewController {
                     return
                 }
                 Log(peerOnlineStatus)
-                let status:AgoraRtmPeerOnlineStatus = peerOnlineStatus![0]
                 
                 option.enableHistoricalMessaging = true
                 option.enableOfflineMessaging = true
@@ -480,38 +486,18 @@ extension SendMessageViewController: AgoraRtmDelegate {
     
     func rtmKit(_ kit: AgoraRtmKit, messageReceived message: AgoraRtmMessage, fromPeer peerId: String) {
         appendMessage(user: peerId, content: message.text, mediaId: nil, thumbnail: nil)
+        
     }
     
     func rtmKit(_ kit: AgoraRtmKit, imageMessageReceived message: AgoraRtmImageMessage, fromPeer peerId: String) {
         appendMessage(user: peerId, content: nil, mediaId: message.mediaId, thumbnail: message.thumbnail)
+        
     }
     
     
-    private func getHistoryList() {
-        let name = messageListModel?.userId
-        let start_time = "2020-08-31T01:24:10Z"
-        let end_time = "2020-09-01T00:00:10Z"
-            
-        getRTMHistory(source: AgoraRtm.current!, destination: String(name!), start_time: start_time, end_time: end_time) { (result, error) in
-            
-            Log(result)
-        }
-    }
-    
-    private func timeFunc() -> String {
-        let dateNow = Date()
-        let interval = Int(dateNow.timeIntervalSince1970)
-        let date = Date(timeIntervalSince1970: TimeInterval(interval))
-        let dateformatter = DateFormatter()
-        //自定义日期格式
-        dateformatter.dateFormat = "yyyy-mm-ddThh:mm:ssZ"
 
-        return dateformatter.string(from: date as Date)
-    }
     
-    
-    private func addMgs(text: String) {
-//        // 添加消息
+    private func msgContent(text: String) -> String {
 //        {
 //        "type":1, //1文字 2 剧本详情 3 剧本邀请
 //        "content":"内容",
@@ -525,7 +511,9 @@ extension SendMessageViewController: AgoraRtmDelegate {
 //        "time_ms":"1587009745719"//13位时间戳
 //        }
         let time = getTime()
+        
         var dic = [:] as [String : Any?]
+        
         dic["type"] = 1
         dic["content"] = text
         dic["send_id"] = UserAccountViewModel.shareInstance.account?.userId
@@ -539,7 +527,14 @@ extension SendMessageViewController: AgoraRtmDelegate {
         dic["room_id"] = nil
         
         let json = getJSONStringFromDictionary(dictionary: dic as NSDictionary)
-        addMsgRequest(type: 0, receive_id: messageListModel!.userId!, content: json) { (result, error) in
+        return json
+    }
+    
+    private func addMgs(text: String) {
+//        // 添加消息
+//        let json = msgContent(text: text)
+        
+        addMsgRequest(type: 0, receive_id: messageListModel!.userId!, content: text) { (result, error) in
             if error != nil {
                 return
             }

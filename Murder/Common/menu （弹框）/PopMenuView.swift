@@ -110,33 +110,7 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
         cell.contentLabel.textAlignment = .center
         
         
-        if type! == "place" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: PopMenuViewCellId, for: indexPath) as! PopMenuViewCell
-            cell.contentLabel.textAlignment = .center
-            let model = titleArray[indexPath.row] as! GPNodeMapListModel
-            cell.contentLabel.text = model.name! as String
-            if model.see == 0 {
-                cell.point.isHidden = false
-            } else {
-                cell.point.isHidden = true
-            }
-            cell.type = type
-            cell.contentLabel.backgroundColor = UIColor.clear
-            cell.contentLabel.textColor = contentTextColor
-            cell.backgroundColor = UIColor.clear
-            cell.lineView.backgroundColor = lineColor
-
-            if indexPath.row == titleArray.count-1 {
-                cell.lineView.isHidden = true
-            } else {
-                cell.lineView.isHidden = false
-
-            }
-            cell.contentLabel.font = UIFont.systemFont(ofSize: contentTextFont)
-            cell.selectionStyle = .none
-            return cell
-
-        } else if type! == "script" {
+        if type! == "script" {
             let cell = tableView.dequeueReusableCell(withIdentifier: PopMenuViewCellId, for: indexPath) as! PopMenuViewCell
             cell.contentLabel.textAlignment = .center
             let model = titleArray[indexPath.row] as! GPChapterModel
@@ -147,9 +121,9 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
             }
             // 是否查看【1是0否】
             if model.see == 0 {
-                cell.point.isHidden = false
+                addPoint(placeStr: model.name!, commonView: cell.contentLabel)
             } else {
-                cell.point.isHidden = true
+                hideRedPoint(commonView: cell.contentLabel)
             }
             cell.contentLabel.text = model.name! as String
             cell.type = type
@@ -194,10 +168,7 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if delegate != nil {
             switch type! {
-            case "place":
-                let model = titleArray[indexPath.row] as! GPNodeMapListModel
-                delegate?.cellDidSelected(index: indexPath.row, model: model)
-
+                
             case "script":
                 let model = titleArray[indexPath.row]
                 delegate?.cellDidSelected(index: indexPath.row, model: model)
@@ -219,6 +190,39 @@ extension PopMenuView: UITableViewDelegate, UITableViewDataSource {
 extension PopMenuView {
     @objc func hideView() {
         self.removeFromSuperview()
+    }
+    
+    private func addPoint(placeStr: String, commonView: UIView) {
+        // 绘制地图小红点
+        let placeStrWidth = placeStr.ga_widthForComment(fontSize: 10.0, height: 21)
+        
+        Log(placeStrWidth)
+        Log((136-placeStrWidth)*0.5 + placeStrWidth)
+        addRedPoint(commonView: commonView, x:(136-placeStrWidth)*0.5 + placeStrWidth+10 , y: 15)
+    }
+    
+    /// 添加红点
+    private func addRedPoint(commonView: UIView, x: CGFloat, y: CGFloat) {
+        
+        hideRedPoint(commonView: commonView)
+        
+        let point = UIView()
+        point.tag = 123456
+        commonView.addSubview(point)
+        point.backgroundColor = HexColor("#ED2828")
+        point.layer.cornerRadius = 3.5
+        point.snp.makeConstraints { (make) in
+            make.width.height.equalTo(7)
+            make.left.equalToSuperview().offset(x)
+            make.top.equalToSuperview().offset(y)
+        }
+    }
+    
+    private func hideRedPoint(commonView: UIView) {
+        let point = commonView.viewWithTag(123456)
+        if point != nil {
+            point?.removeFromSuperview()
+        }
     }
 }
 

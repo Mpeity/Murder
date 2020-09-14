@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -13,6 +13,9 @@
                 <outlet property="bgView" destination="Tcb-eu-5ld" id="Q1u-GP-fU0"/>
                 <outlet property="cancelBtn" destination="PT2-OP-4f2" id="MYs-eA-eAm"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="AU6-K1-WWZ"/>
+                <outlet property="copyRightConstraint" destination="r5R-op-WgO" id="G2m-RE-4Cq"/>
+                <outlet property="leftConstraint" destination="FxU-6J-sas" id="7lA-IP-f7y"/>
+                <outlet property="lineLeftConstraint" destination="Uvk-4L-s3n" id="FeP-OC-2Ft"/>
                 <outlet property="shareCopyBtn" destination="uep-jU-E9L" id="ZpY-tL-nQE"/>
                 <outlet property="shareFriendsBtn" destination="erA-sT-MCI" id="qbS-ED-ITf"/>
                 <outlet property="shareLineBtn" destination="21H-E4-v6W" id="56d-bQ-NJC"/>
@@ -24,10 +27,10 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tcb-eu-5ld">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tcb-eu-5ld" userLabel="ViewThree">
                     <rect key="frame" x="0.0" y="667" width="414" height="195"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="erA-sT-MCI">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="erA-sT-MCI" userLabel="View1">
                             <rect key="frame" x="0.0" y="25" width="125" height="95"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="share_friends" translatesAutoresizingMaskIntoConstraints="NO" id="7wn-z3-8nG">
@@ -53,11 +56,10 @@
                                 <constraint firstItem="7wn-z3-8nG" firstAttribute="top" secondItem="erA-sT-MCI" secondAttribute="top" id="ISI-Df-m1n"/>
                                 <constraint firstAttribute="height" constant="95" id="QOd-Xx-9AI"/>
                                 <constraint firstAttribute="bottom" secondItem="XKP-cW-A25" secondAttribute="bottom" id="iCu-F8-xOT"/>
-                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="125" id="kAb-Ew-ic2"/>
                                 <constraint firstAttribute="trailing" secondItem="XKP-cW-A25" secondAttribute="trailing" id="o4S-12-dWK"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="21H-E4-v6W">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="21H-E4-v6W" userLabel="View2">
                             <rect key="frame" x="144.5" y="25" width="125" height="95"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="share_line" translatesAutoresizingMaskIntoConstraints="NO" id="0ja-mT-DZu">
@@ -78,7 +80,6 @@
                             <constraints>
                                 <constraint firstItem="fEs-Sc-uXo" firstAttribute="leading" secondItem="21H-E4-v6W" secondAttribute="leading" id="3FE-M2-ag2"/>
                                 <constraint firstAttribute="height" constant="95" id="J0q-Nt-Qmy"/>
-                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="125" id="Jvk-21-3Wu"/>
                                 <constraint firstAttribute="bottom" secondItem="fEs-Sc-uXo" secondAttribute="bottom" id="OdF-Um-bgG"/>
                                 <constraint firstAttribute="width" constant="125" id="YJN-d2-rpn"/>
                                 <constraint firstAttribute="trailing" secondItem="fEs-Sc-uXo" secondAttribute="trailing" id="YvM-lJ-4NZ"/>
@@ -87,7 +88,7 @@
                                 <constraint firstItem="0ja-mT-DZu" firstAttribute="top" secondItem="21H-E4-v6W" secondAttribute="top" id="yF1-Hh-2qQ"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uep-jU-E9L">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uep-jU-E9L" userLabel="View3">
                             <rect key="frame" x="289" y="25" width="125" height="95"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="share_copy" translatesAutoresizingMaskIntoConstraints="NO" id="9bs-rm-rjw">
@@ -107,7 +108,6 @@
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="fzJ-eA-NG4" secondAttribute="trailing" id="1cX-Iu-DpO"/>
-                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="125" id="1kh-ou-f8M"/>
                                 <constraint firstAttribute="bottom" secondItem="fzJ-eA-NG4" secondAttribute="bottom" id="6I7-ke-DUp"/>
                                 <constraint firstAttribute="height" constant="95" id="Me8-Hf-r5r"/>
                                 <constraint firstItem="9bs-rm-rjw" firstAttribute="centerX" secondItem="uep-jU-E9L" secondAttribute="centerX" id="R1t-J1-Lc1"/>
@@ -117,7 +117,7 @@
                                 <constraint firstAttribute="width" constant="125" id="xWl-qd-x1o"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZM9-93-zFH">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZM9-93-zFH" userLabel="View4">
                             <rect key="frame" x="0.0" y="134" width="414" height="1"/>
                             <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -142,6 +142,7 @@
                         <constraint firstItem="21H-E4-v6W" firstAttribute="bottom" secondItem="erA-sT-MCI" secondAttribute="bottom" id="Ijg-1a-Bbv"/>
                         <constraint firstAttribute="bottom" secondItem="ZM9-93-zFH" secondAttribute="bottom" constant="60" id="S1A-wD-C9V"/>
                         <constraint firstItem="N57-v5-EeA" firstAttribute="leading" secondItem="Tcb-eu-5ld" secondAttribute="leading" id="UE6-69-6et"/>
+                        <constraint firstItem="21H-E4-v6W" firstAttribute="leading" secondItem="Tcb-eu-5ld" secondAttribute="leading" constant="144.5" id="Uvk-4L-s3n"/>
                         <constraint firstAttribute="height" constant="195" id="XoH-vS-p24"/>
                         <constraint firstAttribute="bottom" secondItem="N57-v5-EeA" secondAttribute="bottom" id="aK0-DA-Exq"/>
                         <constraint firstItem="uep-jU-E9L" firstAttribute="bottom" secondItem="erA-sT-MCI" secondAttribute="bottom" id="dF8-iT-Zs7"/>

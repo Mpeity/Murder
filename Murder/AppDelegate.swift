@@ -49,6 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = defaultViewController
 
 //        self.window?.rootViewController = SetPasswordsViewController()
+//        self.window?.rootViewController = CompleteInfoViewController()
         
         self.window?.makeKeyAndVisible()
         return true

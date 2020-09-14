@@ -17,7 +17,7 @@ class ScriptViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     private var myTableView: UITableView!
     
-    private var tableHeaderView = ScriptTableHeaderView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: 160))
+    private var tableHeaderView = ScriptTableHeaderView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: 3 * 35 + 20))
     
     private var defaultView: UIView = UIView()
     
@@ -125,8 +125,12 @@ extension ScriptViewController {
                 
                 let model = ScriptModel(fromDictionary: data)
                 if model.list?.count ?? 0 < 15 { // 最后一页
+                    //如果提醒他没有更多的数据了
                     self?.myTableView.mj_header.endRefreshing()
                     self?.myTableView.mj_footer.endRefreshing()
+                    self?.myTableView.mj_footer.endRefreshingWithNoMoreData()
+                    return
+                    
                 }
                 
                 if self?.page_no == 1 {
@@ -179,7 +183,17 @@ extension ScriptViewController {
     }
     
     private func setupFooterView() {
-        myTableView.mj_footer = MJRefreshAutoFooter(refreshingTarget: self, refreshingAction: #selector(loadMore))
+//        myTableView.mj_footer = MJRefreshAutoFooter(refreshingTarget: self, refreshingAction: #selector(loadMore))
+//        //如果提醒他没有更多的数据了
+//        myTableView.mj_footer.endRefreshingWithNoMoreData()
+        
+        let footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(loadMore))
+        footer?.setTitle("", for: .idle)
+        footer?.setTitle("加载中...", for: .refreshing)
+        footer?.setTitle("~ 以上です ~", for: .noMoreData)
+        footer?.stateLabel.font = UIFont.systemFont(ofSize: 12)
+        footer?.stateLabel.textColor = HexColor("#999999")
+        myTableView.mj_footer = footer
     }
     
     func setUI() {
@@ -252,6 +266,7 @@ extension ScriptViewController {
         let model = scriptModel?.list?[indexPath.row]
         let vc = ScriptDetailsViewController()
         vc.script_id = model?.scriptId
+        vc.user_script_text = model?.userScriptText
         navigationController?.pushViewController(vc, animated: true)
     }
 

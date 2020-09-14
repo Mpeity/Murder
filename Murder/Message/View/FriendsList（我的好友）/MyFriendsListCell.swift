@@ -8,7 +8,13 @@
 
 import UIKit
 
+// 头像点击手势
+typealias MyFriendsListAvatarImgTapBlcok = () ->()
+
 class MyFriendsListCell: UITableViewCell {
+    
+    var avatarImgTapBlcok : MyFriendsListAvatarImgTapBlcok?
+
     
     // 头像
     @IBOutlet weak var avatarImgView: UIImageView!
@@ -30,23 +36,22 @@ class MyFriendsListCell: UITableViewCell {
                 let head = itemModel.head
                 avatarImgView.setImageWith(URL(string: head!))
             }
-            if itemModel.sexText != nil {
-                
-            }
+            
             if itemModel.nickname != nil {
                 nicknameLabel.text = itemModel.nickname!
             }
             
-            if itemModel.sexText != nil {
-                let sex = itemModel.sexText!
+            if itemModel.sex != nil {
+                let sex = itemModel.sex!
                 switch sex {
-                case "男":
+                case 1:
                     sexImgView.image = UIImage(named: "sex_man")
-                case "女":
+                case 2:
                     sexImgView.image = UIImage(named: "sex_woman")
                 default:
                     break
                 }
+                
             }
             
             if itemModel.gameStatus != nil {
@@ -100,6 +105,15 @@ extension MyFriendsListCell {
         nicknameLabel.textColor = HexColor(DarkGrayColor)
         statusLabel.textColor = HexColor(MainColor)
         statusLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        
+        avatarImgView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(avatarImgTapAction))
+        avatarImgView.addGestureRecognizer(tap)
+    }
+    
+    @objc func avatarImgTapAction() {
+        guard let avatarImgTapBlcok: AvatarImgTapBlcok = avatarImgTapBlcok else { return }
+        avatarImgTapBlcok()
     }
 }
 

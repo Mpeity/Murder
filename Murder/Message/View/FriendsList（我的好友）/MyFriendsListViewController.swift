@@ -29,7 +29,7 @@ class MyFriendsListViewController: UIViewController, UITableViewDelegate, UITabl
     
     private var page_no = 1
     
-    private var page_size = 1
+    private var page_size = 15
     
     private var friendsModel: FriendsModel?
     
@@ -199,6 +199,20 @@ extension MyFriendsListViewController {
         cell.selectionStyle = .none
         let model = friendsModel?.list[indexPath.row]
         cell.itemModel = model
+        cell.avatarImgTapBlcok = {() in
+            let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            
+            commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            let itemModel = MessageListModel(fromDictionary: [ : ])
+            itemModel.head = model!.head
+            itemModel.nickname = model!.nickname
+            itemModel.sex = model!.sex
+            itemModel.level = model!.level
+            itemModel.userId = model!.userId
+            commonView.itemModel  = itemModel
+            
+            UIApplication.shared.keyWindow?.addSubview(commonView)
+        }
         return cell
     }
     

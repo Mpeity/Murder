@@ -65,7 +65,6 @@ class PrepareRoomCell: UITableViewCell {
                 if (roomUserModel?.head != nil) {
                     let head = roomUserModel?.head!
                     avatarImgView.setImageWith(URL(string:head!))
-//                    avatarImgView.setImageWith(URL(string:head!), placeholder: UIImage(named: "unselected_icon"))
                 }
                 
                 if (roomUserModel?.nickname != nil) {
@@ -94,6 +93,7 @@ class PrepareRoomCell: UITableViewCell {
                 avatarImgView.setImageWith(URL(string:""), placeholder: UIImage(named: "unselected_icon"))
                 nameLabel.text = "サクラ"
                 ownerLabel.isHidden = true
+                prepareBtn.isHidden = true
             }
         }
     }

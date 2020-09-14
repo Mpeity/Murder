@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CompleteInfoViewController" customModule="Murder" customModuleProvider="target">
             <connections>
                 <outlet property="commonBtn" destination="TFe-OW-Tjd" id="5WT-xz-UPu"/>
+                <outlet property="commonBtnWidth" destination="PM7-oK-kSL" id="98a-q2-dLM"/>
                 <outlet property="manBtn" destination="1fy-Jg-dpf" id="aBq-xp-caB"/>
                 <outlet property="nicknameTextfield" destination="knq-f0-BNM" id="EZK-tI-Iqa"/>
                 <outlet property="nicknameView" destination="WPC-xI-6ni" id="QOH-FZ-pQm"/>
@@ -53,7 +54,7 @@
                         <constraint firstItem="knq-f0-BNM" firstAttribute="top" secondItem="WPC-xI-6ni" secondAttribute="top" constant="10" id="ire-7n-Jet"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TFe-OW-Tjd">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TFe-OW-Tjd" customClass="GradienButton" customModule="Murder" customModuleProvider="target">
                     <rect key="frame" x="57" y="425" width="300" height="50"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="300" id="PM7-oK-kSL"/>

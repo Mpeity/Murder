@@ -374,7 +374,9 @@ extension PrepareRoomViewController {
         
         if readyRoomModel?.introduction != nil {
             let message = readyRoomModel?.introduction
+            let height = message?.ga_heightForComment(fontSize: 12, width: 300*SCALE_SCREEN)
             preference.drawing.message =  message!
+            preference.drawing.maxHeight = height!
         }
         
         if readyRoomModel?.roomId != nil {
@@ -408,7 +410,6 @@ extension PrepareRoomViewController {
     
     private func refreshUI() {
         
-        tableView.reloadData()
         
         if readyRoomModel?.scriptName != nil {
             gameNameLabel.text = readyRoomModel?.scriptName
@@ -432,8 +433,17 @@ extension PrepareRoomViewController {
         if readyRoomModel?.roomId != nil {
             currentLabel.text = "ルームID：\(readyRoomModel?.roomId! ?? 0)"
         }
-        roleCount = readyRoomModel?.scriptRoleList?.count as! Int
-        playerCount = readyRoomModel?.roomUserList?.count as! Int
+        roleCount = readyRoomModel?.scriptRoleList!.count as! Int
+        
+//        playerCount = readyRoomModel?.roomUserList!.count as! Int
+        var playerNum = 0
+        for item in readyRoomModel!.roomUserList! {
+            if item.scriptRoleId != 0 {
+                playerNum += 1
+            }
+        }
+        
+        playerCount = playerNum
         
         choiceLabel.text = "キャラクターを選択（\(playerCount)/\(roleCount)）"
         let userList = readyRoomModel?.roomUserList
@@ -481,11 +491,15 @@ extension PrepareRoomViewController {
             
             break
         case 3: // 解散
+            userLogout()
             self.navigationController?.popToRootViewController(animated: true)
             break
         default:
             break
         }
+        
+        tableView.reloadData()
+
         
     }
     
@@ -530,7 +544,7 @@ extension PrepareRoomViewController {
             make.left.equalTo(exitBtn.snp.right).offset(7.5)
             make.top.equalToSuperview().offset(9.5)
             make.height.equalTo(18)
-//            make.width.equalTo(100)
+            make.width.equalTo(100)
         }
         gameNameLabel.text = "平凡な宿"
         gameNameLabel.font = UIFont.systemFont(ofSize: 14.0)
@@ -617,7 +631,7 @@ extension PrepareRoomViewController {
             make.left.equalToSuperview().offset(11.5)
             make.bottom.equalToSuperview().offset(-12)
             make.height.equalTo(16)
-//            make.width.equalTo(100)
+            make.width.equalTo(100)
         }
         currentLabel.text = "ルームID：52845698"
         currentLabel.font = UIFont.systemFont(ofSize: 13.0)
@@ -769,7 +783,7 @@ extension PrepareRoomViewController: UITableViewDelegate, UITableViewDataSource 
                 if roleId1 == roleId2 {
                     cell.scriptRoleModel?.hasPlayer = true
                     cell.roomUserModel = item
-                } 
+                }
             }
         }
         return cell
@@ -793,6 +807,17 @@ extension PrepareRoomViewController: UITableViewDelegate, UITableViewDataSource 
 
 
 extension PrepareRoomViewController {
+    
+    //MARK: 解散房间是 退出声网/断开socekt
+    private func userLogout() {
+        // 退出当前剧本，离开群聊频道
+        agoraStatus.muteAllRemote = false
+        agoraStatus.muteLocalAudio = false
+        agoraKit.leaveChannel(nil)
+        
+        SingletonSocket.sharedInstance.socket.disconnect()
+    }
+    
     //MARK:- 退出房间按钮
     @objc func exitBtnAction(button: UIButton) {
 //        self.navigationController?.popViewController(animated: true)
@@ -869,6 +894,7 @@ extension PrepareRoomViewController {
 //        self.view.addSubview(commonView)
         
         let commonView = ShareView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        commonView.leftSpace = (FULL_SCREEN_WIDTH - 125 * 2) / 3.0
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         commonView.shareCopyBtn.isHidden = true
         commonView.delegate = self
@@ -879,7 +905,10 @@ extension PrepareRoomViewController {
     
     //MARK:- 消息按钮
     @objc func messageBtnAction(button: UIButton) {
-//        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
+         UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+        let main = UIApplication.shared.keyWindow?.rootViewController as! MainViewController
+        main.selectedIndex = 2
     }
     
     //MARK:- 声音按钮
@@ -896,13 +925,13 @@ extension PrepareRoomViewController {
         let userList = readyRoomModel?.roomUserList
         let model = userList?[index]
         
-        if isStandUp != nil {
-            if isStandUp! == true {
-                showToastCenter(msg: "先にキャラクターを選択してください")
-                return
-            }
-        }
-        
+//        if isStandUp != nil {
+//            if isStandUp! == true {
+//                showToastCenter(msg: "先にキャラクターを選択してください")
+//                return
+//            }
+//        }
+//
         if model!.scriptRoleId == 0 {
             showToastCenter(msg: "先にキャラクターを選択してください")
             return
@@ -934,18 +963,27 @@ extension PrepareRoomViewController {
         button.isSelected = !button.isSelected
         preference.drawing.backgroundColor = UIColor.white
         preference.drawing.textColor = HexColor(LightDarkGrayColor)
-        preference.positioning.targetPoint = CGPoint(x: button.center.x, y: button.frame.maxY+55)
-        preference.drawing.maxTextWidth = 332*SCALE_SCREEN
-        preference.drawing.maxHeight = 208
+        preference.positioning.targetPoint = CGPoint(x: button.center.x, y: button.frame.maxY+10)
+//        preference.drawing.maxTextWidth = 300*SCALE_SCREEN
+//        preference.drawing.maxHeight = 208
         preference.positioning.marginLeft = 16
         preference.drawing.textAlignment = .left
-        preference.animating.shouldDismiss = false        
+        preference.animating.shouldDismiss = false
         if button.isSelected {
             tipView = FETipView(preferences: preference)
             tipView.show()
         } else {
             tipView.dismiss()
         }
+        
+//        let popTipView = PopTipView()
+        
+//        let message = readyRoomModel?.introduction
+//        let height = message?.ga_heightForComment(fontSize: 12, width: 230)
+//        let popTipView = PopTipView(frame: CGRect(x: button.center.x, y: button.frame.maxY+55, width: 230, height: height!))
+//        popTipView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+//        self.view.addSubview(popTipView)
+        
     }
 }
 
@@ -1278,12 +1316,15 @@ extension PrepareRoomViewController: WebSocketDelegate {
                 
                 Log("websocketDidReceiveMessage----数据更新了")
                 Log("websocketDidReceiveMessage=\(socket)\(text)")
-                
+                readyRoomModel = nil
                 readyRoomModel = ReadyRoomModel(fromDictionary: resultData)
                 if readyRoomModel != nil {
-                    DispatchQueue.main.async { [weak self] in
-                        self?.refreshUI()
-                    }
+                    
+                    refreshUI()
+//                    DispatchQueue.main.async { [weak self] in
+//
+//                        self?.refreshUI()
+//                    }
                 }
             } else {
                 

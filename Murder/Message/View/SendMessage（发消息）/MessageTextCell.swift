@@ -34,6 +34,9 @@ class MessageTextCell: UITableViewCell {
     
     @IBOutlet weak var rightTextLabel: UILabel!
     
+    // 上一条消息的时间
+//    var presentTime: String
+    
     
     var cellHeight: CGFloat?
     
@@ -45,7 +48,7 @@ class MessageTextCell: UITableViewCell {
                 rightView.isHidden = rightHidden
                 leftView.isHidden = !rightHidden
                 
-                if messageTalkModel?.timeMs != nil {
+                if messageTalkModel?.timeMs != nil && messageTalkModel?.showTime! == true  {
                     let timeStr = getDateStr(timeStamp: (messageTalkModel?.timeMs!)!)
                     timeLabel.text = timeStr
                 }

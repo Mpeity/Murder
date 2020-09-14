@@ -9,11 +9,13 @@
 import Foundation
 
 class FriendListModel : NSObject {
+
     var gameStatus : Int?
     var gameText : String?
     var head : String?
     var level : String?
     var nickname : String?
+    var sex : Int?
     var sexText : String?
     var userId : Int?
 
@@ -27,6 +29,7 @@ class FriendListModel : NSObject {
         head = dictionary["head"] as? String
         level = dictionary["level"] as? String
         nickname = dictionary["nickname"] as? String
+        sex = dictionary["sex"] as? Int
         sexText = dictionary["sex_text"] as? String
         userId = dictionary["user_id"] as? Int
     }
@@ -52,6 +55,9 @@ class FriendListModel : NSObject {
         if nickname != nil{
             dictionary["nickname"] = nickname
         }
+        if sex != nil{
+            dictionary["sex"] = sex
+        }
         if sexText != nil{
             dictionary["sex_text"] = sexText
         }
@@ -61,7 +67,6 @@ class FriendListModel : NSObject {
         return dictionary
     }
 }
-
 
 class FriendsModel : NSObject {
 

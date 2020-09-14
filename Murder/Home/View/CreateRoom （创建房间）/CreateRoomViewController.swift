@@ -187,13 +187,16 @@ extension CreateRoomViewController: InputTextViewDelegate, UITextFieldDelegate  
         }
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField.text?.count ?? 0 > 4 {
-            return false
-        }
-        return true
-    }
     
+    // 利用代理方法控制字符数量
+       func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+           guard let text = textField.text else{
+               return true
+           }
+           let textLength = text.count + string.count - range.length
+
+           return textLength<=4
+       }
 
     
     @objc func keyboardWillChangeFrame(notif: Notification) {

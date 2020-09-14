@@ -30,7 +30,7 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ユミ" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sm-1Q-uri">
-                        <rect key="frame" x="75" y="83.5" width="35" height="20"/>
+                        <rect key="frame" x="75" y="83.5" width="259" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="fzo-YJ-Gej"/>
                         </constraints>
@@ -39,9 +39,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="アイドル中" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1NK-jj-pHo">
-                        <rect key="frame" x="352.5" y="83.5" width="71.5" height="20"/>
+                        <rect key="frame" x="344" y="83.5" width="80" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="iSv-lv-S5K"/>
+                            <constraint firstAttribute="width" constant="80" id="jIW-7C-8mX"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
@@ -63,6 +64,7 @@
                     </view>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="1NK-jj-pHo" firstAttribute="leading" secondItem="1sm-1Q-uri" secondAttribute="trailing" constant="10" id="6o6-M4-pq5"/>
                     <constraint firstItem="1sm-1Q-uri" firstAttribute="leading" secondItem="3tj-Pt-vI3" secondAttribute="trailing" constant="10" id="F2Y-By-Bsv"/>
                     <constraint firstItem="1sm-1Q-uri" firstAttribute="centerY" secondItem="3tj-Pt-vI3" secondAttribute="centerY" id="Kyw-h4-x8y"/>
                     <constraint firstItem="yHr-Kv-e5P" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="L2b-Ev-fQB"/>

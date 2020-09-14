@@ -150,7 +150,7 @@
     </objects>
     <resources>
         <image name="avart_one" width="38" height="38.5"/>
-        <image name="left_text_bg" width="119" height="38.5"/>
-        <image name="right_text_bg" width="118" height="38.5"/>
+        <image name="left_text_bg" width="23.5" height="37.5"/>
+        <image name="right_text_bg" width="23.5" height="38.5"/>
     </resources>
 </document>

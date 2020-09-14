@@ -94,6 +94,8 @@
 		9867FED324C830F300A93E5F /* PlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9867FED224C830F300A93E5F /* PlayerView.xib */; };
 		9867FED524C8500100A93E5F /* DissolveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9867FED424C8500100A93E5F /* DissolveView.swift */; };
 		9867FED724C8501C00A93E5F /* DissolveView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9867FED624C8501C00A93E5F /* DissolveView.xib */; };
+		98683A58250B591400B5B2F5 /* BannerWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98683A56250B591400B5B2F5 /* BannerWebViewController.swift */; };
+		98683A59250B591400B5B2F5 /* BannerWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98683A57250B591400B5B2F5 /* BannerWebViewController.xib */; };
 		9868A31524C9312E009FD8F4 /* CollogueRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868A31424C9312E009FD8F4 /* CollogueRoomView.swift */; };
 		9868A31724C9313C009FD8F4 /* CollogueRoomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9868A31624C9313C009FD8F4 /* CollogueRoomView.xib */; };
 		9868A31A24C931F0009FD8F4 /* CollogueRoomViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868A31824C931F0009FD8F4 /* CollogueRoomViewCell.swift */; };
@@ -127,6 +129,14 @@
 		9871EB3C24E41D9D006464A4 /* ScriptModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9871EB3B24E41D9D006464A4 /* ScriptModel.swift */; };
 		9871EB3E24E41E3B006464A4 /* ScriptListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9871EB3D24E41E3B006464A4 /* ScriptListModel.swift */; };
 		9871EB4024E41EAB006464A4 /* ScriptTagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9871EB3F24E41EAB006464A4 /* ScriptTagModel.swift */; };
+		9873BE21250D1B80007C0263 /* PlacePopMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9873BE20250D1B80007C0263 /* PlacePopMenuView.swift */; };
+		9873BE24250D1BA4007C0263 /* PlacePopMenuViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9873BE22250D1BA4007C0263 /* PlacePopMenuViewCell.swift */; };
+		9873BE25250D1BA4007C0263 /* PlacePopMenuViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9873BE23250D1BA4007C0263 /* PlacePopMenuViewCell.xib */; };
+		9873BE27250DC351007C0263 /* EWTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9873BE26250DC351007C0263 /* EWTextView.swift */; };
+		9873BE2C250DCDEA007C0263 /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9873BE2A250DCDE9007C0263 /* UITextView+Placeholder.m */; };
+		9873BE2E250E646A007C0263 /* PopTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9873BE2D250E6469007C0263 /* PopTipView.swift */; };
+		9873BE30250E6526007C0263 /* PopTipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9873BE2F250E6526007C0263 /* PopTipView.xib */; };
+		9873BE32250EFC87007C0263 /* mxUIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9873BE31250EFC86007C0263 /* mxUIViewExtension.swift */; };
 		9874928A24F74A1200D6FD21 /* AgoraRtmKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9874928924F74A1200D6FD21 /* AgoraRtmKit.framework */; };
 		9874928B24F74A5E00D6FD21 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9874927D24F7481900D6FD21 /* CoreTelephony.framework */; };
 		9874928C24F74A6C00D6FD21 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9874928724F7485600D6FD21 /* libc++.tbd */; };
@@ -371,6 +381,8 @@
 		9867FED224C830F300A93E5F /* PlayerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerView.xib; sourceTree = "<group>"; };
 		9867FED424C8500100A93E5F /* DissolveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DissolveView.swift; sourceTree = "<group>"; };
 		9867FED624C8501C00A93E5F /* DissolveView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DissolveView.xib; sourceTree = "<group>"; };
+		98683A56250B591400B5B2F5 /* BannerWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerWebViewController.swift; sourceTree = "<group>"; };
+		98683A57250B591400B5B2F5 /* BannerWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BannerWebViewController.xib; sourceTree = "<group>"; };
 		9868A31424C9312E009FD8F4 /* CollogueRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollogueRoomView.swift; sourceTree = "<group>"; };
 		9868A31624C9313C009FD8F4 /* CollogueRoomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollogueRoomView.xib; sourceTree = "<group>"; };
 		9868A31824C931F0009FD8F4 /* CollogueRoomViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollogueRoomViewCell.swift; sourceTree = "<group>"; };
@@ -404,6 +416,15 @@
 		9871EB3B24E41D9D006464A4 /* ScriptModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptModel.swift; sourceTree = "<group>"; };
 		9871EB3D24E41E3B006464A4 /* ScriptListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptListModel.swift; sourceTree = "<group>"; };
 		9871EB3F24E41EAB006464A4 /* ScriptTagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptTagModel.swift; sourceTree = "<group>"; };
+		9873BE20250D1B80007C0263 /* PlacePopMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePopMenuView.swift; sourceTree = "<group>"; };
+		9873BE22250D1BA4007C0263 /* PlacePopMenuViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePopMenuViewCell.swift; sourceTree = "<group>"; };
+		9873BE23250D1BA4007C0263 /* PlacePopMenuViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlacePopMenuViewCell.xib; sourceTree = "<group>"; };
+		9873BE26250DC351007C0263 /* EWTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EWTextView.swift; sourceTree = "<group>"; };
+		9873BE2A250DCDE9007C0263 /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
+		9873BE2B250DCDE9007C0263 /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
+		9873BE2D250E6469007C0263 /* PopTipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopTipView.swift; sourceTree = "<group>"; };
+		9873BE2F250E6526007C0263 /* PopTipView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopTipView.xib; sourceTree = "<group>"; };
+		9873BE31250EFC86007C0263 /* mxUIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mxUIViewExtension.swift; sourceTree = "<group>"; };
 		9874927D24F7481900D6FD21 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		9874927F24F7482300D6FD21 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		9874928124F7482D00D6FD21 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
@@ -567,6 +588,8 @@
 			children = (
 				0451A36B24C1AB8700E69085 /* Home.storyboard */,
 				0451A36424C1AABC00E69085 /* HomeViewController.swift */,
+				98683A56250B591400B5B2F5 /* BannerWebViewController.swift */,
+				98683A57250B591400B5B2F5 /* BannerWebViewController.xib */,
 				9837E1D924E229BF00BB23CF /* ViewModel */,
 				9837E1D824E229B900BB23CF /* Model */,
 				98820F9F24CA6D810005EBDD /* View */,
@@ -823,6 +846,7 @@
 		9867FECF24C8309C00A93E5F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9873BE1F250D1B39007C0263 /* place（地图） */,
 				98A268BE24D90EB8004B9D53 /* voteResult（投票结果） */,
 				98820FBB24CACCAB0005EBDD /* question （问答题） */,
 				98820FBA24CAB87C0005EBDD /* PlayerView（人物卡） */,
@@ -885,6 +909,16 @@
 				98663A7124FCAFE0007726A5 /* FriendsApplyModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		9873BE1F250D1B39007C0263 /* place（地图） */ = {
+			isa = PBXGroup;
+			children = (
+				9873BE20250D1B80007C0263 /* PlacePopMenuView.swift */,
+				9873BE22250D1BA4007C0263 /* PlacePopMenuViewCell.swift */,
+				9873BE23250D1BA4007C0263 /* PlacePopMenuViewCell.xib */,
+			);
+			path = "place（地图）";
 			sourceTree = "<group>";
 		};
 		9875840524E3CA14008795C5 /* PrepareRoom */ = {
@@ -1115,6 +1149,8 @@
 		98CA029724C52921009EF0ED /* Tools（工具） */ = {
 			isa = PBXGroup;
 			children = (
+				9873BE2D250E6469007C0263 /* PopTipView.swift */,
+				9873BE2F250E6526007C0263 /* PopTipView.xib */,
 				98D9C8E224F5F9B30058DD45 /* GradienButton.swift */,
 				98038F5624D7B0DA00CBCEE7 /* FETipView.swift */,
 				98CA029C24C52921009EF0ED /* TitleButton.swift */,
@@ -1122,6 +1158,9 @@
 				985F595024E64FDE00726AF7 /* SingletonSocket.swift */,
 				98D9C8E424F645310058DD45 /* DSWebSocket.swift */,
 				98673B6424ECAFAB007F5102 /* ScriptLocalData.swift */,
+				9873BE2B250DCDE9007C0263 /* UITextView+Placeholder.h */,
+				9873BE2A250DCDE9007C0263 /* UITextView+Placeholder.m */,
+				9873BE31250EFC86007C0263 /* mxUIViewExtension.swift */,
 				98CA029824C52921009EF0ED /* Category */,
 				98CA029D24C52921009EF0ED /* HTTPServers */,
 			);
@@ -1137,6 +1176,7 @@
 				9867FECD24C8146000A93E5F /* UIView-Extention.swift */,
 				98A447D724DCF9E000C54969 /* String-Extention.swift */,
 				9866C16A24E5243900810516 /* UITextView-Extention.swift */,
+				9873BE26250DC351007C0263 /* EWTextView.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1387,6 +1427,7 @@
 				98C8D2C524CDD2FC006C76D0 /* FeedbackViewController.xib in Resources */,
 				98CA02AC24C5322B009EF0ED /* ScriptTableViewCell.xib in Resources */,
 				98649DD824CE820C005AA9C3 /* RoleCollectionViewCell.xib in Resources */,
+				9873BE25250D1BA4007C0263 /* PlacePopMenuViewCell.xib in Resources */,
 				9868A31B24C931F0009FD8F4 /* CollogueRoomViewCell.xib in Resources */,
 				98820FA324CA6DA90005EBDD /* HomeListViewCell.xib in Resources */,
 				98038F6124D82E7200CBCEE7 /* GameplayViewCell.xib in Resources */,
@@ -1396,6 +1437,7 @@
 				983FD1AE24D2AF060041D79E /* ScriptTableHeaderCollectionViewCell.xib in Resources */,
 				9868A33324C9A765009FD8F4 /* BillingInfoViewCell.xib in Resources */,
 				98820FB824CAB7210005EBDD /* ThreadCardView.xib in Resources */,
+				9873BE30250E6526007C0263 /* PopTipView.xib in Resources */,
 				9867764C24D19A90009A950F /* ApplyFriendView.xib in Resources */,
 				988D4D6124CC856100C4B979 /* MineListCell.xib in Resources */,
 				9868A31F24C95F5A009FD8F4 /* ReadScriptViewCell.xib in Resources */,
@@ -1414,6 +1456,7 @@
 				986B5A2224FF46DF00DFCBB5 /* ThreadNewCardView.xib in Resources */,
 				98820FC324CACF6B0005EBDD /* QuestionViewCell.xib in Resources */,
 				98038F5524D7A27200CBCEE7 /* MarqueeViewCell.xib in Resources */,
+				98683A59250B591400B5B2F5 /* BannerWebViewController.xib in Resources */,
 				04C3A9D624C1808D001DD90D /* Assets.xcassets in Resources */,
 				98820FA724CA71E00005EBDD /* HomeListHeaderView.xib in Resources */,
 				986D9EBD24F392D2005E6B03 /* VoteAnswerCell.xib in Resources */,
@@ -1592,6 +1635,7 @@
 				9844204C24EE1294001A0D7C /* GPScriptRoleUserModel.swift in Sources */,
 				98038F5424D7A27200CBCEE7 /* MarqueeViewCell.swift in Sources */,
 				98A79B3C24D1694A00ECBD2A /* ShareView.swift in Sources */,
+				98683A58250B591400B5B2F5 /* BannerWebViewController.swift in Sources */,
 				98649DDE24CEC1F1005AA9C3 /* RoleIntroductionView.swift in Sources */,
 				98CA02A024C52921009EF0ED /* UIButton-Extention.swift in Sources */,
 				983FD1AD24D2AF060041D79E /* ScriptTableHeaderCollectionViewCell.swift in Sources */,
@@ -1625,6 +1669,7 @@
 				986DFDD224F8F115005F2C8A /* ScriptLogDetailModel.swift in Sources */,
 				9868A32B24C98D2A009FD8F4 /* PopMenuViewCell.swift in Sources */,
 				98649DEB24CEDAB2005AA9C3 /* ScriptDetailsViewController.swift in Sources */,
+				9873BE2C250DCDEA007C0263 /* UITextView+Placeholder.m in Sources */,
 				98B26A7224F2045600671202 /* SearchClueResultModel.swift in Sources */,
 				986B5A2424FFB44200DFCBB5 /* MessageContentModel.swift in Sources */,
 				9844205024EE13CF001A0D7C /* GPNodeMapListModel.swift in Sources */,
@@ -1633,6 +1678,7 @@
 				98820FA224CA6DA90005EBDD /* HomeListViewCell.swift in Sources */,
 				98820FA524CA71D30005EBDD /* HomeListHeaderView.swift in Sources */,
 				0451A36524C1AABC00E69085 /* HomeViewController.swift in Sources */,
+				9873BE24250D1BA4007C0263 /* PlacePopMenuViewCell.swift in Sources */,
 				98D9C8E324F5F9B30058DD45 /* GradienButton.swift in Sources */,
 				9844205224EE1430001A0D7C /* GPPlaceListModel.swift in Sources */,
 				0451A36324C1AAB200E69085 /* ScriptViewController.swift in Sources */,
@@ -1640,6 +1686,7 @@
 				98F08C0724E2B5890033DFBA /* ScriptNetwork.swift in Sources */,
 				98C8D2C424CDD2FC006C76D0 /* FeedbackViewController.swift in Sources */,
 				98649DEE24CEDB65005AA9C3 /* CreateRoomViewController.swift in Sources */,
+				9873BE27250DC351007C0263 /* EWTextView.swift in Sources */,
 				9867764924D19A68009A950F /* ApplyFriendView.swift in Sources */,
 				98B26A7624F28FAA00671202 /* GameVoteResultModel.swift in Sources */,
 				98663A7224FCAFE0007726A5 /* FriendsApplyModel.swift in Sources */,
@@ -1710,9 +1757,12 @@
 				986A540D24EB796D004140F3 /* ImageDownloader.swift in Sources */,
 				98B26A7024F1401400671202 /* GameUserClueListModel.swift in Sources */,
 				986DEA0C24F9079500853917 /* MessageNetwork.swift in Sources */,
+				9873BE32250EFC87007C0263 /* mxUIViewExtension.swift in Sources */,
 				98F08BFD24E23A3D0033DFBA /* HomeUserModel.swift in Sources */,
+				9873BE21250D1B80007C0263 /* PlacePopMenuView.swift in Sources */,
 				98B26A7424F2479500671202 /* ScriptQuestionListModel.swift in Sources */,
 				98A268C324D9148D004B9D53 /* VoteResultViewCell.swift in Sources */,
+				9873BE2E250E646A007C0263 /* PopTipView.swift in Sources */,
 				98820FBD24CACCDE0005EBDD /* QuestionView.swift in Sources */,
 				98C8D2C024CDCA04006C76D0 /* BaseNavigationViewController.swift in Sources */,
 				98820FC224CACF6B0005EBDD /* QuestionViewCell.swift in Sources */,

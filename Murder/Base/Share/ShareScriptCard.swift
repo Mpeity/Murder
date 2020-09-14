@@ -214,7 +214,7 @@ extension ShareScriptCard {
         }
     }
     //查找视图对象的响应者链条中的导航视图控制器
-    func findNavController() -> UINavigationController? {
+    private func findNavController() -> UINavigationController? {
         
         //遍历响应者链条
         var next = self.next

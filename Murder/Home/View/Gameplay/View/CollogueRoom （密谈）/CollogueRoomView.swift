@@ -23,6 +23,25 @@ class CollogueRoomView: UIView {
     
     var roomCount : Int? = 0 {
         didSet {
+            
+//            bgView.snp.remakeConstraints { (make) in
+//                 make.left.equalToSuperview()
+//                 make.right.equalToSuperview()
+//                 make.bottom.equalToSuperview()
+//                 if IS_iPHONE_X {
+//                     make.height.equalTo(34 + 5 + 60 * roomCount!)
+//                 } else {
+//                     make.height.equalTo(5 + 60 * roomCount!)
+//                 }
+//            }
+//
+//            tableView.snp.remakeConstraints { (make) in
+//                make.top.equalToSuperview().offset(5)
+//                make.left.right.equalToSuperview()
+//                make.height.equalTo(60 * roomCount!)
+//            }
+            
+
             tableView.reloadData()
             if selectIndexPath != nil {
                 tableView.selectRow(at: selectIndexPath, animated: true, scrollPosition: .bottom)
@@ -46,13 +65,17 @@ class CollogueRoomView: UIView {
     private var uid : Int?
     
     var selectIndexPath: IndexPath?
+    
+    private var bgView : UIView!
 
     
     var itemModel: GPScriptRoleListModel? {
         didSet {
             uid = itemModel?.user?.userId
-            tableView.reloadData()
             
+           
+            
+            tableView.reloadData()
         }
     }
     
@@ -72,22 +95,23 @@ class CollogueRoomView: UIView {
 extension CollogueRoomView {
     private func setUI() {
         
-
-        let bgView = UIView()
-        bgView.backgroundColor = UIColor.white
-        self.addSubview(bgView)
+        if bgView == nil {
+            bgView = UIView()
+            bgView.backgroundColor = UIColor.white
+            self.addSubview(bgView)
+        }
         
         bgView.snp.makeConstraints { (make) in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
-            if #available(iOS 11.0, *) {
-                make.height.equalTo(339)
-
+            if IS_iPHONE_X {
+                make.height.equalTo(5 + 34 + 60 * 5)
             } else {
-                make.height.equalTo(305)
+               make.height.equalTo(5 + 60 * 5)
             }
         }
+        
         bgView.layoutIfNeeded()
         bgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)
 
@@ -103,7 +127,7 @@ extension CollogueRoomView {
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(5)
             make.left.right.equalToSuperview()
-            make.height.equalTo(300)
+            make.height.equalTo(60 * 5)
         }
         
         let headerView = UIView()

@@ -26,7 +26,17 @@ class SynopsisViewCell: UITableViewCell {
             guard let content = content else {
                 return
             }
-            contentLabel.text = content
+
+            let myMutableString = try! NSMutableAttributedString(data: (content.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+            
+            
+            let range = NSMakeRange(0, myMutableString.length)
+            myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
+            myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12.0)], range: range)
+
+            contentLabel.attributedText = myMutableString
+            
+//            contentLabel.text = content
         }
     }
     
@@ -46,13 +56,13 @@ class SynopsisViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-        if selected {
-            boultBtn.isSelected = true
-            boultBtn.setImage(UIImage(named: "jiantou_up"), for: .normal)
-        } else {
-            boultBtn.isSelected = false
-            boultBtn.setImage(UIImage(named: "jiantou_down"), for: .normal)
-        }
+//        if selected {
+//            boultBtn.isSelected = true
+//            boultBtn.setImage(UIImage(named: "jiantou_up"), for: .normal)
+//        } else {
+//            boultBtn.isSelected = false
+//            boultBtn.setImage(UIImage(named: "jiantou_down"), for: .normal)
+//        }
     }
     
 }

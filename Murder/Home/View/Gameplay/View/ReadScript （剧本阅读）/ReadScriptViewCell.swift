@@ -33,8 +33,21 @@ class ReadScriptViewCell: UITableViewCell {
     var logChapterModel: ScriptLogChapterModel? {
         didSet {
             if logChapterModel != nil {
-                textView.text = logChapterModel?.content
+                
+                // 富文本
+                let content = logChapterModel?.content
+
+                let myMutableString = try! NSMutableAttributedString(data: (content!.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+                
+                
+                let range = NSMakeRange(0, myMutableString.length)
+                myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
+                myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16.0)], range: range)
+
+
+                textView.attributedText = myMutableString
             }
+            
         }
     }
     

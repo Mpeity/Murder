@@ -42,23 +42,26 @@ class CreateRoomHeaderView: UIView {
                 coverImgView.setImageWith(URL(string: model.cover!))
             }
             if model.name != nil {
-                nameLabel.text = "著者：\(model.name!)"
+                nameLabel.text = model.name!
             }
             commonLabel.text = "\(String(model.duration!))時間 | \(String(model.wordNum!))字"
             
-            authorLabel.text = model.author
+            if model.author != nil {
+                authorLabel.text = "著者：" + model.author!
+            }
             
-            numLabel.text = String(model.peopleNum!) + "人"
-            if !model.tag!.isEmpty {
-                let item1 = model.tag![0]
-                if item1 != nil {
-                    themeLabel.text = item1.tagName
+            if  model.peopleNum != nil {
+                numLabel.text = String(model.peopleNum!) + "人"
+            }
+            
+            if model.tag != nil {
+                if model.tag?.tagName != nil {
+                    themeLabel.text = model.tag?.tagName
                 }
-                
-                let item2 = model.tag![1]
-                if item2 != nil {
-                    difficultyLabel.text = item2.tagName
-                }
+            }
+            
+            if model.difficultText != nil {
+                difficultyLabel.text = model.difficultText!
             }
             
         }

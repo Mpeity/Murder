@@ -21,6 +21,9 @@ class ReadScriptView: UIView {
     private let label = UILabel()
     
 
+    private let iconImgView = UIImageView()
+    
+    private let nameLabel = UILabel()
     
     // 我的id
     var script_role_id : Int!
@@ -29,9 +32,10 @@ class ReadScriptView: UIView {
     
     var script_node_id: Int?
     
-    var type :String? {
+    var type :String? = "script"
+    
+    var script : ScriptLogDetail? {
         didSet {
-            
         }
     }
 
@@ -49,6 +53,16 @@ class ReadScriptView: UIView {
                 }
                 
                 tableView.reloadData()
+               
+                if type != "script" {
+                    let model = scriptData![0] as! ScriptLogChapterModel
+                    label.text = model.name!
+                    
+                } else {
+                    let model = scriptData![0] as! GPChapterModel
+                    label.text = model.name!
+                }
+                
 
             }
         }
@@ -74,21 +88,18 @@ extension ReadScriptView {
         
 
         let bgView = UIView()
-        bgView.backgroundColor = UIColor.green
+        bgView.backgroundColor = HexColor("#F5F5F5")
         self.addSubview(bgView)
         
         bgView.snp.makeConstraints { (make) in
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.height.equalTo(537)
-//            if #available(iOS 11.0, *) {
-//                let height = 537 + 34
-//                make.height.equalTo(height)
-//            } else {
-//                make.height.equalTo(537)
-//            }
-            
+            if type != "script" {
+                make.height.equalTo(552)
+            } else {
+                make.height.equalTo(537)
+            }
         }
         bgView.layoutIfNeeded()
         bgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)
@@ -105,7 +116,11 @@ extension ReadScriptView {
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.left.right.equalToSuperview()
-            make.height.equalTo(537)
+            if type != "script" {
+                make.height.equalTo(552)
+            } else {
+                make.height.equalTo(537)
+            }
         }
 
         bottomBtn.createButton(style: .right, spacing: 30, imageName: "catalogue", title: "目録", cornerRadius: 0, color: "#ffffff")
@@ -136,6 +151,12 @@ extension ReadScriptView {
         popMenuView.contentTextColor = UIColor.white
         popMenuView.contentTextFont = 15
         popMenuView.refresh()
+        
+        
+        if type != "script" {
+            showBottomView()
+            bottomBtn.isSelected = true
+        }
         
     }
 }
@@ -191,10 +212,35 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
             make.height.equalToSuperview()
             make.centerX.equalToSuperview()
         }
-        label.text = "【 第一幕 】"
         label.textColor = HexColor("#333333")
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        
+        
+        if type != "script" {
+            view.addSubview(iconImgView)
+            iconImgView.setImageWith(URL(string: (UserAccountViewModel.shareInstance.account?.head!)!))
+            iconImgView.layer.cornerRadius = 15
+            iconImgView.layer.masksToBounds = true
+            iconImgView.snp.makeConstraints { (make) in
+                make.height.width.equalTo(30)
+                make.top.equalToSuperview().offset(8)
+                make.left.equalToSuperview().offset(22)
+            }
+            
+            
+            view.addSubview(nameLabel)
+            nameLabel.textColor = HexColor("#333333")
+            nameLabel.text = UserAccountViewModel.shareInstance.account?.nickname!
+            nameLabel.font = UIFont.systemFont(ofSize: 12)
+            nameLabel.snp.makeConstraints { (make) in
+                make.top.equalToSuperview().offset(38)
+                make.left.equalToSuperview().offset(12)
+                make.width.equalTo(50)
+                make.height.equalTo(22)
+            }
+        }
+        
         
         let cancelBtn = UIButton()
         view.addSubview(cancelBtn)
@@ -209,7 +255,11 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 45
+        if type != "script" {
+            return 60
+        } else {
+          return 45
+        }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
