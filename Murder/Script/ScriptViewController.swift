@@ -124,14 +124,7 @@ extension ScriptViewController {
                 let data = resultDic["data"] as! [String : AnyObject]
                 
                 let model = ScriptModel(fromDictionary: data)
-                if model.list?.count ?? 0 < 15 { // 最后一页
-                    //如果提醒他没有更多的数据了
-                    self?.myTableView.mj_header.endRefreshing()
-                    self?.myTableView.mj_footer.endRefreshing()
-                    self?.myTableView.mj_footer.endRefreshingWithNoMoreData()
-                    return
-                    
-                }
+
                 
                 if self?.page_no == 1 {
                     self?.scriptModel = model
@@ -150,10 +143,21 @@ extension ScriptViewController {
                 }
                 self?.tableHeaderView.tagList = self?.scriptModel!.tagList!
                 
-                
                 self?.myTableView.reloadData()
+    
+                
+                if model.list?.count ?? 0 < 15 { // 最后一页
+                    //如果提醒他没有更多的数据了
+                    self?.myTableView.mj_header.endRefreshing()
+                    self?.myTableView.mj_footer.endRefreshing()
+                    self?.myTableView.mj_footer.endRefreshingWithNoMoreData()
+                    return
+                    
+                }
+                
                 self?.myTableView.mj_header.endRefreshing()
                 self?.myTableView.mj_footer.endRefreshing()
+                
             } else {
                 self?.myTableView.mj_header.endRefreshing()
                 self?.myTableView.mj_footer.endRefreshing()

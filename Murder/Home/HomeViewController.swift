@@ -19,7 +19,7 @@ let HomeListHeaderViewId = "HomeListHeaderViewId"
 class HomeViewController: UIViewController,UITextFieldDelegate {
     
     private var page_no = 1
-    private var page_size = 20
+    private var page_size = 15
     private var currentIndex = 0
     
     private lazy var tableView: UITableView = UITableView(frame: CGRect.zero, style: .grouped)
@@ -233,6 +233,7 @@ extension HomeViewController {
     // 加载更多
     @objc func loadMore() {
         page_no += 1
+        loadData()
         
     }
     // 刷新
@@ -242,12 +243,6 @@ extension HomeViewController {
     }
     // 请求首页数据
     func loadData() {
-        
-        
-        
-  
-
-        
         loadHomeData(page_no: page_no, page_size: page_size) {[weak self] (result, error) in
             if error != nil {
                 self?.tableView.mj_header.endRefreshing()
@@ -274,12 +269,6 @@ extension HomeViewController {
                 let user = data["user"]
                 let banner_list = data["banner_list"] as! [[String : AnyObject]]
                 
-                
-                for roomItem in room_list {
-                    let roomModel = HomeRoomModel(fromDictionary: roomItem)
-                    self!.roomList.append(roomModel)
-                }
-                
                 for bannerItem in banner_list {
                     let bannerModel = HomeBannerModel(fromDictionary: bannerItem)
                     self!.bannerList.append(bannerModel)
@@ -287,15 +276,26 @@ extension HomeViewController {
                 
                 let userModel = HomeUserModel(fromDictionary: user as! [String : AnyObject])
                 
-                
                 let homeViewModel = HomeViewModel(bannerModelArr: self!.bannerList, userModel: userModel)
-                
-        
-                
                 
                 self?.tableHeaderView.homeViewModel = homeViewModel
                 
+                for roomItem in room_list {
+                     let roomModel = HomeRoomModel(fromDictionary: roomItem)
+                     self!.roomList.append(roomModel)
+                }
+
                 self?.tableView.reloadData()
+                
+                if room_list.count < 15 { // 最后一页
+                    //如果提醒他没有更多的数据了
+                    self?.tableView.mj_header.endRefreshing()
+                    self?.tableView.mj_footer.endRefreshing()
+                    self?.tableView.mj_footer.endRefreshingWithNoMoreData()
+                    return
+
+                }
+  
                 
                 Log("---------\(Thread.current)")
 
@@ -375,7 +375,16 @@ extension HomeViewController {
     }
     
     private func setupFooterView() {
-        tableView.mj_footer = MJRefreshAutoFooter(refreshingTarget: self, refreshingAction: #selector(loadMore))
+//        tableView.mj_footer = MJRefreshAutoFooter(refreshingTarget: self, refreshingAction: #selector(loadMore))
+        
+        let footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(loadMore))
+        footer?.setTitle("", for: .idle)
+        footer?.setTitle("加载中...", for: .refreshing)
+        footer?.setTitle("~ 以上です ~", for: .noMoreData)
+        footer?.stateLabel.font = UIFont.systemFont(ofSize: 12)
+        footer?.stateLabel.textColor = HexColor("#999999")
+        tableView.mj_footer = footer
+        
     }
     private func setUI() {
         tableHeaderView = HomeListHeaderView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: STATUS_BAR_HEIGHT + 260))

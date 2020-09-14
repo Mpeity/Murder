@@ -1247,19 +1247,13 @@ extension GameplayViewController {
 //        agoraKit.muteLocalAudioStream(button.isSelected)
         
         button.isSelected = !button.isSelected
+        Log(!button.isSelected)
+        // 开关本地音频发送  YES: 停止发送本地音频流 NO: （默认）继续发送本地音频流
         agoraKit.muteLocalAudioStream(!button.isSelected)
         
-//        if button.isSelected {
-//            microphoneBtn.setImage(UIImage(named: "gameplay_microphone_no"), for: .normal)
-//            microphoneBtn.setTitleColor(HexColor("#999999"), for: .normal)
-//            microphoneBtn.setTitle("マイク", for: .normal)
-//            voiceHide = false
-//        } else {
-//            microphoneBtn.setImage(UIImage(named: "gameplay_microphone"), for: .normal)
-//            microphoneBtn.setTitleColor(UIColor.white, for: .normal)
-//            microphoneBtn.setTitle("ミュート", for: .normal)
-//            voiceHide = true
-//        }
+        if !button.isSelected == true { //
+            updateVoice(uid: (UserAccountViewModel.shareInstance.account?.userId)!, totalVolume: 0)
+        }
         collectionView.reloadData()
     }
     
@@ -1422,7 +1416,7 @@ extension GameplayViewController: CollogueRoomViewDelegate {
         // 通信模式下默认为听筒，demo中将它切为外放
         agoraKit.setDefaultAudioRouteToSpeakerphone(true)
         // 启动音量回调，用来在界面上显示房间其他人的说话音量
-        agoraKit.enableAudioVolumeIndication(1000, smooth: 30, report_vad: false)
+        agoraKit.enableAudioVolumeIndication(1000, smooth: 3, report_vad: false)
         
         let uid = UserAccountViewModel.shareInstance.account?.userId
         agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: uid!), joinSuccess: nil)
@@ -1452,18 +1446,7 @@ extension GameplayViewController: CollogueRoomViewDelegate {
         
     
         agoraKit.leaveChannel(nil)
-        // 离开密谈 重新至回游戏中
-        agoraKit.delegate = self
-        // 通信模式下默认为听筒，demo中将它切为外放
-        let phoneVoice = microphoneBtn.isSelected
-        agoraKit.setDefaultAudioRouteToSpeakerphone(phoneVoice)
-        // 启动音量回调，用来在界面上显示房间其他人的说话音量
-        agoraKit.enableAudioVolumeIndication(1000, smooth: 30, report_vad: false)
-        
-
-        // 从私聊返回案发现场时，重新加入案发现场的群聊频道
-        let uid:UInt = UInt(bitPattern: (UserAccountViewModel.shareInstance.account?.userId!)!)
-        agoraKit.joinChannel(byToken: nil, channelId: String(room_id!), info: nil, uid: uid , joinSuccess: nil)
+        initAgoraKit()
 
     }
     
@@ -1729,7 +1712,7 @@ extension GameplayViewController {
         // 通信模式下默认为听筒，demo中将它切为外放
         agoraKit.setDefaultAudioRouteToSpeakerphone(true)
         // 启动音量回调，用来在界面上显示房间其他人的说话音量
-        agoraKit.enableAudioVolumeIndication(1000, smooth: 30, report_vad: false)
+        agoraKit.enableAudioVolumeIndication(1000, smooth: 3, report_vad: false)
         // 加入案发现场的群聊频道
 
         print(String(room_id!))
@@ -1813,43 +1796,81 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
     }
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, reportAudioVolumeIndicationOfSpeakers speakers: [AgoraRtcAudioVolumeInfo], totalVolume: Int) {
-        // 收到说话者音量回调，在界面上对应的 cell 显示动效
         
-        guard let speakers = gamePlayModel?.scriptRoleList else {
-            return
-        }
-        for speaker in speakers {
-            if speaker.user == nil {
-                continue
-            }
-            if let index = getIndexWithUserIsSpeaking(uid: (speaker.user?.userId)!),
-                let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
-                if index%2 == 0 {
-                    if totalVolume == 0 {
-                        cell.l_voiceView.isHidden = true
-                        cell.l_voiceImgView.isHidden = true
-                        cell.l_animation = false
-                    } else {
-                        cell.l_voiceView.isHidden = false
-                        cell.l_voiceImgView.isHidden = false
-                        cell.l_animation = true
-                    }
+        // 收到说话者音量回调，在界面上对应的 cell 显示动效
 
+        Log("rtcEngine-totalVolume-\(totalVolume)")
+        if !microphoneBtn.isSelected == true { // 禁止本地音频发送
+            updateVoice(uid: (UserAccountViewModel.shareInstance.account?.userId)!, totalVolume: 0)
+        } else {
+            updateVoice(uid: (UserAccountViewModel.shareInstance.account?.userId)!, totalVolume: totalVolume)
+        }
+
+        for speaker in speakers {
+            Log("rtcEngine-totalVolume-\(speaker.uid)--------\(speaker.volume)")
+            updateVoice(uid: Int(speaker.uid), totalVolume: Int(speaker.volume))
+//            if let index = getIndexWithUserIsSpeaking(uid: Int((speaker.uid))),
+//                let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
+//
+//                if index%2 == 0 {
+//                    if speaker.volume <= 0 {
+//                        cell.l_voiceView.isHidden = true
+//                        cell.l_voiceImgView.isHidden = true
+//                        cell.l_animation = false
+//                    } else {
+//                        cell.l_voiceView.isHidden = false
+//                        cell.l_voiceImgView.isHidden = false
+//                        cell.l_animation = true
+//                    }
+//
+//                } else {
+//                    if speaker.volume <= 0 {
+//                        cell.r_voiceView.isHidden = true
+//                        cell.r_voiceImgView.isHidden = true
+//                        cell.r_animation = false
+//                    } else {
+//                        cell.r_voiceView.isHidden = false
+//                        cell.r_voiceImgView.isHidden = false
+//                        cell.r_animation = true
+//                    }
+//                }
+//            }
+            
+        }
+    }
+    
+    //MARK:- 根据声音显示头像
+    func updateVoice(uid: Int, totalVolume: Int ) {
+        if let index = getIndexWithUserIsSpeaking(uid: Int(uid)),
+            let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
+            
+            if index%2 == 0 {
+                if totalVolume <= 0 {
+                    cell.l_voiceView.isHidden = true
+                    cell.l_voiceImgView.isHidden = true
+                    cell.l_animation = false
                 } else {
-                    if totalVolume == 0 {
-                        cell.r_voiceView.isHidden = true
-                        cell.r_voiceImgView.isHidden = true
-                        cell.r_animation = false
-                    } else {
-                        cell.r_voiceView.isHidden = false
-                        cell.r_voiceImgView.isHidden = false
-                        cell.r_animation = true
-                    }
+                    cell.l_voiceView.isHidden = false
+                    cell.l_voiceImgView.isHidden = false
+                    cell.l_animation = true
+                }
+
+            } else {
+                if totalVolume <= 0 {
+                    cell.r_voiceView.isHidden = true
+                    cell.r_voiceImgView.isHidden = true
+                    cell.r_animation = false
+                } else {
+                    cell.r_voiceView.isHidden = false
+                    cell.r_voiceImgView.isHidden = false
+                    cell.r_animation = true
                 }
             }
         }
     }
 }
+
+
 
 extension GameplayViewController {
     // contentOffSet属性 点击按钮,移动图片
