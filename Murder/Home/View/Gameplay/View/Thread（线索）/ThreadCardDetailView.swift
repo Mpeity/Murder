@@ -184,7 +184,6 @@ extension ThreadCardDetailView {
     private func showDetailView(attachmentStr: String?, isOpenNum: Int?, isGoingNum: Int?) {
         
 
-
         let attachment = attachmentStr
         let isOpen = isOpenNum
         let isGoing = isGoingNum

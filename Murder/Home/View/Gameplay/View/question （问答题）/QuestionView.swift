@@ -43,6 +43,11 @@ class QuestionView: UIView {
     
     // 答案记录
     private var answerList: [[String : AnyObject]]? = [[String : AnyObject]]()
+    // 是否已经答题
+    var isAnswer = false
+    
+    
+    private var newArray: NSMutableArray? = NSMutableArray.init()
     
     // 题目数据
     var scriptQuestionList: [ScriptQuestionListModel]? {
@@ -75,17 +80,24 @@ class QuestionView: UIView {
                 previousBtn.isHidden = true
                 confirmBtn.snp.remakeConstraints { (make) in
                     make.right.equalToSuperview().offset(-37)
+                    make.width.equalTo(FULL_SCREEN_WIDTH-37-37)
                     make.left.equalToSuperview().offset(37)
                     make.height.equalTo(50)
                     if #available(iOS 11.0, *) {
                        make.bottom.equalTo(self.safeAreaLayoutGuide.snp .bottom).offset(-10)
                     } else {
-                       // Fallback on earlier versions
                        make.bottom.equalToSuperview().offset(-10)
                     }
                 }
+                
                 confirmBtn.layoutIfNeeded()
-                confirmBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+                
+//                confirmBtn.gradientClearLayerColor(cornerRadius: 25)
+//                confirmBtn.setOtherGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+                
+//                confirmBtn.backgroundColor = HexColor(MainColor)
+//                confirmBtn.layer.cornerRadius = 25
+//                confirmBtn.layer.masksToBounds = true
                 
             } else {
                 if selectedIndex == scriptQuestionList!.count-1 {
@@ -95,10 +107,8 @@ class QuestionView: UIView {
                 }
                 previousBtn.isHidden = false
                 confirmBtn.snp.remakeConstraints { (make) in
-                    
                     make.width.equalTo(143)
                     make.left.equalToSuperview().offset(FULL_SCREEN_WIDTH-143-37)
-//                    make.right.equalToSuperview().offset(-37)
                     make.height.equalTo(50)
                     if #available(iOS 11.0, *) {
                        make.bottom.equalTo(self.safeAreaLayoutGuide.snp .bottom).offset(-10)
@@ -108,7 +118,8 @@ class QuestionView: UIView {
                     }
                 }
                 confirmBtn.layoutIfNeeded()
-                confirmBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+//                confirmBtn.gradientClearLayerColor(cornerRadius: 25)
+//                confirmBtn.setOtherGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
             }
         }
     }
@@ -139,7 +150,18 @@ extension QuestionView {
         choiceArr = model.scriptAnswer!
         propertyLabel.text = model.questionType == 0 ? "（ 单選 ）" : "（ 多選 ）"
         user_script_answer_ids = []
+        
         selectPath = nil
+//        cellIndexPath = nil
+        
+        if isAnswer {
+            let item = newArray![selectedIndex]
+            if model.questionType == 0{ // 单选
+                selectPath = item as? IndexPath
+            } else {
+                cellIndexPath = item as? NSMutableArray
+            }
+        }
     }
     
     
@@ -250,7 +272,12 @@ extension QuestionView {
             }
         }
         confirmBtn.layoutIfNeeded()
-        confirmBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+//        confirmBtn.gradientClearLayerColor(cornerRadius: 25)
+//        confirmBtn.setOtherGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+        
+        confirmBtn.backgroundColor = HexColor(MainColor)
+        confirmBtn.layer.cornerRadius = 25
+        confirmBtn.layer.masksToBounds = true
 
         
         previousBtn.layer.borderColor = HexColor(MainColor).cgColor
@@ -316,7 +343,9 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
         
         let questionModel = scriptQuestionList![selectedIndex]
         questionType = questionModel.questionType!
+        
         if questionType == 0 { // 单选
+            
             if selectPath == indexPath {
                 model.isCheck = true
             } else{
@@ -338,6 +367,9 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if isAnswer {
+            return
+        }
         let questionModel = scriptQuestionList![selectedIndex]
         questionType = questionModel.questionType!
         if questionType == 0 { // 单选
@@ -392,7 +424,8 @@ extension QuestionView {
             return
         }
         selectedIndex -= 1
-        let pre = subjectIndexPath[selectedIndex]
+//        let pre = subjectIndexPath[selectedIndex]
+        
 //        tableView.reloadRows(at: pre as! [IndexPath], with: .automatic)
     }
     
@@ -400,65 +433,82 @@ extension QuestionView {
     
     // 确定
     @objc func confirmBtnAction() {
-        let questionModel = scriptQuestionList![selectedIndex]
-        if selectPath != nil {
-            let index = selectPath?.row
-            let model = choiceArr![index!]
-            var dic = [:] as? [String : AnyObject]
-            user_script_answer_ids?.append(model.scriptAnswerId!)
-            if user_script_answer_ids != nil {
-                dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
-                dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
-                answerList?.append(dic!)
-            }
-            subjectIndexPath.append([selectPath] as AnyObject)
-            user_script_answer_ids = nil
-        }
-        
-        if cellIndexPath != nil {
-            var dic = [:] as? [String : AnyObject]
-            for itemIndexPath in cellIndexPath! {
-                let index = (itemIndexPath as! IndexPath).row
-                let model = choiceArr![index]
+       
+        if !isAnswer {
+            let questionModel = scriptQuestionList![selectedIndex]
+            if selectPath != nil {
+                let index = selectPath?.row
+                let model = choiceArr![index!]
+                
+
                 user_script_answer_ids?.append(model.scriptAnswerId!)
+                
+                var dic = [:] as? [String : AnyObject]
+//                if answerList != nil  {
+//                    dic = answerList![selectedIndex]
+//                }
+                
+                if user_script_answer_ids != nil {
+                    dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+                    dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+                    answerList?.append(dic!)
+                }
+                subjectIndexPath.append([selectPath] as AnyObject)
+                user_script_answer_ids = nil
+                
+                newArray?.append(selectPath as Any)
+                
             }
-            if user_script_answer_ids != nil {
-                dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
-                dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
-                answerList?.append(dic!)
-            }
-            subjectIndexPath.append(cellIndexPath as AnyObject)
-            user_script_answer_ids = nil
-        }
-        
-        if selectedIndex == scriptQuestionList!.count-1 {
-            // 提交
-            gameVote()
-            hideView()
             
-            return
-//            selectedIndex = 0
-//            hideView()
-//            let commonView = VoteResultView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-//            commonView.room_id = room_id
-//            commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-//            UIApplication.shared.keyWindow?.addSubview(commonView)
+            if cellIndexPath != nil, cellIndexPath != []  {
+                var dic = [:] as? [String : AnyObject]
+                for itemIndexPath in cellIndexPath! {
+                    let index = (itemIndexPath as! IndexPath).row
+                    let model = choiceArr![index]
+                    user_script_answer_ids?.append(model.scriptAnswerId!)
+                }
+                if user_script_answer_ids != nil {
+                    dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+                    dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+                    answerList?.append(dic!)
+                }
+                subjectIndexPath.append(cellIndexPath as AnyObject)
+                user_script_answer_ids = nil
+                
+                newArray?.append(cellIndexPath as Any)
+
+            }
+            
+            if selectedIndex == scriptQuestionList!.count-1 {
+                // 提交
+                gameVote()
+                return
+            }
+            
+            selectPath = nil
+            cellIndexPath = []
+            selectedIndex += 1
+        } else {
+            if selectedIndex == scriptQuestionList!.count-1 {
+                return
+            }
+            selectedIndex += 1
         }
-        selectPath = nil
-        cellIndexPath = []
-        selectedIndex += 1
+
+        
     }
     
     private func gameVote() {
                 
         let script_question = getJSONStringFromArray(array: answerList! as NSArray)
-        gameVoteRequest(room_id: room_id!, script_node_id: script_node_id!, script_question: script_question) { (result, error) in
+        gameVoteRequest(room_id: room_id!, script_node_id: script_node_id!, script_question: script_question) {[weak self] (result, error) in
             if error != nil {
                 return
             }
             // 取到结果
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
+                self?.isAnswer = true
                 showToastCenter(msg: "お答えは既に提出しました")
             }
         }
@@ -472,12 +522,12 @@ extension QuestionView {
     //MARK: - 倒计时
     @objc func countDown() {
         timerCount -= 1
-        let string = "カウントダウン\(timerCount)s"
+        let string = "カウントダウン：\(timerCount)s"
         let ranStr = String(timerCount)
         let attrstring:NSMutableAttributedString = NSMutableAttributedString(string:string)
         let str = NSString(string: string)
         let theRange = str.range(of: ranStr)
-        attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#ED2828"), range: theRange)
+        attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor(LightDarkGrayColor), range: theRange)
         countLabel.attributedText = attrstring
         
         if timerCount == 0 {

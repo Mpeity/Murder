@@ -8,7 +8,10 @@
 
 import UIKit
 
-class ShareScriptCard: UIView {
+import AgoraRtmKit
+
+
+class ShareScriptCard: UIView, AgoraRtmDelegate {
     
     var isShareScript: Bool = true
     
@@ -90,7 +93,7 @@ class ShareScriptCard: UIView {
         contentView = loadViewFromNib()
         addSubview(contentView)
         addConstraints()
-        
+        AgoraRtm.updateKit(delegate: self)
         setUI()
     }
     
@@ -145,6 +148,7 @@ extension ShareScriptCard {
 extension ShareScriptCard {
     // 发送
     @objc private func sendBtnAction() {
+        send(message: nil, type: .peer("\(friendsModel!.userId!)"))
         addMgs()
     }
     
@@ -154,6 +158,50 @@ extension ShareScriptCard {
         contentView = nil
         self.removeFromSuperview()
     }
+    
+    private func msgContent() -> String {
+//        // 添加消息
+//        {
+//        "type":1, //1文字 2 剧本详情 3 剧本邀请
+//        "content":"内容",
+//        "script_id":1,
+//        "script_name":"剧本名字",
+//        "script_cover":"剧本封面",
+//        "script_des":"剧本简介",
+//        "room_id":"房间id",
+//        "send_id":"发送者id",
+//        "target_id":"接受者id",
+//        "time_ms":"1587009745719"//13位时间戳
+//        }
+        
+        
+        let time = getTime()
+        var dic = [:] as [String : Any?]
+        dic["content"] = nil
+        dic["target_id"] = friendsModel?.userId
+        dic["send_id"] = UserAccountViewModel.shareInstance.account?.userId
+        dic["time_ms"] = time
+        
+        if isShareScript { // 剧本分享
+            dic["type"] = 2
+            dic["script_id"] = shareModel?.scriptId
+            dic["script_name"] = shareModel?.name
+            dic["script_cover"] = shareModel?.cover
+            dic["script_des"] = shareModel?.introduction
+            dic["room_id"] = nil
+        } else { // 剧本邀请
+            dic["type"] = 3
+            dic["script_id"] = shareModel?.scriptId
+            dic["script_name"] = shareModel?.name
+            dic["script_cover"] = shareModel?.cover
+            dic["script_des"] = shareModel?.introduction
+            dic["room_id"] = shareModel?.roomId
+        }
+        
+        let json = getJSONStringFromDictionary(dictionary: dic as NSDictionary)
+        return json
+    }
+    
     
     private func addMgs() {
 //        // 添加消息
@@ -177,7 +225,6 @@ extension ShareScriptCard {
         dic["target_id"] = friendsModel?.userId
         dic["send_id"] = UserAccountViewModel.shareInstance.account?.userId
         dic["time_ms"] = time
-        
         var type = -1
         if isShareScript { // 剧本分享
             dic["type"] = 2
@@ -193,6 +240,7 @@ extension ShareScriptCard {
             dic["script_id"] = shareModel?.scriptId
             dic["script_name"] = shareModel?.name
             dic["script_cover"] = shareModel?.cover
+            dic["script_des"] = shareModel?.introduction
             dic["script_des"] = shareModel?.introduction
             dic["room_id"] = shareModel?.roomId
         }
@@ -228,6 +276,72 @@ extension ShareScriptCard {
            next = next?.next
         }
        return nil
+    }
+}
+
+
+// MARK: Send Message
+private extension ShareScriptCard {
+    
+    func send(rtmMessage: AgoraRtmMessage, type: ChatType, name: String, option: AgoraRtmSendMessageOptions) {
+        
+        let content = msgContent()
+        rtmMessage.text = content
+        
+        let sent = { [weak self] (state: Int) in
+            guard let `self` = self else {
+                return
+            }
+            
+            guard (state == 0 || state == 4) else {
+                showToastCenter(msg: "send \(type.description) message error: \(state)")
+                Log("send \(type.description) message error: \(state)")
+                return
+            }
+            
+            guard let current = AgoraRtm.current else {
+                return
+            }
+            
+//            if(rtmMessage.type == .text){
+//                self.appendMessage(user: current, content: content, mediaId: nil, thumbnail: nil)
+//            } else if(rtmMessage.type == .image){
+//                if let imageMessage = rtmMessage as? AgoraRtmImageMessage {
+//                    self.appendMessage(user: current, content: nil, mediaId: imageMessage.mediaId, thumbnail: imageMessage.thumbnail)
+//                }
+//            }
+            
+        }
+        
+        AgoraRtm.kit?.send(rtmMessage, toPeer: String(name), sendMessageOptions: option, completion: { (error) in
+           sent(error.rawValue)
+        })
+    }
+    
+    func send(message: String?, type: ChatType) {
+        
+        switch type {
+        case .peer(let name):
+            let option = AgoraRtmSendMessageOptions()
+            
+            
+            AgoraRtm.kit?.queryPeersOnlineStatus([name], completion: {[weak self] (peerOnlineStatus, peersOnlineErrorCode) in
+                guard peersOnlineErrorCode == .ok else {
+                    showToastCenter(msg: "send-AgoraRtm login error: \(peersOnlineErrorCode.rawValue)")
+                    return
+                }
+                Log(peerOnlineStatus)
+                
+                option.enableHistoricalMessaging = true
+                option.enableOfflineMessaging = true
+                
+                let rtmMessage = AgoraRtmMessage(text: "type")
+                self!.send(rtmMessage: rtmMessage, type: type, name: name, option: option)
+                
+            })
+        case .group(_):
+            break
+        }
     }
 }
 

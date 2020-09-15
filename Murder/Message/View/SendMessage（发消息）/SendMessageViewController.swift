@@ -118,20 +118,18 @@ extension SendMessageViewController {
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
-                
                 let listData = data["list"] as! Array<Any>
-                
-                for item in listData {
-                    let dic = item as! [String : AnyObject]
-                    let json = dic["content"] as! String
-                    let jsonDic = getDictionaryFromJSONString(jsonString: json)
-                    
-                    let model = MsgTalkModel(fromDictionary: jsonDic as! [String : Any])
-                    self?.msgList?.append(model)
+                if !listData.isEmpty {
+                    for item in listData {
+                        let dic = item as! [String : AnyObject]
+                        let json = dic["content"]
+                        let jsonDic = getDictionaryFromJSONString(jsonString: json! as! String)
+                        let model = MsgTalkModel(fromDictionary: jsonDic as! [String : Any])
+                        self?.msgList?.append(model)
+                    }
                     self?.tableView.reloadData()
                     self?.tableView.scrollToRow(at: IndexPath(row: (self?.msgList!.count)!-1, section: 0), at: .bottom, animated: false)
                 }
-
             }
         }
     }
@@ -210,12 +208,13 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
             msg.showTime = true
         } else {
             
-//            let preMsg = msgList![indexPath.row - 1]
-//            let timeMs = Float(msg.timeMs!)
-//            let preTimeMs = Float(preMsg.timeMs!)
-//            let timeInterval = timeMs! - preTimeMs!
-//            Log("timeCount--------\(timeInterval)")
-            
+            let preMsg = msgList![indexPath.row - 1]
+            let timeMs = Float(msg.timeMs!)
+            let preTimeMs = Float(preMsg.timeMs!)
+            let timeInterval = timeMs! - preTimeMs!
+            Log("timeCount--------\(timeMs)")
+            Log("timeCount--------\(preTimeMs)")
+            Log("timeCount--------\(timeInterval)")
             
         }
         

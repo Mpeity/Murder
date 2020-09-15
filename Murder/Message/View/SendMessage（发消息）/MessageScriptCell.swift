@@ -78,8 +78,9 @@ class MessageScriptCell: UITableViewCell {
                 }
                 
                 if messageTalkModel?.scriptDes != nil {
-                    leftTitleLabel.text = messageTalkModel?.scriptDes!
-                    rightTitleLabel.text = messageTalkModel?.scriptDes!
+                    
+                    leftTitleLabel.attributedText = setMutableString(content: (messageTalkModel?.scriptDes!)!, HexColor(LightGrayColor), fontSize: 12)
+                    rightTitleLabel.attributedText = setMutableString(content: (messageTalkModel?.scriptDes!)!, HexColor(LightGrayColor), fontSize: 12)
                 }
             }
         }
@@ -98,5 +99,7 @@ class MessageScriptCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+
     
 }

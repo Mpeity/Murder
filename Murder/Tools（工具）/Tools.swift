@@ -12,6 +12,18 @@ import Alamofire
 import CLToast
 import SVProgressHUD
 
+//MARK:- 富文本
+func setMutableString(content: String, _ color: UIColor = HexColor("#666666") , fontSize: CGFloat = 12) -> NSMutableAttributedString {
+    let myMutableString = try! NSMutableAttributedString(data: (content.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+    
+    
+    let range = NSMakeRange(0, myMutableString.length)
+    myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
+    myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: fontSize)], range: range)
+    
+    return myMutableString
+}
+
 func getDateStr(timeStamp:String) -> String {
     let interval:TimeInterval = TimeInterval.init(timeStamp)!
     let date = Date(timeIntervalSince1970: interval*0.001)
@@ -47,10 +59,11 @@ func imageWithImage(image: UIImage, size: CGSize) -> UIImage {
 // JSONString转换为字典
 func getDictionaryFromJSONString(jsonString:String) ->NSDictionary{
    let jsonData:Data = jsonString.data(using: .utf8)!
-   let dict = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
+    let dict = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
    if dict != nil {
        return dict as! NSDictionary
    }
+
    return NSDictionary()
 }
 

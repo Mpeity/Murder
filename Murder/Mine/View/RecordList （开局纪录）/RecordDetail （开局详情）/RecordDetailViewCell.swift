@@ -31,6 +31,9 @@ class RecordDetailViewCell: UITableViewCell {
     // 经验
     @IBOutlet weak var experienceLabel: UILabel!
     
+    // 添加好友
+    @IBOutlet weak var addFriendView: UIImageView!
+    
     var itemModel: ScriptLogDetailUserModel? {
         didSet {
             guard let itemModel =  itemModel else {
@@ -58,6 +61,12 @@ class RecordDetailViewCell: UITableViewCell {
             
             if itemModel.score != nil {
                 scoreLabel.text = "スコア：\(itemModel.score!)"
+            }
+            
+            if itemModel.isFriend == 1 { // 好友
+                addFriendView.isHidden = true
+            } else {
+                addFriendView.isHidden = false
             }
         }
     }
@@ -89,5 +98,23 @@ extension RecordDetailViewCell {
         
         experienceLabel.textColor = HexColor(MainColor)
         experienceLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        addFriendView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(addFriendTap))
+        addFriendView.addGestureRecognizer(tap)
+    }
+    
+    @objc private func addFriendTap() {
+        applyFriendRequest(receive_id: itemModel!.userId!) {(result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            
+            if resultDic["code"]!.isEqual(1) {
+                showToastCenter(msg: "友達申し込みを提出しました")
+            }
+        }
     }
 }

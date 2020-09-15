@@ -159,6 +159,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="GQ5-EG-1SO"/>
             <connections>
+                <outlet property="addFriendView" destination="dWC-6U-w52" id="tOl-aT-DdU"/>
                 <outlet property="avartImgView" destination="Uci-G3-KqS" id="ftS-iz-IUq"/>
                 <outlet property="boultImgView" destination="liB-zM-beL" id="TQ7-Pv-Pxq"/>
                 <outlet property="experienceLabel" destination="J5G-5w-FXu" id="d0c-Do-TEt"/>

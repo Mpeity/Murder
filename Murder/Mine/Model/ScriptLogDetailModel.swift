@@ -72,6 +72,8 @@ class ScriptLogDetailUserModel : NSObject {
     var userHeadId : String?
     var userId : Int?
     var userNickname : String?
+    var isFriend : Int?
+
 
 
     /**
@@ -88,6 +90,8 @@ class ScriptLogDetailUserModel : NSObject {
         userHeadId = dictionary["user_head_id"] as? String
         userId = dictionary["user_id"] as? Int
         userNickname = dictionary["user_nickname"] as? String
+        isFriend = dictionary["is_friend"] as? Int
+
     }
 
     /**
@@ -125,6 +129,9 @@ class ScriptLogDetailUserModel : NSObject {
         }
         if userNickname != nil{
             dictionary["user_nickname"] = userNickname
+        }
+        if isFriend != nil{
+            dictionary["is_friend"] = isFriend
         }
         return dictionary
     }

@@ -593,7 +593,7 @@ extension GameplayViewController {
         // 剧本阅读
         readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         readScriptView.isHidden = true
-//        self.view.addSubview(readScriptView)
+        self.view.addSubview(readScriptView)
     }
     
     /// 添加红点
@@ -1065,7 +1065,6 @@ extension GameplayViewController {
         if currentScriptRoleModel?.user?.point != nil {
             remainingCount = currentScriptRoleModel!.user!.point!
         }
-        remainingView.isHidden = false
 //        remainingCount -= 1
         let remainingString = "カウントダウン：\(remainingCount)"
         let remainingRanStr = String(remainingCount)
@@ -1261,21 +1260,22 @@ extension GameplayViewController {
     @objc func scriptBtnAction(button: UIButton) {
 //        if currentScriptRoleModel?.chapter?.count != 0{
             
-            if !self.view.subviews.contains(readScriptView) {
-                self.view.addSubview(readScriptView)
-            }
+
             readScriptView.isHidden = false
             readScriptView.type = "script"
             readScriptView.scriptData = currentScriptRoleModel?.chapter
             readScriptView.room_id = gamePlayModel?.room.roomId
             readScriptView.script_role_id = currentScriptRoleModel?.user.scriptRoleId
             readScriptView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
+        
+        
 //        }
     }
     
     //MARK: 线索
     @objc func threadBtnBtnAction(button: UIButton) {
 //        if currentScriptRoleModel?.gameUserClueList?.count != 0 {
+        
             let threadView = ThreadView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
             
             threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
@@ -1284,7 +1284,9 @@ extension GameplayViewController {
             threadView.room_id = gamePlayModel?.room.roomId
             threadView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
             threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
-           self.view.addSubview(threadView)
+//           self.view.addSubview(threadView)
+        
+        
 //        }
 
     }
@@ -1799,7 +1801,6 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
         
         // 收到说话者音量回调，在界面上对应的 cell 显示动效
 
-        Log("rtcEngine-totalVolume-\(totalVolume)")
         if !microphoneBtn.isSelected == true { // 禁止本地音频发送
             updateVoice(uid: (UserAccountViewModel.shareInstance.account?.userId)!, totalVolume: 0)
         } else {
@@ -1807,7 +1808,6 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
         }
 
         for speaker in speakers {
-            Log("rtcEngine-totalVolume-\(speaker.uid)--------\(speaker.volume)")
             updateVoice(uid: Int(speaker.uid), totalVolume: Int(speaker.volume))
 //            if let index = getIndexWithUserIsSpeaking(uid: Int((speaker.uid))),
 //                let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
@@ -1945,6 +1945,26 @@ extension GameplayViewController: WebSocketDelegate {
                     popRootVC()
                 }
                 
+                if gamePlayModel?.scriptNodeResult.nodeType == 4 { // 搜证
+                    if currentScriptRoleModel?.user?.point != nil {
+                        remainingCount = currentScriptRoleModel!.user!.point!
+                    }
+                    remainingView.isHidden = false
+                    let remainingString = "カウントダウン：\(remainingCount)"
+                    let remainingRanStr = String(remainingCount)
+                    let remainingAttrstring:NSMutableAttributedString = NSMutableAttributedString(string:remainingString)
+                    let remainingStr = NSString(string: remainingString)
+                    let remainingTheRange = remainingStr.range(of: remainingRanStr)
+                    remainingAttrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor(LightOrangeColor), range: remainingTheRange)
+                    remainingLabel.attributedText = remainingAttrstring
+                    
+                    if remainingCount == 0 {
+                        CLToastManager.share.cornerRadius = 15
+                        CLToastManager.share.bgColor = HexColor(hex: "#000000", alpha: 0.6)
+                        CLToast.cl_show(msg: "あなたの捜査できる回数はすでになくなりました")
+                    }
+                }
+                
                 if gamePlayModel?.scriptNodeResult.nodeType == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题
                     if currentScriptRoleModel?.scriptQuestionList?.count != 0 {
                     
@@ -1986,7 +2006,7 @@ extension GameplayViewController: WebSocketDelegate {
                 
                 let data = resultDic["data"] as! [String : AnyObject]
                 
-                Log("gameplay--websocketDidReceiveMessage=\(socket)\(data)")
+//                Log("gameplay--websocketDidReceiveMessage=\(socket)\(data)")
                 
                 let count = data["countdown"] as! Int
                 if count == 0 {
@@ -1995,7 +2015,7 @@ extension GameplayViewController: WebSocketDelegate {
                 }
                 
                 let string = "カウントダウン\(count)s"
-                let ranStr = String(count)
+                let ranStr = "\(count)s"
                 let attrstring:NSMutableAttributedString = NSMutableAttributedString(string:string)
                 let str = NSString(string: string)
                 let theRange = str.range(of: ranStr)

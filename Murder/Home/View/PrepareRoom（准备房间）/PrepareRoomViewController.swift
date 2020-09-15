@@ -894,10 +894,10 @@ extension PrepareRoomViewController {
 //        self.view.addSubview(commonView)
         
         let commonView = ShareView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        commonView.delegate = self
         commonView.leftSpace = (FULL_SCREEN_WIDTH - 125 * 2) / 3.0
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         commonView.shareCopyBtn.isHidden = true
-        commonView.delegate = self
         UIApplication.shared.keyWindow?.addSubview(commonView)
         
         
