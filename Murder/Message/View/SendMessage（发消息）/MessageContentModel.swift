@@ -46,7 +46,7 @@ class MessageContentModel : NSObject {
 
 class MsgTalkModel : NSObject {
     
-    var showTime: Bool?
+    var showTime: Bool? = false
     
     var cellType: CellType?
 

@@ -48,16 +48,15 @@ class MessageTextCell: UITableViewCell {
                 rightView.isHidden = rightHidden
                 leftView.isHidden = !rightHidden
                 
-//                if messageTalkModel?.timeMs != nil && messageTalkModel?.showTime! == true  {
-//                    let timeStr = getDateStr(timeStamp: (messageTalkModel?.timeMs!)!)
-//                    timeLabel.text = timeStr
-//                }
                 
-                
-                
-                if messageTalkModel?.timeMs != nil  {
+                if messageTalkModel?.timeMs != nil , messageTalkModel?.showTime! == true {
                     let timeStr = getDateStr(timeStamp: (messageTalkModel?.timeMs!)!)
                     timeLabel.text = timeStr
+                    timeLabel.isHidden = false
+
+                } else {
+                    timeLabel.isHidden = true
+
                 }
                 
                 

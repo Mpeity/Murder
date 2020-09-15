@@ -43,8 +43,10 @@ class MainViewController: UITabBarController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)        
-        AgoraRtmLogout()
+        super.viewWillDisappear(animated)
+        
+//        AgoraRtmLogout()
+        
     }
     
     deinit {

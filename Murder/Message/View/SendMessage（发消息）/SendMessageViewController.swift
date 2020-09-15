@@ -197,6 +197,7 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
 //
 //        let size = self?.getSizeWithContent(content: content!)
 //        msgModel.cellHeight = size?.height
+       
         
         
         let msg = msgList![indexPath.row]
@@ -209,15 +210,25 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
         } else {
             
             let preMsg = msgList![indexPath.row - 1]
-            let timeMs = Float(msg.timeMs!)
-            let preTimeMs = Float(preMsg.timeMs!)
+            let timeMs = Double(msg.timeMs!)
+            let preTimeMs = Double(preMsg.timeMs!)
             let timeInterval = timeMs! - preTimeMs!
-            Log("timeCount--------\(timeMs)")
-            Log("timeCount--------\(preTimeMs)")
-            Log("timeCount--------\(timeInterval)")
+            
+            if timeInterval >= 3600 * 1000 { //超过一小时 显示时间
+                msg.showTime = true
+            } else {
+                msg.showTime = false
+
+            }
+            
+//            Log("timeCount--------\(timeMs)")
+//            Log("timeCount--------\(preTimeMs)")
+//            Log("timeCount--------\(timeInterval*0.001)")
             
         }
         
+        
+
         // "type":1, //1文字 2 剧本详情 3 剧本邀请
         let type = msg.type
         if type == 1 {
