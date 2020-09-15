@@ -291,6 +291,10 @@ extension HomeViewController {
                     //如果提醒他没有更多的数据了
                     self?.tableView.mj_header.endRefreshing()
                     self?.tableView.mj_footer.endRefreshing()
+//                    if self?.page_no != 1 {
+//                        self?.tableView.mj_footer.endRefreshingWithNoMoreData()
+//
+//                    }
                     self?.tableView.mj_footer.endRefreshingWithNoMoreData()
                     return
 

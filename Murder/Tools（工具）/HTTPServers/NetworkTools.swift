@@ -79,7 +79,7 @@ extension NetworkTools {
                 SVProgressHUD.dismiss()
                 if resultData["code"]!.isEqual(1) {
                     finished(result as AnyObject?, nil)
-                } else if resultData["code"]!.isEqual("21000") {
+                } else if resultData["code"]!.isEqual(21000) {
                     // 请登录
                     UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
                     userLogout()

@@ -150,7 +150,11 @@ extension ScriptViewController {
                     //如果提醒他没有更多的数据了
                     self?.myTableView.mj_header.endRefreshing()
                     self?.myTableView.mj_footer.endRefreshing()
-                    self?.myTableView.mj_footer.endRefreshingWithNoMoreData()
+//                    self?.myTableView.mj_footer.endRefreshingWithNoMoreData()
+                    if self?.page_no != 1 {
+                        self?.myTableView.mj_footer.endRefreshingWithNoMoreData()
+
+                    }
                     return
                     
                 }

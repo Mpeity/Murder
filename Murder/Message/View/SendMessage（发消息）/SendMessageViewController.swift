@@ -26,7 +26,7 @@ private let MessageScriptCellId = "MessageScriptCellId"
 
 private let MessageScriptInviteCellId = "MessageScriptInviteCell"
 
-class SendMessageViewController: UIViewController {
+class SendMessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var inputTextField: UITextField!
@@ -97,8 +97,23 @@ class SendMessageViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+//
+//        if String(describing: touch.view?.classForCoder) == "UITableViewCellContentView" {
+//           return false
+//        } else {
+//           return true
+//        }
+//    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
 
-}
+        if String(describing: touch.view?.classForCoder) == "UITableViewCellContentView" {
+            return false
+        }
+            return true
+        }
+    }
 
 //MARK:- notifi
 extension SendMessageViewController {
@@ -163,6 +178,12 @@ extension SendMessageViewController {
             make.width.equalTo(FULL_SCREEN_WIDTH)
             make.bottom.equalTo(bottomView.snp_top)
         }
+        
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+//        tap.delegate = self
+//        tableView.addGestureRecognizer(tap)
+        
+        
     }
     
     
@@ -208,7 +229,6 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
         if indexPath.row == 0 {
             msg.showTime = true
         } else {
-            
             let preMsg = msgList![indexPath.row - 1]
             let timeMs = Double(msg.timeMs!)
             let preTimeMs = Double(preMsg.timeMs!)
@@ -218,13 +238,7 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
                 msg.showTime = true
             } else {
                 msg.showTime = false
-
             }
-            
-//            Log("timeCount--------\(timeMs)")
-//            Log("timeCount--------\(preTimeMs)")
-//            Log("timeCount--------\(timeInterval*0.001)")
-            
         }
         
         
@@ -370,10 +384,18 @@ extension SendMessageViewController: UITextFieldDelegate {
             
             let contentDic = getDictionaryFromJSONString(jsonString: content!)
             let msgModel = MsgTalkModel(fromDictionary: contentDic as! [String : Any])
-            let size = self?.getSizeWithContent(content: msgModel.content!)
-            msgModel.cellHeight = size?.height
+            
+            let type = msgModel.type
+            if type == 1 {
+                let size = self?.getSizeWithContent(content: msgModel.content!)
+                msgModel.cellHeight = size?.height
+            } else if type == 2 {
+                msgModel.cellHeight = 120.0
+            } else {
+                msgModel.cellHeight = 145.0
+            }
+            
             self!.msgList!.append(msgModel)
-
 
             self!.tableView.reloadData()
             let end = IndexPath(row: self!.msgList!.count - 1, section: 0)
@@ -426,9 +448,10 @@ extension SendMessageViewController: UITextFieldDelegate {
     }
     
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        inputTextField.resignFirstResponder()
-    }
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        inputTextField.resignFirstResponder()
+//    }
+    
 }
 
 // MARK: Send Message
@@ -506,6 +529,7 @@ extension SendMessageViewController: AgoraRtmDelegate {
 //            }
 //        }
         
+        
     }
     
     func rtmKit(_ kit: AgoraRtmKit, messageReceived message: AgoraRtmMessage, fromPeer peerId: String) {
@@ -569,6 +593,15 @@ extension SendMessageViewController: AgoraRtmDelegate {
             }
         }
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        inputTextField.resignFirstResponder()
+    }
+    
+    @objc func tapAction() {
+        inputTextField.resignFirstResponder()
+    }
+    
     
 }
 

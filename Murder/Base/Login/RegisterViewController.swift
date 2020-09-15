@@ -243,7 +243,7 @@ extension RegisterViewController {
                 self?.timeLabel.isHidden = false
                 self?.oneMoreBtn.isHidden = true
                 showToastCenter(msg: resultDic["msg"] as! String)
-                showToastCenter(msg:"認証コードは発送済です")
+//                showToastCenter(msg:"認証コードは発送済です")
                 
             }
         }

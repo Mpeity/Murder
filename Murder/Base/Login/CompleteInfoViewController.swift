@@ -195,7 +195,7 @@ extension CompleteInfoViewController {
             commonBtn.isUserInteractionEnabled = true
 
         } else {
-//            commonBtn.setOtherGradienButtonColor(start: "#CACACA", end: "#CACACA", cornerRadius: 25)
+            commonBtn.setOtherGradienButtonColor(start: "#CACACA", end: "#CACACA", cornerRadius: 25)
         }
     }
     
@@ -206,21 +206,22 @@ extension CompleteInfoViewController {
 
 
 extension CompleteInfoViewController {
-//    func textFieldDidChangeSelection(_ textField: UITextField) {
-//        if nicknameTextfield.text?.count != 0 {
-//            nicknameTextfield.textColor = HexColor(MainColor)
-//            nicknameView.layer.borderColor = HexColor(MainColor).cgColor
-//
-//        } else {
-//            nicknameView.layer.borderColor = HexColor("#CCCCCC").cgColor
-//        }
-//    }
-    
-   func textFieldDidChangeSelection(_ textField: UITextField) {
-        if textField.text != nil {
-            getInfo()
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if nicknameTextfield.text?.count != 0 {
+            nicknameTextfield.textColor = HexColor(MainColor)
+            nicknameView.layer.borderColor = HexColor(MainColor).cgColor
+             getInfo()
+
+        } else {
+            nicknameView.layer.borderColor = HexColor("#CCCCCC").cgColor
         }
     }
+    
+//   func textFieldDidChangeSelection(_ textField: UITextField) {
+//        if textField.text != nil {
+//            getInfo()
+//        }
+//    }
     
     // 利用代理方法控制字符数量
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -232,12 +233,7 @@ extension CompleteInfoViewController {
         return textLength<=15
     }
     
-    func textFieldDidChange(textField:UITextField) {
-        if(nicknameTextfield.text! as NSString).length > 15 {
-            nicknameTextfield.text = (nicknameTextfield.text! as NSString).substring(to:15)
-        }
-        return
-    }
+
 
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -248,13 +244,33 @@ extension CompleteInfoViewController {
 
 //MARK:- 照片选择
 extension CompleteInfoViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    
+    
+    // 通过rect，裁切图片
+    func MCImageCrop(image: UIImage, toRect:CGRect) -> UIImage {
+//        let imageRef = self.photoBtn?.cropping(to: toRect)
+//        let image = UIImage.init(cgImage: imageRef!, scale: self.scale, orientation: self.imageOrientation)
+        
+        let rect = toRect
+        let cgImageCorpped = image.cgImage?.cropping(to: rect)
+        let imageCorpped = UIImage(cgImage: cgImageCorpped!)
+        return imageCorpped
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         let image = info[.originalImage] as! UIImage
+        
+        let width = 130.0
+
+//        let rect = CGRect()
+        
+        let head = MCImageCrop(image: image, toRect: CGRect(x: (Double(FULL_SCREEN_WIDTH)-width)*0.5, y: (Double(FULL_SCREEN_HEIGHT)-width)*0.5, width: width, height: width))
         photoBtn.setImage(image, for: .normal)
+        
         picker.dismiss(animated: true, completion: nil)
         
-        saveImagePath(image: image)
+        saveImagePath(image: head)
     }
     
     func saveImagePath(image: UIImage) {

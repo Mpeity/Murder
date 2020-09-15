@@ -21,37 +21,6 @@
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
-         <BreakpointContent
-            uuid = "19967C3C-FC3A-4793-B42F-E4C209AC5844"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            symbolName = "UIViewAlertForUnsatisfiableConstraints"
-            moduleName = "">
-            <Actions>
-               <BreakpointActionProxy
-                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
-                  <ActionContent
-                     consoleCommand = "expr -l objc++ -O -- [[UIWindow keyWindow] _autolayoutTrace]">
-                  </ActionContent>
-               </BreakpointActionProxy>
-            </Actions>
-            <Locations>
-               <Location
-                  uuid = "19967C3C-FC3A-4793-B42F-E4C209AC5844 - ba3ad5676a792f38"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "UIViewAlertForUnsatisfiableConstraints"
-                  moduleName = "UIKitCore"
-                  usesParentBreakpointCondition = "Yes"
-                  offsetFromSymbolStart = "0">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "50B62978-1244-4DAA-ACAE-4F610952C9B7"
@@ -189,8 +158,8 @@
             filePath = "Murder/Home/View/Gameplay/View/question &#xff08;&#x95ee;&#x7b54;&#x9898;&#xff09;/QuestionViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "setSelected(_:animated:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -205,8 +174,8 @@
             filePath = "Murder/Home/View/Gameplay/View/question &#xff08;&#x95ee;&#x7b54;&#x9898;&#xff09;/QuestionViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "setSelected(_:animated:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -333,8 +302,8 @@
             filePath = "Murder/Home/View/PrepareRoom&#xff08;&#x51c6;&#x5907;&#x623f;&#x95f4;&#xff09;/PrepareRoomViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1300"
-            endingLineNumber = "1300"
+            startingLineNumber = "1313"
+            endingLineNumber = "1313"
             landmarkName = "websocketDidReceiveMessage(socket:text:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -684,8 +653,8 @@
             filePath = "Murder/Home/View/PrepareRoom&#xff08;&#x51c6;&#x5907;&#x623f;&#x95f4;&#xff09;/PrepareRoomViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1241"
-            endingLineNumber = "1241"
+            startingLineNumber = "1254"
+            endingLineNumber = "1254"
             landmarkName = "websocketDidDisconnect(socket:error:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -764,8 +733,8 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1501"
-            endingLineNumber = "1501"
+            startingLineNumber = "1462"
+            endingLineNumber = "1462"
             landmarkName = "leaveBtnTapAction(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -796,8 +765,8 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1181"
-            endingLineNumber = "1181"
+            startingLineNumber = "1143"
+            endingLineNumber = "1143"
             landmarkName = "publicClue(model:script_place_id:)"
             landmarkType = "7">
             <Locations>
@@ -812,8 +781,8 @@
                   urlString = "file:///Users/matengya/Desktop/12-%E9%A1%B9%E7%9B%AE/Murder/Murder/Home/View/Gameplay/GameplayViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1126"
-                  endingLineNumber = "1126"
+                  startingLineNumber = "1143"
+                  endingLineNumber = "1143"
                   offsetFromSymbolStart = "44">
                </Location>
                <Location
@@ -827,8 +796,8 @@
                   urlString = "file:///Users/matengya/Desktop/12-%E9%A1%B9%E7%9B%AE/Murder/Murder/Home/View/Gameplay/GameplayViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1127"
-                  endingLineNumber = "1127"
+                  startingLineNumber = "1144"
+                  endingLineNumber = "1144"
                   offsetFromSymbolStart = "128">
                </Location>
             </Locations>
@@ -940,8 +909,8 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1517"
-            endingLineNumber = "1517"
+            startingLineNumber = "1478"
+            endingLineNumber = "1478"
             landmarkName = "cellDidSelected(index:model:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -956,41 +925,9 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "436"
-            endingLineNumber = "436"
+            startingLineNumber = "441"
+            endingLineNumber = "441"
             landmarkName = "refreshUI()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9EBE5550-4842-4F89-8743-A962ED6BE9C5"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Murder/Message/View/SendMessage&#xff08;&#x53d1;&#x6d88;&#x606f;&#xff09;/SendMessageViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "513"
-            endingLineNumber = "513"
-            landmarkName = "rtmKit(_:messageReceived:fromPeer:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "59CBDB5F-91FD-47DC-9D8C-D71A6FEEE117"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Murder/Message/View/SendMessage&#xff08;&#x53d1;&#x6d88;&#x606f;&#xff09;/SendMessageViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "518"
-            endingLineNumber = "518"
-            landmarkName = "rtmKit(_:imageMessageReceived:fromPeer:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1004,58 +941,10 @@
             filePath = "Murder/Message/View/SendMessage&#xff08;&#x53d1;&#x6d88;&#x606f;&#xff09;/SendMessageViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "360"
-            endingLineNumber = "360"
+            startingLineNumber = "374"
+            endingLineNumber = "374"
             landmarkName = "appendMessage(user:content:mediaId:thumbnail:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "74515296-AA21-4A92-A6CE-E9BB4607E53A"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Murder/Message/View/SendMessage&#xff08;&#x53d1;&#x6d88;&#x606f;&#xff09;/SendMessageViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "561"
-            endingLineNumber = "561"
-            landmarkName = "addMgs(text:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "74515296-AA21-4A92-A6CE-E9BB4607E53A - 29aae16dc11ac83d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Murder.SendMessageViewController.(addMgs in _8DA06DE4F7154850FDD978FE67FCE7D0)(text: Swift.String) -&gt; ()"
-                  moduleName = "Murder"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/matengya/Desktop/12-%E9%A1%B9%E7%9B%AE/Murder/Murder/Message/View/SendMessage%EF%BC%88%E5%8F%91%E6%B6%88%E6%81%AF%EF%BC%89/SendMessageViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "558"
-                  endingLineNumber = "558"
-                  offsetFromSymbolStart = "120">
-               </Location>
-               <Location
-                  uuid = "74515296-AA21-4A92-A6CE-E9BB4607E53A - dae1f8173e7300e4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Swift.AnyObject&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Murder.SendMessageViewController.(addMgs in _8DA06DE4F7154850FDD978FE67FCE7D0)(text: Swift.String) -&gt; ()"
-                  moduleName = "Murder"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/matengya/Desktop/12-%E9%A1%B9%E7%9B%AE/Murder/Murder/Message/View/SendMessage%EF%BC%88%E5%8F%91%E6%B6%88%E6%81%AF%EF%BC%89/SendMessageViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "559"
-                  endingLineNumber = "559"
-                  offsetFromSymbolStart = "128">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1068,8 +957,8 @@
             filePath = "Murder/Message/View/SendMessage&#xff08;&#x53d1;&#x6d88;&#x606f;&#xff09;/SendMessageViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1148,73 +1037,9 @@
             filePath = "Murder/Message/View/SendMessage&#xff08;&#x53d1;&#x6d88;&#x606f;&#xff09;/SendMessageViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "490"
-            endingLineNumber = "490"
+            startingLineNumber = "513"
+            endingLineNumber = "513"
             landmarkName = "send(message:type:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D0183402-DE76-44ED-B33C-A6389584B039"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Murder/Base/Share/ShareScriptCard.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "290"
-            endingLineNumber = "290"
-            landmarkName = "send(rtmMessage:type:name:option:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D0183402-DE76-44ED-B33C-A6389584B039 - 6f584450d1c7371a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Murder.ShareScriptCard.(send in _15328BE60968D4465EDA431F38149476)(rtmMessage: __C.AgoraRtmMessage, type: Murder.ChatType, name: Swift.String, option: __C.AgoraRtmSendMessageOptions) -&gt; ()"
-                  moduleName = "Murder"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/matengya/Desktop/12-%E9%A1%B9%E7%9B%AE/Murder/Murder/Base/Share/ShareScriptCard.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "291"
-                  endingLineNumber = "291"
-                  offsetFromSymbolStart = "468">
-               </Location>
-               <Location
-                  uuid = "D0183402-DE76-44ED-B33C-A6389584B039 - c1259dd722109ed"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Int) -&gt; () in Murder.ShareScriptCard.(send in _15328BE60968D4465EDA431F38149476)(rtmMessage: __C.AgoraRtmMessage, type: Murder.ChatType, name: Swift.String, option: __C.AgoraRtmSendMessageOptions) -&gt; ()"
-                  moduleName = "Murder"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/matengya/Desktop/12-%E9%A1%B9%E7%9B%AE/Murder/Murder/Base/Share/ShareScriptCard.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "291"
-                  endingLineNumber = "291"
-                  offsetFromSymbolStart = "244">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "919D4D4C-009E-41A4-A34E-93CFA91C4FF4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Murder/Base/Share/ShareScriptCard.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "296"
-            endingLineNumber = "296"
-            landmarkName = "send(rtmMessage:type:name:option:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1285,22 +1110,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EA94D7D6-3FBE-4E67-B117-6B9E4C7E8404"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Murder/Tools&#xff08;&#x5de5;&#x5177;&#xff09;/HTTPServers/NetworkTools.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "requestWithToken(urlString:method:parameters:finished:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "D9A3D2F8-F350-4962-8CB5-658F2DFA27C3"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -1312,18 +1121,6 @@
             endingLineNumber = "538"
             landmarkName = "confirmBtnAction()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
-         <BreakpointContent
-            uuid = "BF538E94-B639-4F11-9228-7260F2059282"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            breakpointStackSelectionBehavior = "1"
-            scope = "1"
-            stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1355,6 +1152,70 @@
             startingLineNumber = "504"
             endingLineNumber = "504"
             landmarkName = "confirmBtnAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "30938077-DF5B-4260-835A-3F7F282001A1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Murder/Base/Share/ShareScriptCard.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "sendBtnAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FD88674B-35FD-4557-BB53-4FA124ADCC2D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Murder/Home/View/Gameplay/View/question &#xff08;&#x95ee;&#x7b54;&#x9898;&#xff09;/QuestionView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "386"
+            endingLineNumber = "386"
+            landmarkName = "tableView(_:didSelectRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "97804B6A-613D-4B4E-A8DF-F446FDA25175"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Murder/Tools&#xff08;&#x5de5;&#x5177;&#xff09;/HTTPServers/NetworkTools.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "requestWithToken(urlString:method:parameters:finished:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "38C5317F-D79C-4638-9FAF-9E9F126DDB37"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Murder/Base/Login/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

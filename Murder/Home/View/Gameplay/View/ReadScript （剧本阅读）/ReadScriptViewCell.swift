@@ -25,7 +25,21 @@ class ReadScriptViewCell: UITableViewCell {
         didSet {
             if itemModel != nil {
                 textViewSelected = false
-                textView.text = itemModel?.content
+                
+                if itemModel?.content != nil {
+                    let content = itemModel?.content
+
+                    let myMutableString = try! NSMutableAttributedString(data: (content!.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+                    
+                    
+                    let range = NSMakeRange(0, myMutableString.length)
+                    myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
+                    myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16.0)], range: range)
+                    
+                    textView.attributedText = myMutableString
+
+                }
+                
             }
         }
     }
@@ -35,17 +49,19 @@ class ReadScriptViewCell: UITableViewCell {
             if logChapterModel != nil {
                 
                 // 富文本
-                let content = logChapterModel?.content
+                if logChapterModel?.content != nil {
+                    let content = logChapterModel?.content
 
-                let myMutableString = try! NSMutableAttributedString(data: (content!.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+                    let myMutableString = try! NSMutableAttributedString(data: (content!.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+                    
+                    
+                    let range = NSMakeRange(0, myMutableString.length)
+                    myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
+                    myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16.0)], range: range)
+                    
+                    textView.attributedText = myMutableString
+                }
                 
-                
-                let range = NSMakeRange(0, myMutableString.length)
-                myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
-                myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16.0)], range: range)
-
-
-                textView.attributedText = myMutableString
             }
             
         }

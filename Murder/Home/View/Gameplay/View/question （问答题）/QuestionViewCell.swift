@@ -46,6 +46,7 @@ class QuestionViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        choiceBtn.isUserInteractionEnabled = false
         choiceBtn.setTitleColor(HexColor(DarkGrayColor), for: .normal)
         choiceBtn.layer.borderWidth = 0.5
         choiceBtn.layer.cornerRadius = choiceBtn.bounds.size.width*0.5

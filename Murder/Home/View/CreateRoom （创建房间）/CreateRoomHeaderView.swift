@@ -44,7 +44,10 @@ class CreateRoomHeaderView: UIView {
             if model.name != nil {
                 nameLabel.text = model.name!
             }
-            commonLabel.text = "\(String(model.duration!))時間 | \(String(model.wordNum!))字"
+            if model.durationText != nil, model.wordNum != nil {
+                commonLabel.text = "\(String(model.durationText!)) | \(String(model.wordNum!))字"
+
+            }
             
             if model.author != nil {
                 authorLabel.text = "著者：" + model.author!

@@ -1165,6 +1165,19 @@ extension PrepareRoomViewController: AgoraRtcEngineDelegate {
 //        guard let userList = readyRoomModel?.roomUserList! else {
 //            return
 //        }
+        
+        let userId = UserAccountViewModel.shareInstance.account?.userId!
+        if let index = getIndexWithUser(uid: userId!), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
+            
+            if totalVolume <= 0 {
+                cell.pointView.isHidden = true
+                cell.animation = false
+            } else {
+                cell.pointView.isHidden = false
+                cell.animation = true
+            }
+        }
+        
         for speaker in speakers {
             let userId = speaker.uid
             if let index = getIndexWithUser(uid: Int(userId)), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {

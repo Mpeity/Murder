@@ -176,7 +176,7 @@ extension SetPasswordsViewController {
             confirmBtn.isUserInteractionEnabled = true
 
         } else {
-//            confirmBtn.setOtherGradienButtonColor(start: "#CACACA", end: "#CACACA", cornerRadius: 25)
+            confirmBtn.setOtherGradienButtonColor(start: "#CACACA", end: "#CACACA", cornerRadius: 25)
         }
 
 

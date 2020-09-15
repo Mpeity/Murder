@@ -139,15 +139,16 @@ class GameplayViewController: UIViewController {
         layout.scrollDirection = .vertical     //滚动方向
         // 行间距
         layout.minimumLineSpacing = 20
-        // 列间距
-        layout.minimumInteritemSpacing = (FULL_SCREEN_WIDTH-120*2)
-        
-        layout.itemSize = CGSize(width: 90, height: 76)
+//        // 列间距
+//        layout.minimumInteritemSpacing = (FULL_SCREEN_WIDTH-120*2)
+        self.automaticallyAdjustsScrollViewInsets = false
+
+        layout.itemSize = CGSize(width: 90, height: 80)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 15,  bottom: 0, right: 15)
-        let collectionView = UICollectionView(frame:  CGRect(x: 0, y: 50+NAVIGATION_BAR_HEIGHT, width: 90, height: 100), collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame:  CGRect(x: 0, y: 50+NAVIGATION_BAR_HEIGHT, width: 100, height: 100), collectionViewLayout: layout)
         
         collectionView.register(UINib(nibName: "GameplayViewCell", bundle: nil), forCellWithReuseIdentifier: GameplayViewCellId)
-        collectionView.backgroundColor = UIColor.green
+        collectionView.backgroundColor = UIColor.clear
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
@@ -161,15 +162,16 @@ class GameplayViewController: UIViewController {
        layout.scrollDirection = .vertical     //滚动方向
        // 行间距
        layout.minimumLineSpacing = 20
-       // 列间距
-       layout.minimumInteritemSpacing = (FULL_SCREEN_WIDTH-120*2)
-       
-       layout.itemSize = CGSize(width: 90, height: 76)
+        
+//        列间距
+//       layout.minimumInteritemSpacing = (FULL_SCREEN_WIDTH-120*2)
+
+       layout.itemSize = CGSize(width: 90, height: 80)
        layout.sectionInset = UIEdgeInsets(top: 0, left: 15,  bottom: 0, right: 15)
-       let collectionView = UICollectionView(frame:  CGRect(x: FULL_SCREEN_WIDTH-90, y: 50+NAVIGATION_BAR_HEIGHT, width: 90, height: 100), collectionViewLayout: layout)
-       
+       let collectionView = UICollectionView(frame:  CGRect(x: FULL_SCREEN_WIDTH-100, y: 50+NAVIGATION_BAR_HEIGHT, width: 100, height: 100), collectionViewLayout: layout)
+       self.automaticallyAdjustsScrollViewInsets = false
        collectionView.register(UINib(nibName: "GameplayViewCell", bundle: nil), forCellWithReuseIdentifier: GameplayViewCellId)
-       collectionView.backgroundColor = UIColor.red
+       collectionView.backgroundColor = UIColor.clear
        collectionView.showsHorizontalScrollIndicator = false
        return collectionView
     }()
@@ -181,9 +183,9 @@ class GameplayViewController: UIViewController {
     
 //    var rightArr: NSMutableArray = NSMutableArray.init()
     
-    var userList: Array = ["かごめ","サクラ","こはく","コナン","さんご"]
-    
-    var imageList: Array = ["image0","image1","image2","image3","image4"]
+//    var userList: Array = ["かごめ","サクラ","こはく","コナン","さんご"]
+//
+//    var imageList: Array = ["image0","image1","image2","image3","image4"]
 
     // 游戏进行中Model
     private var gamePlayModel : GamePlayModel?
@@ -319,18 +321,6 @@ extension GameplayViewController {
         
         if let scriptRoleList = gamePlayModel!.scriptRoleList {
             for (index, itemModel) in scriptRoleList.enumerated() {
-                if index % 2 == 0 {
-                    leftArr.add(itemModel)
-                } else {
-                    rightArr.add(itemModel)
-                }
-            }
-        }
-        
-        
-        
-        if let scriptRoleList = gamePlayModel!.scriptRoleList {
-            for (index, itemModel) in scriptRoleList.enumerated() {
                 let userId = itemModel.user.userId
                 if userId == UserAccountViewModel.shareInstance.account?.userId {
                     currentScriptRoleModel = itemModel
@@ -365,21 +355,31 @@ extension GameplayViewController {
     }
     
     private func refreshUI() {
+        leftArr.removeAllObjects()
+        rightArr.removeAllObjects()
         
-        
-        let size =  leftCollectionView.collectionViewLayout.collectionViewContentSize
-        
+        if let scriptRoleList = gamePlayModel!.scriptRoleList {
+            for (index, itemModel) in scriptRoleList.enumerated() {
+                if index % 2 == 0 {
+                    leftArr.add(itemModel)
+                } else {
+                    rightArr.add(itemModel)
+                }
+            }
+        }
+                
         let count = gamePlayModel!.scriptRoleList?.count ?? 0
         
         let one = count / 2
         
         let two = count % 2
         
-        leftCollectionView.frame = CGRect(x: 0, y: 50+NAVIGATION_BAR_HEIGHT, width: 90, height: CGFloat(96 * (one + two)))
+        let space = 20 * (one + two)
+        leftCollectionView.frame = CGRect(x: 0, y: 50+NAVIGATION_BAR_HEIGHT, width: 100, height: CGFloat(100 * (one + two)) + CGFloat(space))
         leftCollectionView.reloadData()
         
         
-        rightCollectionView.frame = CGRect(x: FULL_SCREEN_WIDTH-90, y: 50+NAVIGATION_BAR_HEIGHT, width: 90, height: CGFloat(96 * (one + two)))
+        rightCollectionView.frame = CGRect(x: FULL_SCREEN_WIDTH-100, y: 50+NAVIGATION_BAR_HEIGHT, width: 100, height: CGFloat(100 * (one + two)) + CGFloat(space))
         rightCollectionView.reloadData()
         
         if let scriptRoleList = gamePlayModel!.scriptRoleList {
@@ -408,7 +408,7 @@ extension GameplayViewController {
         let collogueBtnNum = gamePlayModel?.script.secretTalkRoomNum
         collogueLabel.text = String(collogueBtnNum!)
         
-        
+    
         if gamePlayModel?.scriptNodeResult.nodeName != nil {
             currentLabel.text = gamePlayModel?.scriptNodeResult.nodeName
         }
@@ -427,6 +427,11 @@ extension GameplayViewController {
                 make.height.equalTo(55*popMenuView.titleArray.count)
                 make.width.equalTo(136)
             }
+            
+            // 绘制地图
+            Log("这里有图片吗------1")
+            let model = currentScriptRoleModel?.scriptNodeMapList?[placeIndex]
+            drawImage(model: model)
         }
         
         
@@ -934,49 +939,6 @@ extension GameplayViewController {
         voteInfoBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         voteInfoBtn.addTarget(self, action: #selector(voteInfoBtnAction), for: .touchUpInside)
         voteInfoBtn.isHidden = true
-
-        
-        // 游戏玩家列表
-        for (index, item) in userList.enumerated() {
-
-            var position: Position!
-            var marginx = 15.5
-            var count = 0
-            if index%2 == 0 {
-                position = .left
-                marginx = 15.5
-                count = index/2
-            } else {
-                position = .right
-                marginx = Double(FULL_SCREEN_WIDTH-44-15.5)
-                count = index/2
-
-            }
-
-
-
-            
-            let userView = UIView(position: position, oneself: false, imageName: imageList[index], title: item, handsUp: false, isSpeaking: false, isCollogue: false)
-            let width = 90
-            let height = 65
-            userView.frame = CGRect(x: Int(CGFloat(marginx)), y: 200+(20+height)*Int(CGFloat(count)), width: width, height: height)
-            userView.isUserInteractionEnabled = true
-
-            let tap = UITapGestureRecognizer(target: self, action: #selector(userViewTap(user:)))
-            userView.addGestureRecognizer(tap)
-//            self.view.addSubview(userView)
-            
-
-            
-            
-           let itemCell = GameplayViewCell(frame: CGRect(x: Int(CGFloat(marginx)), y: 200+(20+height)*Int(CGFloat(count)), width: width, height: height))
-            self.view.addSubview(itemCell)
-
-        }
-        
-
-        
-        
     }
     
     private func setBottomView() {
@@ -1301,7 +1263,6 @@ extension GameplayViewController {
 //        agoraKit.muteLocalAudioStream(button.isSelected)
         
         button.isSelected = !button.isSelected
-        Log(!button.isSelected)
         // 开关本地音频发送  YES: 停止发送本地音频流 NO: （默认）继续发送本地音频流
         agoraKit.muteLocalAudioStream(!button.isSelected)
         
@@ -1339,7 +1300,7 @@ extension GameplayViewController {
             threadView.room_id = gamePlayModel?.room.roomId
             threadView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
             threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
-//           self.view.addSubview(threadView)
+            self.view.addSubview(threadView)
         
         
 //        }
@@ -1551,6 +1512,10 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
      
      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
          
+        var ownSecretTalkId  = 0
+        ownSecretTalkId = currentScriptRoleModel!.secretTalkId!
+        
+        
         if collectionView == leftCollectionView {
             let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: GameplayViewCellId, for: indexPath) as! GameplayViewCell
             
@@ -1562,178 +1527,197 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
             }
             
             
+            cell.rightView.isHidden = true
+            cell.leftView.isHidden = false
             
-            if indexPath.item%2 == 0 {
-                cell.rightView.isHidden = true
-                cell.leftView.isHidden = false
-                cell.l_avatarImgView.setImageWith(URL(string: itemModel.head!))
-                cell.l_nameLabel.text = itemModel.scriptRoleName
-                
-                if handsUp {
-                    cell.l_handsUp.isHidden = false
-                } else {
-                    cell.l_handsUp.isHidden = true
-                }
-                if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
-                    cell.l_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
-                    // 是否有人发起解散申请
-                    if itemModel.applyDismiss == 1  { // 是
-                        dissolveView.isHidden = false
-                        dissolveView.votingView.isHidden = false
-                        dissolveView.dissolutionView.isHidden = true
-                    }
-                }
-               
+            cell.l_avatarImgView.setImageWith(URL(string: itemModel.head!))
+            cell.l_nameLabel.text = itemModel.scriptRoleName
+            
+            if handsUp {
+                cell.l_handsUp.isHidden = false
             } else {
-                if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
-                    cell.r_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
-                    // 是否有人发起解散申请
-                    if itemModel.applyDismiss == 1  { // 是
-                        dissolveView.isHidden = false
-                        dissolveView.votingView.isHidden = false
-                        dissolveView.dissolutionView.isHidden = true
-                    }
-                }
-
-                cell.r_avatarImgView.setImageWith(URL(string: itemModel.head!))
-                cell.rightView.isHidden = false
-                cell.leftView.isHidden = true
-                cell.r_nameLabel.text = itemModel.scriptRoleName
-
-                if handsUp {
-                    cell.r_handsUp.isHidden = false
-                } else {
-                    cell.r_handsUp.isHidden = true
+                cell.l_handsUp.isHidden = true
+            }
+            if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
+                cell.l_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
+                // 是否有人发起解散申请
+                if itemModel.applyDismiss == 1  { // 是
+                    dissolveView.isHidden = false
+                    dissolveView.votingView.isHidden = false
+                    dissolveView.dissolutionView.isHidden = true
                 }
             }
-            var ownSecretTalkId  = 0
-            ownSecretTalkId = currentScriptRoleModel!.secretTalkId!
             
-            if ownSecretTalkId == 0 { // 未进入密聊室
+            
+            
+            
+            
+            if ownSecretTalkId == 0  {
                 let indexStr = itemModel.secretTalkId!
-                if indexPath.item%2 == 0 {
-                    if indexStr != 0 {
-                         cell.l_miLabel.isHidden = false
-                         cell.l_miLabel.text = "密\(indexStr)"
-                         cell.l_comImgView.isHidden = true
-                     } else {
-                         cell.l_comImgView.isHidden = true
-                         cell.l_miLabel.isHidden = true
-                     }
+                if indexStr != 0 {
+                    cell.l_miLabel.isHidden = false
+                    cell.l_miLabel.text = "密\(indexStr)"
+                    cell.l_comImgView.isHidden = true
                 } else {
-                    if indexStr != 0 {
-                        cell.r_miLabel.isHidden = false
-                        cell.r_miLabel.text = "密\(indexStr)"
-                        cell.r_comImgView.isHidden = true
-                    } else {
-                        cell.r_comImgView.isHidden = true
-                        cell.r_miLabel.isHidden = true
-                    }
+                    cell.l_comImgView.isHidden = true
+                    cell.l_miLabel.isHidden = true
                 }
-
             } else {
-                // 自己在左边还是右边
-                if ownIndex! % 2 == 0 { // 左边
-                    if indexPath.item%2 == 0 {
-                        if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
-                            let indexStr = itemModel.secretTalkId!
+                if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
+                    let indexStr = itemModel.secretTalkId!
+                    cell.l_miLabel.isHidden = false
+                    cell.l_miLabel.text = "密\(indexStr)"
+                    cell.l_comImgView.isHidden = true
+
+                } else {
+                    if itemModel.secretTalkId! == 0 {
+                        cell.l_miLabel.isHidden = true
+                        cell.l_comImgView.image = UIImage(named: "image0")
+                        cell.l_comImgView.isHidden = false
+                    } else {
+                        let indexStr = itemModel.secretTalkId!
+                        if indexStr == ownSecretTalkId {
                             cell.l_miLabel.isHidden = false
                             cell.l_miLabel.text = "密\(indexStr)"
                             cell.l_comImgView.isHidden = true
-
                         } else {
-                            if itemModel.secretTalkId! == 0 {
-                                cell.l_miLabel.isHidden = true
-                                cell.l_comImgView.image = UIImage(named: "image0")
-                                cell.l_comImgView.isHidden = false
-                            } else {
-                                let indexStr = itemModel.secretTalkId!
-                                if indexStr == ownSecretTalkId {
-                                    cell.l_miLabel.isHidden = false
-                                    cell.l_miLabel.text = "密\(indexStr)"
-                                    cell.l_comImgView.isHidden = true
-                                } else {
-                                    cell.l_comImgView.image = UIImage(named: "image0")
-                                    cell.l_comImgView.isHidden = false
-                                    cell.l_miLabel.isHidden = true
-                                }
-                                
-                            }
-                            
-                        }
-                        
-                    } else {
-                        if itemModel.secretTalkId! == 0 {
-                            cell.r_miLabel.isHidden = true
-                            cell.r_comImgView.image = UIImage(named: "image0")
-                            cell.r_comImgView.isHidden = false
-                        } else {
-                            let indexStr = itemModel.secretTalkId!
-                            if indexStr == ownSecretTalkId {
-                                cell.r_miLabel.isHidden = false
-                                cell.r_miLabel.text = "密\(indexStr)"
-                                cell.r_comImgView.isHidden = true
-                            } else {
-                                cell.r_comImgView.image = UIImage(named: "image0")
-                                cell.r_comImgView.isHidden = false
-                                cell.r_miLabel.isHidden = true
-                            }
-                            
-                        }
-                    }
-                    
-                } else {
-                    if indexPath.item%2 != 0 {
-                        if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
-                            let indexStr = itemModel.secretTalkId!
-                            cell.r_miLabel.isHidden = false
-                            cell.r_miLabel.text = "密\(indexStr)"
-                            cell.r_comImgView.isHidden = true
-
-                        } else {
-                            if itemModel.secretTalkId! == 0 {
-                                cell.r_miLabel.isHidden = true
-                                cell.r_comImgView.image = UIImage(named: "image0")
-                                cell.r_comImgView.isHidden = false
-                            } else {
-                                let indexStr = itemModel.secretTalkId!
-                                if indexStr == ownSecretTalkId {
-                                    cell.r_miLabel.isHidden = false
-                                    cell.r_miLabel.text = "密\(indexStr)"
-                                    cell.r_comImgView.isHidden = true
-                                } else {
-                                    cell.r_comImgView.image = UIImage(named: "image0")
-                                    cell.r_comImgView.isHidden = false
-                                    cell.r_miLabel.isHidden = true
-                                }
-                                
-                            }
-                        }
-                        
-                    } else {
-                        if itemModel.secretTalkId! == 0 {
-                            cell.l_miLabel.isHidden = true
                             cell.l_comImgView.image = UIImage(named: "image0")
                             cell.l_comImgView.isHidden = false
-                        } else {
-                            let indexStr = itemModel.secretTalkId!
-                            if indexStr == ownSecretTalkId {
-                                cell.l_miLabel.isHidden = false
-                                cell.l_miLabel.text = "密\(indexStr)"
-                                cell.l_comImgView.isHidden = true
-                            } else {
-                                cell.l_comImgView.image = UIImage(named: "image0")
-                                cell.l_comImgView.isHidden = false
-                                cell.l_miLabel.isHidden = true
-                            }
-                            
+                            cell.l_miLabel.isHidden = true
                         }
+                        
                     }
+                    
                 }
             }
             
+            
+//            if ownSecretTalkId == 0 { // 未进入密聊室
+//                let indexStr = itemModel.secretTalkId!
+//                if indexPath.item%2 == 0 {
+//                    if indexStr != 0 {
+//                         cell.l_miLabel.isHidden = false
+//                         cell.l_miLabel.text = "密\(indexStr)"
+//                         cell.l_comImgView.isHidden = true
+//                     } else {
+//                         cell.l_comImgView.isHidden = true
+//                         cell.l_miLabel.isHidden = true
+//                     }
+//                } else {
+//                    if indexStr != 0 {
+//                        cell.r_miLabel.isHidden = false
+//                        cell.r_miLabel.text = "密\(indexStr)"
+//                        cell.r_comImgView.isHidden = true
+//                    } else {
+//                        cell.r_comImgView.isHidden = true
+//                        cell.r_miLabel.isHidden = true
+//                    }
+//                }
+//
+//            } else {
+//                // 自己在左边还是右边
+//                if ownIndex! % 2 == 0 { // 左边
+//                    if indexPath.item%2 == 0 {
+//                        if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
+//                            let indexStr = itemModel.secretTalkId!
+//                            cell.l_miLabel.isHidden = false
+//                            cell.l_miLabel.text = "密\(indexStr)"
+//                            cell.l_comImgView.isHidden = true
+//
+//                        } else {
+//                            if itemModel.secretTalkId! == 0 {
+//                                cell.l_miLabel.isHidden = true
+//                                cell.l_comImgView.image = UIImage(named: "image0")
+//                                cell.l_comImgView.isHidden = false
+//                            } else {
+//                                let indexStr = itemModel.secretTalkId!
+//                                if indexStr == ownSecretTalkId {
+//                                    cell.l_miLabel.isHidden = false
+//                                    cell.l_miLabel.text = "密\(indexStr)"
+//                                    cell.l_comImgView.isHidden = true
+//                                } else {
+//                                    cell.l_comImgView.image = UIImage(named: "image0")
+//                                    cell.l_comImgView.isHidden = false
+//                                    cell.l_miLabel.isHidden = true
+//                                }
+//
+//                            }
+//
+//                        }
+//
+//                    } else {
+//                        if itemModel.secretTalkId! == 0 {
+//                            cell.r_miLabel.isHidden = true
+//                            cell.r_comImgView.image = UIImage(named: "image0")
+//                            cell.r_comImgView.isHidden = false
+//                        } else {
+//                            let indexStr = itemModel.secretTalkId!
+//                            if indexStr == ownSecretTalkId {
+//                                cell.r_miLabel.isHidden = false
+//                                cell.r_miLabel.text = "密\(indexStr)"
+//                                cell.r_comImgView.isHidden = true
+//                            } else {
+//                                cell.r_comImgView.image = UIImage(named: "image0")
+//                                cell.r_comImgView.isHidden = false
+//                                cell.r_miLabel.isHidden = true
+//                            }
+//
+//                        }
+//                    }
+//
+//                } else {
+//                    if indexPath.item%2 != 0 {
+//                        if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
+//                            let indexStr = itemModel.secretTalkId!
+//                            cell.r_miLabel.isHidden = false
+//                            cell.r_miLabel.text = "密\(indexStr)"
+//                            cell.r_comImgView.isHidden = true
+//
+//                        } else {
+//                            if itemModel.secretTalkId! == 0 {
+//                                cell.r_miLabel.isHidden = true
+//                                cell.r_comImgView.image = UIImage(named: "image0")
+//                                cell.r_comImgView.isHidden = false
+//                            } else {
+//                                let indexStr = itemModel.secretTalkId!
+//                                if indexStr == ownSecretTalkId {
+//                                    cell.r_miLabel.isHidden = false
+//                                    cell.r_miLabel.text = "密\(indexStr)"
+//                                    cell.r_comImgView.isHidden = true
+//                                } else {
+//                                    cell.r_comImgView.image = UIImage(named: "image0")
+//                                    cell.r_comImgView.isHidden = false
+//                                    cell.r_miLabel.isHidden = true
+//                                }
+//
+//                            }
+//                        }
+//
+//                    } else {
+//                        if itemModel.secretTalkId! == 0 {
+//                            cell.l_miLabel.isHidden = true
+//                            cell.l_comImgView.image = UIImage(named: "image0")
+//                            cell.l_comImgView.isHidden = false
+//                        } else {
+//                            let indexStr = itemModel.secretTalkId!
+//                            if indexStr == ownSecretTalkId {
+//                                cell.l_miLabel.isHidden = false
+//                                cell.l_miLabel.text = "密\(indexStr)"
+//                                cell.l_comImgView.isHidden = true
+//                            } else {
+//                                cell.l_comImgView.image = UIImage(named: "image0")
+//                                cell.l_comImgView.isHidden = false
+//                                cell.l_miLabel.isHidden = true
+//                            }
+//
+//                        }
+//                    }
+//                }
+//            }
+            
             return cell
         } else {
+            
             let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: GameplayViewCellId, for: indexPath) as! GameplayViewCell
             
             let itemModel = rightArr[indexPath.row] as! GPScriptRoleListModel
@@ -1742,174 +1726,189 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
             if itemModel.readyOk != nil {
                 handsUp = (itemModel.readyOk == 1) ? true : false
             }
-            if indexPath.item%2 == 0 {
-                cell.rightView.isHidden = true
-                cell.leftView.isHidden = false
-                cell.l_avatarImgView.setImageWith(URL(string: itemModel.head!))
-                cell.l_nameLabel.text = itemModel.scriptRoleName
-                
-                if handsUp {
-                    cell.l_handsUp.isHidden = false
-                } else {
-                    cell.l_handsUp.isHidden = true
-                }
-                if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
-                    cell.l_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
-                    // 是否有人发起解散申请
-                    if itemModel.applyDismiss == 1  { // 是
-                        dissolveView.isHidden = false
-                        dissolveView.votingView.isHidden = false
-                        dissolveView.dissolutionView.isHidden = true
-                    }
-                }
-               
-            } else {
-                if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
-                    cell.r_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
-                    // 是否有人发起解散申请
-                    if itemModel.applyDismiss == 1  { // 是
-                        dissolveView.isHidden = false
-                        dissolveView.votingView.isHidden = false
-                        dissolveView.dissolutionView.isHidden = true
-                    }
-                }
+            if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId{
+                  cell.r_avatarImgView.layer.borderColor = HexColor(LightOrangeColor).cgColor
+                  // 是否有人发起解散申请
+                  if itemModel.applyDismiss == 1  { // 是
+                      dissolveView.isHidden = false
+                      dissolveView.votingView.isHidden = false
+                      dissolveView.dissolutionView.isHidden = true
+                  }
+              }
 
-                cell.r_avatarImgView.setImageWith(URL(string: itemModel.head!))
-                cell.rightView.isHidden = false
-                cell.leftView.isHidden = true
-                cell.r_nameLabel.text = itemModel.scriptRoleName
+              cell.r_avatarImgView.setImageWith(URL(string: itemModel.head!))
+              cell.rightView.isHidden = false
+              cell.leftView.isHidden = true
+              cell.r_nameLabel.text = itemModel.scriptRoleName
 
-                if handsUp {
-                    cell.r_handsUp.isHidden = false
-                } else {
-                    cell.r_handsUp.isHidden = true
-                }
-            }
-            var ownSecretTalkId  = 0
-            ownSecretTalkId = currentScriptRoleModel!.secretTalkId!
+              if handsUp {
+                  cell.r_handsUp.isHidden = false
+              } else {
+                  cell.r_handsUp.isHidden = true
+              }
             
-            if ownSecretTalkId == 0 { // 未进入密聊室
+            if ownSecretTalkId == 0  {
                 let indexStr = itemModel.secretTalkId!
-                if indexPath.item%2 == 0 {
-                    if indexStr != 0 {
-                         cell.l_miLabel.isHidden = false
-                         cell.l_miLabel.text = "密\(indexStr)"
-                         cell.l_comImgView.isHidden = true
-                     } else {
-                         cell.l_comImgView.isHidden = true
-                         cell.l_miLabel.isHidden = true
-                     }
+                if indexStr != 0 {
+                    cell.r_miLabel.isHidden = false
+                    cell.r_miLabel.text = "密\(indexStr)"
+                    cell.r_comImgView.isHidden = true
                 } else {
-                    if indexStr != 0 {
-                        cell.r_miLabel.isHidden = false
-                        cell.r_miLabel.text = "密\(indexStr)"
-                        cell.r_comImgView.isHidden = true
-                    } else {
-                        cell.r_comImgView.isHidden = true
-                        cell.r_miLabel.isHidden = true
-                    }
+                    cell.r_comImgView.isHidden = true
+                    cell.r_miLabel.isHidden = true
                 }
-
             } else {
-                // 自己在左边还是右边
-                if ownIndex! % 2 == 0 { // 左边
-                    if indexPath.item%2 == 0 {
-                        if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
-                            let indexStr = itemModel.secretTalkId!
-                            cell.l_miLabel.isHidden = false
-                            cell.l_miLabel.text = "密\(indexStr)"
-                            cell.l_comImgView.isHidden = true
+                if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
+                    let indexStr = itemModel.secretTalkId!
+                    cell.r_miLabel.isHidden = false
+                    cell.r_miLabel.text = "密\(indexStr)"
+                    cell.r_comImgView.isHidden = true
 
-                        } else {
-                            if itemModel.secretTalkId! == 0 {
-                                cell.l_miLabel.isHidden = true
-                                cell.l_comImgView.image = UIImage(named: "image0")
-                                cell.l_comImgView.isHidden = false
-                            } else {
-                                let indexStr = itemModel.secretTalkId!
-                                if indexStr == ownSecretTalkId {
-                                    cell.l_miLabel.isHidden = false
-                                    cell.l_miLabel.text = "密\(indexStr)"
-                                    cell.l_comImgView.isHidden = true
-                                } else {
-                                    cell.l_comImgView.image = UIImage(named: "image0")
-                                    cell.l_comImgView.isHidden = false
-                                    cell.l_miLabel.isHidden = true
-                                }
-                                
-                            }
-                            
-                        }
-                        
-                    } else {
-                        if itemModel.secretTalkId! == 0 {
-                            cell.r_miLabel.isHidden = true
-                            cell.r_comImgView.image = UIImage(named: "image0")
-                            cell.r_comImgView.isHidden = false
-                        } else {
-                            let indexStr = itemModel.secretTalkId!
-                            if indexStr == ownSecretTalkId {
-                                cell.r_miLabel.isHidden = false
-                                cell.r_miLabel.text = "密\(indexStr)"
-                                cell.r_comImgView.isHidden = true
-                            } else {
-                                cell.r_comImgView.image = UIImage(named: "image0")
-                                cell.r_comImgView.isHidden = false
-                                cell.r_miLabel.isHidden = true
-                            }
-                            
-                        }
-                    }
-                    
                 } else {
-                    if indexPath.item%2 != 0 {
-                        if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
-                            let indexStr = itemModel.secretTalkId!
+                    if itemModel.secretTalkId! == 0 {
+                        cell.r_miLabel.isHidden = true
+                        cell.r_comImgView.image = UIImage(named: "image0")
+                        cell.r_comImgView.isHidden = false
+                    } else {
+                        let indexStr = itemModel.secretTalkId!
+                        if indexStr == ownSecretTalkId {
                             cell.r_miLabel.isHidden = false
                             cell.r_miLabel.text = "密\(indexStr)"
                             cell.r_comImgView.isHidden = true
-
                         } else {
-                            if itemModel.secretTalkId! == 0 {
-                                cell.r_miLabel.isHidden = true
-                                cell.r_comImgView.image = UIImage(named: "image0")
-                                cell.r_comImgView.isHidden = false
-                            } else {
-                                let indexStr = itemModel.secretTalkId!
-                                if indexStr == ownSecretTalkId {
-                                    cell.r_miLabel.isHidden = false
-                                    cell.r_miLabel.text = "密\(indexStr)"
-                                    cell.r_comImgView.isHidden = true
-                                } else {
-                                    cell.r_comImgView.image = UIImage(named: "image0")
-                                    cell.r_comImgView.isHidden = false
-                                    cell.r_miLabel.isHidden = true
-                                }
-                                
-                            }
+                            cell.r_comImgView.image = UIImage(named: "image0")
+                            cell.r_comImgView.isHidden = false
+                            cell.r_miLabel.isHidden = true
                         }
                         
-                    } else {
-                        if itemModel.secretTalkId! == 0 {
-                            cell.l_miLabel.isHidden = true
-                            cell.l_comImgView.image = UIImage(named: "image0")
-                            cell.l_comImgView.isHidden = false
-                        } else {
-                            let indexStr = itemModel.secretTalkId!
-                            if indexStr == ownSecretTalkId {
-                                cell.l_miLabel.isHidden = false
-                                cell.l_miLabel.text = "密\(indexStr)"
-                                cell.l_comImgView.isHidden = true
-                            } else {
-                                cell.l_comImgView.image = UIImage(named: "image0")
-                                cell.l_comImgView.isHidden = false
-                                cell.l_miLabel.isHidden = true
-                            }
-                            
-                        }
                     }
                 }
             }
+                
+            
+          
+//            if ownSecretTalkId == 0 { // 未进入密聊室
+//                let indexStr = itemModel.secretTalkId!
+//                if indexPath.item%2 == 0 {
+//                    if indexStr != 0 {
+//                         cell.l_miLabel.isHidden = false
+//                         cell.l_miLabel.text = "密\(indexStr)"
+//                         cell.l_comImgView.isHidden = true
+//                     } else {
+//                         cell.l_comImgView.isHidden = true
+//                         cell.l_miLabel.isHidden = true
+//                     }
+//                } else {
+//                    if indexStr != 0 {
+//                        cell.r_miLabel.isHidden = false
+//                        cell.r_miLabel.text = "密\(indexStr)"
+//                        cell.r_comImgView.isHidden = true
+//                    } else {
+//                        cell.r_comImgView.isHidden = true
+//                        cell.r_miLabel.isHidden = true
+//                    }
+//                }
+//
+//            } else {
+//                // 自己在左边还是右边
+//                if ownIndex! % 2 == 0 { // 左边
+//                    if indexPath.item%2 == 0 {
+//                        if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
+//                            let indexStr = itemModel.secretTalkId!
+//                            cell.l_miLabel.isHidden = false
+//                            cell.l_miLabel.text = "密\(indexStr)"
+//                            cell.l_comImgView.isHidden = true
+//
+//                        } else {
+//                            if itemModel.secretTalkId! == 0 {
+//                                cell.l_miLabel.isHidden = true
+//                                cell.l_comImgView.image = UIImage(named: "image0")
+//                                cell.l_comImgView.isHidden = false
+//                            } else {
+//                                let indexStr = itemModel.secretTalkId!
+//                                if indexStr == ownSecretTalkId {
+//                                    cell.l_miLabel.isHidden = false
+//                                    cell.l_miLabel.text = "密\(indexStr)"
+//                                    cell.l_comImgView.isHidden = true
+//                                } else {
+//                                    cell.l_comImgView.image = UIImage(named: "image0")
+//                                    cell.l_comImgView.isHidden = false
+//                                    cell.l_miLabel.isHidden = true
+//                                }
+//
+//                            }
+//
+//                        }
+//
+//                    } else {
+//                        if itemModel.secretTalkId! == 0 {
+//                            cell.r_miLabel.isHidden = true
+//                            cell.r_comImgView.image = UIImage(named: "image0")
+//                            cell.r_comImgView.isHidden = false
+//                        } else {
+//                            let indexStr = itemModel.secretTalkId!
+//                            if indexStr == ownSecretTalkId {
+//                                cell.r_miLabel.isHidden = false
+//                                cell.r_miLabel.text = "密\(indexStr)"
+//                                cell.r_comImgView.isHidden = true
+//                            } else {
+//                                cell.r_comImgView.image = UIImage(named: "image0")
+//                                cell.r_comImgView.isHidden = false
+//                                cell.r_miLabel.isHidden = true
+//                            }
+//
+//                        }
+//                    }
+//
+//                } else {
+//                    if indexPath.item%2 != 0 {
+//                        if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
+//                            let indexStr = itemModel.secretTalkId!
+//                            cell.r_miLabel.isHidden = false
+//                            cell.r_miLabel.text = "密\(indexStr)"
+//                            cell.r_comImgView.isHidden = true
+//
+//                        } else {
+//                            if itemModel.secretTalkId! == 0 {
+//                                cell.r_miLabel.isHidden = true
+//                                cell.r_comImgView.image = UIImage(named: "image0")
+//                                cell.r_comImgView.isHidden = false
+//                            } else {
+//                                let indexStr = itemModel.secretTalkId!
+//                                if indexStr == ownSecretTalkId {
+//                                    cell.r_miLabel.isHidden = false
+//                                    cell.r_miLabel.text = "密\(indexStr)"
+//                                    cell.r_comImgView.isHidden = true
+//                                } else {
+//                                    cell.r_comImgView.image = UIImage(named: "image0")
+//                                    cell.r_comImgView.isHidden = false
+//                                    cell.r_miLabel.isHidden = true
+//                                }
+//
+//                            }
+//                        }
+//
+//                    } else {
+//                        if itemModel.secretTalkId! == 0 {
+//                            cell.l_miLabel.isHidden = true
+//                            cell.l_comImgView.image = UIImage(named: "image0")
+//                            cell.l_comImgView.isHidden = false
+//                        } else {
+//                            let indexStr = itemModel.secretTalkId!
+//                            if indexStr == ownSecretTalkId {
+//                                cell.l_miLabel.isHidden = false
+//                                cell.l_miLabel.text = "密\(indexStr)"
+//                                cell.l_comImgView.isHidden = true
+//                            } else {
+//                                cell.l_comImgView.image = UIImage(named: "image0")
+//                                cell.l_comImgView.isHidden = false
+//                                cell.l_miLabel.isHidden = true
+//                            }
+//
+//                        }
+//                    }
+//                }
+//            }
             
             return cell
         }
@@ -1994,12 +1993,22 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
         
         let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid))
         if index != nil {
-            let cell = leftCollectionView.cellForItem(at: IndexPath(item: index!, section: 0)) as? GameplayViewCell
+            let tureIndex = index! / 2
             if index! % 2 == 0 {
-                cell?.l_comImgView.isHidden = true
+                
+                if let cell = leftCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell {
+                    
+                    cell.l_comImgView.isHidden = true
+                }
+
             } else {
-                cell?.r_comImgView.isHidden = true
+                if let cell = rightCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell {
+                    
+                    cell.r_comImgView.isHidden = true
+                }
             }
+            
+            
         }
     }
     
@@ -2007,42 +2016,88 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
         
         if !isJoinCollogueRoom! { // 未加入密聊室
             // 当用户离开时，从用户列表中清除
-            if let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid)),
-            let cell = leftCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
-                
-                if index % 2 == 0 {
-                    cell.l_comImgView.isHidden = false
-                    cell.l_comImgView.image = UIImage(named: "leave_icon")
-                    cell.l_voiceView.isHidden = true
-                    cell.l_voiceImgView.isHidden = true
-                    cell.l_animation = false
+            if let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid)) {
+                let tureIndex = index / 2
+                if index % 2 == 0 { // 左边
+                    if let cell = leftCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell  {
+                        cell.l_comImgView.isHidden = false
+                        cell.l_comImgView.image = UIImage(named: "leave_icon")
+                        cell.l_voiceView.isHidden = true
+                        cell.l_voiceImgView.isHidden = true
+                        cell.l_animation = false
+                    }
+                    
                 } else {
-                    cell.r_comImgView.isHidden = false
-                    cell.r_comImgView.image = UIImage(named: "leave_icon")
-                    cell.r_voiceView.isHidden = true
-                    cell.r_voiceImgView.isHidden = true
-                    cell.r_animation = false
+                    if let cell = rightCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell  {
+                        cell.r_comImgView.isHidden = false
+                        cell.r_comImgView.image = UIImage(named: "leave_icon")
+                        cell.r_voiceView.isHidden = true
+                        cell.r_voiceImgView.isHidden = true
+                        cell.r_animation = false
+                    }
                 }
+                
             }
+//            if let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid)),
+//            let cell = leftCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
+//
+//                if index % 2 == 0 {
+//                    cell.l_comImgView.isHidden = false
+//                    cell.l_comImgView.image = UIImage(named: "leave_icon")
+//                    cell.l_voiceView.isHidden = true
+//                    cell.l_voiceImgView.isHidden = true
+//                    cell.l_animation = false
+//                } else {
+//                    cell.r_comImgView.isHidden = false
+//                    cell.r_comImgView.image = UIImage(named: "leave_icon")
+//                    cell.r_voiceView.isHidden = true
+//                    cell.r_voiceImgView.isHidden = true
+//                    cell.r_animation = false
+//                }
+//            }
         }
     }
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, didAudioMuted muted: Bool, byUid uid: UInt) {
         // 当频道里的用户开始或停止发送音频流的时候，会收到这个回调。在界面的用户头像上显示或隐藏静音标记
         
-        if let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid)),
-        let cell = leftCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
-            if index%2 == 0 {
-               cell.l_comImgView.isHidden = !muted
-               cell.l_comImgView.image = UIImage(named: "image0")
-               cell.l_voiceView.isHidden = muted
-               cell.l_voiceImgView.isHidden = muted
+//        if let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid)),
+//        let cell = leftCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
+//            if index%2 == 0 {
+//               cell.l_comImgView.isHidden = !muted
+//               cell.l_comImgView.image = UIImage(named: "image0")
+//               cell.l_voiceView.isHidden = muted
+//               cell.l_voiceImgView.isHidden = muted
+//            } else {
+//               cell.r_comImgView.isHidden = !muted
+//               cell.r_comImgView.image = UIImage(named: "image0")
+//               cell.r_voiceView.isHidden = muted
+//               cell.r_voiceImgView.isHidden = muted
+//            }
+//        }
+        
+        
+        if let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid)) {
+            let tureIndex = index / 2
+            if index % 2 == 0 { // 左边
+                if let cell = leftCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell  {
+                    cell.l_comImgView.isHidden = !muted
+                    cell.l_comImgView.image = UIImage(named: "image0")
+                    cell.l_voiceView.isHidden = muted
+                    cell.l_voiceImgView.isHidden = muted
+  
+                }
+                
             } else {
-               cell.r_comImgView.isHidden = !muted
-               cell.r_comImgView.image = UIImage(named: "image0")
-               cell.r_voiceView.isHidden = muted
-               cell.r_voiceImgView.isHidden = muted
+                if let cell = rightCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell  {
+                    cell.r_comImgView.isHidden = !muted
+                    cell.r_comImgView.image = UIImage(named: "image0")
+                    cell.r_voiceView.isHidden = muted
+                    cell.r_voiceImgView.isHidden = muted
+
+                }
             }
+            
         }
     }
     
@@ -2058,65 +2113,78 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
 
         for speaker in speakers {
             updateVoice(uid: Int(speaker.uid), totalVolume: Int(speaker.volume))
-//            if let index = getIndexWithUserIsSpeaking(uid: Int((speaker.uid))),
-//                let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
-//
-//                if index%2 == 0 {
-//                    if speaker.volume <= 0 {
-//                        cell.l_voiceView.isHidden = true
-//                        cell.l_voiceImgView.isHidden = true
-//                        cell.l_animation = false
-//                    } else {
-//                        cell.l_voiceView.isHidden = false
-//                        cell.l_voiceImgView.isHidden = false
-//                        cell.l_animation = true
-//                    }
-//
-//                } else {
-//                    if speaker.volume <= 0 {
-//                        cell.r_voiceView.isHidden = true
-//                        cell.r_voiceImgView.isHidden = true
-//                        cell.r_animation = false
-//                    } else {
-//                        cell.r_voiceView.isHidden = false
-//                        cell.r_voiceImgView.isHidden = false
-//                        cell.r_animation = true
-//                    }
-//                }
-//            }
-            
         }
     }
     
     //MARK:- 根据声音显示头像
     func updateVoice(uid: Int, totalVolume: Int ) {
-        if let index = getIndexWithUserIsSpeaking(uid: Int(uid)),
-            let cell = leftCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
+        
+        
+        if let index = getIndexWithUserIsSpeaking(uid: Int(uid)) {
             
-            if index%2 == 0 {
-                if totalVolume <= 0 {
-                    cell.l_voiceView.isHidden = true
-                    cell.l_voiceImgView.isHidden = true
-                    cell.l_animation = false
-                } else {
-                    cell.l_voiceView.isHidden = false
-                    cell.l_voiceImgView.isHidden = false
-                    cell.l_animation = true
+            let tureIndex = index / 2
+            if index % 2 == 0 { // 左边
+                if let cell = leftCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
+                    if totalVolume <= 0 {
+                        cell.l_voiceView.isHidden = true
+                        cell.l_voiceImgView.isHidden = true
+                        cell.l_animation = false
+                    } else {
+                        cell.l_voiceView.isHidden = false
+                        cell.l_voiceImgView.isHidden = false
+                        cell.l_animation = true
+                    }
                 }
-
-            } else {
-                if totalVolume <= 0 {
-                    cell.r_voiceView.isHidden = true
-                    cell.r_voiceImgView.isHidden = true
-                    cell.r_animation = false
-                } else {
-                    cell.r_voiceView.isHidden = false
-                    cell.r_voiceImgView.isHidden = false
-                    cell.r_animation = true
+                  
+              } else {
+                
+                if let cell = rightCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell  {
+                    
+                      
+                    if totalVolume <= 0 {
+                        cell.r_voiceView.isHidden = true
+                        cell.r_voiceImgView.isHidden = true
+                        cell.r_animation = false
+                    } else {
+                        cell.r_voiceView.isHidden = false
+                        cell.r_voiceImgView.isHidden = false
+                        cell.r_animation = true
+                    }
                 }
-            }
+             }
+              
         }
+        
+        
+        
+//        if let index = getIndexWithUserIsSpeaking(uid: Int(uid)),
+//            let cell = leftCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
+//
+//            if index%2 == 0 {
+//                if totalVolume <= 0 {
+//                    cell.l_voiceView.isHidden = true
+//                    cell.l_voiceImgView.isHidden = true
+//                    cell.l_animation = false
+//                } else {
+//                    cell.l_voiceView.isHidden = false
+//                    cell.l_voiceImgView.isHidden = false
+//                    cell.l_animation = true
+//                }
+//
+//            } else {
+//                if totalVolume <= 0 {
+//                    cell.r_voiceView.isHidden = true
+//                    cell.r_voiceImgView.isHidden = true
+//                    cell.r_animation = false
+//                } else {
+//                    cell.r_voiceView.isHidden = false
+//                    cell.r_voiceImgView.isHidden = false
+//                    cell.r_animation = true
+//                }
+//            }
+//        }
     }
+    
 }
 
 
