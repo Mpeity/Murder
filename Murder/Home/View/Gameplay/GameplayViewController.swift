@@ -112,14 +112,16 @@ class GameplayViewController: UIViewController {
     
     
     // 未知按钮名称
-    var commonBtn: UIButton = UIButton()
+    var commonBtn: GradienButton = GradienButton()
     
     // 举手
     var handsUp = false
     
     var voiceHide = false
     
-    var node_type: Int? = 0
+    
+    // 前一个节点
+    var pre_node_type: Int? = 0
     // 当前id
     var script_node_id: Int? = 0
     // 我的id
@@ -141,7 +143,6 @@ class GameplayViewController: UIViewController {
         layout.minimumLineSpacing = 20
 //        // 列间距
 //        layout.minimumInteritemSpacing = (FULL_SCREEN_WIDTH-120*2)
-        self.automaticallyAdjustsScrollViewInsets = false
 
         layout.itemSize = CGSize(width: 90, height: 80)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 15,  bottom: 0, right: 15)
@@ -169,7 +170,6 @@ class GameplayViewController: UIViewController {
        layout.itemSize = CGSize(width: 90, height: 80)
        layout.sectionInset = UIEdgeInsets(top: 0, left: 15,  bottom: 0, right: 15)
        let collectionView = UICollectionView(frame:  CGRect(x: FULL_SCREEN_WIDTH-100, y: 50+NAVIGATION_BAR_HEIGHT, width: 100, height: 100), collectionViewLayout: layout)
-       self.automaticallyAdjustsScrollViewInsets = false
        collectionView.register(UINib(nibName: "GameplayViewCell", bundle: nil), forCellWithReuseIdentifier: GameplayViewCellId)
        collectionView.backgroundColor = UIColor.clear
        collectionView.showsHorizontalScrollIndicator = false
@@ -1043,7 +1043,7 @@ extension GameplayViewController {
         commonBtn.setTitleColor(UIColor.white, for: .normal)
         commonBtn.setTitle("ボタン名", for: .normal)
         commonBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13.0, weight: .bold)
-        commonBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 19)
+        commonBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 19)
 
         commonBtn.addTarget(self, action: #selector(commonBtnAction(button:)), for: .touchUpInside)
         
@@ -1269,8 +1269,35 @@ extension GameplayViewController {
         if !button.isSelected == true { //
             updateVoice(uid: (UserAccountViewModel.shareInstance.account?.userId)!, totalVolume: 0)
         }
-        leftCollectionView.reloadData()
+        
+        getMicrophoneStatus(mute: !button.isSelected)
     }
+    
+    // 自己
+    func getMicrophoneStatus(mute: Bool) {
+        if let index = getIndexWithUserIsSpeaking(uid: (UserAccountViewModel.shareInstance.account?.userId!)!) {
+            
+            let tureIndex = index / 2
+            if index % 2 == 0 { // 左边
+                if let cell = leftCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell  {
+                    cell.l_comImgView.isHidden = !mute
+                    cell.l_comImgView.image = UIImage(named: "image0")
+                    cell.l_voiceView.isHidden = !mute
+                    cell.l_voiceImgView.isHidden = !mute
+                }
+                
+            } else {
+                if let cell = rightCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell  {
+                    cell.r_comImgView.isHidden = !mute
+                    cell.r_comImgView.image = UIImage(named: "image0")
+                    cell.r_voiceView.isHidden = !mute
+                    cell.r_voiceImgView.isHidden = !mute
+                }
+            }
+        }
+    }
+    
+    
     
     //MARK: 剧本
     @objc func scriptBtnAction(button: UIButton) {
@@ -1283,8 +1310,6 @@ extension GameplayViewController {
             readScriptView.room_id = gamePlayModel?.room.roomId
             readScriptView.script_role_id = currentScriptRoleModel?.user.scriptRoleId
             readScriptView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
-        
-        
 //        }
     }
     
@@ -1330,9 +1355,24 @@ extension GameplayViewController {
     @objc func commonBtnAction(button: UIButton) {
 //        节点类型【1故事背景2自我介绍3剧本阅读4搜证5答题6结算】
         
+        Log("当前节点")
+        Log(pre_node_type)
+        Log(gamePlayModel?.scriptNodeResult.nodeType)
+        
+        
+        pre_node_type = gamePlayModel?.scriptNodeResult.nodeType
+        
+        
+        if gamePlayModel?.scriptNodeResult.nodeType != 5 {
+            commonBtn.setGradienButtonColor(start: "#999999", end: "#999999", cornerRadius: 19)
+            commonBtn.isUserInteractionEnabled = false
+        }
+
+        
         script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
         
         if gamePlayModel?.scriptNodeResult.nodeType == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题
+            
             if currentScriptRoleModel?.scriptQuestionList?.count != 0 {
                 self.view.addSubview(commonQuestionView)
                 commonQuestionView.room_id = room_id
@@ -1441,12 +1481,14 @@ extension GameplayViewController: CollogueRoomViewDelegate {
         
         let script_role_id = currentScriptRoleModel?.user.scriptRoleId
         let secret_talk_id = index+1
-        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"secret_talk_id":secret_talk_id,"game_status_type":"secret_talk","key":(UserAccountViewModel.shareInstance.account?.key!)! as String] as [String : AnyObject]
+        let mapData = ["user_id":UserAccountViewModel.shareInstance.account?.userId!,"type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"secret_talk_id":secret_talk_id,"game_status_type":"secret_talk","key":(UserAccountViewModel.shareInstance.account?.key!)! as String] as [String : AnyObject]
         
         let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
         SingletonSocket.sharedInstance.socket.write(string: mapJson)
         
     }
+    
+    
     // 退出密谈室
     func leaveBtnTapAction(index: Int) {
         
@@ -1456,13 +1498,11 @@ extension GameplayViewController: CollogueRoomViewDelegate {
         let script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
         let script_role_id = currentScriptRoleModel?.user.scriptRoleId
         let secret_talk_id = index+1
-        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":0,"script_role_id":script_role_id!,"secret_talk_id":secret_talk_id,"game_status_type":"secret_talk","key":(UserAccountViewModel.shareInstance.account?.key!)! as String] as [String : AnyObject]
+        let mapData = ["user_id":UserAccountViewModel.shareInstance.account?.userId!,"type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":0,"script_role_id":script_role_id!,"secret_talk_id":secret_talk_id,"game_status_type":"secret_talk","key":(UserAccountViewModel.shareInstance.account?.key!)! as String] as [String : AnyObject]
         
         let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
         SingletonSocket.sharedInstance.socket.write(string: mapJson)
-        
-        
-    
+   
         agoraKit.leaveChannel(nil)
         initAgoraKit()
 
@@ -1473,6 +1513,7 @@ extension GameplayViewController: CollogueRoomViewDelegate {
 //MARK: - PopMenuDelegate
 extension GameplayViewController: PlacePopMenuViewDelegate {
     func cellDidSelected(index: Int, model: AnyObject?) {
+        
         
 
         placeBtn.isSelected = true
@@ -1485,7 +1526,7 @@ extension GameplayViewController: PlacePopMenuViewDelegate {
         drawImage(model: itemModel)
         let script_role_id = currentScriptRoleModel?.user.scriptRoleId!
         let script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId!
-        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id,"status":1,"script_role_id":script_role_id,"game_status_type":"map_see","script_node_map_id":itemModel?.scriptNodeMapId!,"key":UserAccountViewModel.shareInstance.account?.key] as [String : Any]
+        let mapData = ["user_id":UserAccountViewModel.shareInstance.account?.userId!,"type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id,"status":1,"script_role_id":script_role_id,"game_status_type":"map_see","script_node_map_id":itemModel?.scriptNodeMapId!,"key":UserAccountViewModel.shareInstance.account?.key] as [String : Any]
         
         let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
         SingletonSocket.sharedInstance.socket.write(string: mapJson)
@@ -2085,7 +2126,6 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
                     cell.l_comImgView.image = UIImage(named: "image0")
                     cell.l_voiceView.isHidden = muted
                     cell.l_voiceImgView.isHidden = muted
-  
                 }
                 
             } else {
@@ -2254,6 +2294,11 @@ extension GameplayViewController: WebSocketDelegate {
                 gamePlayModel = GamePlayModel(fromDictionary: data)
                                 
                 refreshUI()
+                
+                if pre_node_type != gamePlayModel?.scriptNodeResult.nodeType {
+                    commonBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 19)
+                    commonBtn.isUserInteractionEnabled = true
+                }
                 
                 script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
                 

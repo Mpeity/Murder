@@ -9,6 +9,7 @@
 import UIKit
 import AgoraRtcKit
 import Starscream
+import SVProgressHUD
 
 let PrepareRoomCellId = "PrepareRoomCellId"
 
@@ -128,16 +129,24 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     
     // 本地是否有图片数据
     private var loadAllImages: Bool = false
+    
+    
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         
         initAgoraKit()
         
+        initWebSocketSingle()
+        
         setUI()
         
-//        loadImage()
         
 //        DispatchQueue.main.async { [weak self] in
 //            self?.loadData()
@@ -146,6 +155,35 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
         self.loadData()
 
     }
+    
+    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = true
+        
+        // 监听键盘弹出
+        NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+        
+    override func viewWillDisappear(_ animated: Bool) {
+        SVProgressHUD.dismiss()
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+       
+}
+
+//MARK: - 数据请求
+extension PrepareRoomViewController {
     
     //MARK:- 检测本地是否有当前剧本数据
     func checkLocalScriptWith() {
@@ -191,40 +229,8 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        socketDisConnect()
-        
-        initWebSocketSingle()
 
-        navigationController?.navigationBar.isHidden = true
-        
-        // 监听键盘弹出
-        NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-    }
-        
-    override func viewWillDisappear(_ animated: Bool) {
-        
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.isHidden = false
-        NotificationCenter.default.removeObserver(self)
-    }
     
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-       
-}
-
-//MARK: - 数据请求
-extension PrepareRoomViewController {
     //MARK:- 设置密码
     func setPassword(password: String?) {
         roomPasswordRequest(room_id: room_id, status: lockStatus, room_password: password) { (result, error) in
@@ -905,10 +911,15 @@ extension PrepareRoomViewController {
     
     //MARK:- 消息按钮
     @objc func messageBtnAction(button: UIButton) {
-        self.navigationController?.popViewController(animated: true)
-         UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
-        let main = UIApplication.shared.keyWindow?.rootViewController as! MainViewController
-        main.selectedIndex = 2
+//        self.navigationController?.popToRootViewController(animated: true)
+        
+        let vc = GotoMessageViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+        
+//         UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+//        let main = UIApplication.shared.keyWindow?.rootViewController as! MainViewController
+//        main.selectedIndex = 2
     }
     
     //MARK:- 声音按钮
@@ -1239,10 +1250,12 @@ extension PrepareRoomViewController: WebSocketDelegate {
     
     // initSocket方法
     func initWebSocketSingle () {
+        SVProgressHUD.show(withStatus: "加载中")
         SingletonSocket.sharedInstance.socket.delegate = self
     }
     
     func websocketDidConnect(socket: WebSocketClient) {
+        SVProgressHUD.dismiss()
         Log("websocketDidConnect=\(socket)")
          //设置重连次数，解决无限重连问题
          reConnectTime = 0
@@ -1257,7 +1270,7 @@ extension PrepareRoomViewController: WebSocketDelegate {
     }
     
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-
+        
         let dic = getDictionaryFromJSONString(jsonString: text)
         current_client_id = dic["client_id"] as? String
         let datas = getJSONStringFromDictionary(dictionary: ["room_id":room_id as Int])
@@ -1320,7 +1333,7 @@ extension PrepareRoomViewController: WebSocketDelegate {
             }
 
             
-        } else {
+        } else if (dic["type"] as? String == "room_ready") {
             // 取到结果
             guard  let resultDic :[String : AnyObject] = dic as? [String : AnyObject] else { return }
             if resultDic["code"]!.isEqual(1) {

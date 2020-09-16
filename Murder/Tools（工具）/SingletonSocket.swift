@@ -10,6 +10,7 @@
 import UIKit
 import Starscream
 import Reachability
+import SVProgressHUD
  
 
 var reConnectTime = 0 //设置重连次数

@@ -18,7 +18,7 @@ class ApplyFriendsViewController: UIViewController, UITableViewDelegate, UITable
     
     var isShare: Bool = false
     
-    private var page_no = 1
+    private var page_no = 15
     
     private var page_size = 1
     

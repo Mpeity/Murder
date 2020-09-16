@@ -203,13 +203,42 @@ extension ThreadCardDetailView {
                 imgSize.width = FULL_SCREEN_WIDTH
                 let scale = FULL_SCREEN_WIDTH / size.width
                 imgSize.height = size.height * scale
+                
             } else if (size.width <= 300.0) {
                 imgSize.width = 300.0
                 let scale = 300.0 / size.width
                 imgSize.height = size.height * scale
+ 
             } else {
+                
                 imgSize = size
+                
             }
+            
+            
+             var space =  CGFloat(10 + 44 + 10 + 33)
+               if isOpen == 1, isGoing == 0 { // 两个都不显示
+                   space = CGFloat(10 + 33)
+                   var imgHeight = imgSize.height + space
+                   if imgHeight >= FULL_SCREEN_HEIGHT {
+                       imgHeight = CGFloat(Int(FULL_SCREEN_HEIGHT - CGFloat(space)))
+                       let heightScale = imgHeight / imgSize.height
+                       imgSize.width = imgSize.width * heightScale
+                       imgSize.height = imgHeight
+                   }
+
+               } else  { // 显示一个 或 两个
+                   space = CGFloat(10 + 33 + 10 + 44)
+                   var imgHeight = imgSize.height + space
+                   if imgHeight >= FULL_SCREEN_HEIGHT {
+                       imgHeight = CGFloat(Int(FULL_SCREEN_HEIGHT - CGFloat(space)))
+                       let heightScale = imgHeight / imgSize.height
+                       imgSize.width = imgSize.width * heightScale
+                       imgSize.height = imgHeight
+                   }
+                   
+               }
+            
             Log(size)
             Log(imgSize)
             
@@ -218,13 +247,13 @@ extension ThreadCardDetailView {
             var top = 0.0
             var left = 0.0
             
-            top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 44 - 33 - 44 - 10) * 0.5)
+            top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 44 - 33 - 10 - 10) * 0.5)
             left = Double(Float(FULL_SCREEN_WIDTH - imgSize.width) * 0.5)
             
-            if isOpen == 1, isGoing == 0 { // 无按钮
+            if isOpen == 1, isGoing == 0  { // 无按钮
                 publicBtn.isHidden = true
                 deepBtn.isHidden = true
-                top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 44 - 33) * 0.5)
+                top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 10 - 33) * 0.5)
                 left = Double((FULL_SCREEN_WIDTH - imgSize.width) * 0.5)
                 
                 contentView.snp.makeConstraints { (make) in
@@ -248,7 +277,7 @@ extension ThreadCardDetailView {
                 
                 cancelBtn.snp.makeConstraints { (make) in
                     make.width.height.equalTo(33)
-                    make.top.equalTo(imgView.snp_bottom).offset(44)
+                    make.top.equalTo(imgView.snp_bottom).offset(10)
                     make.centerX.equalToSuperview()
                 }
                 
@@ -256,6 +285,8 @@ extension ThreadCardDetailView {
             } else if isOpen! == 0,isGoing! == 1 { // 两个都显示
                 publicBtn.isHidden = false
                 deepBtn.isHidden = false
+                
+                
 
                 contentView.snp.makeConstraints { (make) in
                     make.top.equalToSuperview().offset(top)
@@ -294,13 +325,14 @@ extension ThreadCardDetailView {
                 
                 cancelBtn.snp.makeConstraints { (make) in
                     make.width.height.equalTo(33)
-                    make.top.equalTo(imgView.snp_bottom).offset(88)
+                    make.top.equalTo(deepBtn.snp_bottom).offset(10)
                     make.centerX.equalToSuperview()
                 }
                 
                 
             } else {
-                
+        
+                left = Double(Float(FULL_SCREEN_WIDTH - imgSize.width) * 0.5)
                 contentView.snp.makeConstraints { (make) in
                     make.top.equalToSuperview().offset(top)
                     make.bottom.equalToSuperview().offset(-top)
@@ -333,7 +365,7 @@ extension ThreadCardDetailView {
                     }
                     cancelBtn.snp.makeConstraints { (make) in
                         make.width.height.equalTo(33)
-                        make.top.equalTo(publicBtn.snp_bottom).offset(44)
+                        make.top.equalTo(publicBtn.snp_bottom).offset(10)
                         make.centerX.equalToSuperview()
                     }
                 }
@@ -350,16 +382,18 @@ extension ThreadCardDetailView {
                     
                     cancelBtn.snp.makeConstraints { (make) in
                         make.width.height.equalTo(33)
-                        make.top.equalTo(deepBtn.snp_bottom).offset(44)
+                        make.top.equalTo(deepBtn.snp_bottom).offset(10)
                         make.centerX.equalToSuperview()
                     }
                 }
             }
             contentView.layoutIfNeeded()
-            contentView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight,UIRectCorner.bottomLeft,UIRectCorner.bottomRight], radii: 15)
+//            contentView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight,UIRectCorner.bottomLeft,UIRectCorner.bottomRight], radii: 15)
 
             imgView.layoutIfNeeded()
-            imgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)
+            imgView.layer.cornerRadius = 15
+            imgView.layer.masksToBounds = true
+//            imgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)
             
         }
     }
@@ -369,7 +403,8 @@ extension ThreadCardDetailView {
         self.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         
 
-        contentView.backgroundColor = UIColor.white
+//        contentView.backgroundColor = UIColor.white
+        contentView.backgroundColor = UIColor.clear
         commonView.addSubview(contentView)
         
         
@@ -397,8 +432,8 @@ extension ThreadCardDetailView {
         cancelBtn.backgroundColor = UIColor.clear
         cancelBtn.addTarget(self, action: #selector(cancelBtnAction(_:)), for: .touchUpInside)
 //        cancel_readscript
-//        cancelBtn.setImage(UIImage(named: "cancel"), for: .normal)
-        cancelBtn.setImage(UIImage(named: "cancel_readscript"), for: .normal)
+        cancelBtn.setImage(UIImage(named: "cancel"), for: .normal)
+//        cancelBtn.setImage(UIImage(named: "cancel_readscript"), for: .normal)
     }
 }
 

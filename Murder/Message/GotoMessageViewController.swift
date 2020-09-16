@@ -1,5 +1,5 @@
 //
-//  MessageViewController.swift
+//  GotoMessageViewController.swift
 //  Murder
 //
 //  Created by mac on 2020/7/17.
@@ -10,9 +10,9 @@ import UIKit
 import AgoraRtmKit
 import MJRefresh
 
-let MessageListCellId = "MessageListCellId"
+//let MessageListCellId = "MessageListCellId"
 
-class MessageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class GotoMessageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     private var myTableView: UITableView!
     
@@ -26,13 +26,16 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "トーク"
+        
+        self.automaticallyAdjustsScrollViewInsets = false
+        
         AgoraRtm.updateKit(delegate: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
+       
         
         setUI()
         msgNoRead()
@@ -54,7 +57,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
 }
 
 // MARK: - LoadData
-extension MessageViewController {
+extension GotoMessageViewController {
     
     private func msgNoRead() {
         msgNoReadRequest {[weak self] (result, error) in
@@ -133,7 +136,7 @@ extension MessageViewController {
 
 
 // MARK: - UI
-extension MessageViewController {
+extension GotoMessageViewController {
     
     private func setupHeaderView() {
         let header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(loadRefresh))
@@ -180,7 +183,7 @@ extension MessageViewController {
 }
 
 // MARK: - TableView Delegate
-extension MessageViewController {
+extension GotoMessageViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messageModel?.list?.count ?? 0
     }
@@ -229,14 +232,14 @@ extension MessageViewController {
 }
 
 
-extension MessageViewController {
+extension GotoMessageViewController {
     @objc func rightBtnAction() {
         let vc = MyFriendsListViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-extension MessageViewController: AgoraRtmDelegate {
+extension GotoMessageViewController: AgoraRtmDelegate {
     // 登录
     func AgoraRtmLogin() {
         func AgoraRtmLogin() {
@@ -271,7 +274,7 @@ extension MessageViewController: AgoraRtmDelegate {
     
 }
 
-extension MessageViewController: LookFriendsViewDelegate {
+extension GotoMessageViewController: LookFriendsViewDelegate {
     func DeleteFriends() {
         loadRefresh()
     }

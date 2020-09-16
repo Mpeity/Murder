@@ -63,6 +63,7 @@ class QuestionView: UIView {
     
     // 题目数量
     var subjectIndexPath: [AnyObject] = []
+    
     // 选项数量
     var choiceArr: [ScriptAnswerModel]? {
         didSet {
@@ -155,7 +156,6 @@ extension QuestionView {
         cellIndexPath = []
         
         
-        let count = newArray?.count
         if newArray?.count != 0 && selectedIndex < newArray!.count {
             
             let item = newArray![selectedIndex]
@@ -386,8 +386,6 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
         let questionModel = scriptQuestionList![selectedIndex]
         questionType = questionModel.questionType!
         if questionType == 0 { // 单选
-            
-            
             for (index,item) in choiceArr!.enumerated() {
                 let path = IndexPath(row: index, section: 0)
                 let cell = tableView.cellForRow(at: path) as? QuestionViewCell
@@ -431,8 +429,89 @@ extension QuestionView {
     }
     
     
+    func saveAnswer() {
+        if !isAnswer {
+            let questionModel = scriptQuestionList![selectedIndex]
+            if selectPath != nil {
+                let index = selectPath?.row
+                let model = choiceArr![index!]
+                user_script_answer_ids?.append(model.scriptAnswerId!)
+                var dic = [:] as? [String : AnyObject]
+                if answerList?.count != 0  {
+                    
+                    for (index, item) in answerList!.enumerated() {
+                        if selectedIndex == index {
+                            answerList?.remove(at: index)
+                            break
+                        }
+                    }
+                    
+                    if user_script_answer_ids != nil {
+                        dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+                        dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+                        answerList?.append(dic!)
+                    }
+                    newArray?.append(selectPath as Any)
+                } else {
+                    if user_script_answer_ids != nil {
+                        dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+                        dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+                        answerList?.append(dic!)
+                    }
+                    newArray?.append(selectPath as Any)
+                }
+                
+                subjectIndexPath.append([selectPath] as AnyObject)
+                user_script_answer_ids = nil
+            }
+            
+            if cellIndexPath != nil, cellIndexPath != []  {
+                var dic = [:] as? [String : AnyObject]
+                for itemIndexPath in cellIndexPath! {
+                    let index = (itemIndexPath as! IndexPath).row
+                    let model = choiceArr![index]
+                    user_script_answer_ids?.append(model.scriptAnswerId!)
+                }
+                if answerList?.count != 0  {
+                    for (index, item) in answerList!.enumerated() {
+                        if selectedIndex == index {
+                            answerList?.remove(at: index)
+                            break
+                        }
+                    }
+                    if user_script_answer_ids != nil {
+                        dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+                        dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+                        answerList?.append(dic!)
+                        newArray?.append(cellIndexPath as Any)
+                    }
+                    
+                } else {
+                    if user_script_answer_ids != nil {
+                        dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+                        dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+                        answerList?.append(dic!)
+                        newArray?.append(cellIndexPath as Any)
+                    }
+                }
+                
+                subjectIndexPath.append(cellIndexPath as AnyObject)
+                user_script_answer_ids = nil
+            }
+            selectPath = nil
+            cellIndexPath = []
+        }
+    }
+    
+    
     // 上一题
     @objc func previousBtnAction() {
+        
+        // 最后一道题
+        if selectedIndex == scriptQuestionList!.count - 1 {
+            saveAnswer()
+        }
+        
         if selectedIndex == 0 {
             return
         }
@@ -440,6 +519,9 @@ extension QuestionView {
 //        let pre = subjectIndexPath[selectedIndex]
         
 //        tableView.reloadRows(at: pre as! [IndexPath], with: .automatic)
+        
+        
+        
     }
     
     

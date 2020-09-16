@@ -11,7 +11,7 @@ target 'Murder' do
   pod 'MJRefresh'
   pod 'SnapKit'
   pod 'FTPopOverMenu_Swift'
-  pod 'MLeaksFinder'
+#  pod 'MLeaksFinder'
   pod 'Bugly'
   # 轮播图
   pod 'SDCycleScrollView', '1.75'

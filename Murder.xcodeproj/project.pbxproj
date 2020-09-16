@@ -150,6 +150,7 @@
 		98772D0B24DBE72C00C1C125 /* AgoraRtcKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98772D0A24DBE72C00C1C125 /* AgoraRtcKit.framework */; };
 		987A62C3250A036600C1618C /* ThreadCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987A62C2250A036600C1618C /* ThreadCardDetailView.swift */; };
 		987C611C24EA29CB00CEA48D /* GamePlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987C611B24EA29CB00CEA48D /* GamePlayModel.swift */; };
+		987D7F562511D225007F847D /* GotoMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987D7F552511D225007F847D /* GotoMessageViewController.swift */; };
 		98820FA224CA6DA90005EBDD /* HomeListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98820FA024CA6DA90005EBDD /* HomeListViewCell.swift */; };
 		98820FA324CA6DA90005EBDD /* HomeListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98820FA124CA6DA90005EBDD /* HomeListViewCell.xib */; };
 		98820FA524CA71D30005EBDD /* HomeListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98820FA424CA71D30005EBDD /* HomeListHeaderView.swift */; };
@@ -442,6 +443,7 @@
 		98772D0A24DBE72C00C1C125 /* AgoraRtcKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AgoraRtcKit.framework; sourceTree = "<group>"; };
 		987A62C2250A036600C1618C /* ThreadCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadCardDetailView.swift; sourceTree = "<group>"; };
 		987C611B24EA29CB00CEA48D /* GamePlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePlayModel.swift; sourceTree = "<group>"; };
+		987D7F552511D225007F847D /* GotoMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GotoMessageViewController.swift; sourceTree = "<group>"; };
 		98820FA024CA6DA90005EBDD /* HomeListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListViewCell.swift; sourceTree = "<group>"; };
 		98820FA124CA6DA90005EBDD /* HomeListViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeListViewCell.xib; sourceTree = "<group>"; };
 		98820FA424CA71D30005EBDD /* HomeListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListHeaderView.swift; sourceTree = "<group>"; };
@@ -616,6 +618,7 @@
 				988D4D5824CC7A4800C4B979 /* View */,
 				0451A37024C1AD0700E69085 /* Message.storyboard */,
 				0451A36024C1AAA600E69085 /* MessageViewController.swift */,
+				987D7F552511D225007F847D /* GotoMessageViewController.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1706,6 +1709,7 @@
 				983FD1AA24D2AA3D0041D79E /* ScriptTableHeaderCell.swift in Sources */,
 				98D8A35224DC043900469923 /* AgoraStatus.swift in Sources */,
 				98663A6E24FC8A59007726A5 /* FriendsModel.swift in Sources */,
+				987D7F562511D225007F847D /* GotoMessageViewController.swift in Sources */,
 				983FD1A724D27CE40041D79E /* ApplyFriendsListCell.swift in Sources */,
 				9866C16724E4E2EB00810516 /* MineModel.swift in Sources */,
 				98649DD124CE7B17005AA9C3 /* SynopsisViewCell.swift in Sources */,

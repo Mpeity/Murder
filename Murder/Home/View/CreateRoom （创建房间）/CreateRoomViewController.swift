@@ -177,6 +177,13 @@ extension CreateRoomViewController: InputTextViewDelegate, UITextFieldDelegate  
     
     func commonBtnClick() {
         textInputView.removeFromSuperview()
+        
+        if textInputView.textFieldView.text!.count < 4 {
+            showToastCenter(msg: "４桁の暗証番号を記入してください")
+            return
+        }
+        
+        
         if textInputView.textFieldView.text == "" || textInputView.textFieldView.text == nil {
             passwordLabel.text = "なし"
             hasPassword = false
