@@ -83,7 +83,7 @@ extension NetworkTools {
                     // 请登录
                     UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
                     userLogout()
-                    AgoraRtmLogout()
+//                    AgoraRtmLogout()
                     
                     CLToastManager.share.cornerRadius = 25
                     CLToastManager.share.bgColor = HexColor(hex: "#000000", alpha: 0.6)

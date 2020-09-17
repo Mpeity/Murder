@@ -37,7 +37,6 @@ public struct FEPreferences {
     public struct Positioning {
         public var targetPoint         = CGPoint.zero
         public var arrowPosition       = UIPopoverArrowDirection.up
-        public var marginLeft          = 0
     }
     
     public struct Animating {
@@ -69,7 +68,6 @@ class FETipView:UIView {
     
     private var arrowHeight:CGFloat = 0
     private var arrowWidth:CGFloat = 0
-    #warning("不注释会报错 不知道为什么")
 //    private var width:CGFloat = 0
     private var point:CGPoint = .zero
     
@@ -252,7 +250,7 @@ class FETipView:UIView {
         
         self.contenLabel.frame = CGRect.init(x: preference.drawing.textInset, y: contentY, width: preference.drawing.maxTextWidth, height: textSize.height)
         
-        self.frame = CGRect(x: frameX - CGFloat(preference.positioning.marginLeft), y: frameY, width: width, height: contentSize.height)
+        self.frame = CGRect(x: frameX, y: frameY, width: width, height: contentSize.height)
     }
     
     private func adjustDirectionLeftRight() {

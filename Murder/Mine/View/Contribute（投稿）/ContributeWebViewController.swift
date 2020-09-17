@@ -1,5 +1,5 @@
 //
-//  BannerWebViewController.swift
+//  ContributeWebViewController.swift
 //  Murder
 //
 //  Created by 马滕亚 on 2020/9/11.
@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class BannerWebViewController: UIViewController, WKNavigationDelegate{
+class ContributeWebViewController: UIViewController, WKNavigationDelegate{
 //    var webView : WKWebView!
     
     // 返回上一层按钮
@@ -17,14 +17,11 @@ class BannerWebViewController: UIViewController, WKNavigationDelegate{
     
     var webView = WKWebView()
     
-    var bannerModel: HomeBannerModel? {
+    
+    var urlString: String? {
         didSet {
-            
-            guard let bannerModel = bannerModel else {
-                return
-            }
-            
-            
+            let urlRequest = URLRequest(url: URL(string: urlString!)!)
+            webView.load(urlRequest)
         }
     }
     
@@ -50,12 +47,9 @@ class BannerWebViewController: UIViewController, WKNavigationDelegate{
         view.addSubview(webView)
         
        
-        if bannerModel!.datas != nil {
-            // 加载 url
-            let urlString = bannerModel!.datas!
-            let urlRequest = URLRequest(url: URL(string: urlString)!)
-            webView.load(urlRequest)
-        }
+        // 加载 url
+        let urlRequest = URLRequest(url: URL(string: "http://m.madami.ltd/nd.jsp?mid=302&id=4&groupId=0")!)
+        webView.load(urlRequest)
     }
     
     

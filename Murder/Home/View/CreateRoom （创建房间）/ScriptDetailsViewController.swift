@@ -303,10 +303,20 @@ extension ScriptDetailsViewController {
     
     func getContentHeight() -> CGFloat {
         if scriptDetailModel != nil {
-            let string =  scriptDetailModel!.introduction!
-            let font = UIFont.systemFont(ofSize: 14)
+            let string =  scriptDetailModel!.introduction!            
             
-            var height = stringSingleHeightWithWidth(text: string, width: FULL_SCREEN_WIDTH-40, font: font)
+            let label = UILabel()
+            label.backgroundColor = UIColor.gray
+            label.text = string
+            label.font = UIFont.systemFont(ofSize: 14)
+            label.textColor = HexColor("#666666")
+            label.textAlignment = .left
+            label.numberOfLines = 0
+            label.lineBreakMode = NSLineBreakMode.byWordWrapping
+            let size = label.sizeThatFits(CGSize(width: FULL_SCREEN_WIDTH-40, height: CGFloat(MAXFLOAT)))
+            var height = size.height
+            
+//            var height = stringSingleHeightWithWidth(text: string, width: FULL_SCREEN_WIDTH-40, font: UIFont.systemFont(ofSize: 14))
             
             if height < 82 {
                 height = 82

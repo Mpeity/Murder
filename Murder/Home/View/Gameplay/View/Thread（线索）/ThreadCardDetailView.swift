@@ -388,12 +388,12 @@ extension ThreadCardDetailView {
                 }
             }
             contentView.layoutIfNeeded()
-//            contentView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight,UIRectCorner.bottomLeft,UIRectCorner.bottomRight], radii: 15)
+            contentView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight,UIRectCorner.bottomLeft,UIRectCorner.bottomRight], radii: 15)
 
             imgView.layoutIfNeeded()
-            imgView.layer.cornerRadius = 15
-            imgView.layer.masksToBounds = true
-//            imgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)
+//            imgView.layer.cornerRadius = 15
+//            imgView.layer.masksToBounds = true
+            imgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)
             
         }
     }
@@ -403,8 +403,8 @@ extension ThreadCardDetailView {
         self.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         
 
-//        contentView.backgroundColor = UIColor.white
-        contentView.backgroundColor = UIColor.clear
+        contentView.backgroundColor = UIColor.white
+//        contentView.backgroundColor = UIColor.clear
         commonView.addSubview(contentView)
         
         
@@ -432,8 +432,7 @@ extension ThreadCardDetailView {
         cancelBtn.backgroundColor = UIColor.clear
         cancelBtn.addTarget(self, action: #selector(cancelBtnAction(_:)), for: .touchUpInside)
 //        cancel_readscript
-        cancelBtn.setImage(UIImage(named: "cancel"), for: .normal)
-//        cancelBtn.setImage(UIImage(named: "cancel_readscript"), for: .normal)
+        cancelBtn.setImage(UIImage(named: "black_cancel"), for: .normal)
     }
 }
 

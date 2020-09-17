@@ -109,10 +109,15 @@ extension ShareScriptCard {
     
     private func setUI() {
         contentView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        
+        coverImgView.layer.cornerRadius = 5
+        coverImgView.layer.masksToBounds = true
+        
+        
         cancelBtn.addTarget(self, action: #selector(hideView), for: .touchUpInside)
         sendBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
         sendBtn.setTitleColor(UIColor.white, for: .normal)
-        sendBtn.setTitle("送信", for: .normal)
+        sendBtn.setTitle("送る", for: .normal)
         sendBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         sendBtn.addTarget(self, action: #selector(sendBtnAction), for: .touchUpInside)
         

@@ -26,8 +26,8 @@ class HomeViewController: UIViewController,UITextFieldDelegate {
     private var tableHeaderView: HomeListHeaderView!
     
     
-    private var roomList: [HomeRoomModel] =  [HomeRoomModel]()
-    private var bannerList: [HomeBannerModel] = [HomeBannerModel]()
+    private var roomList: [HomeRoomModel]? =  [HomeRoomModel]()
+    private var bannerList: [HomeBannerModel]? = [HomeBannerModel]()
     
     
     private var checkUserModel: CheckUserModel?
@@ -258,9 +258,9 @@ extension HomeViewController {
             
             if resultDic["code"]!.isEqual(1) {
                 
-                if self!.page_no == 1 {
-                    self!.roomList.removeAll()
-                    self?.bannerList.removeAll()
+                if self?.page_no == 1 {
+                    self?.roomList?.removeAll()
+                    self?.bannerList?.removeAll()
                 }
                 
                 let data = resultDic["data"] as! [String : AnyObject]
@@ -271,18 +271,18 @@ extension HomeViewController {
                 
                 for bannerItem in banner_list {
                     let bannerModel = HomeBannerModel(fromDictionary: bannerItem)
-                    self!.bannerList.append(bannerModel)
+                    self?.bannerList?.append(bannerModel)
                 }
                 
                 let userModel = HomeUserModel(fromDictionary: user as! [String : AnyObject])
                 
-                let homeViewModel = HomeViewModel(bannerModelArr: self!.bannerList, userModel: userModel)
+                let homeViewModel = HomeViewModel(bannerModelArr: (self?.bannerList)!, userModel: userModel)
                 
                 self?.tableHeaderView.homeViewModel = homeViewModel
                 
                 for roomItem in room_list {
                      let roomModel = HomeRoomModel(fromDictionary: roomItem)
-                     self!.roomList.append(roomModel)
+                    self?.roomList?.append(roomModel)
                 }
 
                 self?.tableView.reloadData()
@@ -438,14 +438,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return roomList.count
+        return roomList?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeListViewCellId, for: indexPath) as! HomeListViewCell
         cell.selectionStyle = .none
         
-        let model = roomList[indexPath.row]
+        let model = roomList?[indexPath.row]
         cell.roomModel = model
         return cell
     }
@@ -463,7 +463,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let commonView = ListPopUpView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         UIApplication.shared.keyWindow?.addSubview(commonView)
-        let model = roomList[indexPath.row]
+        let model = roomList?[indexPath.row]
         commonView.roomModel = model
     
         
@@ -477,7 +477,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             
             
         
-        checkRoomId(room_id: model.roomId) {[weak self] (code) in
+        checkRoomId(room_id: model!.roomId!) {[weak self] (code) in
             
             commonView.enterBtnTapBlcok = {[weak self] (param)->() in
                 Log(code)
@@ -494,7 +494,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 //                        self?.joinRoom(room_id: model.roomId, room_password: nil, script_id: model.scriptId, hasPassword: false)
 //                    }
                     
-                    self?.joinRoom(room_id: model.roomId, room_password: nil, script_id: model.scriptId, hasPassword: false)
+                    self?.joinRoom(room_id: (model?.roomId!)!, room_password: nil, script_id: (model?.scriptId)!, hasPassword: false)
                     
                 }
             }
@@ -511,8 +511,8 @@ extension HomeViewController: InputTextViewDelegate  {
     func commonBtnClick() {
         textInputView.removeFromSuperview()
         let text = textInputView.textFieldView.text!
-        let model = roomList[currentIndex]
-        joinRoom(room_id: model.roomId, room_password: text, script_id: model.scriptId, hasPassword: true)
+        let model = roomList?[currentIndex]
+        joinRoom(room_id: (model?.roomId!)!, room_password: text, script_id: model!.scriptId, hasPassword: true)
         
 //        let vc = ScriptDetailsViewController()
 //        vc.script_id = model.scriptId

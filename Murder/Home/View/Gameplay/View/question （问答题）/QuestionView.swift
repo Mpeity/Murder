@@ -452,6 +452,7 @@ extension QuestionView {
                         answerList?.append(dic!)
                     }
                     newArray?.append(selectPath as Any)
+                    
                 } else {
                     if user_script_answer_ids != nil {
                         dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?

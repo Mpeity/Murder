@@ -50,7 +50,7 @@ class CreateRoomHeaderView: UIView {
             }
             
             if model.author != nil {
-                authorLabel.text = "著者：" + model.author!
+                authorLabel.text = "作者：" + model.author!
             }
             
             if  model.peopleNum != nil {

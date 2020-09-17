@@ -44,14 +44,14 @@ class HomeListHeaderView: UIView {
             
             if homeViewModel.userModel != nil {
                 let userModel = homeViewModel.userModel
-                headImgView.setImageWith(URL(string: userModel.head), placeholder: UIImage(named: ""))
+                headImgView.setImageWith(URL(string: userModel!.head), placeholder: UIImage(named: ""))
                 
-                if userModel.nickname != nil {
-                    nicknameLabel.text = userModel.nickname
+                if userModel!.nickname != nil {
+                    nicknameLabel.text = userModel!.nickname
                 }
                 
-                if userModel.level != nil {
-                    levelLabel.text = userModel.level
+                if userModel!.level != nil {
+                    levelLabel.text = userModel!.level
                 }
             }
             
@@ -61,7 +61,7 @@ class HomeListHeaderView: UIView {
             infoView.viewWithCorner(byRoundingCorners: [.topRight,.bottomRight], radii: 24)
             
             var arr = Array<Any>()
-            for item in homeViewModel.bannerModelArr {
+            for item in homeViewModel.bannerModelArr! {
                 let model = item
                 arr.append(model.img as Any)
             }
@@ -74,10 +74,10 @@ class HomeListHeaderView: UIView {
             scrollView.backgroundColor = UIColor.white
             
             scrollView.clickItemOperationBlock = { [weak self] (currentIndex) in
-                let bannerModel = homeViewModel.bannerModelArr[currentIndex]
+                let bannerModel = homeViewModel.bannerModelArr![currentIndex]
                 let vc = BannerWebViewController()
                 vc.bannerModel = bannerModel
-                vc.urlString = bannerModel.datas!
+//                vc.urlString = bannerModel.datas!
                 let nav = self?.findNavController()
                 nav?.pushViewController(vc, animated: true)
             }

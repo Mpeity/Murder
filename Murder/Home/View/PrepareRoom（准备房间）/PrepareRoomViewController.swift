@@ -52,7 +52,10 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     // 说明弹框配置
     private var preference:FEPreferences = FEPreferences()
     // 说明弹框
-    private var tipView: FETipView!
+//    private var tipView: FETipView!
+    
+    private var popTipView: PopTipView!
+    
     
     // AgoraRtcEngineKit 入口类
     private var agoraKit: AgoraRtcEngineKit!
@@ -160,6 +163,11 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if !SingletonSocket.sharedInstance.socket.isConnected {
+            reConnectTime = 0
+            socketReconnect()
+        }
         
         navigationController?.navigationBar.isHidden = true
         
@@ -550,7 +558,7 @@ extension PrepareRoomViewController {
             make.left.equalTo(exitBtn.snp.right).offset(7.5)
             make.top.equalToSuperview().offset(9.5)
             make.height.equalTo(18)
-            make.width.equalTo(100)
+            make.width.equalTo(180)
         }
         gameNameLabel.text = "平凡な宿"
         gameNameLabel.font = UIFont.systemFont(ofSize: 14.0)
@@ -565,6 +573,7 @@ extension PrepareRoomViewController {
             make.width.equalTo(73)
             make.height.equalTo(13)
         }
+        statusImgView.isHidden = true
         
         // 锁按钮
         bgView.addSubview(lockBtn)
@@ -655,7 +664,7 @@ extension PrepareRoomViewController {
 //            make.width.equalTo(75)
          }
         stateBtn.isSelected = false
-        stateBtn.setTitle("キャラクター紹介", for: .normal)
+        stateBtn.setTitle("物語背景", for: .normal)
         stateBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13.0)
         stateBtn.backgroundColor = UIColor.clear
         stateBtn.addTarget(self, action: #selector(stateBtnAction(button:)), for: .touchUpInside)
@@ -972,29 +981,62 @@ extension PrepareRoomViewController {
     //MARK:- 说明
     @objc func stateBtnAction(button: UIButton) {
         button.isSelected = !button.isSelected
-        preference.drawing.backgroundColor = UIColor.white
-        preference.drawing.textColor = HexColor(LightDarkGrayColor)
-        preference.positioning.targetPoint = CGPoint(x: button.center.x, y: button.frame.maxY+10)
+//        preference.drawing.backgroundColor = UIColor.white
+//        preference.drawing.textColor = HexColor(LightDarkGrayColor)
+//        preference.positioning.targetPoint = CGPoint(x: button.center.x, y: button.frame.maxY+10)
 //        preference.drawing.maxTextWidth = 300*SCALE_SCREEN
 //        preference.drawing.maxHeight = 208
-        preference.positioning.marginLeft = 16
-        preference.drawing.textAlignment = .left
-        preference.animating.shouldDismiss = false
-        if button.isSelected {
-            tipView = FETipView(preferences: preference)
-            tipView.show()
-        } else {
-            tipView.dismiss()
+//        preference.positioning.marginLeft = 16
+//        preference.drawing.textAlignment = .left
+//        preference.animating.shouldDismiss = false
+//        if button.isSelected {
+//            tipView = FETipView(preferences: preference)
+//            tipView.show()
+//        } else {
+//            tipView.dismiss()
+//        }
+        
+        
+        
+        let message = readyRoomModel?.introduction
+//        let height = message?.ga_heightForComment(fontSize: 12, width: 230)
+        
+        
+                
+//        let size = getHeight(string: message!)
+        
+        let size = getHeight(string: "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈")
+        var width = size.width
+        var height = size.height
+        
+        if width <= FULL_SCREEN_WIDTH - 40 {
+            width = FULL_SCREEN_WIDTH - 40
+//            height =
         }
         
-//        let popTipView = PopTipView()
         
-//        let message = readyRoomModel?.introduction
-//        let height = message?.ga_heightForComment(fontSize: 12, width: 230)
-//        let popTipView = PopTipView(frame: CGRect(x: button.center.x, y: button.frame.maxY+55, width: 230, height: height!))
-//        popTipView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-//        self.view.addSubview(popTipView)
         
+       
+        popTipView = PopTipView(frame: CGRect(x: 0, y: button.frame.maxY+10, width: width, height: height))
+        popTipView.content = readyRoomModel?.introduction!
+        popTipView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        self.view.addSubview(popTipView)
+        
+    }
+    
+    
+    private func getHeight(string: String)-> CGSize {
+        let label = UILabel()
+        label.backgroundColor = UIColor.gray
+        label.text = string
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = HexColor("#666666")
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        let size = label.sizeThatFits(CGSize(width: FULL_SCREEN_WIDTH-40, height: CGFloat(MAXFLOAT)))
+//        let height = size.height
+        return size
     }
 }
 

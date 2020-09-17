@@ -11,7 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PopTipView" customModule="Murder" customModuleProvider="target">
             <connections>
                 <outlet property="commonView" destination="GmR-wu-DvE" id="QNR-o0-sx2"/>
-                <outlet property="contentLabel" destination="Qtn-Rg-xDj" id="K9F-iL-Aba"/>
+                <outlet property="contentTextView" destination="O17-tf-WtE" id="LWp-HW-ikb"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="thb-t2-nq6"/>
                 <outlet property="imgBgView" destination="2cQ-np-fF8" id="0JQ-D1-nOL"/>
             </connections>
@@ -27,26 +27,28 @@
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="popTipBg" translatesAutoresizingMaskIntoConstraints="NO" id="2cQ-np-fF8">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="277"/>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qtn-Rg-xDj">
-                            <rect key="frame" x="20" y="20" width="374" height="237"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="O17-tf-WtE">
+                            <rect key="frame" x="15" y="22" width="384" height="241"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                             <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="2cQ-np-fF8" secondAttribute="bottom" id="4D3-Gx-6Km"/>
                         <constraint firstAttribute="bottom" secondItem="2cQ-np-fF8" secondAttribute="bottom" id="6y8-H3-SH6"/>
                         <constraint firstItem="2cQ-np-fF8" firstAttribute="top" secondItem="GmR-wu-DvE" secondAttribute="top" id="9ot-RF-58s"/>
-                        <constraint firstItem="Qtn-Rg-xDj" firstAttribute="leading" secondItem="GmR-wu-DvE" secondAttribute="leading" constant="20" id="ELA-9C-DT3"/>
+                        <constraint firstAttribute="trailing" secondItem="O17-tf-WtE" secondAttribute="trailing" constant="15" id="AHA-28-nKa"/>
+                        <constraint firstAttribute="bottom" secondItem="O17-tf-WtE" secondAttribute="bottom" constant="14" id="AnJ-ZQ-Sqi"/>
+                        <constraint firstItem="O17-tf-WtE" firstAttribute="leading" secondItem="GmR-wu-DvE" secondAttribute="leading" constant="15" id="Ik6-KX-Iqa"/>
                         <constraint firstAttribute="trailing" secondItem="2cQ-np-fF8" secondAttribute="trailing" id="Ocv-VZ-YVG"/>
-                        <constraint firstAttribute="bottom" secondItem="Qtn-Rg-xDj" secondAttribute="bottom" constant="20" id="PA8-VS-K5T"/>
-                        <constraint firstAttribute="trailing" secondItem="Qtn-Rg-xDj" secondAttribute="trailing" constant="20" id="Ump-g2-wPm"/>
-                        <constraint firstItem="Qtn-Rg-xDj" firstAttribute="top" secondItem="GmR-wu-DvE" secondAttribute="top" constant="20" id="VJw-yk-Zi0"/>
                         <constraint firstItem="2cQ-np-fF8" firstAttribute="leading" secondItem="GmR-wu-DvE" secondAttribute="leading" id="fQX-9y-sTE"/>
                         <constraint firstAttribute="trailing" secondItem="2cQ-np-fF8" secondAttribute="trailing" id="fri-vy-MTH"/>
                         <constraint firstItem="2cQ-np-fF8" firstAttribute="leading" secondItem="GmR-wu-DvE" secondAttribute="leading" id="kg1-dp-Mmr"/>
+                        <constraint firstItem="O17-tf-WtE" firstAttribute="top" secondItem="GmR-wu-DvE" secondAttribute="top" constant="22" id="mZE-iQ-x6F"/>
                         <constraint firstItem="2cQ-np-fF8" firstAttribute="top" secondItem="GmR-wu-DvE" secondAttribute="top" id="niv-Wc-uCd"/>
                     </constraints>
                 </view>

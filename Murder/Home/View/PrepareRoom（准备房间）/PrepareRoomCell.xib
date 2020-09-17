@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -62,7 +62,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="サクラ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBp-Bt-ZdV">
-                                <rect key="frame" x="303" y="29" width="31" height="12"/>
+                                <rect key="frame" x="298" y="29" width="42" height="12"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -99,14 +99,14 @@
                             <constraint firstItem="cbW-5F-d8r" firstAttribute="leading" secondItem="92B-0b-xhV" secondAttribute="leading" id="9gz-R1-5xV"/>
                             <constraint firstItem="cbW-5F-d8r" firstAttribute="bottom" secondItem="92B-0b-xhV" secondAttribute="bottom" id="9lW-XR-MOz"/>
                             <constraint firstItem="cbW-5F-d8r" firstAttribute="top" secondItem="92B-0b-xhV" secondAttribute="top" id="GBF-R1-yME"/>
-                            <constraint firstItem="CBp-Bt-ZdV" firstAttribute="leading" secondItem="8IC-xa-qef" secondAttribute="trailing" constant="10" id="Id9-qo-V1Z"/>
+                            <constraint firstItem="CBp-Bt-ZdV" firstAttribute="leading" secondItem="8IC-xa-qef" secondAttribute="trailing" constant="5" id="Id9-qo-V1Z"/>
                             <constraint firstItem="qMF-sp-qQs" firstAttribute="leading" secondItem="ZC5-zk-Ilm" secondAttribute="leading" id="REf-qi-Wzo"/>
                             <constraint firstAttribute="bottom" secondItem="TQm-XN-DHy" secondAttribute="bottom" constant="7" id="SeL-O5-9zp"/>
                             <constraint firstItem="cbW-5F-d8r" firstAttribute="trailing" secondItem="92B-0b-xhV" secondAttribute="trailing" id="UOn-SH-aHv"/>
                             <constraint firstItem="TQm-XN-DHy" firstAttribute="centerX" secondItem="8IC-xa-qef" secondAttribute="centerX" id="Wq3-WI-fNa"/>
                             <constraint firstItem="cbW-5F-d8r" firstAttribute="centerY" secondItem="Wqn-s3-LVn" secondAttribute="centerY" id="ZSw-6z-USF"/>
                             <constraint firstAttribute="trailing" secondItem="8IC-xa-qef" secondAttribute="trailing" constant="52" id="c7C-Ml-jgq"/>
-                            <constraint firstAttribute="trailing" secondItem="CBp-Bt-ZdV" secondAttribute="trailing" constant="11" id="eve-kD-Z1d"/>
+                            <constraint firstAttribute="trailing" secondItem="CBp-Bt-ZdV" secondAttribute="trailing" constant="5" id="eve-kD-Z1d"/>
                             <constraint firstItem="F7w-78-Xv7" firstAttribute="top" secondItem="ZC5-zk-Ilm" secondAttribute="top" constant="14" id="i1Q-xB-Fdc"/>
                             <constraint firstItem="Wqn-s3-LVn" firstAttribute="leading" secondItem="qMF-sp-qQs" secondAttribute="trailing" constant="10" id="kbh-GD-0TC"/>
                             <constraint firstItem="qMF-sp-qQs" firstAttribute="top" secondItem="ZC5-zk-Ilm" secondAttribute="top" id="oI8-Be-lFg"/>

@@ -327,8 +327,6 @@ func stringSizeWithString(text: String?, width: CGFloat, font: UIFont) -> CGSize
     stringLabel.numberOfLines = 0
     stringLabel.font = font
     stringLabel.attributedText = attributedStr
-//    return stringLabel.sizeThatFits(CGSize(width: width, height: CGFloat(MAXFLOAT)))
-    
     return stringLabel.sizeThatFits(CGSize(width: width, height: CGFloat(MAXFLOAT)))
 
 }

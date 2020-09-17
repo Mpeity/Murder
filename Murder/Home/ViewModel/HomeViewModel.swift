@@ -10,9 +10,9 @@ import Foundation
 
 class HomeViewModel: NSObject {
     // 定义属性
-    @objc var bannerModelArr : [HomeBannerModel]
+    @objc var bannerModelArr : [HomeBannerModel]?
     
-    @objc var userModel : HomeUserModel
+    @objc var userModel : HomeUserModel?
     
 
     

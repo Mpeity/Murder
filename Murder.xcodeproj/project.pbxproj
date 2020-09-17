@@ -34,6 +34,7 @@
 		98038F5D24D7BBA200CBCEE7 /* PrepareRoomShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98038F5C24D7BBA200CBCEE7 /* PrepareRoomShareView.xib */; };
 		98038F6024D82E7200CBCEE7 /* GameplayViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98038F5E24D82E7200CBCEE7 /* GameplayViewCell.swift */; };
 		98038F6124D82E7200CBCEE7 /* GameplayViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98038F5F24D82E7200CBCEE7 /* GameplayViewCell.xib */; };
+		98321BC32513129D0074082C /* ContributeWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98321BC22513129D0074082C /* ContributeWebViewController.swift */; };
 		983A225524DA54A600532BB9 /* MessageScriptCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983A225324DA54A600532BB9 /* MessageScriptCell.swift */; };
 		983A225624DA54A600532BB9 /* MessageScriptCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 983A225424DA54A600532BB9 /* MessageScriptCell.xib */; };
 		983A225924DA54D200532BB9 /* MessageScriptInviteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983A225724DA54D200532BB9 /* MessageScriptInviteCell.swift */; };
@@ -95,7 +96,6 @@
 		9867FED524C8500100A93E5F /* DissolveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9867FED424C8500100A93E5F /* DissolveView.swift */; };
 		9867FED724C8501C00A93E5F /* DissolveView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9867FED624C8501C00A93E5F /* DissolveView.xib */; };
 		98683A58250B591400B5B2F5 /* BannerWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98683A56250B591400B5B2F5 /* BannerWebViewController.swift */; };
-		98683A59250B591400B5B2F5 /* BannerWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98683A57250B591400B5B2F5 /* BannerWebViewController.xib */; };
 		9868A31524C9312E009FD8F4 /* CollogueRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868A31424C9312E009FD8F4 /* CollogueRoomView.swift */; };
 		9868A31724C9313C009FD8F4 /* CollogueRoomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9868A31624C9313C009FD8F4 /* CollogueRoomView.xib */; };
 		9868A31A24C931F0009FD8F4 /* CollogueRoomViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868A31824C931F0009FD8F4 /* CollogueRoomViewCell.swift */; };
@@ -322,6 +322,7 @@
 		98038F5F24D82E7200CBCEE7 /* GameplayViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameplayViewCell.xib; sourceTree = "<group>"; };
 		982E018F2504CC7500F37A1C /* UMPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UMPush.framework; path = Pods/UMCPush/UMPush.framework; sourceTree = "<group>"; };
 		982E01912504CC8500F37A1C /* UMCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UMCommon.framework; path = Pods/UMCCommon/UMCommon.framework; sourceTree = "<group>"; };
+		98321BC22513129D0074082C /* ContributeWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributeWebViewController.swift; sourceTree = "<group>"; };
 		983A225324DA54A600532BB9 /* MessageScriptCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageScriptCell.swift; sourceTree = "<group>"; };
 		983A225424DA54A600532BB9 /* MessageScriptCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageScriptCell.xib; sourceTree = "<group>"; };
 		983A225724DA54D200532BB9 /* MessageScriptInviteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageScriptInviteCell.swift; sourceTree = "<group>"; };
@@ -383,7 +384,6 @@
 		9867FED424C8500100A93E5F /* DissolveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DissolveView.swift; sourceTree = "<group>"; };
 		9867FED624C8501C00A93E5F /* DissolveView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DissolveView.xib; sourceTree = "<group>"; };
 		98683A56250B591400B5B2F5 /* BannerWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerWebViewController.swift; sourceTree = "<group>"; };
-		98683A57250B591400B5B2F5 /* BannerWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BannerWebViewController.xib; sourceTree = "<group>"; };
 		9868A31424C9312E009FD8F4 /* CollogueRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollogueRoomView.swift; sourceTree = "<group>"; };
 		9868A31624C9313C009FD8F4 /* CollogueRoomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollogueRoomView.xib; sourceTree = "<group>"; };
 		9868A31824C931F0009FD8F4 /* CollogueRoomViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollogueRoomViewCell.swift; sourceTree = "<group>"; };
@@ -591,7 +591,6 @@
 				0451A36B24C1AB8700E69085 /* Home.storyboard */,
 				0451A36424C1AABC00E69085 /* HomeViewController.swift */,
 				98683A56250B591400B5B2F5 /* BannerWebViewController.swift */,
-				98683A57250B591400B5B2F5 /* BannerWebViewController.xib */,
 				9837E1D924E229BF00BB23CF /* ViewModel */,
 				9837E1D824E229B900BB23CF /* Model */,
 				98820F9F24CA6D810005EBDD /* View */,
@@ -749,6 +748,14 @@
 				6705B11114C9CC96304E9979 /* Pods_MurderUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		98321BC1251312780074082C /* Contribute（投稿） */ = {
+			isa = PBXGroup;
+			children = (
+				98321BC22513129D0074082C /* ContributeWebViewController.swift */,
+			);
+			path = "Contribute（投稿）";
 			sourceTree = "<group>";
 		};
 		9837E1D824E229B900BB23CF /* Model */ = {
@@ -1015,6 +1022,7 @@
 		988D4D5D24CC853D00C4B979 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				98321BC1251312780074082C /* Contribute（投稿） */,
 				98C8D2C624CDD303006C76D0 /* Set（设置） */,
 				98C8D2C124CDD2BF006C76D0 /* Feedback（反馈） */,
 				98C8D2AD24CDA073006C76D0 /* RecordList （开局纪录） */,
@@ -1459,7 +1467,6 @@
 				986B5A2224FF46DF00DFCBB5 /* ThreadNewCardView.xib in Resources */,
 				98820FC324CACF6B0005EBDD /* QuestionViewCell.xib in Resources */,
 				98038F5524D7A27200CBCEE7 /* MarqueeViewCell.xib in Resources */,
-				98683A59250B591400B5B2F5 /* BannerWebViewController.xib in Resources */,
 				04C3A9D624C1808D001DD90D /* Assets.xcassets in Resources */,
 				98820FA724CA71E00005EBDD /* HomeListHeaderView.xib in Resources */,
 				986D9EBD24F392D2005E6B03 /* VoteAnswerCell.xib in Resources */,
@@ -1763,6 +1770,7 @@
 				986DEA0C24F9079500853917 /* MessageNetwork.swift in Sources */,
 				9873BE32250EFC87007C0263 /* mxUIViewExtension.swift in Sources */,
 				98F08BFD24E23A3D0033DFBA /* HomeUserModel.swift in Sources */,
+				98321BC32513129D0074082C /* ContributeWebViewController.swift in Sources */,
 				9873BE21250D1B80007C0263 /* PlacePopMenuView.swift in Sources */,
 				98B26A7424F2479500671202 /* ScriptQuestionListModel.swift in Sources */,
 				98A268C324D9148D004B9D53 /* VoteResultViewCell.swift in Sources */,

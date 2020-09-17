@@ -77,7 +77,7 @@
                             <constraint firstAttribute="height" constant="25" id="eeN-tf-yhx"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <state key="normal" title="を通じて"/>
+                        <state key="normal" title="同意"/>
                     </button>
                 </subviews>
                 <constraints>

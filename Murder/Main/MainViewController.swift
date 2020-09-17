@@ -89,6 +89,7 @@ extension MainViewController: AgoraRtmDelegate {
             print(String(account!))
             
             guard errorCode == .ok else {
+                showToastCenter(msg: "AgoraRtmLogout")
                 UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
                 userLogout()
                 self!.AgoraRtmLogout()

@@ -17,11 +17,10 @@ class PopTipView: UIView {
     
     @IBOutlet weak var commonView: UIView!
     
-    
     @IBOutlet weak var imgBgView: UIImageView!
     
-    @IBOutlet weak var contentLabel: UILabel!
     
+    @IBOutlet weak var contentTextView: UITextView!
     
     var content: String? {
         didSet {
@@ -37,7 +36,7 @@ class PopTipView: UIView {
             myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
             myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12.0)], range: range)
 
-            contentLabel.attributedText = myMutableString
+            contentTextView.attributedText = myMutableString
         }
     }
     

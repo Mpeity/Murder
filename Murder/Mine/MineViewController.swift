@@ -98,6 +98,8 @@ extension MineViewController {
             let recordVC = RecordListViewController()
             self.navigationController?.pushViewController(recordVC, animated: true)
         case 1:
+            let vc = ContributeWebViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
             break
         case 2:
             let settingVC = SettingViewController()

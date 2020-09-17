@@ -33,6 +33,9 @@ class SendMessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
+    
+//    @IBOutlet weak var tableview: UITableView!
+    
     private lazy var tableView: UITableView = UITableView()
 
     // 标题
@@ -49,6 +52,8 @@ class SendMessageViewController: UIViewController, UIGestureRecognizerDelegate {
     lazy var list = [Message]()
     
     var msgList: [MsgTalkModel]?  = [MsgTalkModel]()
+    
+    var isFirst : Bool = true
     
     
     var currentMgsTalkModel: MsgTalkModel? = MsgTalkModel(fromDictionary: [:])
@@ -143,12 +148,22 @@ extension SendMessageViewController {
                         self?.msgList?.append(model)
                     }
                     self?.tableView.reloadData()
-                    self?.tableView.scrollToRow(at: IndexPath(row: (self?.msgList!.count)!-1, section: 0), at: .bottom, animated: false)
+                    self?.tableView.scrollToRow(at: IndexPath(row: ((self?.msgList!.count)!)-1, section: 0), at: .bottom, animated: false)
+
                 }
             }
         }
     }
+    
+    func scrollBottom() {
+        if msgList!.count > 0 {
+            tableView.reloadData()
+            tableView.scrollToRow(at: IndexPath(row: (msgList!.count)-1, section: 0), at: .bottom, animated: true)
+        }
+    }
 }
+
+
 
 
 extension SendMessageViewController {
@@ -161,17 +176,24 @@ extension SendMessageViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        
+        tableView.sectionHeaderHeight = 0
+        tableView.sectionFooterHeight = 0
         tableView.register(UINib(nibName: "MessageTextCell", bundle: nil), forCellReuseIdentifier: MessageTextCellId)
         
         tableView.register(UINib(nibName: "MessageScriptCell", bundle: nil), forCellReuseIdentifier: MessageScriptCellId)
         
         tableView.register(UINib(nibName: "MessageScriptInviteCell", bundle: nil), forCellReuseIdentifier: MessageScriptInviteCellId)
         
+        
         // 隐藏cell系统分割线
-        tableView.separatorStyle = .none;
+        tableView.separatorStyle = .none
         tableView.backgroundColor = HexColor("F5F5F5")
+        
+        tableView.backgroundColor = UIColor.red
+
+//        tableView.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT-bottomView.bounds.height)
         self.view.addSubview(tableView)
+        
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.left.equalTo(0)
@@ -182,6 +204,8 @@ extension SendMessageViewController {
 //        let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
 //        tap.delegate = self
 //        tableView.addGestureRecognizer(tap)
+        
+//        tableView.keyboardDismissMode = .interactive
         
         
     }
@@ -218,8 +242,6 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
 //
 //        let size = self?.getSizeWithContent(content: content!)
 //        msgModel.cellHeight = size?.height
-       
-        
         
         let msg = msgList![indexPath.row]
         let cellType : CellType = String(msg.sendId!) == AgoraRtm.current ? .right : .left
@@ -448,9 +470,11 @@ extension SendMessageViewController: UITextFieldDelegate {
     }
     
     
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        inputTextField.resignFirstResponder()
-//    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        inputTextField.resignFirstResponder()
+    }
+    
+    
     
 }
 

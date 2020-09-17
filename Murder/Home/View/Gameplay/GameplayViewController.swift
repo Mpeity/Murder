@@ -1215,13 +1215,17 @@ extension GameplayViewController {
         button.isSelected = !button.isSelected
         preference.drawing.backgroundColor = UIColor.white
         preference.drawing.textColor = HexColor(LightDarkGrayColor)
-        preference.positioning.targetPoint = CGPoint(x: button.center.x, y: button.frame.maxY+10)
-        preference.drawing.maxTextWidth = 231*SCALE_SCREEN
-        preference.drawing.maxHeight = 208
-        preference.positioning.marginLeft = 16
-        preference.drawing.textAlignment = .left
+        preference.positioning.targetPoint = CGPoint(x: button.center.x-40, y: button.frame.maxY+10)
+//        preference.drawing.maxTextWidth = 231*SCALE_SCREEN
+//        preference.drawing.maxHeight = 208
+//        preference.positioning.marginLeft = 16
+        preference.drawing.textAlignment = .center
+        
+        
         preference.animating.shouldDismiss = false
-        preference.drawing.cornerRadius = 8
+        preference.drawing.cornerRadius = 20
+        
+        
         if button.isSelected {
             tipView = FETipView(preferences: preference)
 
@@ -1325,7 +1329,7 @@ extension GameplayViewController {
             threadView.room_id = gamePlayModel?.room.roomId
             threadView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
             threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
-            self.view.addSubview(threadView)
+//            self.view.addSubview(threadView)
         
         
 //        }

@@ -73,6 +73,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    //进入后台模式，主动断开socket，防止出现处理不了的情况
+
+    func applicationWillResignActive(_ application: UIApplication) {
+           if SingletonSocket.sharedInstance.socket.isConnected {
+                reConnectTime = 5
+                socketDisConnect()
+            }
+     }
+
+    //进入前台模式，主动连接socket
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        //解决因为网络切换或链接不稳定问题，引起socket断连问题
+        //如果app从无网络，到回复网络，需要执行重连
+        if !SingletonSocket.sharedInstance.socket.isConnected {
+            reConnectTime = 0
+            socketReconnect()
+        }
+    }
+    
     
     /**
       UNUserNotificationCenterDelegate

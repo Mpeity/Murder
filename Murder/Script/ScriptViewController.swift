@@ -73,16 +73,25 @@ extension ScriptViewController {
         let obj = notif.object as! [String : AnyObject]
         
         let tagString = obj["tagString"] as! String
-        let tag = obj["tag"] as! Int + 1
+//        let tag = obj["tag"] as! Int + 1
+        
+        let tag = obj["tag"] as! Int
+
         
         switch tagString {
             // 人数
         case "people_num":
-            people_num = tag
+            people_num = tag + 1
             break
             // 题材
         case "tag_id":
-            tag_id = tag
+            if tag == -1 {
+                tag_id = -1
+            } else {
+                let model = scriptModel?.tagList![tag]
+                tag_id = model!.tagId!
+            }
+            
             break
             // 难度
         case "difficult":

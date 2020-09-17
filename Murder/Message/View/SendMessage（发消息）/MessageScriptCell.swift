@@ -54,9 +54,25 @@ class MessageScriptCell: UITableViewCell {
                 rightView.isHidden = rightHidden
                 leftView.isHidden = !rightHidden
                 
-                let timeStr = getDateStr(timeStamp: (messageTalkModel?.timeMs!)!)
-                leftTimeLabel.text = timeStr
-                rightTimeLabel.text = timeStr
+//                let timeStr = getDateStr(timeStamp: (messageTalkModel?.timeMs!)!)
+//                leftTimeLabel.text = timeStr
+//                rightTimeLabel.text = timeStr
+                
+                if messageTalkModel?.timeMs != nil , messageTalkModel?.showTime! == true {
+                    
+                    let timeStr = getDateStr(timeStamp: (messageTalkModel?.timeMs!)!)
+                    leftTimeLabel.text = timeStr
+                    leftTimeLabel.isHidden = false
+                    rightTimeLabel.text = timeStr
+                    rightTimeLabel.isHidden = false
+
+                } else {
+                    
+                    rightTimeLabel.isHidden = true
+                    leftTimeLabel.isHidden = true
+
+
+                }
 
                 if messageTalkModel?.head != nil {
                     let head = messageTalkModel?.head
@@ -80,7 +96,10 @@ class MessageScriptCell: UITableViewCell {
                 if messageTalkModel?.scriptDes != nil {
                     
                     leftTitleLabel.attributedText = setMutableString(content: (messageTalkModel?.scriptDes!)!, HexColor(LightGrayColor), fontSize: 12)
+                    leftTimeLabel.lineBreakMode = .byTruncatingTail
                     rightTitleLabel.attributedText = setMutableString(content: (messageTalkModel?.scriptDes!)!, HexColor(LightGrayColor), fontSize: 12)
+                    rightTitleLabel.lineBreakMode = .byTruncatingTail
+
                 }
             }
         }
@@ -92,6 +111,20 @@ class MessageScriptCell: UITableViewCell {
         
         leftNameLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         rightNameLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        
+        rightCoverImgView.layer.cornerRadius = 5
+        rightCoverImgView.layer.masksToBounds = true
+        
+        
+        leftCoverImgView.layer.cornerRadius = 5
+        leftCoverImgView.layer.masksToBounds = true
+        
+        leftAvatarView.layer.cornerRadius = 22.5
+        leftAvatarView.layer.masksToBounds = true
+        
+        
+        rightAvatarView.layer.cornerRadius = 22.5
+        rightAvatarView.layer.masksToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

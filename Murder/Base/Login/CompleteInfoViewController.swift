@@ -67,12 +67,15 @@ extension CompleteInfoViewController {
         womanBtn.layer.borderWidth = 0.5
         womanBtn.setTitleColor(HexColor("#CACACA"), for: .normal)
         womanBtn.addTarget(self, action: #selector(womanBtnAction), for: .touchUpInside)
+        womanBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         
         manBtn.createButton(style: .left, spacing: 10, imageName: "logo_man", title: "男の子", cornerRadius: 25, color: "#FFFFFF")
         manBtn.layer.borderColor = HexColor("#CACACA").cgColor
         manBtn.layer.borderWidth = 0.5
         manBtn.setTitleColor(HexColor("#CACACA"), for: .normal)
         manBtn.addTarget(self, action: #selector(manBtnAction), for: .touchUpInside)
+        manBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+
 //        imageWithRenderingMode;:UIImageRenderingModeAlwaysOriginal]  forState:UIControlStateNormal
         
         nicknameView.layer.cornerRadius = 25
@@ -261,16 +264,14 @@ extension CompleteInfoViewController: UIImagePickerControllerDelegate & UINaviga
         
         let image = info[.originalImage] as! UIImage
         
-        let width = 130.0
-
-//        let rect = CGRect()
-        
-        let head = MCImageCrop(image: image, toRect: CGRect(x: (Double(FULL_SCREEN_WIDTH)-width)*0.5, y: (Double(FULL_SCREEN_HEIGHT)-width)*0.5, width: width, height: width))
+//        let width = 130.0
+//
+//        let head = MCImageCrop(image: image, toRect: CGRect(x: (Double(FULL_SCREEN_WIDTH)-width)*0.5, y: (Double(FULL_SCREEN_HEIGHT)-width)*0.5, width: width, height: width))
         photoBtn.setImage(image, for: .normal)
         
         picker.dismiss(animated: true, completion: nil)
         
-        saveImagePath(image: head)
+        saveImagePath(image: image)
     }
     
     func saveImagePath(image: UIImage) {

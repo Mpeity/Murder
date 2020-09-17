@@ -86,7 +86,7 @@ extension ScriptTableHeaderView: UITableViewDelegate, UITableViewDataSource {
         tableView.separatorStyle = .none
         if indexPath.row == 0 {
             cell.titleLabel.text = "人数"
-            cell.dataArr = ["すべて","1人","2人","3人","4人","5人"]
+            cell.dataArr = ["すべて","1人","2人","3人","4人","5人","6人","7人","8人","9人"]
             cell.tagString = "people_num"
         } else if indexPath.row == 1 {
             cell.titleLabel.text = "題材"
@@ -99,7 +99,7 @@ extension ScriptTableHeaderView: UITableViewDelegate, UITableViewDataSource {
             cell.tagString = "tag_id"
 
         } else if indexPath.row == 2 {
-            cell.dataArr = ["すべて","初心者","簡単","中等","困難"]
+            cell.dataArr = ["すべて","初心者","簡単","中等","困難","至難"]
             cell.titleLabel.text = "難易度"
             cell.tagString = "difficult"
 
