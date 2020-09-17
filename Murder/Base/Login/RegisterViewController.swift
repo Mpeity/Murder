@@ -54,14 +54,6 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     // 下一步
     @IBAction func nextBtnAction(_ sender: Any) {
         
-        
-//        let vc = SetPasswordsViewController()
-//        vc.titleString = self.titleString
-//        vc.captcha = self.codeTextField.text!
-//        vc.isResetPassword = self.isResetPassword ?? false
-//        self.navigationController?.pushViewController(vc, animated: true)
-//        return
-        
         var scene = 1
         // 重置密码
         if isResetPassword! {
@@ -70,6 +62,10 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         
         let email = nameTextField.text!
         let code = codeTextField.text!
+        
+        if email == "" {
+            showToastCenter(msg: "メールアドレス")
+        }
     
         // 获取验证码
         if !email.isEmptyString && getCode  {
@@ -96,7 +92,6 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
 //            }
             
             getCodeData(email: email, scene: String(scene))
-            
             
         }
         
@@ -146,6 +141,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
 extension RegisterViewController {
     private func setUI() {
         
+        nameTextField.placeholder = "メールアドレス"
+        
         nextBtnWidth.constant = (FULL_SCREEN_WIDTH - 37.5*2)
         nextBtnTopConstraint.constant = 25
         nextBtn.setTitle("次へ", for: .normal)
@@ -176,6 +173,10 @@ extension RegisterViewController {
         
         tipLabel.attributedText = getNSAttributedString(str: "利用規約」に同意してログインする 拷贝", color: LightGrayColor)
         
+        let tipLabelTap = UITapGestureRecognizer(target: self, action: #selector(tipLabelTapAction))
+        tipLabel.isUserInteractionEnabled = true
+        tipLabel.addGestureRecognizer(tipLabelTap)
+        
     }
     
     private func setupNavigaitonBar() {
@@ -199,6 +200,11 @@ extension RegisterViewController {
         }
     }
     
+    
+    @objc func tipLabelTapAction() {
+        let vc = UserAgreementViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
     @objc func leftBtnAction() {
         navigationController?.popViewController(animated: true)

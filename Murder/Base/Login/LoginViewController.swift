@@ -157,7 +157,11 @@ extension LoginViewController {
         loginBtn.setTitleColor(UIColor.white, for: .normal)
         loginBtn.titleLabel?.text = "ログイン"
         
+        // 用户协议
         userAgreementLabel.attributedText = getNSAttributedString(str: "利用規約」に同意してログインする", color: LightGrayColor)
+        let userAgreementTap = UITapGestureRecognizer(target: self, action: #selector(userAgreementTapAction))
+        userAgreementLabel.isUserInteractionEnabled = true
+        userAgreementLabel.addGestureRecognizer(userAgreementTap)
 
         // 忘记密码
         forgetPasswordLabel.attributedText = getNSAttributedString(str: "パスワードを忘れた", color: LightGrayColor)
@@ -170,6 +174,11 @@ extension LoginViewController {
 
 
 extension LoginViewController {
+    
+    @objc func userAgreementTapAction() {
+        let vc = UserAgreementViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if nameTextField.text?.count != 0 {

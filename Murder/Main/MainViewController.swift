@@ -90,9 +90,10 @@ extension MainViewController: AgoraRtmDelegate {
             
             guard errorCode == .ok else {
                 showToastCenter(msg: "AgoraRtmLogout")
-                UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
-                userLogout()
-                self!.AgoraRtmLogout()
+                #warning("注释一下，记得解开")
+//                UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
+//                userLogout()
+//                self!.AgoraRtmLogout()
                 return
             }
             AgoraRtm.status = .online

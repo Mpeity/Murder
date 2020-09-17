@@ -87,54 +87,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "08BEFA0E-44B4-4460-91E4-C588E4A352A9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Murder/Base/Login/RegisterViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "nextBtnAction(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "08BEFA0E-44B4-4460-91E4-C588E4A352A9 - 48ed99133b3c9fc0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Murder.RegisterViewController.nextBtnAction(Any) -&gt; ()"
-                  moduleName = "Murder"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/matengya/Desktop/12-%E9%A1%B9%E7%9B%AE/Murder/Murder/Base/Login/RegisterViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "75"
-                  endingLineNumber = "75"
-                  offsetFromSymbolStart = "1496">
-               </Location>
-               <Location
-                  uuid = "08BEFA0E-44B4-4460-91E4-C588E4A352A9 - 724753905986e8"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Dictionary&lt;Swift.String, Swift.AnyObject&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Murder.RegisterViewController.nextBtnAction(Any) -&gt; ()"
-                  moduleName = "Murder"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/matengya/Desktop/12-%E9%A1%B9%E7%9B%AE/Murder/Murder/Base/Login/RegisterViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "75"
-                  endingLineNumber = "75"
-                  offsetFromSymbolStart = "160">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "715C5AA1-CF96-41BE-918F-43EA10D06805"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -222,8 +174,8 @@
             filePath = "Murder/Main/MainViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "AgoraRtmLogout()"
             landmarkType = "7">
             <Locations>
@@ -605,8 +557,8 @@
             filePath = "Murder/Tools&#xff08;&#x5de5;&#x5177;&#xff09;/Tools.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "288"
-            endingLineNumber = "288"
+            startingLineNumber = "302"
+            endingLineNumber = "302"
             landmarkName = "getSignalStrength()"
             landmarkType = "9">
          </BreakpointContent>
@@ -717,8 +669,8 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1143"
-            endingLineNumber = "1143"
+            startingLineNumber = "1188"
+            endingLineNumber = "1188"
             landmarkName = "publicClue(model:script_place_id:)"
             landmarkType = "7">
             <Locations>
@@ -829,8 +781,8 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "441"
-            endingLineNumber = "441"
+            startingLineNumber = "451"
+            endingLineNumber = "451"
             landmarkName = "refreshUI()"
             landmarkType = "7">
          </BreakpointContent>
@@ -881,22 +833,6 @@
             endingLineNumber = "75"
             landmarkName = "itemModel"
             landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "985ADC51-6E1E-45E4-A0AE-7B205AAB0188"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Murder/Home/View/PrepareRoom&#xff08;&#x51c6;&#x5907;&#x623f;&#x95f4;&#xff09;/PrepareRoomViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "992"
-            endingLineNumber = "992"
-            landmarkName = "stateBtnAction(button:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -973,8 +909,8 @@
             filePath = "Murder/Home/View/PrepareRoom&#xff08;&#x51c6;&#x5907;&#x623f;&#x95f4;&#xff09;/PrepareRoomViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "900"
-            endingLineNumber = "900"
+            startingLineNumber = "951"
+            endingLineNumber = "951"
             landmarkName = "lockBtnAction(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1204,7 +1140,23 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1694B5C7-6638-46AB-A0A7-7B15F28EE7E0"
+            uuid = "964DCB1E-D0B9-4C8E-9147-ED9A8367E2FB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Murder/Base/Login/LoginViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
+            landmarkName = "userAgreementTapAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EA8DFF66-EFEC-47C9-A528-3AF7F1C3D2A7"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -1220,31 +1172,31 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F9FE5954-6F55-40F1-AACE-9C91D0D6F1E8"
+            uuid = "A378A1F7-6CBD-4AFD-BEB2-BD233C7FF113"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Murder/Home/View/Gameplay/View/question &#xff08;&#x95ee;&#x7b54;&#x9898;&#xff09;/QuestionView.swift"
+            filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "587"
-            endingLineNumber = "587"
-            landmarkName = "confirmBtnAction()"
+            startingLineNumber = "1099"
+            endingLineNumber = "1099"
+            landmarkName = "hidePopTipView()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B2FFD9C7-B333-4910-AE31-AE95F4E1FF83"
+            uuid = "35BE572C-B4AB-492C-9377-882B132B221D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Murder/Home/View/PrepareRoom&#xff08;&#x51c6;&#x5907;&#x623f;&#x95f4;&#xff09;/PrepareRoomViewController.swift"
+            filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1012"
-            endingLineNumber = "1012"
+            startingLineNumber = "1260"
+            endingLineNumber = "1260"
             landmarkName = "stateBtnAction(button:)"
             landmarkType = "7">
          </BreakpointContent>

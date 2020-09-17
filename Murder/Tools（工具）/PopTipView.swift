@@ -65,19 +65,21 @@ class PopTipView: UIView {
 // MARK: - setUI
 extension PopTipView {
     private func setUI() {
-        contentView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        contentTextView.isEditable = false
+//        contentView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        contentView.backgroundColor = UIColor.clear
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(hideView))
+//        contentTextView.addGestureRecognizer(tap)
     }
     
-    private func hideView() {
-        contentView = nil
-        self.removeFromSuperview()
+    @objc private func hideView() {
+        self.isHidden = true
     }
 }
 
 
 extension PopTipView {
 
-    
     
 }
 

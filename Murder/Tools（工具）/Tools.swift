@@ -12,6 +12,20 @@ import Alamofire
 import CLToast
 import SVProgressHUD
 
+//MARK:- 获取文本高度
+func getHeight(string: String, width:CGFloat)-> CGSize {
+    let label = UILabel()
+    label.backgroundColor = UIColor.gray
+    label.text = string
+    label.font = UIFont.systemFont(ofSize: 12)
+    label.textColor = HexColor("#666666")
+    label.textAlignment = .left
+    label.numberOfLines = 0
+    label.lineBreakMode = NSLineBreakMode.byWordWrapping
+    let size = label.sizeThatFits(CGSize(width: width, height: CGFloat(MAXFLOAT)))
+    return size
+}
+
 //MARK:- 富文本
 func setMutableString(content: String, _ color: UIColor = HexColor("#666666") , fontSize: CGFloat = 12) -> NSMutableAttributedString {
     let myMutableString = try! NSMutableAttributedString(data: (content.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)

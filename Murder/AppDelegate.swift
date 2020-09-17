@@ -48,6 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.backgroundColor = UIColor.white
         self.window?.rootViewController = defaultViewController
 
+//        self.window?.rootViewController = BaseNavigationViewController(rootViewController: LoginViewController())
+
 //        self.window?.rootViewController = RegisterViewController()
 //        self.window?.rootViewController = SetPasswordsViewController()
 //        self.window?.rootViewController = CompleteInfoViewController()

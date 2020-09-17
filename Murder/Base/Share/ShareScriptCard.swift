@@ -257,11 +257,13 @@ extension ShareScriptCard {
                 return
             }
             // 取到结果
+//            分享成功>>発送成功
+//            分享失败>>発送失敗
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
-                Log(resultDic["msg"])
+                showToastCenter(msg: "発送成功")
             }
-            showToastCenter(msg: resultDic["msg"] as! String)
+            
             let nav = self?.findNavController()
             nav?.popViewController(animated: true)
         }
@@ -299,7 +301,7 @@ private extension ShareScriptCard {
             }
             
             guard (state == 0 || state == 4) else {
-                showToastCenter(msg: "send \(type.description) message error: \(state)")
+//                showToastCenter(msg: "send \(type.description) message error: \(state)")
                 Log("send \(type.description) message error: \(state)")
                 return
             }
@@ -332,7 +334,7 @@ private extension ShareScriptCard {
             
             AgoraRtm.kit?.queryPeersOnlineStatus([name], completion: {[weak self] (peerOnlineStatus, peersOnlineErrorCode) in
                 guard peersOnlineErrorCode == .ok else {
-                    showToastCenter(msg: "send-AgoraRtm login error: \(peersOnlineErrorCode.rawValue)")
+//                    showToastCenter(msg: "send-AgoraRtm login error: \(peersOnlineErrorCode.rawValue)")
                     return
                 }
                 Log(peerOnlineStatus)

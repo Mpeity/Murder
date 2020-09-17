@@ -109,9 +109,9 @@ class MessageScriptInviteCell: UITableViewCell {
                 
                 if messageTalkModel?.roomId != nil {
                     
-                    leftTitleLabel.text = "部屋ID：\(messageTalkModel!.roomId!)"
+                    leftTitleLabel.text = "ルームID：\(messageTalkModel!.roomId!)"
                     
-                    rightTitleLabel.text = "部屋ID：\(messageTalkModel!.roomId!)"
+                    rightTitleLabel.text = "ルームID：\(messageTalkModel!.roomId!)"
                 }
            }
        }

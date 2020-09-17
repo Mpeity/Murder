@@ -16,6 +16,9 @@ class GotoMessageViewController: UIViewController, UITableViewDelegate, UITableV
 
     private var myTableView: UITableView!
     
+    // 返回上一层按钮
+    private var backBtn: UIButton = UIButton()
+    
     
     private var page_no = 1
     
@@ -138,6 +141,19 @@ extension GotoMessageViewController {
 // MARK: - UI
 extension GotoMessageViewController {
     
+    private func setNavigationBar() {
+            
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBtn)
+        backBtn.setImage(UIImage(named: "back_black"), for: .normal)
+        backBtn.addTarget(self, action: #selector(backBtnAction), for: .touchUpInside)
+
+    }
+    
+    //MARK: - 返回按钮
+    @objc func backBtnAction() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     private func setupHeaderView() {
         let header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(loadRefresh))
         header?.backgroundColor = UIColor.white
@@ -157,6 +173,8 @@ extension GotoMessageViewController {
     }
     
     func setUI() {
+        
+        setNavigationBar()
         
         let btn = UIButton()
         btn.setTitle("私の友達", for: .normal)

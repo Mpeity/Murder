@@ -67,7 +67,13 @@ class GameplayViewController: UIViewController {
     // 说明弹框配置
     private var preference:FEPreferences = FEPreferences()
     // 说明弹框
-    private var tipView: FETipView!
+//    private var tipView: FETipView!
+    
+    private var popTipView: PopTipView!
+    
+    private var popCommentView: UIView!
+
+
     
     // 中间布局
     // 地点名称
@@ -358,6 +364,8 @@ extension GameplayViewController {
         leftArr.removeAllObjects()
         rightArr.removeAllObjects()
         
+        
+        
         if let scriptRoleList = gamePlayModel!.scriptRoleList {
             for (index, itemModel) in scriptRoleList.enumerated() {
                 if index % 2 == 0 {
@@ -415,6 +423,8 @@ extension GameplayViewController {
         
         if gamePlayModel?.scriptNodeResult.describe != nil {
             preference.drawing.message = gamePlayModel?.scriptNodeResult!.describe! as! String
+            
+            addPopTipView()
         }
         
         
@@ -584,6 +594,37 @@ extension GameplayViewController {
             
         }
         
+    }
+    
+    //MARK:- 说明
+    private func addPopTipView() {
+
+        let message = gamePlayModel?.scriptNodeResult!.describe!
+        let size = getHeight(string: message!, width: 200)
+        let width = 230
+        var height = size.height
+        height = height + 36 + 20
+        let leftSpace = Int(FULL_SCREEN_WIDTH) - width - 15
+        
+        if popCommentView == nil {
+               popCommentView = UIView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+               popCommentView.backgroundColor = UIColor.clear
+               self.view.addSubview(popCommentView)
+               popCommentView.isUserInteractionEnabled = true
+               let tap = UITapGestureRecognizer(target: self, action: #selector(hidePopTipView))
+               popCommentView.addGestureRecognizer(tap)
+        }
+        popCommentView.isHidden = true
+
+        
+        if popTipView == nil {
+            
+            popTipView = PopTipView(frame: CGRect(x: leftSpace, y: Int(stateBtn.frame.origin.y + stateBtn.frame.size.height + 10), width: width, height: Int(height)))
+            popTipView.backgroundColor = UIColor.clear
+            popCommentView.addSubview(popTipView)
+        }
+     
+        popTipView.content = gamePlayModel?.scriptNodeResult!.describe!
     }
     
     
@@ -1054,6 +1095,10 @@ extension GameplayViewController {
 // MARK: - 按钮响应事件
 extension GameplayViewController {
     
+    @objc func hidePopTipView() {
+        popCommentView.isHidden = true
+    }
+    
     //MARK: - 投票结果
     @objc func voteResultBtnAction() {
         let commonView = VoteResultView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
@@ -1213,35 +1258,13 @@ extension GameplayViewController {
     //MARK: 阶段说明弹框
     @objc func stateBtnAction(button: UIButton) {
         button.isSelected = !button.isSelected
-        preference.drawing.backgroundColor = UIColor.white
-        preference.drawing.textColor = HexColor(LightDarkGrayColor)
-        preference.positioning.targetPoint = CGPoint(x: button.center.x-40, y: button.frame.maxY+10)
-//        preference.drawing.maxTextWidth = 231*SCALE_SCREEN
-//        preference.drawing.maxHeight = 208
-//        preference.positioning.marginLeft = 16
-        preference.drawing.textAlignment = .center
+//        popCommentView.isHidden = !popCommentView.isHidden
         
-        
-        preference.animating.shouldDismiss = false
-        preference.drawing.cornerRadius = 20
-        
-        
-        if button.isSelected {
-            tipView = FETipView(preferences: preference)
-
-            tipView.show()
+        if popCommentView.isHidden == true {
+            popCommentView.isHidden = false
         } else {
-            tipView.dismiss()
+            popCommentView.isHidden = true
         }
-//        if button.isSelected {
-//            UIView.animate(withDuration: 0.5) {
-//                self.stateTipView.isHidden = false
-//            }
-//        } else {
-//            UIView.animate(withDuration: 0.5) {
-//                self.stateTipView.isHidden = true
-//            }
-//        }
     }
     
     
@@ -1330,7 +1353,6 @@ extension GameplayViewController {
             threadView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
             threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
 //            self.view.addSubview(threadView)
-        
         
 //        }
 

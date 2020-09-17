@@ -27,14 +27,14 @@ class SynopsisViewCell: UITableViewCell {
                 return
             }
 
-//            let myMutableString = try! NSMutableAttributedString(data: (content.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
-//            let range = NSMakeRange(0, myMutableString.length)
-//            myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
-//            myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12.0)], range: range)
+            let myMutableString = try! NSMutableAttributedString(data: (content.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+            let range = NSMakeRange(0, myMutableString.length)
+            myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
+            myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14.0)], range: range)
             
 
 //            contentLabel.attributedText = myMutableString
-            let myMutableString = try! NSAttributedString(data: (content.data(using: String.Encoding.unicode))!, options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html], documentAttributes: nil)
+//            let myMutableString = try! NSAttributedString(data: (content.data(using: String.Encoding.unicode))!, options: [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html], documentAttributes: nil)
             
             contentLabel.attributedText = myMutableString
 

@@ -54,6 +54,8 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     // 说明弹框
 //    private var tipView: FETipView!
     
+    private var popCommentView: UIView!
+    
     private var popTipView: PopTipView!
     
     
@@ -387,10 +389,13 @@ extension PrepareRoomViewController {
         }
         
         if readyRoomModel?.introduction != nil {
-            let message = readyRoomModel?.introduction
-            let height = message?.ga_heightForComment(fontSize: 12, width: 300*SCALE_SCREEN)
-            preference.drawing.message =  message!
-            preference.drawing.maxHeight = height!
+//            let message = readyRoomModel?.introduction
+//            let height = message?.ga_heightForComment(fontSize: 12, width: 300*SCALE_SCREEN)
+//            preference.drawing.message =  message!
+//            preference.drawing.maxHeight = height!
+            
+            addPopTipView()
+
         }
         
         if readyRoomModel?.roomId != nil {
@@ -430,6 +435,8 @@ extension PrepareRoomViewController {
         } else {
            gameNameLabel.text = ""
         }
+        
+        addPopTipView()
         
         if readyRoomModel?.isLock != nil {
             if readyRoomModel?.isLock! == 1 {
@@ -520,7 +527,51 @@ extension PrepareRoomViewController {
     private func setUI() {
         self.view.backgroundColor = HexColor("#27025E")
         setHeaderView()
+        
+
     }
+    
+    //MARK:- 说明
+    private func addPopTipView() {
+        
+        
+        
+        let message = readyRoomModel?.introduction
+        let size = getHeight(string: message!, width: FULL_SCREEN_WIDTH-40)
+        var width = size.width
+        var height = size.height
+        height = height + 36
+        if width <= FULL_SCREEN_WIDTH - 40 - 30 {
+          
+        } else {
+           width = FULL_SCREEN_WIDTH - 40
+        }
+        
+        if height >= FULL_SCREEN_HEIGHT - 150 {
+            height = FULL_SCREEN_HEIGHT - 150
+        }
+      
+        let leftSpace = FULL_SCREEN_WIDTH - width - 25
+        
+        if popCommentView == nil {
+            popCommentView = UIView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            popCommentView.backgroundColor = UIColor.clear
+            popCommentView.isUserInteractionEnabled = true
+            self.view.addSubview(popCommentView)
+            let tap = UITapGestureRecognizer(target: self, action: #selector(hidePopTipView))
+            popCommentView.addGestureRecognizer(tap)
+        }
+        popCommentView.isHidden = true
+
+     
+        if popTipView == nil {
+            popTipView = PopTipView(frame: CGRect(x: leftSpace, y: stateBtn.frame.maxY+10, width: width, height: height))
+            popTipView.backgroundColor = UIColor.clear
+            popCommentView.addSubview(popTipView)
+        }
+        popTipView.content = readyRoomModel?.introduction!
+    }
+    
 
     // MARK: - 头部视图
     private func setHeaderView() {
@@ -981,62 +1032,11 @@ extension PrepareRoomViewController {
     //MARK:- 说明
     @objc func stateBtnAction(button: UIButton) {
         button.isSelected = !button.isSelected
-//        preference.drawing.backgroundColor = UIColor.white
-//        preference.drawing.textColor = HexColor(LightDarkGrayColor)
-//        preference.positioning.targetPoint = CGPoint(x: button.center.x, y: button.frame.maxY+10)
-//        preference.drawing.maxTextWidth = 300*SCALE_SCREEN
-//        preference.drawing.maxHeight = 208
-//        preference.positioning.marginLeft = 16
-//        preference.drawing.textAlignment = .left
-//        preference.animating.shouldDismiss = false
-//        if button.isSelected {
-//            tipView = FETipView(preferences: preference)
-//            tipView.show()
-//        } else {
-//            tipView.dismiss()
-//        }
-        
-        
-        
-        let message = readyRoomModel?.introduction
-//        let height = message?.ga_heightForComment(fontSize: 12, width: 230)
-        
-        
-                
-//        let size = getHeight(string: message!)
-        
-        let size = getHeight(string: "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈")
-        var width = size.width
-        var height = size.height
-        
-        if width <= FULL_SCREEN_WIDTH - 40 {
-            width = FULL_SCREEN_WIDTH - 40
-//            height =
-        }
-        
-        
-        
-       
-        popTipView = PopTipView(frame: CGRect(x: 0, y: button.frame.maxY+10, width: width, height: height))
-        popTipView.content = readyRoomModel?.introduction!
-        popTipView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        self.view.addSubview(popTipView)
-        
+        popCommentView.isHidden = !popCommentView.isHidden
     }
     
-    
-    private func getHeight(string: String)-> CGSize {
-        let label = UILabel()
-        label.backgroundColor = UIColor.gray
-        label.text = string
-        label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = HexColor("#666666")
-        label.textAlignment = .left
-        label.numberOfLines = 0
-        label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        let size = label.sizeThatFits(CGSize(width: FULL_SCREEN_WIDTH-40, height: CGFloat(MAXFLOAT)))
-//        let height = size.height
-        return size
+    @objc func hidePopTipView() {
+        popCommentView.isHidden = true
     }
 }
 

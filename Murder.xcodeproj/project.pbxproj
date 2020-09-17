@@ -35,6 +35,8 @@
 		98038F6024D82E7200CBCEE7 /* GameplayViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98038F5E24D82E7200CBCEE7 /* GameplayViewCell.swift */; };
 		98038F6124D82E7200CBCEE7 /* GameplayViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98038F5F24D82E7200CBCEE7 /* GameplayViewCell.xib */; };
 		98321BC32513129D0074082C /* ContributeWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98321BC22513129D0074082C /* ContributeWebViewController.swift */; };
+		98321BC6251356DE0074082C /* UserAgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98321BC4251356DE0074082C /* UserAgreementViewController.swift */; };
+		98321BC7251356DE0074082C /* UserAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98321BC5251356DE0074082C /* UserAgreementViewController.xib */; };
 		983A225524DA54A600532BB9 /* MessageScriptCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983A225324DA54A600532BB9 /* MessageScriptCell.swift */; };
 		983A225624DA54A600532BB9 /* MessageScriptCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 983A225424DA54A600532BB9 /* MessageScriptCell.xib */; };
 		983A225924DA54D200532BB9 /* MessageScriptInviteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983A225724DA54D200532BB9 /* MessageScriptInviteCell.swift */; };
@@ -323,6 +325,8 @@
 		982E018F2504CC7500F37A1C /* UMPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UMPush.framework; path = Pods/UMCPush/UMPush.framework; sourceTree = "<group>"; };
 		982E01912504CC8500F37A1C /* UMCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UMCommon.framework; path = Pods/UMCCommon/UMCommon.framework; sourceTree = "<group>"; };
 		98321BC22513129D0074082C /* ContributeWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributeWebViewController.swift; sourceTree = "<group>"; };
+		98321BC4251356DE0074082C /* UserAgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgreementViewController.swift; sourceTree = "<group>"; };
+		98321BC5251356DE0074082C /* UserAgreementViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserAgreementViewController.xib; sourceTree = "<group>"; };
 		983A225324DA54A600532BB9 /* MessageScriptCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageScriptCell.swift; sourceTree = "<group>"; };
 		983A225424DA54A600532BB9 /* MessageScriptCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageScriptCell.xib; sourceTree = "<group>"; };
 		983A225724DA54D200532BB9 /* MessageScriptInviteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageScriptInviteCell.swift; sourceTree = "<group>"; };
@@ -1264,6 +1268,8 @@
 				98CA02BE24C5A4E9009EF0ED /* ResetPasswordsViewController.xib */,
 				98B4A1D424D3B01E007CE295 /* SetPasswordsViewController.swift */,
 				98B4A1D524D3B01E007CE295 /* SetPasswordsViewController.xib */,
+				98321BC4251356DE0074082C /* UserAgreementViewController.swift */,
+				98321BC5251356DE0074082C /* UserAgreementViewController.xib */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1472,6 +1478,7 @@
 				986D9EBD24F392D2005E6B03 /* VoteAnswerCell.xib in Resources */,
 				983FD1A824D27CE40041D79E /* ApplyFriendsListCell.xib in Resources */,
 				986D9EC124F39650005E6B03 /* VoteCommonCell.xib in Resources */,
+				98321BC7251356DE0074082C /* UserAgreementViewController.xib in Resources */,
 				98C8D2CE24CDD6DC006C76D0 /* SettingListCell.xib in Resources */,
 				98649DDC24CEB502005AA9C3 /* CreateRoomHeaderView.xib in Resources */,
 				9868A31724C9313C009FD8F4 /* CollogueRoomView.xib in Resources */,
@@ -1743,6 +1750,7 @@
 				98F08C0524E2765F0033DFBA /* TagModel.swift in Sources */,
 				9868A32F24C9A74F009FD8F4 /* BillingInfoView.swift in Sources */,
 				98A447D624DCF4A600C54969 /* UserAccount.swift in Sources */,
+				98321BC6251356DE0074082C /* UserAgreementViewController.swift in Sources */,
 				9871EB4024E41EAB006464A4 /* ScriptTagModel.swift in Sources */,
 				9868A32124C95F72009FD8F4 /* ReadScriptView.swift in Sources */,
 				98F08BF724E237EE0033DFBA /* HomeBannerModel.swift in Sources */,

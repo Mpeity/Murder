@@ -189,7 +189,7 @@ extension SendMessageViewController {
         tableView.separatorStyle = .none
         tableView.backgroundColor = HexColor("F5F5F5")
         
-        tableView.backgroundColor = UIColor.red
+        tableView.backgroundColor = UIColor.white
 
 //        tableView.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT-bottomView.bounds.height)
         self.view.addSubview(tableView)
@@ -205,7 +205,7 @@ extension SendMessageViewController {
 //        tap.delegate = self
 //        tableView.addGestureRecognizer(tap)
         
-//        tableView.keyboardDismissMode = .interactive
+        tableView.keyboardDismissMode = .interactive
         
         
     }
@@ -557,13 +557,21 @@ extension SendMessageViewController: AgoraRtmDelegate {
     }
     
     func rtmKit(_ kit: AgoraRtmKit, messageReceived message: AgoraRtmMessage, fromPeer peerId: String) {
-        appendMessage(user: peerId, content: message.text, mediaId: nil, thumbnail: nil)
+        Log(Int(peerId))
+        Log(messageListModel?.userId!)
+        Log(message.text)
+        if Int(peerId) == messageListModel?.userId! {
+            appendMessage(user: peerId, content: message.text, mediaId: nil, thumbnail: nil)
+        } else {
+           Log("不是你")
+        }
+        
+        
         
     }
     
     func rtmKit(_ kit: AgoraRtmKit, imageMessageReceived message: AgoraRtmImageMessage, fromPeer peerId: String) {
         appendMessage(user: peerId, content: nil, mediaId: message.mediaId, thumbnail: message.thumbnail)
-        
     }
     
     
