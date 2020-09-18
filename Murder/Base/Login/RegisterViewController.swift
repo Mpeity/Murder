@@ -171,7 +171,7 @@ extension RegisterViewController {
         oneMoreBtn.addTarget(self, action: #selector(oneMoreBtnAction), for: .touchUpInside)
         
         
-        tipLabel.attributedText = getNSAttributedString(str: "利用規約」に同意してログインする 拷贝", color: LightGrayColor)
+        tipLabel.attributedText = getNSAttributedString(str: "「利用規約」に同意してログインする", color: LightGrayColor)
         
         let tipLabelTap = UITapGestureRecognizer(target: self, action: #selector(tipLabelTapAction))
         tipLabel.isUserInteractionEnabled = true

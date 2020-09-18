@@ -157,7 +157,7 @@
                         <constraint firstItem="a2s-Rl-xBN" firstAttribute="top" secondItem="1ji-jy-ceE" secondAttribute="top" id="zOi-n1-fQB"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="利用規約」に同意してログインする" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y10-tC-i4P">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="「利用規約」に同意してログインする" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y10-tC-i4P">
                     <rect key="frame" x="35" y="593.5" width="305" height="14.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <nil key="textColor"/>
@@ -198,7 +198,7 @@
         </view>
     </objects>
     <resources>
-        <image name="button_bg" width="143.5" height="50"/>
+        <image name="button_bg" width="143.5" height="49.5"/>
         <image name="login_logo" width="130" height="130"/>
         <image name="login_name" width="21" height="21"/>
         <image name="login_password" width="21" height="21"/>

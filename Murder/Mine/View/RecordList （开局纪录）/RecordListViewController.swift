@@ -105,7 +105,7 @@ extension RecordListViewController {
             titleLabel.textColor = HexColor(DarkGrayColor)
             titleLabel.textAlignment = .center
             titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-            titleLabel.text = "開局記録"
+            titleLabel.text = "公演履歴"
             navigationItem.titleView = titleLabel
             
         }

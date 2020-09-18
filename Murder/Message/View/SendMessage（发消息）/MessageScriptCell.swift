@@ -8,7 +8,18 @@
 
 import UIKit
 
+
+typealias LeftViewScriptBlock = () -> ()
+
+typealias RightViewScriptBlock = () -> ()
+
+
 class MessageScriptCell: UITableViewCell {
+    
+    var leftViewScriptBlock: LeftViewScriptBlock?
+    
+    var rightViewScriptBlock: RightViewScriptBlock?
+    
 
     @IBOutlet weak var leftView: UIView!
     // 时间显示
@@ -125,6 +136,16 @@ class MessageScriptCell: UITableViewCell {
         
         rightAvatarView.layer.cornerRadius = 22.5
         rightAvatarView.layer.masksToBounds = true
+        
+        
+        leftView.isUserInteractionEnabled = true
+        let leftTap = UITapGestureRecognizer(target: self, action: #selector(leftTapBlock))
+        leftView.addGestureRecognizer(leftTap)
+        
+        rightView.isUserInteractionEnabled = true
+        let rightTap = UITapGestureRecognizer(target: self, action: #selector(rightTapBlock))
+        rightView.addGestureRecognizer(rightTap)
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -134,5 +155,23 @@ class MessageScriptCell: UITableViewCell {
     }
     
 
+    
+}
+
+
+//MARK:-
+extension MessageScriptCell {
+    @objc func leftTapBlock() {
+        if leftViewScriptBlock != nil {
+            leftViewScriptBlock!()
+        }
+    }
+    
+    
+    @objc func rightTapBlock() {
+        if rightViewScriptBlock != nil {
+            rightViewScriptBlock!()
+        }
+    }
     
 }

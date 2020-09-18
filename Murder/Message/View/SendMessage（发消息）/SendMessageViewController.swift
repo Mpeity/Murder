@@ -8,6 +8,7 @@
 
 import UIKit
 import AgoraRtmKit
+import MJRefresh
 
 enum ChatType {
     case peer(String), group(String)
@@ -74,10 +75,6 @@ class SendMessageViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         AgoraRtm.updateKit(delegate: self)
-
-        // 监听键盘弹出
-        NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        
         
         setUI()
         
@@ -88,6 +85,8 @@ class SendMessageViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // 监听键盘弹出
+        NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deleteFriend), name: NSNotification.Name(rawValue: Delete_Friend_Notif), object: nil)
     }
     
@@ -128,10 +127,31 @@ extension SendMessageViewController {
 }
 
 extension SendMessageViewController {
+    
+    private func setupHeaderView() {
+        let header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(loadMore))
+        header?.backgroundColor = UIColor.white
+        header?.setTitle("上拉加载", for: .idle)
+        header?.setTitle("释放更新", for: .pulling)
+        header?.setTitle("加载中...", for: .refreshing)
+        
+//        // 设置tableview的header
+//        tableView.mj_header = header
+//
+//        // 进入刷新状态
+//        tableView.mj_header.beginRefreshing()
+    }
+    
+    @objc private func loadMore() {
+//        page_no += 1
+//        getMsgList()
+    }
+    
     private func getMsgList() {
         msgTalkListRequest(receive_id: messageListModel!.userId!, page_no: page_no, page_size: page_size) {[weak self] (result, error) in
             
             if error != nil {
+//                self?.tableView.mj_header.endRefreshing()
                 return
             }
             // 取到结果
@@ -139,7 +159,10 @@ extension SendMessageViewController {
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
                 let listData = data["list"] as! Array<Any>
+                
                 if !listData.isEmpty {
+                    
+                    
                     for item in listData {
                         let dic = item as! [String : AnyObject]
                         let json = dic["content"]
@@ -149,8 +172,12 @@ extension SendMessageViewController {
                     }
                     self?.tableView.reloadData()
                     self?.tableView.scrollToRow(at: IndexPath(row: ((self?.msgList!.count)!)-1, section: 0), at: .bottom, animated: false)
-
+                    self?.tableView.isScrollEnabled = true
+                    
                 }
+                
+//                self?.tableView.mj_header.endRefreshing()
+
             }
         }
     }
@@ -184,16 +211,13 @@ extension SendMessageViewController {
         
         tableView.register(UINib(nibName: "MessageScriptInviteCell", bundle: nil), forCellReuseIdentifier: MessageScriptInviteCellId)
         
+        setupHeaderView()
         
         // 隐藏cell系统分割线
         tableView.separatorStyle = .none
         tableView.backgroundColor = HexColor("F5F5F5")
-        
-        tableView.backgroundColor = UIColor.white
-
-//        tableView.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT-bottomView.bounds.height)
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.view.addSubview(tableView)
-        
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.left.equalTo(0)
@@ -201,13 +225,10 @@ extension SendMessageViewController {
             make.bottom.equalTo(bottomView.snp_top)
         }
         
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-//        tap.delegate = self
-//        tableView.addGestureRecognizer(tap)
-        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+        tap.delegate = self
+        tableView.addGestureRecognizer(tap)
         tableView.keyboardDismissMode = .interactive
-        
-        
     }
     
     
@@ -233,8 +254,6 @@ extension SendMessageViewController {
 extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return msgList?.count ?? 0
-        
-//        return list
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -282,6 +301,16 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
             cell.selectionStyle = .none
             msg.cellHeight = 120.0
             cell.messageTalkModel = msg
+            
+            cell.leftViewScriptBlock = {[weak self] () in
+                Log(msg)
+                self?.didselectCell(msg: msg)
+            }
+
+            cell.rightViewScriptBlock = {[weak self] () in
+                Log(msg)
+                self?.didselectCell(msg: msg)
+            }
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: MessageScriptInviteCellId, for: indexPath) as! MessageScriptInviteCell
@@ -289,14 +318,46 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
             cell.selectionStyle = .none
             msg.cellHeight = 145.0
             cell.messageTalkModel = msg
+            cell.leftViewScriptInviteBlock = {[weak self] () in
+                Log(msg)
+                self?.didselectCell(msg: msg)
+            }
+
+            cell.rightViewScriptInviteBlock = {[weak self] () in
+                Log(msg)
+                self?.didselectCell(msg: msg)
+            }
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let msg = msgList![indexPath.row]
-
+//        let msg = msgList![indexPath.row]
+//        let cellType : CellType = String(msg.sendId!) == AgoraRtm.current ? .right : .left
+//        msg.cellType = cellType
+//        msg.head = messageListModel?.head
+//
+//        // "type":1, //1文字 2 剧本详情 3 剧本邀请
+//        let type = msg.type
+//        if type == 1 {
+//
+//        } else if type == 2 {
+//            let vc = ScriptDetailsViewController()
+//            vc.script_id = msg.scriptId
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        } else {
+//            joinRoom(room_id: msg.roomId!, room_password: nil, script_id: msg.scriptId!, hasPassword: false)
+//        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {        
+        let msg = msgList?[indexPath.row]
+        return msg!.cellHeight ?? 90
+    }
+    
+    private func didselectCell(msg: MsgTalkModel) {
         let cellType : CellType = String(msg.sendId!) == AgoraRtm.current ? .right : .left
         msg.cellType = cellType
         msg.head = messageListModel?.head
@@ -314,10 +375,7 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {        
-        let msg = msgList?[indexPath.row]
-        return msg!.cellHeight ?? 90
-    }
+    
 }
 
 
@@ -452,8 +510,6 @@ extension SendMessageViewController: UITextFieldDelegate {
         if margin < 0 {
             margin = 0
         }
-        
-        // 执行动画
         bottomConstraint.constant = margin
         UIView.animate(withDuration: duration) {
             self.view.layoutIfNeeded()
@@ -469,13 +525,18 @@ extension SendMessageViewController: UITextFieldDelegate {
         return true
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+//        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//        tableView.isScrollEnabled = true
+//        tableView.scrollToRow(at: IndexPath(row: (msgList!.count)-1, section: 0), at: .bottom, animated: false)
+    }
+    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         inputTextField.resignFirstResponder()
     }
-    
-    
-    
+  
 }
 
 // MARK: Send Message
@@ -625,10 +686,7 @@ extension SendMessageViewController: AgoraRtmDelegate {
             }
         }
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        inputTextField.resignFirstResponder()
-    }
+
     
     @objc func tapAction() {
         inputTextField.resignFirstResponder()

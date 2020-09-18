@@ -8,9 +8,16 @@
 
 import UIKit
 
+typealias LeftViewScriptInviteBlock = () -> ()
+
+typealias RightViewScripInvitetBlock = () -> ()
+
 class MessageScriptInviteCell: UITableViewCell {
     
 
+    var leftViewScriptInviteBlock: LeftViewScriptInviteBlock?
+    
+    var rightViewScriptInviteBlock: RightViewScripInvitetBlock?
     
     @IBOutlet weak var leftView: UIView!
      // 时间显示
@@ -137,12 +144,37 @@ class MessageScriptInviteCell: UITableViewCell {
         
         rightAvatarView.layer.cornerRadius = 22.5
         rightAvatarView.layer.masksToBounds = true
+        
+        leftView.isUserInteractionEnabled = true
+        let leftTap = UITapGestureRecognizer(target: self, action: #selector(leftTapBlock))
+        leftView.addGestureRecognizer(leftTap)
+        
+        rightView.isUserInteractionEnabled = true
+        let rightTap = UITapGestureRecognizer(target: self, action: #selector(rightTapBlock))
+        rightView.addGestureRecognizer(rightTap)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+}
+
+//MARK:-
+extension MessageScriptInviteCell {
+    @objc func leftTapBlock() {
+        if leftViewScriptInviteBlock != nil {
+            leftViewScriptInviteBlock!()
+        }
+    }
+    
+    
+    @objc func rightTapBlock() {
+        if rightViewScriptInviteBlock != nil {
+            rightViewScriptInviteBlock!()
+        }
     }
     
 }

@@ -158,7 +158,7 @@ extension LoginViewController {
         loginBtn.titleLabel?.text = "ログイン"
         
         // 用户协议
-        userAgreementLabel.attributedText = getNSAttributedString(str: "利用規約」に同意してログインする", color: LightGrayColor)
+        userAgreementLabel.attributedText = getNSAttributedString(str: "「利用規約」に同意してログインする", color: LightGrayColor)
         let userAgreementTap = UITapGestureRecognizer(target: self, action: #selector(userAgreementTapAction))
         userAgreementLabel.isUserInteractionEnabled = true
         userAgreementLabel.addGestureRecognizer(userAgreementTap)

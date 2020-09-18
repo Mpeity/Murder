@@ -56,24 +56,12 @@
                         <constraint firstAttribute="height" constant="60" id="osc-yU-AhZ"/>
                     </constraints>
                 </view>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YbG-Gt-6xn">
-                    <rect key="frame" x="0.0" y="44" width="414" height="758"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="HLr-My-Jxm"/>
-                        <outlet property="delegate" destination="-1" id="taK-zS-T9h"/>
-                    </connections>
-                </tableView>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="YbG-Gt-6xn" secondAttribute="trailing" id="0Pa-cj-0kJ"/>
-                <constraint firstItem="YbG-Gt-6xn" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Id5-7t-klE"/>
-                <constraint firstItem="YbG-Gt-6xn" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="P8p-BY-7Zs"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="CuZ-lj-neA" secondAttribute="trailing" id="bCP-we-5zC"/>
                 <constraint firstItem="CuZ-lj-neA" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="bSh-pY-BwN"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="CuZ-lj-neA" secondAttribute="bottom" id="uCL-k7-p5J"/>
-                <constraint firstItem="CuZ-lj-neA" firstAttribute="top" secondItem="YbG-Gt-6xn" secondAttribute="bottom" id="yp2-aj-7gL"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="137.68115942028987" y="89.732142857142847"/>

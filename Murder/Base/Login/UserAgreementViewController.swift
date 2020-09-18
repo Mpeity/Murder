@@ -10,15 +10,18 @@ import UIKit
 
 class UserAgreementViewController: UIViewController {
     
+    @IBOutlet weak var textView: UITextView!
     // 返回上一层按钮
     private var backBtn: UIButton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.title = "ユーザープロトコル"
+        self.title = "「マダミス」利用規約"
         
         setNavigationBar()
+        
+        textView.isEditable = false
+        
 
         // Do any additional setup after loading the view.
     }

@@ -797,8 +797,8 @@
             filePath = "Murder/Message/View/SendMessage&#xff08;&#x53d1;&#x6d88;&#x606f;&#xff09;/SendMessageViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "396"
-            endingLineNumber = "396"
+            startingLineNumber = "460"
+            endingLineNumber = "460"
             landmarkName = "appendMessage(user:content:mediaId:thumbnail:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -813,8 +813,8 @@
             filePath = "Murder/Message/View/SendMessage&#xff08;&#x53d1;&#x6d88;&#x606f;&#xff09;/SendMessageViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -877,9 +877,9 @@
             filePath = "Murder/Message/View/SendMessage&#xff08;&#x53d1;&#x6d88;&#x606f;&#xff09;/SendMessageViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "537"
-            endingLineNumber = "537"
-            landmarkName = "send(message:type:)"
+            startingLineNumber = "613"
+            endingLineNumber = "613"
+            landmarkName = "rtmKit(_:connectionStateChanged:reason:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1198,6 +1198,38 @@
             startingLineNumber = "1260"
             endingLineNumber = "1260"
             landmarkName = "stateBtnAction(button:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6D34E52E-76FD-466D-8437-95AB0F103908"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Murder/Message/View/SendMessage&#xff08;&#x53d1;&#x6d88;&#x606f;&#xff09;/MessageScriptCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
+            landmarkName = "leftTapBlock()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C250C48F-CCFA-4188-8549-464FA634759C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Murder/Message/View/SendMessage&#xff08;&#x53d1;&#x6d88;&#x606f;&#xff09;/MessageScriptCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "rightTapBlock()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -17,7 +17,7 @@ class MineViewController: UIViewController, UITableViewDelegate, UITableViewData
     private var tableHeaderView : MineTableHeaderView = MineTableHeaderView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: 190+STATUS_BAR_HEIGHT))
     
     // 开局记录 / 反馈 / 设置
-    var dataArray: Array = [["imgName":"mine_aboutus","title":"ゲーム記録"],["imgName":"mine_ feedback","title":"投稿について"],["imgName":"mine_set","title":"設置"]]
+    var dataArray: Array = [["imgName":"mine_aboutus","title":"公演履歴"],["imgName":"mine_ feedback","title":"投稿について"],["imgName":"mine_set","title":"設置"]]
     
     
     override func viewDidLoad() {

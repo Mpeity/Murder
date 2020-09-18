@@ -1352,7 +1352,7 @@ extension GameplayViewController {
             threadView.room_id = gamePlayModel?.room.roomId
             threadView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
             threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
-//            self.view.addSubview(threadView)
+            self.view.addSubview(threadView)
         
 //        }
 

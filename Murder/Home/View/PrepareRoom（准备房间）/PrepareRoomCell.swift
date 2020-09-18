@@ -91,7 +91,7 @@ class PrepareRoomCell: UITableViewCell {
                 }
             } else {
                 avatarImgView.setImageWith(URL(string:""), placeholder: UIImage(named: "unselected_icon"))
-                nameLabel.text = "サクラ"
+                nameLabel.text = "選択"
                 ownerLabel.isHidden = true
                 prepareBtn.isHidden = true
             }
