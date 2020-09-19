@@ -10,11 +10,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecordListCellId" rowHeight="516" id="ucD-ff-Fqj" customClass="RecordListViewCell" customModule="Murder" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="787" height="516"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecordListCellId" rowHeight="202" id="ucD-ff-Fqj" customClass="RecordListViewCell" customModule="Murder" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="656" height="202"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ucD-ff-Fqj" id="baB-Mh-OPS">
-                <rect key="frame" x="0.0" y="0.0" width="787" height="516"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="ucD-ff-Fqj" id="baB-Mh-OPS">
+                <rect key="frame" x="0.0" y="0.0" width="656" height="202"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_list_one" translatesAutoresizingMaskIntoConstraints="NO" id="2Lx-UJ-rfn">
@@ -34,7 +34,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="開始時間：2020-05-1218:45:10 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cvt-P2-hcP">
-                        <rect key="frame" x="110" y="77" width="662" height="24"/>
+                        <rect key="frame" x="110" y="77" width="531" height="24"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="zbI-Iq-kvH"/>
                         </constraints>
@@ -43,7 +43,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="所要時間：258分" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="crP-RF-3FE">
-                        <rect key="frame" x="110" y="101" width="662" height="24"/>
+                        <rect key="frame" x="110" y="101" width="531" height="24"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="uOO-py-3Ht"/>
                         </constraints>
@@ -52,7 +52,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tbq-8f-qEG">
-                        <rect key="frame" x="736" y="22" width="36" height="31"/>
+                        <rect key="frame" x="605" y="22" width="36" height="31"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <state key="normal" title="詳細 &gt;">
                             <color key="titleColor" red="0.60392156860000001" green="0.3411764706" blue="0.99607843139999996" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
@@ -69,6 +69,7 @@
                     <constraint firstItem="crP-RF-3FE" firstAttribute="top" secondItem="Cvt-P2-hcP" secondAttribute="bottom" id="KZx-WJ-end"/>
                     <constraint firstItem="2Lx-UJ-rfn" firstAttribute="leading" secondItem="baB-Mh-OPS" secondAttribute="leading" constant="15" id="PuZ-3C-HUT"/>
                     <constraint firstAttribute="trailing" secondItem="Cvt-P2-hcP" secondAttribute="trailing" constant="15" id="QJB-aH-qQO"/>
+                    <constraint firstAttribute="bottom" secondItem="2Lx-UJ-rfn" secondAttribute="bottom" id="QKL-03-RN2"/>
                     <constraint firstItem="crP-RF-3FE" firstAttribute="leading" secondItem="JkU-GS-XJv" secondAttribute="leading" id="pJc-GR-eRk"/>
                     <constraint firstItem="tbq-8f-qEG" firstAttribute="bottom" secondItem="JkU-GS-XJv" secondAttribute="bottom" id="r8H-Hy-Vc8"/>
                     <constraint firstItem="Cvt-P2-hcP" firstAttribute="top" secondItem="JkU-GS-XJv" secondAttribute="bottom" constant="24" id="tK5-3D-5YL"/>
@@ -83,7 +84,7 @@
                 <outlet property="startTimeLabel" destination="Cvt-P2-hcP" id="HXA-iC-O4R"/>
                 <outlet property="timeLabel" destination="crP-RF-3FE" id="mF8-6d-reD"/>
             </connections>
-            <point key="canvasLocation" x="264.49275362318843" y="232.36607142857142"/>
+            <point key="canvasLocation" x="-5.7971014492753632" y="-20.758928571428569"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -28,6 +28,30 @@ let redirect_uri = "http://www.520it.com"
 // 声网APPID
 let AgoraKit_AppId = "c9c14d866ca149119d7c6110dc47be36"
 // 友盟推送
+//{
+//    "appkey":"你的appkey",
+//    "timestamp":"你的timestamp",
+//    "type":"unicast",
+//    "production_mode":"false",
+//    "device_tokens":"xx(iOS为64位)",
+//    "payload": {
+//        "aps":{    // 苹果必填字段
+//            "alert":""/{    // 当content-available=1时(静默推送)，可选; 否则必填。
+//                            // 可为JSON类型和字符串类型
+//                "title":"title",
+//                "subtitle":"subtitle",
+//                "body":"body"
+//            }
+//        }
+//        "k1":"v1",    // 自定义key-value, key不可以是"d","p"
+//        "k2":"v2",
+//        ...
+//    },
+//    "policy": {
+//        "expire_time":"2013-10-30 12:00:00"
+//    },
+//    "description":"测试单播消息-iOS"
+//}
 let UMAppKey = "5f5492aa375dc31531b9826e"
 
 

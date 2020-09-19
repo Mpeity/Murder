@@ -171,6 +171,8 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
             socketReconnect()
         }
         
+//        initWebSocketSingle()
+        
         navigationController?.navigationBar.isHidden = true
         
         // 监听键盘弹出

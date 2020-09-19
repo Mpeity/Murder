@@ -61,17 +61,19 @@ class ShareScriptCard: UIView, AgoraRtmDelegate {
                 if shareModel?.name != nil {
                     nameLabel.text = shareModel?.name!
                 }
-                
+
 
                 if isShareScript {
                     // 剧本详情
                     nameTopConstraint.constant = 21.5
                     idLabel.isHidden = true
+                    tipLabel.text = "に推薦："
                     layoutIfNeeded()
                 } else {
                     // 剧本邀请
                     nameTopConstraint.constant = 10
                     idLabel.isHidden = false
+                    tipLabel.text = "を招待："
                     layoutIfNeeded()
                     // 剧本邀请
                     idLabel.isHidden = false
@@ -126,6 +128,8 @@ extension ShareScriptCard {
         
         tipLabel.textColor = HexColor(LightGrayColor)
         tipLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        
         
         nameLabel.textColor = HexColor(DarkGrayColor)
         nameLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)

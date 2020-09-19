@@ -80,10 +80,6 @@ func socketReconnect() {
 
     }
     SVProgressHUD.dismiss()
-
-    
-    
-
 }
 
 //socket主动断开，放在app进入后台时，数据进入缓存。app再进入前台，app出现卡死的情况

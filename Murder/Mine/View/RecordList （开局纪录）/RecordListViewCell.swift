@@ -71,8 +71,8 @@ class RecordListViewCell: UITableViewCell {
 
 extension RecordListViewCell {
     private func setUI() {
-        coverImgView.layer.cornerRadius = 10
-        
+        coverImgView.layer.cornerRadius = 5
+        coverImgView.layer.masksToBounds = true
         
         startTimeLabel.textColor = HexColor(LightDarkGrayColor)
         startTimeLabel.font = UIFont.systemFont(ofSize: 12)

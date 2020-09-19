@@ -466,35 +466,108 @@ extension QuestionView {
                 user_script_answer_ids = nil
             }
             
+//            if cellIndexPath != nil, cellIndexPath != []  {
+//
+//                var dic = [:] as? [String : AnyObject]
+//                for itemIndexPath in cellIndexPath! {
+//                    let index = (itemIndexPath as! IndexPath).row
+//                    let model = choiceArr![index]
+//                    user_script_answer_ids?.append(model.scriptAnswerId!)
+//                }
+//
+//
+//                if answerList?.count != 0  {
+//                    for (index, item) in answerList!.enumerated() {
+//                        if selectedIndex == index {
+//                            answerList?.remove(at: index)
+//                            break
+//                        }
+//                    }
+//                    if user_script_answer_ids != nil {
+//                        dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+//                        dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+//                        answerList?.append(dic!)
+//                        newArray?.append(cellIndexPath as Any)
+//                    }
+//
+//                } else {
+//                    if user_script_answer_ids != nil {
+//                        dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+//                        dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+//                        answerList?.append(dic!)
+//                        newArray?.append(cellIndexPath as Any)
+//                    }
+//                }
             if cellIndexPath != nil, cellIndexPath != []  {
-                var dic = [:] as? [String : AnyObject]
-                for itemIndexPath in cellIndexPath! {
-                    let index = (itemIndexPath as! IndexPath).row
-                    let model = choiceArr![index]
-                    user_script_answer_ids?.append(model.scriptAnswerId!)
-                }
-                if answerList?.count != 0  {
-                    for (index, item) in answerList!.enumerated() {
-                        if selectedIndex == index {
-                            answerList?.remove(at: index)
-                            break
+                            var dic = [:] as? [String : AnyObject]
+            //                for itemIndexPath in cellIndexPath! {
+            //                    let index = (itemIndexPath as! IndexPath).row
+            //                    let model = choiceArr![index]
+            //                    user_script_answer_ids?.append(model.scriptAnswerId!)
+            //                }
+                            
+                            
+                            if answerList?.count != 0  {
+                                
+                                var isHave = false
+                                for (index, item) in answerList!.enumerated() {
+                                    if selectedIndex == index {
+                                        let data = item["user_script_answer_ids"] as! [Int]
+                                        for itemIndexPath in cellIndexPath! {
+                                            let index = (itemIndexPath as! IndexPath).row
+                                            let model = choiceArr![index]
+                                            user_script_answer_ids?.append(model.scriptAnswerId!)
+                                        }
+                                        
+                                        for obj in data  {
+                                            if !(user_script_answer_ids?.contains(obj) ?? false) {
+                                                user_script_answer_ids?.append(obj)
+                                            }
+                                        }
+                                        isHave = true
+                                        break
+                                    }
+                                }
+                                
+                                if !isHave {
+                                    if user_script_answer_ids != nil {
+                                        for itemIndexPath in cellIndexPath! {
+                                            let index = (itemIndexPath as! IndexPath).row
+                                            let model = choiceArr![index]
+                                            user_script_answer_ids?.append(model.scriptAnswerId!)
+                                        }
+                                        
+                                        dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+                                        dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+                                        answerList?.append(dic!)
+                                        newArray?.append(cellIndexPath as Any)
+                                    }
+                                }
+                                
+                                
+                            } else {
+            //                    if user_script_answer_ids != nil {
+            //                        dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+            //                        dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+            //                        answerList?.append(dic!)
+            //                        newArray?.append(cellIndexPath as Any)
+            //                    }
+                                
+                                
+                                if user_script_answer_ids != nil {
+                                    for itemIndexPath in cellIndexPath! {
+                                        let index = (itemIndexPath as! IndexPath).row
+                                        let model = choiceArr![index]
+                                        user_script_answer_ids?.append(model.scriptAnswerId!)
+                                    }
+                               
+                                    dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+                                    dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+                                    answerList?.append(dic!)
+                                    newArray?.append(cellIndexPath as Any)
+
+                                }
                         }
-                    }
-                    if user_script_answer_ids != nil {
-                        dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
-                        dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
-                        answerList?.append(dic!)
-                        newArray?.append(cellIndexPath as Any)
-                    }
-                    
-                } else {
-                    if user_script_answer_ids != nil {
-                        dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
-                        dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
-                        answerList?.append(dic!)
-                        newArray?.append(cellIndexPath as Any)
-                    }
-                }
                 
                 subjectIndexPath.append(cellIndexPath as AnyObject)
                 user_script_answer_ids = nil
@@ -518,11 +591,7 @@ extension QuestionView {
         }
         selectedIndex -= 1
 //        let pre = subjectIndexPath[selectedIndex]
-        
-//        tableView.reloadRows(at: pre as! [IndexPath], with: .automatic)
-        
-        
-        
+//        tableView.reloadRows(at: pre as! [IndexPath], with: .automatic) 
     }
     
     
@@ -538,7 +607,6 @@ extension QuestionView {
                 let index = selectPath?.row
                 let model = choiceArr![index!]
                 
-
                 user_script_answer_ids?.append(model.scriptAnswerId!)
                 
                 var dic = [:] as? [String : AnyObject]
@@ -546,17 +614,6 @@ extension QuestionView {
                     
                     for (index, item) in answerList!.enumerated() {
                         if selectedIndex == index {
-//                            dic = item
-//                            if user_script_answer_ids != nil {
-//                                dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
-//                                dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
-//                            }
-//                            answerList![index] = dic!
-//
-//                            newArray![index] = selectPath as Any
-//
-//                            break
-                            
                             answerList?.remove(at: index)
                             break
                         }
@@ -584,65 +641,64 @@ extension QuestionView {
                 user_script_answer_ids = nil
             }
             
+            
             if cellIndexPath != nil, cellIndexPath != []  {
                 var dic = [:] as? [String : AnyObject]
-                for itemIndexPath in cellIndexPath! {
-                    let index = (itemIndexPath as! IndexPath).row
-                    let model = choiceArr![index]
-                    user_script_answer_ids?.append(model.scriptAnswerId!)
-                }
                 
                 if answerList?.count != 0  {
                     
+                    var isHave = false
                     for (index, item) in answerList!.enumerated() {
                         if selectedIndex == index {
-//                            dic = item
-//                            if user_script_answer_ids != nil {
-//                                dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
-//                                dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
-//                            }
-//                            answerList![index] = dic!
-//                            newArray![index] = cellIndexPath as Any
-
-                            answerList?.remove(at: index)
+                            let data = item["user_script_answer_ids"] as! [Int]
+                            for itemIndexPath in cellIndexPath! {
+                                let index = (itemIndexPath as! IndexPath).row
+                                let model = choiceArr![index]
+                                user_script_answer_ids?.append(model.scriptAnswerId!)
+                            }
                             
+                            for obj in data  {
+                                if !(user_script_answer_ids?.contains(obj) ?? false) {
+                                    user_script_answer_ids?.append(obj)
+                                }
+                            }
+                            isHave = true
                             break
                         }
                     }
-                    if user_script_answer_ids != nil {
-                        dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
-                        dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
-                        answerList?.append(dic!)
-                        newArray?.append(cellIndexPath as Any)
-
+                    
+                    if !isHave {
+                        if user_script_answer_ids != nil {
+                            for itemIndexPath in cellIndexPath! {
+                                let index = (itemIndexPath as! IndexPath).row
+                                let model = choiceArr![index]
+                                user_script_answer_ids?.append(model.scriptAnswerId!)
+                            }
+                            
+                            dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
+                            dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
+                            answerList?.append(dic!)
+                            newArray?.append(cellIndexPath as Any)
+                        }
                     }
                     
+                    
                 } else {
+                    
                     if user_script_answer_ids != nil {
+                        for itemIndexPath in cellIndexPath! {
+                            let index = (itemIndexPath as! IndexPath).row
+                            let model = choiceArr![index]
+                            user_script_answer_ids?.append(model.scriptAnswerId!)
+                        }
+                   
                         dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
                         dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
                         answerList?.append(dic!)
                         newArray?.append(cellIndexPath as Any)
 
                     }
-                }
-                
-                
-//                if answerList?.count != 0 && answerList![selectedIndex] != nil  {
-//                    if user_script_answer_ids != nil {
-//                        dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
-//                        dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
-//                    }
-//                    answerList![selectedIndex] = dic!
-//
-//                } else {
-//                    if user_script_answer_ids != nil {
-//                        dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
-//                        dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
-//                        answerList?.append(dic!)
-//                    }
-//                }
-                
+            }
                 
                 subjectIndexPath.append(cellIndexPath as AnyObject)
                 user_script_answer_ids = nil

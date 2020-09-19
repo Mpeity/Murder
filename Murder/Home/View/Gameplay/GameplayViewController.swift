@@ -235,6 +235,11 @@ class GameplayViewController: UIViewController {
         super.viewWillAppear(animated)        
         navigationController?.navigationBar.isHidden = true
         
+        if !SingletonSocket.sharedInstance.socket.isConnected {
+            reConnectTime = 0
+            socketReconnect()
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1239,7 +1244,7 @@ extension GameplayViewController {
         agoraStatus.muteLocalAudio = false
         agoraKit.leaveChannel(nil)
         
-        SingletonSocket.sharedInstance.socket.disconnect()
+//        SingletonSocket.sharedInstance.socket.disconnect()
     }
     
     //MARK: 退出房间
@@ -1352,7 +1357,7 @@ extension GameplayViewController {
             threadView.room_id = gamePlayModel?.room.roomId
             threadView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
             threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
-            self.view.addSubview(threadView)
+//            self.view.addSubview(threadView)
         
 //        }
 

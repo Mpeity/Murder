@@ -41,6 +41,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // UM
         UMConfigure.initWithAppkey(UMAppKey, channel: "App Store")
         UMConfigure.setLogEnabled(true)
+        UMessage.setAlias("alias_12", type: "SINA_WEIBO") { (result, error) in
+            Log(result)
+            Log(error)
+        }
         application.registerForRemoteNotifications()
         
         setUI()
@@ -78,20 +82,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //进入后台模式，主动断开socket，防止出现处理不了的情况
 
     func applicationWillResignActive(_ application: UIApplication) {
-           if SingletonSocket.sharedInstance.socket.isConnected {
-                reConnectTime = 5
-                socketDisConnect()
-            }
+//           if SingletonSocket.sharedInstance.socket.isConnected {
+//                reConnectTime = 5
+//                socketDisConnect()
+//            }
      }
 
     //进入前台模式，主动连接socket
     func applicationDidBecomeActive(_ application: UIApplication) {
         //解决因为网络切换或链接不稳定问题，引起socket断连问题
         //如果app从无网络，到回复网络，需要执行重连
-        if !SingletonSocket.sharedInstance.socket.isConnected {
-            reConnectTime = 0
-            socketReconnect()
-        }
+//        if !SingletonSocket.sharedInstance.socket.isConnected {
+//            reConnectTime = 0
+//            socketReconnect()
+//        }
     }
     
     
@@ -133,6 +137,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            print(info)
            //应用处于后台时的远程推送接受
            UMessage.didReceiveRemoteNotification(userInfo)
+            
+            
         }else{
            //应用处于前台时的远程推送接受
         }

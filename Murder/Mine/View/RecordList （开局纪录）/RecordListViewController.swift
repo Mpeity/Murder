@@ -119,7 +119,7 @@ extension RecordListViewController {
         myTableView.delegate = self
         myTableView.dataSource = self
         myTableView.separatorStyle = .none
-        myTableView.rowHeight = 127
+        myTableView.rowHeight = 130
         self.view.addSubview(myTableView)
         myTableView.register(UINib(nibName: "RecordListViewCell", bundle: nil), forCellReuseIdentifier: RecordListCellId)
         

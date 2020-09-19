@@ -84,9 +84,12 @@ extension ScriptDetailsViewController {
                         let resultData = data["result"] as! [String : AnyObject]
                         
                         let model = ScriptDetailModel(fromDictionary: resultData)
-                        self!.scriptDetailModel = model
+                        if model.isHave == 1 {
+                            self?.createBtn.setTitle("ルームを作る", for: .normal)
+                        }
+                        self?.scriptDetailModel = model
                         self?.tableHeaderView.model = model
-                        self!.tableView.reloadData()
+                        self?.tableView.reloadData()
                         
                     } else {
                         
@@ -119,9 +122,7 @@ extension ScriptDetailsViewController {
 
         createBtn.setTitle("無料ゲット", for: .normal)
 
-        if user_script_text != nil && user_script_text == "已拥有" {
-            createBtn.setTitle("ルームを作る", for: .normal)
-        }
+        
         createBtn.setTitleColor(UIColor.white, for: .normal)
         createBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         createBtn.addTarget(self, action: #selector(createBtnAction), for: .touchUpInside)

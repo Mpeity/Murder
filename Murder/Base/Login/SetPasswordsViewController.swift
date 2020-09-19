@@ -61,15 +61,17 @@ extension SetPasswordsViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(hideFunc))
         commonView.addGestureRecognizer(tap)
 
-        passwordTextField.delegate = self
-        moreTextField.delegate = self
+
         passwordTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .valueChanged)
         moreTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .valueChanged)
         passwordTextField.isSecureTextEntry = true
-        passwordTextField.keyboardType = .numbersAndPunctuation
+//        passwordTextField.keyboardType = .asciiCapable
 
         moreTextField.isSecureTextEntry = true
-        moreTextField.keyboardType = .numbersAndPunctuation
+        moreTextField.keyboardType = .asciiCapable
+        
+        passwordTextField.delegate = self
+        moreTextField.delegate = self
         
         oneView.layer.cornerRadius = 25
         oneView.layer.borderWidth = 0.5
@@ -165,9 +167,14 @@ extension SetPasswordsViewController {
 
 
 extension SetPasswordsViewController {
-
-    
-
+    // 限制输入数字和字母
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let ALPHANUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        let cs = NSCharacterSet.init(charactersIn: ALPHANUM).inverted
+        //按cs分离出数组,数组按@""分离出字符串
+        let filtered = string.components(separatedBy: cs).joined(separator: "")
+        return string.elementsEqual(filtered)
+    }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
 
@@ -178,8 +185,6 @@ extension SetPasswordsViewController {
         } else {
             confirmBtn.setOtherGradienButtonColor(start: "#CACACA", end: "#CACACA", cornerRadius: 25)
         }
-
-
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
