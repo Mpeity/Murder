@@ -12,17 +12,20 @@ import Foundation
 class ClueListModel : NSObject {
 
     var attachment : String?
+    var childId : Int?
     var isGoing : Int?
     var isOpen : Int?
+    var isPrivate : Int?
     var isRead : Int?
     var scriptClueDetail : String?
     var scriptClueId : Int?
     var scriptClueName : String?
+    var scriptNodeId : Int?
     var scriptPlaceId : Int?
     var scriptPlaceName : String?
+    var scriptRoleId : Int?
     var userId : Int?
     var userOpen : Int?
-    var scriptNodeId : Int?
 
 
     /**
@@ -30,17 +33,20 @@ class ClueListModel : NSObject {
      */
     init(fromDictionary dictionary: [String:Any]){
         attachment = dictionary["attachment"] as? String
+        childId = dictionary["child_id"] as? Int
         isGoing = dictionary["is_going"] as? Int
         isOpen = dictionary["is_open"] as? Int
+        isPrivate = dictionary["is_private"] as? Int
         isRead = dictionary["is_read"] as? Int
         scriptClueDetail = dictionary["script_clue_detail"] as? String
         scriptClueId = dictionary["script_clue_id"] as? Int
         scriptClueName = dictionary["script_clue_name"] as? String
+        scriptNodeId = dictionary["script_node_id"] as? Int
         scriptPlaceId = dictionary["script_place_id"] as? Int
         scriptPlaceName = dictionary["script_place_name"] as? String
+        scriptRoleId = dictionary["script_role_id"] as? Int
         userId = dictionary["user_id"] as? Int
         userOpen = dictionary["user_open"] as? Int
-        scriptNodeId = dictionary["script_node_id"] as? Int
     }
 
     /**
@@ -52,11 +58,17 @@ class ClueListModel : NSObject {
         if attachment != nil{
             dictionary["attachment"] = attachment
         }
+        if childId != nil{
+            dictionary["child_id"] = childId
+        }
         if isGoing != nil{
             dictionary["is_going"] = isGoing
         }
         if isOpen != nil{
             dictionary["is_open"] = isOpen
+        }
+        if isPrivate != nil{
+            dictionary["is_private"] = isPrivate
         }
         if isRead != nil{
             dictionary["is_read"] = isRead
@@ -70,20 +82,23 @@ class ClueListModel : NSObject {
         if scriptClueName != nil{
             dictionary["script_clue_name"] = scriptClueName
         }
+        if scriptNodeId != nil{
+            dictionary["script_node_id"] = scriptNodeId
+        }
         if scriptPlaceId != nil{
             dictionary["script_place_id"] = scriptPlaceId
         }
         if scriptPlaceName != nil{
             dictionary["script_place_name"] = scriptPlaceName
         }
+        if scriptRoleId != nil{
+            dictionary["script_role_id"] = scriptRoleId
+        }
         if userId != nil{
             dictionary["user_id"] = userId
         }
         if userOpen != nil{
             dictionary["user_open"] = userOpen
-        }
-        if scriptNodeId != nil{
-            dictionary["script_node_id"] = scriptNodeId
         }
         return dictionary
     }

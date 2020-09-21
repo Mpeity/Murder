@@ -30,6 +30,11 @@ class BannerWebViewController: UIViewController, WKNavigationDelegate{
     
     var loadType : UISegmentedControl!
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = false
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

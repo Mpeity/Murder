@@ -40,7 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // UM
         UMConfigure.initWithAppkey(UMAppKey, channel:  nil)
-        UMConfigure.setLogEnabled(true)
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().delegate = self
 
@@ -50,24 +49,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
          let entity = UMessageRegisterEntity.init()
         //type是对推送的几个参数的选择，可以选择一个或者多个。默认是三个全部打开，即：声音，弹窗，角标等
 
-       entity.types = Int(UInt8(UMessageAuthorizationOptions.badge.rawValue) | UInt8(UMessageAuthorizationOptions.alert.rawValue))
+        entity.types = Int(UInt8(UMessageAuthorizationOptions.badge.rawValue) | UInt8(UMessageAuthorizationOptions.alert.rawValue) | UInt8(UMessageAuthorizationOptions.sound.rawValue))
 
        UMessage.registerForRemoteNotifications(launchOptions: launchOptions, entity: entity) { (granted, error) in
-
            if granted {
                // 用户选择了接收Push消息
             Log("用户选择了接收Push消息")
             
 
            } else {
-
                // 用户拒绝接收Push消息
                Log("用户拒绝接收Push消息")
-
            }
-
        }
-        
+        UMConfigure.setLogEnabled(true)
 //        application.registerForRemoteNotifications()
         
         
@@ -77,7 +72,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         self.window?.rootViewController = defaultViewController
 
 //        self.window?.rootViewController = BaseNavigationViewController(rootViewController: LoginViewController())
-
 //        self.window?.rootViewController = RegisterViewController()
 //        self.window?.rootViewController = SetPasswordsViewController()
 //        self.window?.rootViewController = CompleteInfoViewController()
@@ -105,24 +99,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
  
     }
     
-    //进入后台模式，主动断开socket，防止出现处理不了的情况
+    
 
-    func applicationWillResignActive(_ application: UIApplication) {
-//           if SingletonSocket.sharedInstance.socket.isConnected {
-//                reConnectTime = 5
-//                socketDisConnect()
-//            }
-     }
-
-    //进入前台模式，主动连接socket
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        //解决因为网络切换或链接不稳定问题，引起socket断连问题
-        //如果app从无网络，到回复网络，需要执行重连
-//        if !SingletonSocket.sharedInstance.socket.isConnected {
-//            reConnectTime = 0
-//            socketReconnect()
+    
+//    //iOS10以下使用这两个方法接收通知
+//    -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+//    {
+//        [UMessage setAutoAlert:NO];
+//        if([[[UIDevice currentDevice] systemVersion]intValue] < 10){
+//            [UMessage didReceiveRemoteNotification:userInfo];
 //        }
-    }
+//             //过滤掉Push的撤销功能，因为PushSDK内部已经调用的completionHandler(UIBackgroundFetchResultNewData)，
+//        //防止两次调用completionHandler引起崩溃
+//        if(![userInfo valueForKeyPath:@"aps.recall"])
+//        {
+//            completionHandler(UIBackgroundFetchResultNewData);
+//        }
+//    }
+//    //iOS10新增：处理前台收到通知的代理方法
+//    -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
+//        NSDictionary * userInfo = notification.request.content.userInfo;
+//        if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+//            [UMessage setAutoAlert:NO];
+//            //应用处于前台时的远程推送接受
+//            //必须加这句代码
+//            [UMessage didReceiveRemoteNotification:userInfo];
+//        }else{
+//            //应用处于前台时的本地推送接受
+//        }
+//        completionHandler(UNNotificationPresentationOptionSound|UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionAlert);
+//    }
+//    //iOS10新增：处理后台点击通知的代理方法
+//    -(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler{
+//        NSDictionary * userInfo = response.notification.request.content.userInfo;
+//        if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+//            //应用处于后台时的远程推送接受
+//            //必须加这句代码
+//            [UMessage didReceiveRemoteNotification:userInfo];
+//        }else{
+//            //应用处于后台时的本地推送接受
+//        }
     
     
     /**
@@ -171,6 +187,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     
+        //进入后台模式，主动断开socket，防止出现处理不了的情况
+
+        func applicationWillResignActive(_ application: UIApplication) {
+    //           if SingletonSocket.sharedInstance.socket.isConnected {
+    //                reConnectTime = 5
+    //                socketDisConnect()
+    //            }
+         }
+
+        //进入前台模式，主动连接socket
+        func applicationDidBecomeActive(_ application: UIApplication) {
+            //解决因为网络切换或链接不稳定问题，引起socket断连问题
+            //如果app从无网络，到回复网络，需要执行重连
+    //        if !SingletonSocket.sharedInstance.socket.isConnected {
+    //            reConnectTime = 0
+    //            socketReconnect()
+    //        }
+        }
+    
+    
     
     // MARK: UISceneSession Lifecycle
 
@@ -191,6 +227,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 }
 
+    
 
 extension AppDelegate {
     private func setUI() {

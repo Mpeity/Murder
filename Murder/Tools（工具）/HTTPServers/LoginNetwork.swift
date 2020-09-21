@@ -141,7 +141,11 @@ func findPassword(email: String, password:String, repassword: String, captcha: S
     
     let urlString = find_password_url
     let parameters = ["email" : email, "captcha": (captcha as NSString).intValue, "newpassword" : password, "repassword": repassword] as [String : AnyObject]
-    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+    
+//    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+//        finished(result as? [String : AnyObject], error)
+//    }
+    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }

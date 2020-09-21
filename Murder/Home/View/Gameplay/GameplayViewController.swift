@@ -188,10 +188,6 @@ class GameplayViewController: UIViewController {
 
     
 //    var rightArr: NSMutableArray = NSMutableArray.init()
-    
-//    var userList: Array = ["かごめ","サクラ","こはく","コナン","さんご"]
-//
-//    var imageList: Array = ["image0","image1","image2","image3","image4"]
 
     // 游戏进行中Model
     private var gamePlayModel : GamePlayModel?
@@ -244,12 +240,13 @@ class GameplayViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        userLogout()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+        SingletonSocket.sharedInstance.socket.disconnect()
+        userLogout()
     }
     
     override var prefersStatusBarHidden: Bool {

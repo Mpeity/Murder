@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 
 //// 深入查看按钮
@@ -36,12 +37,13 @@ class ThreadCardDetailView: UIView {
     var script_node_id: Int?
         
     var script_clue_id: Int?
-        
+      
+    // 列表
     var clueListModel :ClueListModel? {
         didSet {
             if clueListModel != nil {
                 script_place_id = clueListModel?.scriptPlaceId
-                script_clue_id = clueListModel?.scriptClueId
+                script_clue_id = clueListModel?.childId
                 if clueListModel?.attachment != nil {
                     showDetailView(attachmentStr: clueListModel!.attachment, isOpenNum: clueListModel!.isOpen, isGoingNum: clueListModel!.isGoing)
                 }
@@ -54,15 +56,17 @@ class ThreadCardDetailView: UIView {
                     deepBtn.layer.borderColor = HexColor(MainColor).cgColor
                     deepBtn.layer.borderWidth = 0.5
                     deepBtn.setTitleColor(HexColor(MainColor), for: .normal)
+                    deepBtn.backgroundColor = UIColor.white
                 }
             }
         }
     }
     
+    // 地图
     var clueResultModel: SearchClueResultModel? {
         didSet {
             if clueResultModel != nil {
-                script_clue_id = clueResultModel?.scriptClueId
+                script_clue_id = clueResultModel?.childId
                 if clueResultModel?.attachment != nil {
                     showDetailView(attachmentStr: clueResultModel!.attachment, isOpenNum: clueResultModel!.isOpen, isGoingNum: clueResultModel!.isGoing!)
                 }
@@ -75,6 +79,7 @@ class ThreadCardDetailView: UIView {
                     deepBtn.layer.borderColor = HexColor(MainColor).cgColor
                     deepBtn.layer.borderWidth = 0.5
                     deepBtn.setTitleColor(HexColor(MainColor), for: .normal)
+                    deepBtn.backgroundColor = UIColor.white
                 }
             }
         }
@@ -83,8 +88,10 @@ class ThreadCardDetailView: UIView {
     
     // 深入按钮
     @objc func deepBtnAction(_ sender: Any) {
-        if clueResultModel?.isGoing == 1 { // 可深入
+        if (clueResultModel != nil && clueResultModel?.isGoing == 1) || (clueListModel != nil && clueListModel?.isGoing == 1) { // 可深入
+            SVProgressHUD.show(withStatus: "加载中")
             searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: script_clue_id, script_node_id: script_node_id!) {[weak self] (result, error) in
+                SVProgressHUD.dismiss()
                 if error != nil {
                     return
                 }
@@ -93,8 +100,20 @@ class ThreadCardDetailView: UIView {
                 if resultDic["code"]!.isEqual(1) {
                     let data = resultDic["data"] as! [String : AnyObject]
                     let resultData = data["search_clue_result"] as! [String : AnyObject]
+                    
+                    self!.hide()
+                    
                     let model = SearchClueResultModel(fromDictionary: resultData)
-                    self!.clueResultModel = model
+                    self?.clueResultModel = model
+                    
+                    let threadCardView = ThreadNewCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                    
+                    threadCardView.clueResultModel = model
+                    threadCardView.script_place_id = self?.script_place_id
+                    threadCardView.room_id = self!.room_id
+                    threadCardView.script_node_id = self!.script_node_id
+                    threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                    UIApplication.shared.keyWindow?.addSubview(threadCardView)
                     
                 } else {
                     
@@ -130,12 +149,15 @@ class ThreadCardDetailView: UIView {
     
     // 关闭按钮
     @objc func cancelBtnAction(_ sender: Any) {
+         hide()
+    }
+        
+      
+    private func hide() {
         contentView = nil
         commonView = nil
         removeFromSuperview()
     }
-        
-        
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -188,9 +210,6 @@ extension ThreadCardDetailView {
         let isOpen = isOpenNum
         let isGoing = isGoingNum
         
-//        let attachment = clueListModel?.attachment
-//        let isOpen = clueListModel?.isOpen
-//        let isGoing = clueListModel?.isGoing
         
         Log("\(attachment)")
         Log("\(isOpen)")
@@ -216,9 +235,9 @@ extension ThreadCardDetailView {
             }
             
             
-             var space =  CGFloat(10 + 44 + 10 + 33)
+             var space =  CGFloat(20 + 44 + 33 + 40)
                if isOpen == 1, isGoing == 0 { // 两个都不显示
-                   space = CGFloat(10 + 33)
+                   space = CGFloat(10 + 33 + 40)
                    var imgHeight = imgSize.height + space
                    if imgHeight >= FULL_SCREEN_HEIGHT {
                        imgHeight = CGFloat(Int(FULL_SCREEN_HEIGHT - CGFloat(space)))
@@ -228,7 +247,7 @@ extension ThreadCardDetailView {
                    }
 
                } else  { // 显示一个 或 两个
-                   space = CGFloat(10 + 33 + 10 + 44)
+                   space = CGFloat(20 + 33 + 44 + 40)
                    var imgHeight = imgSize.height + space
                    if imgHeight >= FULL_SCREEN_HEIGHT {
                        imgHeight = CGFloat(Int(FULL_SCREEN_HEIGHT - CGFloat(space)))
@@ -247,13 +266,14 @@ extension ThreadCardDetailView {
             var top = 0.0
             var left = 0.0
             
-            top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 44 - 10 - 10) * 0.5)
+            top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 44 - 10 - 10 - 33) * 0.5)
             left = Double(Float(FULL_SCREEN_WIDTH - imgSize.width) * 0.5)
             
             if isOpen == 1, isGoing == 0  { // 无按钮
                 publicBtn.isHidden = true
                 deepBtn.isHidden = true
-                top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 10) * 0.5)
+                
+                top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 10 - 33) * 0.5)
                 left = Double((FULL_SCREEN_WIDTH - imgSize.width) * 0.5)
                 
                 contentView.snp.makeConstraints { (make) in
@@ -275,25 +295,22 @@ extension ThreadCardDetailView {
                 imgView.size = imgSize
                 imgView.sizeToFit()
                 
-//                cancelBtn.snp.makeConstraints { (make) in
-//                    make.width.height.equalTo(33)
-//                    make.top.equalTo(imgView.snp_bottom).offset(10)
-//                    make.centerX.equalToSuperview()
-//                }
+                cancelBtn.snp.makeConstraints { (make) in
+                    make.width.height.equalTo(33)
+                    make.top.equalTo(imgView.snp_bottom).offset(10)
+                    make.centerX.equalToSuperview()
+                }
                 
                 
             } else if isOpen! == 0,isGoing! == 1 { // 两个都显示
                 publicBtn.isHidden = false
                 deepBtn.isHidden = false
-                
-                
 
                 contentView.snp.makeConstraints { (make) in
                     make.top.equalToSuperview().offset(top)
                     make.bottom.equalToSuperview().offset(-top)
                     make.left.equalToSuperview().offset(left)
                     make.right.equalToSuperview().offset(-left)
-                    
                 }
                 
                 imgView.snp.makeConstraints { (make) in
@@ -323,22 +340,19 @@ extension ThreadCardDetailView {
                     make.left.equalTo(publicBtn.snp_right).offset(15)
                 }
                 
-//                cancelBtn.snp.makeConstraints { (make) in
-//                    make.width.height.equalTo(33)
-//                    make.top.equalTo(deepBtn.snp_bottom).offset(10)
-//                    make.centerX.equalToSuperview()
-//                }
-                
+                cancelBtn.snp.makeConstraints { (make) in
+                    make.width.height.equalTo(33)
+                    make.top.equalTo(deepBtn.snp_bottom).offset(10)
+                    make.centerX.equalToSuperview()
+                }
                 
             } else {
-        
                 left = Double(Float(FULL_SCREEN_WIDTH - imgSize.width) * 0.5)
                 contentView.snp.makeConstraints { (make) in
                     make.top.equalToSuperview().offset(top)
                     make.bottom.equalToSuperview().offset(-top)
                     make.left.equalToSuperview().offset(left)
                     make.right.equalToSuperview().offset(-left)
-                    
                 }
                 
                 imgView.snp.makeConstraints { (make) in
@@ -363,11 +377,11 @@ extension ThreadCardDetailView {
                         make.left.equalToSuperview().offset(space)
                         make.right.equalToSuperview().offset(-space)
                     }
-//                    cancelBtn.snp.makeConstraints { (make) in
-//                        make.width.height.equalTo(33)
-//                        make.top.equalTo(publicBtn.snp_bottom).offset(10)
-//                        make.centerX.equalToSuperview()
-//                    }
+                    cancelBtn.snp.makeConstraints { (make) in
+                        make.width.height.equalTo(33)
+                        make.top.equalTo(publicBtn.snp_bottom).offset(10)
+                        make.centerX.equalToSuperview()
+                    }
                 }
                 
                 if isGoing! == 1 {
@@ -380,11 +394,11 @@ extension ThreadCardDetailView {
 
                     }
                     
-//                    cancelBtn.snp.makeConstraints { (make) in
-//                        make.width.height.equalTo(33)
-//                        make.top.equalTo(deepBtn.snp_bottom).offset(10)
-//                        make.centerX.equalToSuperview()
-//                    }
+                    cancelBtn.snp.makeConstraints { (make) in
+                        make.width.height.equalTo(33)
+                        make.top.equalTo(deepBtn.snp_bottom).offset(10)
+                        make.centerX.equalToSuperview()
+                    }
                 }
             }
             contentView.layoutIfNeeded()
@@ -392,7 +406,6 @@ extension ThreadCardDetailView {
 
             imgView.layoutIfNeeded()
             imgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)
-            
         }
     }
     
@@ -401,8 +414,34 @@ extension ThreadCardDetailView {
         self.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         
 
+
+        
+        if contentView == nil {
+            contentView = UIView()
+        }
+        
+        if commonView == nil {
+            commonView = UIView()
+        }
+        
+        if imgView == nil {
+            imgView = UIImageView(frame: CGRect.zero)
+        }
+        
+        if publicBtn == nil {
+            publicBtn = UIButton(frame: CGRect.zero)
+        }
+        
+        if deepBtn == nil {
+            deepBtn = UIButton(frame: CGRect.zero)
+        }
+        
+        if cancelBtn == nil {
+            cancelBtn = UIButton(frame: CGRect.zero)
+        }
+        
+        
         contentView.backgroundColor = UIColor.white
-//        contentView.backgroundColor = UIColor.clear
         commonView.addSubview(contentView)
         
         
@@ -426,15 +465,15 @@ extension ThreadCardDetailView {
         deepBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         deepBtn.addTarget(self, action: #selector(deepBtnAction(_:)), for: .touchUpInside)
 
-//        contentView.addSubview(cancelBtn)
+        contentView.addSubview(cancelBtn)
         cancelBtn.backgroundColor = UIColor.clear
         cancelBtn.addTarget(self, action: #selector(cancelBtnAction(_:)), for: .touchUpInside)
         cancelBtn.setImage(UIImage(named: "black_cancel"), for: .normal)
         
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(cancelBtnAction(_:)))
-        commonView.isUserInteractionEnabled = true
-        commonView.addGestureRecognizer(tap)
+//
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(cancelBtnAction(_:)))
+//        commonView.isUserInteractionEnabled = true
+//        commonView.addGestureRecognizer(tap)
     }
 }
 

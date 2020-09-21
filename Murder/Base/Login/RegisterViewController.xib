@@ -104,7 +104,7 @@
                                 <constraint firstAttribute="width" constant="50" id="Mzp-Ay-ACo"/>
                                 <constraint firstAttribute="height" constant="50" id="uB7-DF-pNY"/>
                             </constraints>
-                            <state key="normal" title="再发"/>
+                            <state key="normal" title="再送"/>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OiE-iE-RQy">
                             <rect key="frame" x="272.5" y="0.0" width="50" height="50"/>

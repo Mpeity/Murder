@@ -145,8 +145,11 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         initAgoraKit()
+        SingletonSocket.sharedInstance.socket.disconnect()
+        SingletonSocket.sharedInstance.socket.delegate = nil
         
         initWebSocketSingle()
         
@@ -166,10 +169,10 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if !SingletonSocket.sharedInstance.socket.isConnected {
-            reConnectTime = 0
-            socketReconnect()
-        }
+//        if !SingletonSocket.sharedInstance.socket.isConnected {
+//            reConnectTime = 0
+//            socketReconnect()
+//        }
         
 //        initWebSocketSingle()
         

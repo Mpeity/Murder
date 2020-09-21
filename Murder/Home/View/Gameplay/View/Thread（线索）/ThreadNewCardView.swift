@@ -2,110 +2,46 @@
 //  ThreadNewCardView.swift
 //  Murder
 //
-//  Created by 马滕亚 on 2020/9/2.
+//  Created by 马滕亚 on 2020/9/10.
 //  Copyright © 2020 m.a.c. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import SVProgressHUD
 
-//typealias AvatarImgTapBlcok = () ->()
 
-// 深入查看按钮
-typealias NewDeepBtnActionBlock = (_ clueResultModel: SearchClueResultModel) ->()
-// 公开按钮
-typealias NewPublicBtnActionBlock = (_ clueResultModel: SearchClueResultModel) ->()
 
 class ThreadNewCardView: UIView {
     
+    private var contentView: UIView! = UIView()
     
-    var deepBtnActionBlock : NewDeepBtnActionBlock?
-    
-    var publicBtnActionBlock : NewPublicBtnActionBlock?
-    
-    
-    @IBOutlet var contentView: UIView!
-    
-    
-    @IBOutlet weak var commonView: UIView!
-    
-    @IBOutlet weak var scrollView: UIScrollView!
+    private var commonView: UIView! = UIView()
     
     // 图片
-    @IBOutlet weak var imgView: UIImageView!
+    private var imgView: UIImageView! = UIImageView(frame: CGRect.zero)
     // 公开
-    @IBOutlet weak var publicBtn: UIButton!
+    private var publicBtn: UIButton! = UIButton(frame: CGRect.zero)
     // 可深入
-    @IBOutlet weak var deepBtn: UIButton!
-    
-   
-    // 
-    @IBOutlet weak var commonHeight: NSLayoutConstraint!
-    
-    @IBOutlet weak var commonWidth: NSLayoutConstraint!
-    // 顶部距离
-    @IBOutlet weak var topContraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var leftConstraint: NSLayoutConstraint!
-    
-    
-    @IBOutlet weak var rightConstraint: NSLayoutConstraint!
-    
+    private var deepBtn: UIButton! = UIButton(frame: CGRect.zero)
     // 关闭
-    @IBOutlet weak var cancelBtn: UIButton!
+    private var cancelBtn: UIButton! = UIButton(frame: CGRect.zero)
     
     var script_place_id: Int?
-    
+        
     var room_id: Int?
-    
+        
     var script_node_id: Int?
-    
+        
     var script_clue_id: Int?
-    
+      
+    // 列表
     var clueListModel :ClueListModel? {
         didSet {
             if clueListModel != nil {
-                script_node_id = clueListModel?.scriptNodeId
                 script_place_id = clueListModel?.scriptPlaceId
-                script_clue_id = clueListModel?.scriptClueId
+                script_clue_id = clueListModel?.childId
                 if clueListModel?.attachment != nil {
-                    var imgSize = CGSize()
-                    let size = getImageSize(clueListModel?.attachment!)
-                    if size.height != 0, size.width != 0 {
-                        if size.width >= FULL_SCREEN_WIDTH {
-                            imgSize.width = FULL_SCREEN_WIDTH
-                            let scale = FULL_SCREEN_WIDTH / size.width
-                            imgSize.height = size.height * scale
-                        }
-                        Log(size)
-                        Log(imgSize)
-                        
-                        imgView.setImageWith(URL(string: (clueListModel?.attachment!)!))
-                        imgView.size = imgSize
-                        imgView.sizeToFit()
-                        scrollView.contentSize = imgSize
-                        
-                        commonWidth.constant = imgSize.width
-                        commonHeight.constant = imgSize.height + 64
-
-                        topContraint.constant = (FULL_SCREEN_HEIGHT-commonHeight.constant)*0.5
-                        leftConstraint.constant = (FULL_SCREEN_WIDTH - commonWidth.constant) * 0.5
-                        rightConstraint.constant = (FULL_SCREEN_WIDTH - commonWidth.constant) * 0.5
-                        
-                        commonView.snp.remakeConstraints { (make) in
-                            make.height.equalTo(commonHeight.constant)
-                            make.left.equalToSuperview().offset(leftConstraint.constant)
-                            make.right.equalToSuperview().offset(rightConstraint.constant)
-                            make.width.equalTo(commonWidth.constant)
-                                                
-                        //                        make.centerX.equalToSuperview()
-                        //                        make.centerY.equalToSuperview()
-                        }
-                        commonView.layoutIfNeeded()
-                        
-                        layoutIfNeeded()
-                    }
-                    
+                    showDetailView(attachmentStr: clueListModel!.attachment, isOpenNum: clueListModel!.isOpen, isGoingNum: clueListModel!.isGoing)
                 }
                 if clueListModel?.isGoing == 1 { // 可深入
                     deepBtn.layer.cornerRadius = 22
@@ -116,58 +52,19 @@ class ThreadNewCardView: UIView {
                     deepBtn.layer.borderColor = HexColor(MainColor).cgColor
                     deepBtn.layer.borderWidth = 0.5
                     deepBtn.setTitleColor(HexColor(MainColor), for: .normal)
+                    deepBtn.backgroundColor = UIColor.white
                 }
             }
         }
     }
     
+    // 地图
     var clueResultModel: SearchClueResultModel? {
         didSet {
             if clueResultModel != nil {
-                script_clue_id = clueResultModel?.scriptClueId
+                script_clue_id = clueResultModel?.childId
                 if clueResultModel?.attachment != nil {
-                    var imgSize = CGSize()
-                    let size = getImageSize(clueResultModel?.attachment!)
-                    if size.width >= FULL_SCREEN_WIDTH {
-                        imgSize.width = FULL_SCREEN_WIDTH
-                        let scale = FULL_SCREEN_WIDTH / size.width
-                        imgSize.height = size.height * scale
-                    } else if (size.width <= 300.0) {
-                        imgSize.width = 300.0
-                        let scale = 300.0 / size.width
-                        imgSize.height = size.height * scale
-                    } else {
-                        imgSize = size
-                    }
-                    Log(size)
-                    Log(imgSize)
-                    
-                    imgView.setImageWith(URL(string: (clueResultModel?.attachment!)!))
-                    imgView.size = imgSize
-                    imgView.sizeToFit()
-                    scrollView.contentSize = imgSize
-                    scrollView.size = imgSize
-                    
-                    commonWidth.constant = imgSize.width
-                    commonHeight.constant = imgSize.height + 64
-                    topContraint.constant = (FULL_SCREEN_HEIGHT-commonHeight.constant)*0.5
-                    leftConstraint.constant = (FULL_SCREEN_WIDTH - commonWidth.constant) * 0.5
-                    rightConstraint.constant = (FULL_SCREEN_WIDTH - commonWidth.constant) * 0.5
-                    
-                    commonView.snp.remakeConstraints { (make) in
-                        make.height.equalTo(commonHeight.constant)
-                        make.left.equalToSuperview().offset(leftConstraint.constant)
-                        make.right.equalToSuperview().offset(rightConstraint.constant)
-                        make.width.equalTo(commonWidth.constant)
-                        
-//                        make.centerX.equalToSuperview()
-//                        make.centerY.equalToSuperview()
-                    }
-                    commonView.layoutIfNeeded()
-
-                    
-                    Log(commonView.frame)
-//
+                    showDetailView(attachmentStr: clueResultModel!.attachment, isOpenNum: clueResultModel!.isOpen, isGoingNum: clueResultModel!.isGoing!)
                 }
                 if clueResultModel?.isGoing == 1 { // 可深入
                     deepBtn.layer.cornerRadius = 22
@@ -178,6 +75,7 @@ class ThreadNewCardView: UIView {
                     deepBtn.layer.borderColor = HexColor(MainColor).cgColor
                     deepBtn.layer.borderWidth = 0.5
                     deepBtn.setTitleColor(HexColor(MainColor), for: .normal)
+                    deepBtn.backgroundColor = UIColor.white
                 }
             }
         }
@@ -185,11 +83,11 @@ class ThreadNewCardView: UIView {
     
     
     // 深入按钮
-    @IBAction func deepBtnAction(_ sender: Any) {
-        if clueResultModel?.isGoing == 1 { // 可深入
-//            deepBtnActionBlock?(clueResultModel!)
-            
+    @objc func deepBtnAction(_ sender: Any) {
+        if (clueResultModel != nil && clueResultModel?.isGoing == 1) || (clueListModel != nil && clueListModel?.isGoing == 1) { // 可深入
+            SVProgressHUD.show(withStatus: "加载中")
             searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: script_clue_id, script_node_id: script_node_id!) {[weak self] (result, error) in
+                SVProgressHUD.dismiss()
                 if error != nil {
                     return
                 }
@@ -198,8 +96,9 @@ class ThreadNewCardView: UIView {
                 if resultDic["code"]!.isEqual(1) {
                     let data = resultDic["data"] as! [String : AnyObject]
                     let resultData = data["search_clue_result"] as! [String : AnyObject]
+                    
                     let model = SearchClueResultModel(fromDictionary: resultData)
-                    self!.clueResultModel = model
+                    self?.clueResultModel = model
                     
                 } else {
                     
@@ -211,7 +110,7 @@ class ThreadNewCardView: UIView {
     }
     
     // 公开按钮
-    @IBAction func publicBtnAction(_ sender: Any) {
+    @objc func publicBtnAction(_ sender: Any) {
         
         clueOpenRequest(room_id: room_id!, script_clue_id: script_clue_id!, script_place_id: script_place_id!, script_node_id: script_node_id!) { (result, error) in
             if error != nil {
@@ -230,52 +129,34 @@ class ThreadNewCardView: UIView {
         
         self.removeFromSuperview()
         
-//        publicBtnActionBlock?(clueResultModel!)
     }
     
     // 关闭按钮
-    @objc private func cancelBtnAction(_ sender: Any) {
+    @objc func cancelBtnAction(_ sender: Any) {
         contentView = nil
+        commonView = nil
         removeFromSuperview()
     }
-    
-    
+        
+        
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView = loadViewFromNib()
-        addSubview(contentView)
-        contentView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        addConstraints()
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(cancelBtnAction(_:)))
-        contentView.addGestureRecognizer(tap)
+        commonView.frame = self.bounds
+        addSubview(commonView)
         
-        // 设置UI
+        commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        
         setUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
 }
 
-extension ThreadNewCardView {
-    //MARK:- 设置UI
-    private func setUI() {
-        self.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        
-        publicBtn.layer.cornerRadius = 22
-        publicBtn.layer.borderColor = HexColor(MainColor).cgColor
-        publicBtn.layer.borderWidth = 0.5
-        publicBtn.setTitleColor(HexColor(MainColor), for: .normal)
-        
-        deepBtn.layer.cornerRadius = 22
-        deepBtn.layer.borderColor = HexColor(MainColor).cgColor
-        deepBtn.layer.borderWidth = 0.5
-        deepBtn.setTitleColor(HexColor(MainColor), for: .normal)
-    }
-}
 
 extension ThreadNewCardView {
     func getImageSize(_ url: String?) -> CGSize {
@@ -303,34 +184,270 @@ extension ThreadNewCardView {
 }
 
 extension ThreadNewCardView {
-    //加载xib
-     func loadViewFromNib() -> UIView {
-         let className = type(of: self)
-         let bundle = Bundle(for: className)
-         let name = NSStringFromClass(className).components(separatedBy: ".").last
-         let nib = UINib(nibName: name!, bundle: bundle)
-         let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
-         return view
-     }
-    
-     //设置好xib视图约束
-     func addConstraints() {
+    private func showDetailView(attachmentStr: String?, isOpenNum: Int?, isGoingNum: Int?) {
+        
 
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        var constraint = NSLayoutConstraint(item: contentView!, attribute: .leading,
-                                             relatedBy: .equal, toItem: self, attribute: .leading,
-                                             multiplier: 1, constant: 0)
-        addConstraint(constraint)
-         constraint = NSLayoutConstraint(item: contentView!, attribute: .trailing,
-                                         relatedBy: .equal, toItem: self, attribute: .trailing,
-                                         multiplier: 1, constant: 0)
-         addConstraint(constraint)
-         constraint = NSLayoutConstraint(item: contentView!, attribute: .top, relatedBy: .equal,
-                                         toItem: self, attribute: .top, multiplier: 1, constant: 0)
-         addConstraint(constraint)
-         constraint = NSLayoutConstraint(item: contentView!, attribute: .bottom,
-                                         relatedBy: .equal, toItem: self, attribute: .bottom,
-                                         multiplier: 1, constant: 0)
-         addConstraint(constraint)
-     }
+        let attachment = attachmentStr
+        let isOpen = isOpenNum
+        let isGoing = isGoingNum
+        
+        var imgSize = CGSize()
+        let size = getImageSize(attachment!)
+        if size.height != 0, size.width != 0 {
+            if size.width >= FULL_SCREEN_WIDTH {
+                imgSize.width = FULL_SCREEN_WIDTH
+                let scale = FULL_SCREEN_WIDTH / size.width
+                imgSize.height = size.height * scale
+                
+            } else if (size.width <= 300.0) {
+                imgSize.width = 300.0
+                let scale = 300.0 / size.width
+                imgSize.height = size.height * scale
+ 
+            } else {
+                
+                imgSize = size
+                
+            }
+            
+            
+             var space =  CGFloat(20 + 44 + 33 + 40)
+               if isOpen == 1, isGoing == 0 { // 两个都不显示
+                   space = CGFloat(10 + 33 + 40)
+                   var imgHeight = imgSize.height + space
+                   if imgHeight >= FULL_SCREEN_HEIGHT {
+                       imgHeight = CGFloat(Int(FULL_SCREEN_HEIGHT - CGFloat(space)))
+                       let heightScale = imgHeight / imgSize.height
+                       imgSize.width = imgSize.width * heightScale
+                       imgSize.height = imgHeight
+                   }
+
+               } else  { // 显示一个 或 两个
+                   space = CGFloat(20 + 33 + 44 + 40)
+                   var imgHeight = imgSize.height + space
+                   if imgHeight >= FULL_SCREEN_HEIGHT {
+                       imgHeight = CGFloat(Int(FULL_SCREEN_HEIGHT - CGFloat(space)))
+                       let heightScale = imgHeight / imgSize.height
+                       imgSize.width = imgSize.width * heightScale
+                       imgSize.height = imgHeight
+                   }
+                   
+               }
+            
+            Log(size)
+            Log(imgSize)
+            
+            // isgoing  1 显示 0 不显示
+            // isopen 0显示 1不显示？
+            var top = 0.0
+            var left = 0.0
+            
+            top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 44 - 10 - 10 - 33) * 0.5)
+            left = Double(Float(FULL_SCREEN_WIDTH - imgSize.width) * 0.5)
+            
+            if isOpen == 1, isGoing == 0  { // 无按钮
+                publicBtn.isHidden = true
+                deepBtn.isHidden = true
+                
+                top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 10 - 33) * 0.5)
+                left = Double((FULL_SCREEN_WIDTH - imgSize.width) * 0.5)
+                
+                contentView.snp.makeConstraints { (make) in
+                    make.top.equalToSuperview().offset(top)
+                    make.bottom.equalToSuperview().offset(-top)
+                    make.left.equalToSuperview().offset(left)
+                    make.right.equalToSuperview().offset(-left)
+                    
+                }
+                
+                imgView.snp.makeConstraints { (make) in
+                    make.width.equalTo(imgSize.width)
+                    make.height.equalTo(imgSize.height)
+                    make.top.equalToSuperview()
+                    make.left.equalToSuperview()
+                }
+                
+                imgView.setImageWith(URL(string: attachment!))
+                imgView.size = imgSize
+                imgView.sizeToFit()
+                
+                cancelBtn.snp.makeConstraints { (make) in
+                    make.width.height.equalTo(33)
+                    make.top.equalTo(imgView.snp_bottom).offset(10)
+                    make.centerX.equalToSuperview()
+                }
+                
+                
+            } else if isOpen! == 0,isGoing! == 1 { // 两个都显示
+                publicBtn.isHidden = false
+                deepBtn.isHidden = false
+
+                contentView.snp.makeConstraints { (make) in
+                    make.top.equalToSuperview().offset(top)
+                    make.bottom.equalToSuperview().offset(-top)
+                    make.left.equalToSuperview().offset(left)
+                    make.right.equalToSuperview().offset(-left)
+                }
+                
+                imgView.snp.makeConstraints { (make) in
+                    make.width.equalTo(imgSize.width)
+                    make.height.equalTo(imgSize.height)
+                    make.top.equalToSuperview()
+                    make.left.equalToSuperview()
+                }
+                
+                imgView.setImageWith(URL(string: attachment!))
+                imgView.size = imgSize
+                imgView.sizeToFit()
+                
+                let space = 2.0*left + 22*2.0 + 15.0
+                let width = (Double(FULL_SCREEN_WIDTH) - space) * 0.5
+                publicBtn.snp.makeConstraints { (make) in
+                    make.width.equalTo(width)
+                    make.height.equalTo(44)
+                    make.top.equalTo(imgView.snp_bottom).offset(10)
+                    make.left.equalToSuperview().offset(22)
+                }
+                
+                deepBtn.snp.makeConstraints { (make) in
+                    make.width.equalTo(width)
+                    make.height.equalTo(44)
+                    make.top.equalTo(imgView.snp_bottom).offset(10)
+                    make.left.equalTo(publicBtn.snp_right).offset(15)
+                }
+                
+                cancelBtn.snp.makeConstraints { (make) in
+                    make.width.height.equalTo(33)
+                    make.top.equalTo(deepBtn.snp_bottom).offset(10)
+                    make.centerX.equalToSuperview()
+                }
+                
+            } else {
+                left = Double(Float(FULL_SCREEN_WIDTH - imgSize.width) * 0.5)
+                contentView.snp.makeConstraints { (make) in
+                    make.top.equalToSuperview().offset(top)
+                    make.bottom.equalToSuperview().offset(-top)
+                    make.left.equalToSuperview().offset(left)
+                    make.right.equalToSuperview().offset(-left)
+                }
+                
+                imgView.snp.makeConstraints { (make) in
+                    make.width.equalTo(imgSize.width)
+                    make.height.equalTo(imgSize.height)
+                    make.top.equalToSuperview()
+                    make.left.equalToSuperview()
+                }
+                
+                
+                imgView.setImageWith(URL(string:attachment!))
+                imgView.size = imgSize
+                imgView.sizeToFit()
+                
+                let space = 22.0
+                
+                if isOpen! == 0 {
+                    deepBtn.isHidden = true
+                    publicBtn.snp.makeConstraints { (make) in
+                        make.height.equalTo(44)
+                        make.top.equalTo(imgView.snp_bottom).offset(10)
+                        make.left.equalToSuperview().offset(space)
+                        make.right.equalToSuperview().offset(-space)
+                    }
+                    cancelBtn.snp.makeConstraints { (make) in
+                        make.width.height.equalTo(33)
+                        make.top.equalTo(publicBtn.snp_bottom).offset(10)
+                        make.centerX.equalToSuperview()
+                    }
+                }
+                
+                if isGoing! == 1 {
+                    publicBtn.isHidden = true
+                    deepBtn.snp.makeConstraints { (make) in
+                        make.height.equalTo(44)
+                        make.top.equalTo(imgView.snp_bottom).offset(10)
+                        make.left.equalToSuperview().offset(space)
+                        make.right.equalToSuperview().offset(-space)
+
+                    }
+                    
+                    cancelBtn.snp.makeConstraints { (make) in
+                        make.width.height.equalTo(33)
+                        make.top.equalTo(deepBtn.snp_bottom).offset(10)
+                        make.centerX.equalToSuperview()
+                    }
+                }
+            }
+            contentView.layoutIfNeeded()
+            contentView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight,UIRectCorner.bottomLeft,UIRectCorner.bottomRight], radii: 15)
+
+            imgView.layoutIfNeeded()
+            imgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)
+        }
+    }
+    
+    //MARK:- 设置UI
+    private func setUI() {
+        self.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        
+
+
+        
+        if contentView == nil {
+            contentView = UIView()
+        }
+        
+        if commonView == nil {
+            commonView = UIView()
+        }
+        
+        if imgView == nil {
+            imgView = UIImageView(frame: CGRect.zero)
+        }
+        
+        if publicBtn == nil {
+            publicBtn = UIButton(frame: CGRect.zero)
+        }
+        
+        if deepBtn == nil {
+            deepBtn = UIButton(frame: CGRect.zero)
+        }
+        
+        if cancelBtn == nil {
+            cancelBtn = UIButton(frame: CGRect.zero)
+        }
+        
+        
+        contentView.backgroundColor = UIColor.white
+        commonView.addSubview(contentView)
+        
+        
+        contentView.addSubview(imgView)
+
+        contentView.addSubview(publicBtn)
+        publicBtn.layer.cornerRadius = 22
+        publicBtn.layer.borderColor = HexColor(MainColor).cgColor
+        publicBtn.layer.borderWidth = 0.5
+        publicBtn.setTitleColor(HexColor(MainColor), for: .normal)
+        publicBtn.setTitle("公開", for: .normal)
+        publicBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        publicBtn.addTarget(self, action: #selector(publicBtnAction(_:)), for: .touchUpInside)
+
+        contentView.addSubview(deepBtn)
+        deepBtn.layer.cornerRadius = 22
+        deepBtn.layer.borderColor = HexColor(MainColor).cgColor
+        deepBtn.layer.borderWidth = 0.5
+        deepBtn.setTitleColor(HexColor(MainColor), for: .normal)
+        deepBtn.setTitle("深くへ調査", for: .normal)
+        deepBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        deepBtn.addTarget(self, action: #selector(deepBtnAction(_:)), for: .touchUpInside)
+
+        contentView.addSubview(cancelBtn)
+        cancelBtn.backgroundColor = UIColor.clear
+        cancelBtn.addTarget(self, action: #selector(cancelBtnAction(_:)), for: .touchUpInside)
+        cancelBtn.setImage(UIImage(named: "black_cancel"), for: .normal)
+    }
 }
+
+
+
+

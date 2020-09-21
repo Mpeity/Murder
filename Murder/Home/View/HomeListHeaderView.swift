@@ -75,11 +75,19 @@ class HomeListHeaderView: UIView {
             
             scrollView.clickItemOperationBlock = { [weak self] (currentIndex) in
                 let bannerModel = homeViewModel.bannerModelArr![currentIndex]
-                let vc = BannerWebViewController()
-                vc.bannerModel = bannerModel
-//                vc.urlString = bannerModel.datas!
-                let nav = self?.findNavController()
-                nav?.pushViewController(vc, animated: true)
+                if bannerModel.bannerType == 1 {
+                    let vc = ScriptDetailsViewController()
+                    vc.script_id = Int(bannerModel.datas!)
+                    let nav = self?.findNavController()
+                    nav?.pushViewController(vc, animated: true)
+                    
+                } else {
+                    let vc = BannerWebViewController()
+                    vc.bannerModel = bannerModel
+                    let nav = self?.findNavController()
+                    nav?.pushViewController(vc, animated: true)
+                }
+                
             }
                     
         }
