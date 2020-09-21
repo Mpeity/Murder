@@ -34,6 +34,14 @@ class MainViewController: UITabBarController {
         
         setRedPoint()
         
+        let uid = UserAccountViewModel.shareInstance.account?.userId!
+        let alias = "alias_\(uid!)"
+        UMessage.addAlias(alias, type: "SINA_WEIBO") {  (result, error) in
+            Log(result)
+            Log(error)
+         }
+        
+        
         self.tabBar.tintColor = HexColor(MainColor)
         self.tabBar.barTintColor = UIColor.white
         
@@ -89,7 +97,7 @@ extension MainViewController: AgoraRtmDelegate {
             print(String(account!))
             
             guard errorCode == .ok else {
-                showToastCenter(msg: "AgoraRtmLogout")
+                showToastCenter(msg: "AgoraRtmLogout\(errorCode)")
                 #warning("注释一下，记得解开")
 //                UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
 //                userLogout()

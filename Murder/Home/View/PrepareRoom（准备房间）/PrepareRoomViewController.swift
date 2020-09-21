@@ -1117,15 +1117,22 @@ extension PrepareRoomViewController {
     private func initAgoraKit() {
         // 初始化
         agoraKit = AgoraRtcEngineKit.sharedEngine(withAppId: AgoraKit_AppId, delegate: self)
+        // 该方法中 volume 参数表示录音信号的音量，取值范围为 [0, 400]：
+        // 0: 静音。
+        // 100: （默认值）原始音量，即不对信号做缩放。
+        // 400: 原始音量的 4 倍（把信号放大到原始信号的 4 倍）。
+        agoraKit.adjustPlaybackSignalVolume(400)
+        
         // 因为是纯音频多人通话的场景，设置为通信模式以获得更好的音质
         agoraKit.setChannelProfile(.communication)
         // 通信模式下默认为听筒，demo中将它切为外放
         agoraKit.setDefaultAudioRouteToSpeakerphone(true)
         // 启动音量回调，用来在界面上显示房间其他人的说话音量
         agoraKit.enableAudioVolumeIndication(1000, smooth: 3, report_vad: false)
-        // 加入案发现场的群聊频道
+        // 将本地播放的所有远端用户音量设置为原始音量的 50
         
-
+        
+        // 加入案发现场的群聊频道
         let uid:UInt = UInt(bitPattern: (UserAccountViewModel.shareInstance.account?.userId!)!)
         agoraKit.joinChannel(byToken: nil, channelId: String(room_id!), info: nil, uid: uid) { (channel, uid, elapsed) in
             Log("channel=\(channel) uid=\(uid) elapsed=\(elapsed)")

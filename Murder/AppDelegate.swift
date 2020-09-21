@@ -11,7 +11,7 @@ import Bugly
 import AgoraRtmKit
  
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
     
@@ -39,13 +39,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Bugly.start(withAppId: BUGLY_APP_ID, config: buglyConfig)
         
         // UM
-        UMConfigure.initWithAppkey(UMAppKey, channel: "App Store")
+        UMConfigure.initWithAppkey(UMAppKey, channel:  nil)
         UMConfigure.setLogEnabled(true)
-        UMessage.setAlias("alias_12", type: "SINA_WEIBO") { (result, error) in
-            Log(result)
-            Log(error)
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().delegate = self
+
+        } else {
+            // Fallback on earlier versions
         }
-        application.registerForRemoteNotifications()
+         let entity = UMessageRegisterEntity.init()
+        //type是对推送的几个参数的选择，可以选择一个或者多个。默认是三个全部打开，即：声音，弹窗，角标等
+
+       entity.types = Int(UInt8(UMessageAuthorizationOptions.badge.rawValue) | UInt8(UMessageAuthorizationOptions.alert.rawValue))
+
+       UMessage.registerForRemoteNotifications(launchOptions: launchOptions, entity: entity) { (granted, error) in
+
+           if granted {
+               // 用户选择了接收Push消息
+            Log("用户选择了接收Push消息")
+            
+
+           } else {
+
+               // 用户拒绝接收Push消息
+               Log("用户拒绝接收Push消息")
+
+           }
+
+       }
+        
+//        application.registerForRemoteNotifications()
+        
         
         setUI()
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
@@ -77,6 +101,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             deviceId = device.description.replacingOccurrences(of:"<", with:"").replacingOccurrences(of:">", with:"").replacingOccurrences(of:" ", with:"")
             print("我的deviceToken：\(deviceId)")
         }
+            
+ 
     }
     
     //进入后台模式，主动断开socket，防止出现处理不了的情况

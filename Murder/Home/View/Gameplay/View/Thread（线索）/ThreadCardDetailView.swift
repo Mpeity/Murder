@@ -247,13 +247,13 @@ extension ThreadCardDetailView {
             var top = 0.0
             var left = 0.0
             
-            top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 44 - 33 - 10 - 10) * 0.5)
+            top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 44 - 10 - 10) * 0.5)
             left = Double(Float(FULL_SCREEN_WIDTH - imgSize.width) * 0.5)
             
             if isOpen == 1, isGoing == 0  { // 无按钮
                 publicBtn.isHidden = true
                 deepBtn.isHidden = true
-                top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 10 - 33) * 0.5)
+                top = Double((FULL_SCREEN_HEIGHT-imgSize.height - 10) * 0.5)
                 left = Double((FULL_SCREEN_WIDTH - imgSize.width) * 0.5)
                 
                 contentView.snp.makeConstraints { (make) in
@@ -275,11 +275,11 @@ extension ThreadCardDetailView {
                 imgView.size = imgSize
                 imgView.sizeToFit()
                 
-                cancelBtn.snp.makeConstraints { (make) in
-                    make.width.height.equalTo(33)
-                    make.top.equalTo(imgView.snp_bottom).offset(10)
-                    make.centerX.equalToSuperview()
-                }
+//                cancelBtn.snp.makeConstraints { (make) in
+//                    make.width.height.equalTo(33)
+//                    make.top.equalTo(imgView.snp_bottom).offset(10)
+//                    make.centerX.equalToSuperview()
+//                }
                 
                 
             } else if isOpen! == 0,isGoing! == 1 { // 两个都显示
@@ -323,11 +323,11 @@ extension ThreadCardDetailView {
                     make.left.equalTo(publicBtn.snp_right).offset(15)
                 }
                 
-                cancelBtn.snp.makeConstraints { (make) in
-                    make.width.height.equalTo(33)
-                    make.top.equalTo(deepBtn.snp_bottom).offset(10)
-                    make.centerX.equalToSuperview()
-                }
+//                cancelBtn.snp.makeConstraints { (make) in
+//                    make.width.height.equalTo(33)
+//                    make.top.equalTo(deepBtn.snp_bottom).offset(10)
+//                    make.centerX.equalToSuperview()
+//                }
                 
                 
             } else {
@@ -363,11 +363,11 @@ extension ThreadCardDetailView {
                         make.left.equalToSuperview().offset(space)
                         make.right.equalToSuperview().offset(-space)
                     }
-                    cancelBtn.snp.makeConstraints { (make) in
-                        make.width.height.equalTo(33)
-                        make.top.equalTo(publicBtn.snp_bottom).offset(10)
-                        make.centerX.equalToSuperview()
-                    }
+//                    cancelBtn.snp.makeConstraints { (make) in
+//                        make.width.height.equalTo(33)
+//                        make.top.equalTo(publicBtn.snp_bottom).offset(10)
+//                        make.centerX.equalToSuperview()
+//                    }
                 }
                 
                 if isGoing! == 1 {
@@ -380,19 +380,17 @@ extension ThreadCardDetailView {
 
                     }
                     
-                    cancelBtn.snp.makeConstraints { (make) in
-                        make.width.height.equalTo(33)
-                        make.top.equalTo(deepBtn.snp_bottom).offset(10)
-                        make.centerX.equalToSuperview()
-                    }
+//                    cancelBtn.snp.makeConstraints { (make) in
+//                        make.width.height.equalTo(33)
+//                        make.top.equalTo(deepBtn.snp_bottom).offset(10)
+//                        make.centerX.equalToSuperview()
+//                    }
                 }
             }
             contentView.layoutIfNeeded()
             contentView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight,UIRectCorner.bottomLeft,UIRectCorner.bottomRight], radii: 15)
 
             imgView.layoutIfNeeded()
-//            imgView.layer.cornerRadius = 15
-//            imgView.layer.masksToBounds = true
             imgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)
             
         }
@@ -428,11 +426,15 @@ extension ThreadCardDetailView {
         deepBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         deepBtn.addTarget(self, action: #selector(deepBtnAction(_:)), for: .touchUpInside)
 
-        contentView.addSubview(cancelBtn)
+//        contentView.addSubview(cancelBtn)
         cancelBtn.backgroundColor = UIColor.clear
         cancelBtn.addTarget(self, action: #selector(cancelBtnAction(_:)), for: .touchUpInside)
-//        cancel_readscript
         cancelBtn.setImage(UIImage(named: "black_cancel"), for: .normal)
+        
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(cancelBtnAction(_:)))
+        commonView.isUserInteractionEnabled = true
+        commonView.addGestureRecognizer(tap)
     }
 }
 

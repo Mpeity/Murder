@@ -111,7 +111,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="dgS-ww-L8t"/>
                             </constraints>
-                            <state key="normal" title="親友を申し込む"/>
+                            <state key="normal" title="友達申込"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pSk-Sn-yEv">
                             <rect key="frame" x="0.0" y="1" width="70" height="28"/>

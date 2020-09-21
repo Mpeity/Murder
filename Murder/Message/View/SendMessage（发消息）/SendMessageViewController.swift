@@ -88,6 +88,8 @@ class SendMessageViewController: UIViewController, UIGestureRecognizerDelegate {
         // 监听键盘弹出
         NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deleteFriend), name: NSNotification.Name(rawValue: Delete_Friend_Notif), object: nil)
+        
+        self.automaticallyAdjustsScrollViewInsets = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -171,9 +173,12 @@ extension SendMessageViewController {
                         self?.msgList?.append(model)
                     }
                     self?.tableView.reloadData()
-                    self?.tableView.scrollToRow(at: IndexPath(row: ((self?.msgList!.count)!)-1, section: 0), at: .bottom, animated: false)
+                    let indexPath = IndexPath(row: ((self?.msgList!.count)!)-1, section: 0)
+                    self?.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
                     self?.tableView.isScrollEnabled = true
                     
+                    Log(self?.tableView.frame)
+//
                 }
                 
 //                self?.tableView.mj_header.endRefreshing()
@@ -216,14 +221,26 @@ extension SendMessageViewController {
         // 隐藏cell系统分割线
         tableView.separatorStyle = .none
         tableView.backgroundColor = HexColor("F5F5F5")
+//        tableView.backgroundColor = UIColor.red
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
+            make.top.equalToSuperview().offset(NAVIGATION_BAR_HEIGHT)
             make.left.equalTo(0)
             make.width.equalTo(FULL_SCREEN_WIDTH)
             make.bottom.equalTo(bottomView.snp_top)
         }
+        
+        //        tableView.frame = CGRect(x: 0, y: NAVIGATION_BAR_HEIGHT, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT-HOME_INDICATOR_HEIGHT-NAVIGATION_BAR_HEIGHT-bottomView.height)
+
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        } else {
+            // Fallback on earlier versions
+        }
+        Log(tableView.frame)
+        
+//        tableView.contentOffset = CGPoint(x: CGFloat.greatestFiniteMagnitude, y: CGFloat.greatestFiniteMagnitude)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
         tap.delegate = self
@@ -486,13 +503,13 @@ extension SendMessageViewController: UITextFieldDelegate {
     // 获取文字的长度和宽度
     private func getSizeWithContent(content: String) -> CGSize {
         var width = labelWidth(text: content, height: 15, fontSize: 15)
-        var height: CGFloat = 90
+        var height: CGFloat = 95
         if width >= FULL_SCREEN_WIDTH - 170 {
             width = FULL_SCREEN_WIDTH - 170
 //            height = content.ga_heightForComment(fontSize: 15, width: width)
             let font = UIFont.systemFont(ofSize: 15)
             height = stringSingleHeightWithWidth(text: content, width: width, font: font)
-            height += 75
+            height += 80
         }
         
         return CGSize(width: width, height: height)
@@ -586,7 +603,11 @@ private extension SendMessageViewController {
             
             AgoraRtm.kit?.queryPeersOnlineStatus([name], completion: {[weak self] (peerOnlineStatus, peersOnlineErrorCode) in
                 guard peersOnlineErrorCode == .ok else {
-                    showToastCenter(msg: "send-AgoraRtm login error: \(peersOnlineErrorCode.rawValue)")
+//                    showToastCenter(msg: "send-AgoraRtm login error: \(peersOnlineErrorCode.rawValue)")
+
+                    
+                    UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
+                    userLogout()
                     return
                 }
                 Log(peerOnlineStatus)

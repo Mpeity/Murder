@@ -758,7 +758,7 @@ extension GameplayViewController {
             make.left.equalTo(exitBtn.snp.right).offset(7.5)
             make.top.equalToSuperview().offset(9.5)
             make.height.equalTo(18)
-            make.width.equalTo(100)
+            make.width.equalTo(200)
         }
         gameNameLabel.text = "平凡な宿"
         gameNameLabel.font = UIFont.systemFont(ofSize: 14.0)
@@ -1357,7 +1357,7 @@ extension GameplayViewController {
             threadView.room_id = gamePlayModel?.room.roomId
             threadView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
             threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
-//            self.view.addSubview(threadView)
+            self.view.addSubview(threadView)
         
 //        }
 
@@ -1495,7 +1495,6 @@ extension GameplayViewController: CollogueRoomViewDelegate {
         
         let channelId = "\(room_id!)_" + "chat\(index+1)"
         
-        // 纪录自己加入的密谈室
         
         // 加入私聊频道
         agoraKit.leaveChannel(nil)
@@ -1506,6 +1505,13 @@ extension GameplayViewController: CollogueRoomViewDelegate {
         agoraKit.setDefaultAudioRouteToSpeakerphone(true)
         // 启动音量回调，用来在界面上显示房间其他人的说话音量
         agoraKit.enableAudioVolumeIndication(1000, smooth: 3, report_vad: false)
+        // 将本地播放的所有远端用户音量设置为原始音量的 50
+        // 该方法中 volume 参数表示录音信号的音量，取值范围为 [0, 400]：
+        // 0: 静音。
+        // 100: （默认值）原始音量，即不对信号做缩放。
+        // 400: 原始音量的 4 倍（把信号放大到原始信号的 4 倍）。
+         agoraKit.adjustPlaybackSignalVolume(400)
+        
         
         let uid = UserAccountViewModel.shareInstance.account?.userId
         agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: uid!), joinSuccess: nil)
@@ -1536,6 +1542,9 @@ extension GameplayViewController: CollogueRoomViewDelegate {
    
         agoraKit.leaveChannel(nil)
         initAgoraKit()
+        
+        // 开关本地音频发送  YES: 停止发送本地音频流 NO: （默认）继续发送本地音频流
+        agoraKit.muteLocalAudioStream(!microphoneBtn.isSelected)
 
     }
     
@@ -2029,6 +2038,13 @@ extension GameplayViewController {
     private func initAgoraKit() {
         // 初始化
         agoraKit = AgoraRtcEngineKit.sharedEngine(withAppId: AgoraKit_AppId, delegate: self)
+        // 将本地播放的所有远端用户音量设置为原始音量的 50
+        // 该方法中 volume 参数表示录音信号的音量，取值范围为 [0, 400]：
+        // 0: 静音。
+        // 100: （默认值）原始音量，即不对信号做缩放。
+        // 400: 原始音量的 4 倍（把信号放大到原始信号的 4 倍）。
+         agoraKit.adjustPlaybackSignalVolume(400)
+        
         // 因为是纯音频多人通话的场景，设置为通信模式以获得更好的音质
         agoraKit.setChannelProfile(.communication)
         // 通信模式下默认为听筒，demo中将它切为外放

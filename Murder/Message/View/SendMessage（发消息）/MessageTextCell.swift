@@ -78,12 +78,12 @@ class MessageTextCell: UITableViewCell {
 //
                 leftTextLabel.numberOfLines = 0
                 rightTextLabel.numberOfLines = 0
+                
+                
+                
                 leftTextLabel.lineBreakMode = .byWordWrapping
                 rightTextLabel.lineBreakMode = .byWordWrapping
-//
-//                leftTextLabel.attributedText = NSAttributedString(string: content!, attributes: attributes)
-//
-//                rightTextLabel.attributedText = NSAttributedString(string: content!, attributes: attributes)
+
                 
                 if messageTalkModel?.content != nil {
                     let content = messageTalkModel?.content

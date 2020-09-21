@@ -163,8 +163,15 @@ extension ReadScriptView {
 
 
 extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
+    
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return scriptData?.count ?? 0
+//    }
+//
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return scriptData?.count ?? 0
+        
+//        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -270,8 +277,6 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
         
         if type == "script" {
             let model = scriptData![indexPath.row] as! GPChapterModel
-            
-//            let height = model.content?.ga_heightForComment(fontSize: 15, width: FULL_SCREEN_WIDTH-30)
             let font = UIFont.systemFont(ofSize: 15)
             let height = stringSingleHeightWithWidth(text: model.content, width: FULL_SCREEN_WIDTH-30, font: font)
             
@@ -281,8 +286,6 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
             return height
         } else {
             let model = scriptData![indexPath.row] as! ScriptLogChapterModel
-            
-//            let height = model.content?.ga_heightForComment(fontSize: 15, width: FULL_SCREEN_WIDTH-30)
             let font = UIFont.systemFont(ofSize: 15)
             let height = stringSingleHeightWithWidth(text: model.content, width: FULL_SCREEN_WIDTH-30, font: font)
             
@@ -300,6 +303,10 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
         
         
     }
+    
+
+    
+
     
     
 }
@@ -394,19 +401,38 @@ extension ReadScriptView: PopMenuViewDelegate {
 extension ReadScriptView {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
+        let cellArr = tableView.indexPathsForVisibleRows
+        let indexPath = cellArr?[cellArr!.count - 1]
+        let index = indexPath?.row
+        
+        Log(indexPath)
+        Log(index)
+
         if type! == "script" {
-            let y = scrollView.contentOffset.y
-            let index = Int(y / 492)
-            let item = scriptData![index] as! GPChapterModel
+//            let y = scrollView.contentOffset.y
+//            let index = Int(y / 492)
+            let item = scriptData![index!] as! GPChapterModel
             label.text = "【 \(item.name!) 】"
         } else {
-            let y = scrollView.contentOffset.y
-            let index = Int(y / 492)
-            let item = scriptData![index] as! ScriptLogChapterModel
+//            let y = scrollView.contentOffset.y
+//            let index = Int(y / 492)
+            let item = scriptData![index!] as! ScriptLogChapterModel
             label.text = "【 \(item.name!) 】"
         }
          
         
         hideBottomView()
     }
+    
+    
 }
+
+
+
+
+
+
+
+
+
+
