@@ -24,6 +24,8 @@ class GameplayViewCell: UICollectionViewCell {
     @IBOutlet weak var l_nameLabel: UILabel!
     
     @IBOutlet weak var l_comImgView: UIImageView!
+    
+    
     // 右边样式
     // 头像
     @IBOutlet weak var r_avatarImgView: UIImageView!

@@ -160,7 +160,7 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
 //            self?.loadData()
 //        }
         
-        self.loadData()
+//        self.loadData()
 
     }
     
@@ -346,11 +346,12 @@ extension PrepareRoomViewController {
 
     //MARK: -  准备游戏
     func loadData() {
-        
+        SVProgressHUD.show(withStatus: "加载中")
         roomReadyRequest(room_id: room_id) {[weak self] (result, error) in
             if error != nil {
                 return
             }
+            SVProgressHUD.dismiss()
             // 取到结果
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
@@ -362,7 +363,6 @@ extension PrepareRoomViewController {
                     DispatchQueue.main.async { [weak self] in
                         self?.loadDataRefreshUI()
                     }
-                    
                     self?.checkLocalScriptWith()
                 }
             } else {
@@ -885,8 +885,8 @@ extension PrepareRoomViewController {
         agoraStatus.muteAllRemote = false
         agoraStatus.muteLocalAudio = false
         agoraKit.leaveChannel(nil)
-        
-        SingletonSocket.sharedInstance.socket.disconnect()
+
+//        SingletonSocket.sharedInstance.socket.disconnect()
     }
     
     //MARK:- 退出房间按钮
@@ -1309,7 +1309,7 @@ extension PrepareRoomViewController: WebSocketDelegate {
     }
     
     func websocketDidConnect(socket: WebSocketClient) {
-        SVProgressHUD.dismiss()
+//        SVProgressHUD.dismiss()
         Log("websocketDidConnect=\(socket)")
          //设置重连次数，解决无限重连问题
          reConnectTime = 0
@@ -1329,7 +1329,21 @@ extension PrepareRoomViewController: WebSocketDelegate {
         current_client_id = dic["client_id"] as? String
         let datas = getJSONStringFromDictionary(dictionary: ["room_id":room_id as Int])
         if dic["type"] as? String == "init" {
-            bindRequest(scene: 1, client_id: current_client_id, datas: datas) { (result, error) in
+            SVProgressHUD.show(withStatus: "加载中")
+            bindRequest(scene: 1, client_id: current_client_id, datas: datas) {[weak self] (result, error) in
+                SVProgressHUD.dismiss()
+                if error != nil {
+                    return
+                }
+                SVProgressHUD.dismiss()
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                if resultDic["code"]!.isEqual(1) {
+                    self?.loadData()
+                } else {
+                    self?.userLogout()
+                }
+                
             }
         } else if (dic["type"] as? String == "script_download"){
             

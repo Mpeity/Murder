@@ -37,13 +37,16 @@ class ThreadCardDetailView: UIView {
     var script_node_id: Int?
         
     var script_clue_id: Int?
+    
+    var child_id: Int?
       
     // 列表
     var clueListModel :ClueListModel? {
         didSet {
             if clueListModel != nil {
                 script_place_id = clueListModel?.scriptPlaceId
-                script_clue_id = clueListModel?.childId
+                script_clue_id = clueListModel?.scriptClueId
+                child_id = clueListModel?.childId
                 if clueListModel?.attachment != nil {
                     showDetailView(attachmentStr: clueListModel!.attachment, isOpenNum: clueListModel!.isOpen, isGoingNum: clueListModel!.isGoing)
                 }
@@ -66,7 +69,8 @@ class ThreadCardDetailView: UIView {
     var clueResultModel: SearchClueResultModel? {
         didSet {
             if clueResultModel != nil {
-                script_clue_id = clueResultModel?.childId
+                script_clue_id = clueResultModel?.scriptClueId
+                child_id = clueResultModel?.childId
                 if clueResultModel?.attachment != nil {
                     showDetailView(attachmentStr: clueResultModel!.attachment, isOpenNum: clueResultModel!.isOpen, isGoingNum: clueResultModel!.isGoing!)
                 }
@@ -88,9 +92,10 @@ class ThreadCardDetailView: UIView {
     
     // 深入按钮
     @objc func deepBtnAction(_ sender: Any) {
+//        script_clue_id = clueResultModel?.childId
         if (clueResultModel != nil && clueResultModel?.isGoing == 1) || (clueListModel != nil && clueListModel?.isGoing == 1) { // 可深入
             SVProgressHUD.show(withStatus: "加载中")
-            searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: script_clue_id, script_node_id: script_node_id!) {[weak self] (result, error) in
+            searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: child_id!, script_node_id: script_node_id!) {[weak self] (result, error) in
                 SVProgressHUD.dismiss()
                 if error != nil {
                     return
@@ -154,8 +159,8 @@ class ThreadCardDetailView: UIView {
         
       
     private func hide() {
-        contentView = nil
-        commonView = nil
+//        contentView = nil
+//        commonView = nil
         removeFromSuperview()
     }
 

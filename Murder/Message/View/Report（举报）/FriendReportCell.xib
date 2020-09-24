@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FriendReportCellId" id="dEa-W9-4cA" customClass="FriendReportCell" customModule="Murder" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="165" height="32"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="165" height="32"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSp-So-iT7">
+                        <rect key="frame" x="0.0" y="5" width="17" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="9qt-d3-PXc"/>
+                            <constraint firstAttribute="width" constant="17" id="YYX-Aw-cUi"/>
+                        </constraints>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <state key="normal" image="report_unselected">
+                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="かごめ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="elB-m7-1oD">
+                        <rect key="frame" x="30" y="5" width="46" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="BSp-So-iT7" firstAttribute="leading" secondItem="dEa-W9-4cA" secondAttribute="leading" id="3Fb-N6-b0g"/>
+                <constraint firstItem="BSp-So-iT7" firstAttribute="top" secondItem="dEa-W9-4cA" secondAttribute="top" constant="5" id="7r1-Bz-6Vu"/>
+                <constraint firstItem="elB-m7-1oD" firstAttribute="leading" secondItem="BSp-So-iT7" secondAttribute="trailing" constant="13" id="CC4-FQ-bBB"/>
+                <constraint firstItem="BSp-So-iT7" firstAttribute="leading" secondItem="dEa-W9-4cA" secondAttribute="leading" id="Cvj-0a-vdL"/>
+                <constraint firstItem="elB-m7-1oD" firstAttribute="top" secondItem="BSp-So-iT7" secondAttribute="top" id="rJy-f5-KOD"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Ocb-RU-FVN"/>
+            <size key="customSize" width="165" height="32"/>
+            <connections>
+                <outlet property="choiceBtn" destination="BSp-So-iT7" id="J8q-In-JFp"/>
+                <outlet property="titleLabel" destination="elB-m7-1oD" id="3Gq-cS-opT"/>
+            </connections>
+            <point key="canvasLocation" x="9.4202898550724647" y="2.0089285714285712"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="report_unselected" width="17.5" height="17"/>
+    </resources>
+</document>

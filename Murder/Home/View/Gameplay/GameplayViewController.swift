@@ -125,6 +125,9 @@ class GameplayViewController: UIViewController {
     
     var voiceHide = false
     
+    // 开关本地音频发送  YES: 停止发送本地音频流 NO: （默认）继续发送本地音频流
+    var muteLocalAudioStream = false
+    
     
     // 前一个节点
     var pre_node_type: Int? = 0
@@ -136,6 +139,9 @@ class GameplayViewController: UIViewController {
     var dissolveView = DissolveView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     // 剧本阅读
     var readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+    
+    // 线索
+    let threadView = ThreadView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     
     // 纪录自己的位置
     var ownIndex: Int? = -1
@@ -461,9 +467,12 @@ extension GameplayViewController {
             readScriptView.type = "script"
             scriptRedPoint()
         }
+        
+        
 
-        // 线索小红点
+        // 更新 线索小红点
         if currentScriptRoleModel?.gameUserClueList != nil {
+            threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
             threadRedPoint()
         }
 
@@ -693,6 +702,11 @@ extension GameplayViewController {
         readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         readScriptView.isHidden = true
         self.view.addSubview(readScriptView)
+        
+        // 线索
+        threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        threadView.isHidden = true
+        self.view.addSubview(threadView)
     }
     
     /// 添加红点
@@ -1253,7 +1267,9 @@ extension GameplayViewController {
     
     //MARK: 消息按钮
     @objc func messageBtnAction(button: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+//        self.navigationController?.popViewController(animated: true)
+        let vc = GotoMessageViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     //
@@ -1292,14 +1308,21 @@ extension GameplayViewController {
 //        agoraKit.muteLocalAudioStream(button.isSelected)
         
         button.isSelected = !button.isSelected
-        // 开关本地音频发送  YES: 停止发送本地音频流 NO: （默认）继续发送本地音频流
-        agoraKit.muteLocalAudioStream(!button.isSelected)
         
-        if !button.isSelected == true { //
-            updateVoice(uid: (UserAccountViewModel.shareInstance.account?.userId)!, totalVolume: 0)
+        
+        if button.isSelected {
+            muteLocalAudioStream = false
+        } else {
+            muteLocalAudioStream = true
         }
         
-        getMicrophoneStatus(mute: !button.isSelected)
+        // 开关本地音频发送  YES: 停止发送本地音频流 NO: （默认）继续发送本地音频流
+        agoraKit.muteLocalAudioStream(muteLocalAudioStream)
+        
+        if muteLocalAudioStream == true { //
+            updateVoice(uid: (UserAccountViewModel.shareInstance.account?.userId)!, totalVolume: 0)
+        }
+        getMicrophoneStatus(mute: muteLocalAudioStream)
     }
     
     // 自己
@@ -1344,20 +1367,13 @@ extension GameplayViewController {
     
     //MARK: 线索
     @objc func threadBtnBtnAction(button: UIButton) {
-//        if currentScriptRoleModel?.gameUserClueList?.count != 0 {
+                    
+        threadView.isHidden = false
+        threadView.script_role_id = currentScriptRoleModel?.user.scriptRoleId
+        threadView.room_id = gamePlayModel?.room.roomId
+        threadView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
+        threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
         
-            let threadView = ThreadView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-            
-            threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-            threadView.script_role_id = currentScriptRoleModel?.user.scriptRoleId
-            
-            threadView.room_id = gamePlayModel?.room.roomId
-            threadView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
-            threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
-            self.view.addSubview(threadView)
-        
-//        }
-
     }
     
     
@@ -1509,9 +1525,20 @@ extension GameplayViewController: CollogueRoomViewDelegate {
         // 400: 原始音量的 4 倍（把信号放大到原始信号的 4 倍）。
          agoraKit.adjustPlaybackSignalVolume(400)
         
+        // 开关本地音频发送  YES: 停止发送本地音频流 NO: （默认）继续发送本地音频流
         
+        
+
         let uid = UserAccountViewModel.shareInstance.account?.userId
         agoraKit.joinChannel(byToken: nil, channelId: channelId, info: nil, uid: UInt(bitPattern: uid!), joinSuccess: nil)
+        
+        agoraKit.muteLocalAudioStream(muteLocalAudioStream)
+        getMicrophoneStatus(mute: muteLocalAudioStream)
+        if muteLocalAudioStream == true { //
+            updateVoice(uid: (UserAccountViewModel.shareInstance.account?.userId)!, totalVolume: 0)
+        }
+        
+        
         
         let script_role_id = currentScriptRoleModel?.user.scriptRoleId
         let secret_talk_id = index+1
@@ -1541,8 +1568,13 @@ extension GameplayViewController: CollogueRoomViewDelegate {
         initAgoraKit()
         
         // 开关本地音频发送  YES: 停止发送本地音频流 NO: （默认）继续发送本地音频流
-        agoraKit.muteLocalAudioStream(!microphoneBtn.isSelected)
-
+        agoraKit.muteLocalAudioStream(muteLocalAudioStream)
+        
+        getMicrophoneStatus(mute: muteLocalAudioStream)
+        
+        if muteLocalAudioStream == true {
+            updateVoice(uid: (UserAccountViewModel.shareInstance.account?.userId)!, totalVolume: 0)
+        }
     }
     
 }
@@ -1640,12 +1672,25 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                     cell.l_comImgView.isHidden = true
                     cell.l_miLabel.isHidden = true
                 }
+                
+                if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
+                    if muteLocalAudioStream {
+                        cell.l_comImgView.isHidden = false
+                    } else {
+                        cell.l_comImgView.isHidden = true
+                    }
+                }
+                
             } else {
                 if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
                     let indexStr = itemModel.secretTalkId!
                     cell.l_miLabel.isHidden = false
                     cell.l_miLabel.text = "密\(indexStr)"
-                    cell.l_comImgView.isHidden = true
+                    if muteLocalAudioStream {
+                        cell.l_comImgView.isHidden = false
+                    } else {
+                        cell.l_comImgView.isHidden = true
+                    }
 
                 } else {
                     if itemModel.secretTalkId! == 0 {
@@ -1835,12 +1880,23 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                     cell.r_comImgView.isHidden = true
                     cell.r_miLabel.isHidden = true
                 }
+                if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
+                    if muteLocalAudioStream {
+                        cell.r_comImgView.isHidden = false
+                    } else {
+                        cell.r_comImgView.isHidden = true
+                    }
+                }
             } else {
                 if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
                     let indexStr = itemModel.secretTalkId!
                     cell.r_miLabel.isHidden = false
                     cell.r_miLabel.text = "密\(indexStr)"
-                    cell.r_comImgView.isHidden = true
+                    if muteLocalAudioStream {
+                        cell.r_comImgView.isHidden = false
+                    } else {
+                        cell.r_comImgView.isHidden = true
+                    }
 
                 } else {
                     if itemModel.secretTalkId! == 0 {
@@ -2189,7 +2245,7 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
         
         // 收到说话者音量回调，在界面上对应的 cell 显示动效
 
-        if !microphoneBtn.isSelected == true { // 禁止本地音频发送
+        if muteLocalAudioStream == true { // 禁止本地音频发送
             updateVoice(uid: (UserAccountViewModel.shareInstance.account?.userId)!, totalVolume: 0)
         } else {
             updateVoice(uid: (UserAccountViewModel.shareInstance.account?.userId)!, totalVolume: totalVolume)
@@ -2200,8 +2256,32 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
         }
     }
     
+    // 是不是静音
+    private func mute(uid: Int, muted: Bool) {
+        if let index = getIndexWithUserIsSpeaking(uid: uid) {
+            let tureIndex = index / 2
+            if index % 2 == 0 { // 左边
+                if let cell = leftCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell  {
+                    cell.l_comImgView.isHidden = !muted
+                    cell.l_comImgView.image = UIImage(named: "image0")
+                    cell.l_voiceView.isHidden = muted
+                    cell.l_voiceImgView.isHidden = muted
+                }
+                
+            } else {
+                if let cell = rightCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell  {
+                    cell.r_comImgView.isHidden = !muted
+                    cell.r_comImgView.image = UIImage(named: "image0")
+                    cell.r_voiceView.isHidden = muted
+                    cell.r_voiceImgView.isHidden = muted
+
+                }
+            }
+        }
+    }
+    
     //MARK:- 根据声音显示头像
-    func updateVoice(uid: Int, totalVolume: Int ) {
+    private func updateVoice(uid: Int, totalVolume: Int ) {
         
         
         if let index = getIndexWithUserIsSpeaking(uid: Int(uid)) {

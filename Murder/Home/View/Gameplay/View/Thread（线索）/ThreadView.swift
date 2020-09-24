@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 let ThreadLeftCellId = "ThreadLeftCellId"
 let ThreadRightCellId = "ThreadRightCellId"
+
 
 
 class ThreadView: UIView {
@@ -152,9 +154,9 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if tableView == leftTableView {
-            return gameUserClueList!.count
+            return gameUserClueList?.count ?? 0
         } else {
-            return clueList!.count
+            return clueList?.count ?? 0
         }
     }
     
@@ -190,7 +192,7 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
             rightTableView.reloadData()
         } else {
             
-            hideView()
+//            hideView()
             
             let itemModel = clueList![indexPath.row]
             let threadCardView = ThreadCardDetailView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
@@ -221,7 +223,8 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
 
 extension ThreadView {
     @objc func hideView() {
-        self.removeFromSuperview()
+//        self.removeFromSuperview()
+        self.isHidden = true
     }
     
     @objc func bottomBtnAction(button:UIButton) {

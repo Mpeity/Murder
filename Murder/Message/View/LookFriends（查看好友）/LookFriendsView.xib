@@ -14,6 +14,7 @@
                 <outlet property="cancelBtn" destination="q5N-f2-28k" id="VSK-yg-SJd"/>
                 <outlet property="contentView" destination="0kM-3x-c7D" id="jjr-7a-Ra2"/>
                 <outlet property="deleteBtn" destination="99r-vq-J1e" id="KDi-rg-Rq1"/>
+                <outlet property="editBtn" destination="zox-ur-6ol" id="eWT-7w-RDB"/>
                 <outlet property="levelLabel" destination="EJH-R2-QZU" id="JHD-t1-e11"/>
                 <outlet property="playerImgView" destination="Bo8-Qo-jh0" id="HQb-Em-Ofs"/>
                 <outlet property="playerNameLabel" destination="uhj-4A-9gH" id="2Mh-SJ-5Pu"/>
@@ -126,12 +127,22 @@
                             </constraints>
                             <state key="normal" image="message_delete"/>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zox-ur-6ol">
+                            <rect key="frame" x="237" y="2" width="28" height="14"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="14" id="10g-fS-Jo0"/>
+                                <constraint firstAttribute="width" constant="28" id="mkc-2b-Nju"/>
+                            </constraints>
+                            <state key="normal" image="edit_friend"/>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="99r-vq-J1e" firstAttribute="leading" secondItem="Jbe-jz-g3K" secondAttribute="leading" constant="10" id="6iv-P5-rhy"/>
+                        <constraint firstItem="zox-ur-6ol" firstAttribute="top" secondItem="Jbe-jz-g3K" secondAttribute="top" constant="2" id="HeY-pP-pNC"/>
                         <constraint firstAttribute="bottom" secondItem="bq2-jd-ORu" secondAttribute="bottom" id="K8h-wE-zDt"/>
                         <constraint firstItem="bq2-jd-ORu" firstAttribute="top" secondItem="Jbe-jz-g3K" secondAttribute="top" constant="30" id="LFf-c3-LBy"/>
+                        <constraint firstAttribute="trailing" secondItem="zox-ur-6ol" secondAttribute="trailing" constant="10" id="Zws-Gq-YIg"/>
                         <constraint firstAttribute="height" constant="168" id="bOH-08-TzS"/>
                         <constraint firstItem="bq2-jd-ORu" firstAttribute="leading" secondItem="Jbe-jz-g3K" secondAttribute="leading" id="ftd-Op-1Wf"/>
                         <constraint firstAttribute="trailing" secondItem="bq2-jd-ORu" secondAttribute="trailing" id="hmm-T0-qOF"/>
@@ -166,6 +177,7 @@
     </objects>
     <resources>
         <image name="cancel" width="35" height="35"/>
+        <image name="edit_friend" width="17.5" height="4"/>
         <image name="image5" width="40" height="40"/>
         <image name="message_delete" width="11" height="11"/>
         <image name="sex_man" width="15" height="15.5"/>

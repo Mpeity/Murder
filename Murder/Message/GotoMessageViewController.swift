@@ -26,6 +26,9 @@ class GotoMessageViewController: UIViewController, UITableViewDelegate, UITableV
     
     private var messageModel: MessageModel?
     
+    private var receive_id: Int?
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "トーク"
@@ -212,11 +215,12 @@ extension GotoMessageViewController {
         cell.selectionStyle = .none
         cell.itemModel = model
         if model?.type != 3 {
-            cell.avatarImgTapBlcok = {() in
+            cell.avatarImgTapBlcok = {[weak self]() in
                 let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
                 commonView.delegate = self
                 commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
                 commonView.itemModel = model
+                self?.receive_id = model?.userId
                 UIApplication.shared.keyWindow?.addSubview(commonView)
             }
         }
@@ -292,9 +296,38 @@ extension GotoMessageViewController: AgoraRtmDelegate {
     
 }
 
+
 extension GotoMessageViewController: LookFriendsViewDelegate {
+    func editBtnActionFunc() {
+        let commonView = EidtFirendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        commonView.receive_id = receive_id
+        commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        commonView.delegate = self
+        UIApplication.shared.keyWindow?.addSubview(commonView)
+    }
+    
     func DeleteFriends() {
         loadRefresh()
     }
  
 }
+
+extension GotoMessageViewController: EidtFirendsViewDelegate {
+    func deleteFriends() {
+        loadRefresh()
+    }
+    
+    func blackFriends() {
+        loadRefresh()
+    }
+    
+    func reportFriends() {
+        
+        let vc = FriendReportViewController()
+        vc.receive_id = receive_id
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
+}
+

@@ -602,7 +602,6 @@ extension QuestionView {
         if !isAnswer {
             let questionModel = scriptQuestionList![selectedIndex]
 
-        
             if selectPath != nil {
                 let index = selectPath?.row
                 let model = choiceArr![index!]
@@ -611,7 +610,6 @@ extension QuestionView {
                 
                 var dic = [:] as? [String : AnyObject]
                 if answerList?.count != 0  {
-                    
                     for (index, item) in answerList!.enumerated() {
                         if selectedIndex == index {
                             answerList?.remove(at: index)
@@ -619,7 +617,6 @@ extension QuestionView {
                         }
                     }
                     
-
                     if user_script_answer_ids != nil {
                         dic!["script_question_id"] = questionModel.scriptQuestionId as AnyObject?
                         dic!["user_script_answer_ids"] = user_script_answer_ids as AnyObject
@@ -728,6 +725,7 @@ extension QuestionView {
     private func gameVote() {
                 
         let script_question = getJSONStringFromArray(array: answerList! as NSArray)
+        
         gameVoteRequest(room_id: room_id!, script_node_id: script_node_id!, script_question: script_question) {[weak self] (result, error) in
             if error != nil {
                 return

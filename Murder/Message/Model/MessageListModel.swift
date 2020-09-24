@@ -15,9 +15,12 @@ class MessageListModel : NSObject {
     var level : String?
     var nickname : String?
     var noReadNum : Int?
+    var receiveId : Int?
+    var sendId : Int?
+    var sex : Int?
     var type : Int?
     var userId : Int?
-    var sex : Int?
+    var windowId : Int?
 
     
 
@@ -31,9 +34,12 @@ class MessageListModel : NSObject {
         level = dictionary["level"] as? String
         nickname = dictionary["nickname"] as? String
         noReadNum = dictionary["no_read_num"] as? Int
+        receiveId = dictionary["receive_id"] as? Int
+        sendId = dictionary["send_id"] as? Int
+        sex = dictionary["sex"] as? Int
         type = dictionary["type"] as? Int
         userId = dictionary["user_id"] as? Int
-        sex = dictionary["sex"] as? Int
+        windowId = dictionary["window_id"] as? Int
 
     }
 
@@ -61,14 +67,23 @@ class MessageListModel : NSObject {
         if noReadNum != nil{
             dictionary["no_read_num"] = noReadNum
         }
+        if receiveId != nil{
+            dictionary["receive_id"] = receiveId
+        }
+        if sendId != nil{
+            dictionary["send_id"] = sendId
+        }
+        if sex != nil{
+            dictionary["sex"] = sex
+        }
         if type != nil{
             dictionary["type"] = type
         }
         if userId != nil{
             dictionary["user_id"] = userId
         }
-        if sex != nil{
-            dictionary["sex"] = sex
+        if windowId != nil{
+            dictionary["window_id"] = windowId
         }
         return dictionary
     }

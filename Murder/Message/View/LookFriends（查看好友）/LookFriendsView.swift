@@ -12,6 +12,8 @@ import UIKit
 
 protocol LookFriendsViewDelegate {
     func DeleteFriends()
+    
+    func editBtnActionFunc()
 }
 
 
@@ -24,6 +26,10 @@ class LookFriendsView: UIView {
     @IBOutlet weak var playerView: UIView!
     // 删除好友
     @IBOutlet weak var deleteBtn: UIButton!
+    
+    // 编辑按钮
+    @IBOutlet weak var editBtn: UIButton!
+    
     
     // 头像
     @IBOutlet weak var playerImgView: UIImageView!
@@ -127,6 +133,9 @@ extension LookFriendsView {
         deleteBtn.createButton(style: .left, spacing: 3, imageName: "message_delete", title: "友達削除", cornerRadius: 0, color: "#FFFFFF")
         deleteBtn.setTitleColor(HexColor(LightDarkGrayColor), for: .normal)
         deleteBtn.addTarget(self, action: #selector(deleteBtnAction), for: .touchUpInside)
+        deleteBtn.isHidden = true
+        
+        editBtn.addTarget(self, action: #selector(editBtnAction), for: .touchUpInside)
     }
     
 
@@ -168,6 +177,13 @@ extension LookFriendsView {
             }
         }
         UIApplication.shared.keyWindow?.addSubview(commonView)
+    }
+    
+    @objc private func editBtnAction() {
+        self.isHidden = true
+        if delegate != nil {
+            delegate?.editBtnActionFunc()
+        }
     }
     
     

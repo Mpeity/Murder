@@ -70,6 +70,9 @@ class SendMessageViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    // 当前是否在最底部
+    var currentInsInBottom = false
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -172,13 +175,12 @@ extension SendMessageViewController {
                         let model = MsgTalkModel(fromDictionary: jsonDic as! [String : Any])
                         self?.msgList?.append(model)
                     }
-                    self?.tableView.reloadData()
-                    let indexPath = IndexPath(row: ((self?.msgList!.count)!)-1, section: 0)
-                    self?.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
-                    self?.tableView.isScrollEnabled = true
                     
-                    Log(self?.tableView.frame)
-//
+                    self?.tableView.reloadData()
+                                        
+                    let indexPath = IndexPath(row: ((self?.msgList!.count)!)-1, section: 0)
+                    
+                    self?.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
                 }
                 
 //                self?.tableView.mj_header.endRefreshing()
@@ -371,6 +373,21 @@ extension SendMessageViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {        
         let msg = msgList?[indexPath.row]
+        
+        let type = msg?.type
+        if type == 1 {
+            if msg?.content != nil {
+                let size = self.getSizeWithContent(content: msg!.content!)
+                msg?.cellHeight = size.height
+            } else {
+                msg?.cellHeight = 90
+            }
+            
+        } else if type == 2 {
+            msg?.cellHeight = 120.0
+        } else {
+            msg?.cellHeight = 145.0
+        }
         return msg!.cellHeight ?? 90
     }
     
@@ -405,6 +422,7 @@ extension SendMessageViewController {
     @objc func rightBtnAction() {
         inputTextField.resignFirstResponder()
         let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        commonView.delegate = self
         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         commonView.itemModel  = messageListModel
         UIApplication.shared.keyWindow?.addSubview(commonView)
@@ -428,6 +446,39 @@ extension SendMessageViewController {
                 }
             }
         }
+}
+
+extension SendMessageViewController: LookFriendsViewDelegate {
+    func editBtnActionFunc() {
+        let commonView = EidtFirendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        commonView.receive_id = messageListModel?.userId
+        commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        commonView.delegate = self
+        UIApplication.shared.keyWindow?.addSubview(commonView)
+    }
+    
+    func DeleteFriends() {
+        navigationController?.popViewController(animated: true)
+    }
+ 
+}
+
+extension SendMessageViewController: EidtFirendsViewDelegate {
+    func deleteFriends() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func blackFriends() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func reportFriends() {
+        let vc = FriendReportViewController()
+        vc.receive_id = messageListModel?.userId
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
 }
 
 extension SendMessageViewController: UITextFieldDelegate {
@@ -528,6 +579,10 @@ extension SendMessageViewController: UITextFieldDelegate {
             margin = 0
         }
         bottomConstraint.constant = margin
+//        self.tableView.contentOffset = CGPointMake(0, self.tableView.contentSize.height -  _heighh +20  );
+        if margin > 0 {
+            tableView.contentOffset = CGPoint(x: 0, y: tableView.contentSize.height - margin)
+        }
         UIView.animate(withDuration: duration) {
             self.view.layoutIfNeeded()
         }
@@ -547,12 +602,14 @@ extension SendMessageViewController: UITextFieldDelegate {
 //        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 //        tableView.isScrollEnabled = true
 //        tableView.scrollToRow(at: IndexPath(row: (msgList!.count)-1, section: 0), at: .bottom, animated: false)
+        
     }
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        inputTextField.resignFirstResponder()
+//        inputTextField.resignFirstResponder()
     }
+    
   
 }
 
@@ -715,4 +772,7 @@ extension SendMessageViewController: AgoraRtmDelegate {
     
     
 }
+
+
+
 

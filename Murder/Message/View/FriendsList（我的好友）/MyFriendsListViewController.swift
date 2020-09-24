@@ -33,6 +33,9 @@ class MyFriendsListViewController: UIViewController, UITableViewDelegate, UITabl
     
     private var friendsModel: FriendsModel?
     
+    private var receive_id: Int?
+
+    
     private lazy var textInputView : InputTextView! = {
         let inputView = InputTextView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         inputView.delegate = self
@@ -52,6 +55,9 @@ class MyFriendsListViewController: UIViewController, UITableViewDelegate, UITabl
         super.viewWillAppear(animated)
         // 监听键盘弹出
         NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteFriend), name: NSNotification.Name(rawValue: Delete_Friend_Notif), object: nil)
+        
         loadRefresh()
     }
     
@@ -68,6 +74,15 @@ class MyFriendsListViewController: UIViewController, UITableViewDelegate, UITabl
         NotificationCenter.default.removeObserver(self)
     }
     
+}
+
+//MARK:- notifi
+extension MyFriendsListViewController {
+    @objc func deleteFriend() {
+//        navigationController?.popViewController(animated: true)
+        
+        loadRefresh()
+    }
 }
 
 
@@ -201,7 +216,7 @@ extension MyFriendsListViewController {
         cell.selectionStyle = .none
         let model = friendsModel?.list[indexPath.row]
         cell.itemModel = model
-        cell.avatarImgTapBlcok = {() in
+        cell.avatarImgTapBlcok = {[weak self]() in
             let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
             commonView.delegate = self
             commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
@@ -212,6 +227,7 @@ extension MyFriendsListViewController {
             itemModel.level = model!.level
             itemModel.userId = model!.userId
             commonView.itemModel  = itemModel
+            self?.receive_id = model!.userId
             UIApplication.shared.keyWindow?.addSubview(commonView)
         }
         return cell
@@ -269,7 +285,7 @@ extension MyFriendsListViewController: InputTextViewDelegate  {
         textInputView.removeFromSuperview()
         let user_id = Int(textInputView.textFieldView.text!)
         if user_id != nil {
-            userFindRequest(user_id: user_id!) { (result, error) in
+            userFindRequest(user_id: user_id!) {[weak self] (result, error) in
                 if error != nil {
                     return
                 }
@@ -280,9 +296,29 @@ extension MyFriendsListViewController: InputTextViewDelegate  {
                     let data = resultDic["data"] as! [String : AnyObject]
                     let resultData = data["result"] as! [String : AnyObject]
                     let userFindModel = UserFindModel(fromDictionary: resultData)
+                    self?.receive_id = userFindModel.userId
+                    // 已拉黑
+                    if userFindModel.isFriend != nil &&  userFindModel.isFriend == 3 {
+                        let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                        commonView.editBtn.isHidden = true
+                        commonView.delegate = self
+                        commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                        let itemModel = MessageListModel(fromDictionary: [ : ])
+                        
+                        itemModel.head = userFindModel.head
+                        itemModel.nickname = userFindModel.nickname
+                        itemModel.sex = userFindModel.sex
+                        itemModel.level = userFindModel.level
+                        itemModel.userId = userFindModel.userId
+                        commonView.itemModel  = itemModel
+                        UIApplication.shared.keyWindow?.addSubview(commonView)
+                        return
+                    }
+                    
                     // 是否是朋友 1是 0否
                     if (userFindModel.userId == UserAccountViewModel.shareInstance.account?.userId) || (userFindModel.isFriend != nil &&  userFindModel.isFriend == 1) {
                         let commonView = LookFriendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                        commonView.delegate = self
                         
                         commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
                         let itemModel = MessageListModel(fromDictionary: [ : ])
@@ -328,8 +364,35 @@ extension MyFriendsListViewController: InputTextViewDelegate  {
 
 
 extension MyFriendsListViewController: LookFriendsViewDelegate {
+    func editBtnActionFunc() {
+        let commonView = EidtFirendsView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        commonView.receive_id = receive_id
+        commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        commonView.delegate = self
+        UIApplication.shared.keyWindow?.addSubview(commonView)
+    }
+    
     func DeleteFriends() {
         loadRefresh()
     }
  
+}
+
+extension MyFriendsListViewController: EidtFirendsViewDelegate {
+    func deleteFriends() {
+        loadRefresh()
+    }
+    
+    func blackFriends() {
+        loadRefresh()
+    }
+    
+    func reportFriends() {
+        
+        let vc = FriendReportViewController()
+        vc.receive_id = receive_id
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
 }

@@ -27,7 +27,6 @@ class SingletonSocket: NSObject  {
         }
         if !Static.instance.socket.isConnected{
             Static.instance.socket.connect()
-            SVProgressHUD.dismiss()
         }
         return Static.instance
     }
@@ -54,7 +53,6 @@ class SingletonSocket: NSObject  {
 
 //socket 重连逻辑
 func socketReconnect() {
-    SVProgressHUD.show(withStatus: "连接中")
     //判断网络情况，如果网络正常，可以执行重连
     if reachability.connection != .none {
         //设置重连次数，解决无限重连问题
@@ -71,15 +69,14 @@ func socketReconnect() {
             }
         } else {
             //提示重连失败
-            showToastCenter(msg: "服务器被妖怪抓走了")
+//            showToastCenter(msg: "服务器被妖怪抓走了")
 
         }
     } else {
         //提示无网络
-        showToastCenter(msg: "网络开小差了哟")
+//        showToastCenter(msg: "网络开小差了哟")
 
     }
-    SVProgressHUD.dismiss()
 }
 
 //socket主动断开，放在app进入后台时，数据进入缓存。app再进入前台，app出现卡死的情况

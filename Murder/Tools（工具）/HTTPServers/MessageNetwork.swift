@@ -217,3 +217,61 @@ func getRTMHistoryQuery(handle: String ,finished: @escaping(_ reslut: [String: A
 
 
 
+
+//MARK:- 举报
+private let friend_report_url = "/api/friend/report"
+/** 消息列表
+ * @params [参数名] [类型] [是否必传]
+ * report_id [int]    是    被举报用户ID
+ * report_type [string]    是    举报理由
+ * report_content [string]    是    内容
+ * report_images [string]    是    图片：json 数组格式
+ */
+func friendReportRequest(report_id: Int, report_type: String, report_content: String, report_images: String?, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    let urlString = friend_report_url
+    var parameters = [ : ] as! [String : AnyObject]
+    if report_images != nil, report_images != "" {
+         parameters = ["report_id": report_id,"report_type": report_type, "report_content": report_content, "report_images": report_images!] as [String : AnyObject]
+    } else {
+         parameters = ["receive_id": report_id,"report_type": report_type, "report_content": report_content] as [String : AnyObject]
+    }
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters ) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+//MARK:- 拉黑
+private let friend_block_url = "/api/friend/block"
+/** 消息列表
+ * @params [参数名] [类型] [是否必传]
+ * friend_id [int]    是    拉黑的用户ID
+ */
+func friendBlockRequest(friend_id: Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = friend_block_url
+    let parameters = ["friend_id": friend_id] as [String : AnyObject]
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+//MARK:- 判断用户是否已被我拉黑
+private let friend_is_block_url = "/api/friend/is_block"
+/** 消息列表
+ * @params [参数名] [类型] [是否必传]
+ * friend_id [int]    是    拉黑的用户ID
+ */
+func friendIsBlockRequest(friend_id: Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    let urlString = friend_is_block_url
+    let parameters = ["friend_id": friend_id] as [String : AnyObject]
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+
+
+
+
+
+

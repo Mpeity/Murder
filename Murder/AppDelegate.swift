@@ -38,6 +38,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         buglyConfig.debugMode = true
         Bugly.start(withAppId: BUGLY_APP_ID, config: buglyConfig)
         
+        
+        UIApplication.shared.registerForRemoteNotifications()
+        
         // UM
         UMConfigure.initWithAppkey(UMAppKey, channel:  nil)
         if #available(iOS 10.0, *) {
@@ -53,9 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
        UMessage.registerForRemoteNotifications(launchOptions: launchOptions, entity: entity) { (granted, error) in
            if granted {
-               // 用户选择了接收Push消息
+            // 用户选择了接收Push消息
             Log("用户选择了接收Push消息")
-            
 
            } else {
                // 用户拒绝接收Push消息
@@ -63,7 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
            }
        }
         UMConfigure.setLogEnabled(true)
-//        application.registerForRemoteNotifications()
         
         
         setUI()
@@ -95,60 +96,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             deviceId = device.description.replacingOccurrences(of:"<", with:"").replacingOccurrences(of:">", with:"").replacingOccurrences(of:" ", with:"")
             print("我的deviceToken：\(deviceId)")
         }
-            
  
     }
-    
-    
 
-    
-//    //iOS10以下使用这两个方法接收通知
-//    -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-//    {
-//        [UMessage setAutoAlert:NO];
-//        if([[[UIDevice currentDevice] systemVersion]intValue] < 10){
-//            [UMessage didReceiveRemoteNotification:userInfo];
-//        }
-//             //过滤掉Push的撤销功能，因为PushSDK内部已经调用的completionHandler(UIBackgroundFetchResultNewData)，
-//        //防止两次调用completionHandler引起崩溃
-//        if(![userInfo valueForKeyPath:@"aps.recall"])
-//        {
-//            completionHandler(UIBackgroundFetchResultNewData);
-//        }
-//    }
-//    //iOS10新增：处理前台收到通知的代理方法
-//    -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
-//        NSDictionary * userInfo = notification.request.content.userInfo;
-//        if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-//            [UMessage setAutoAlert:NO];
-//            //应用处于前台时的远程推送接受
-//            //必须加这句代码
-//            [UMessage didReceiveRemoteNotification:userInfo];
-//        }else{
-//            //应用处于前台时的本地推送接受
-//        }
-//        completionHandler(UNNotificationPresentationOptionSound|UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionAlert);
-//    }
-//    //iOS10新增：处理后台点击通知的代理方法
-//    -(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler{
-//        NSDictionary * userInfo = response.notification.request.content.userInfo;
-//        if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-//            //应用处于后台时的远程推送接受
-//            //必须加这句代码
-//            [UMessage didReceiveRemoteNotification:userInfo];
-//        }else{
-//            //应用处于后台时的本地推送接受
-//        }
-    
-    
     /**
       UNUserNotificationCenterDelegate
     */
     //iOS10以下使用这个方法接收通知
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-    
        UMessage.didReceiveRemoteNotification(userInfo)
-       
     }
     
       
@@ -180,10 +136,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
            //应用处于后台时的远程推送接受
            UMessage.didReceiveRemoteNotification(userInfo)
             
-            
         }else{
            //应用处于前台时的远程推送接受
         }
+        
     }
     
     
@@ -206,6 +162,58 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     //        }
         }
     
+    
+//MARK: - 通过下面的方法实现点击html可以打开app
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        // 跳转到app剧本详情页
+        if url.scheme != nil , url.scheme!.contains("murderurl") {
+            let urlString = url.absoluteString as NSString  //url 的绝对字符串
+            let queryArray = urlString.components(separatedBy: "id=")  //通过/把URL切成数组
+            let script_id = Int(queryArray.last!)
+            
+            let scriptDetailVC = ScriptDetailsViewController()
+            scriptDetailVC.script_id = script_id
+            scriptDetailVC.modalPresentationStyle = .fullScreen
+            
+            
+            let viewController = UIApplication.shared.keyWindow?.rootViewController
+            let tabVC = viewController as! MainViewController
+            let vc = tabVC.selectedViewController as! BaseNavigationViewController
+            vc.pushViewController(scriptDetailVC, animated: true)
+            
+            
+            
+//            let viewController = UIApplication.shared.keyWindow?.rootViewController
+//
+//            if viewController?.isKind(of: UITabBarController.self) ?? false {
+//
+//                let tabVC = viewController as! MainViewController
+//                let vc = tabVC.selectedViewController
+//                vc?.present(scriptDetailVC, animated: true, completion: nil)
+//                Log(vc)
+//                Log("111")
+//
+//            }
+//
+//            if viewController?.isKind(of: UINavigationController.self) ?? false {
+//                Log(viewController)
+//                let nav = viewController as! BaseNavigationViewController
+//                let vc = nav.visibleViewController
+//
+//                vc?.present(scriptDetailVC, animated: true, completion: nil)
+//                Log("222")
+//
+//            }
+//            if (viewController?.presentedViewController) != nil {
+//                Log("333")
+//                Log(viewController)
+//            }
+            
+            return true
+        }
+        
+        return true
+    }
     
     
     // MARK: UISceneSession Lifecycle
