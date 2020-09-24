@@ -573,8 +573,8 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1204"
-            endingLineNumber = "1204"
+            startingLineNumber = "1210"
+            endingLineNumber = "1210"
             landmarkName = "publicClue(model:script_place_id:)"
             landmarkType = "7">
             <Locations>
@@ -845,8 +845,8 @@
             filePath = "Murder/Home/View/Gameplay/View/question &#xff08;&#x95ee;&#x7b54;&#x9898;&#xff09;/QuestionView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "386"
-            endingLineNumber = "386"
+            startingLineNumber = "394"
+            endingLineNumber = "394"
             landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -875,8 +875,8 @@
             filePath = "Murder/Home/View/Gameplay/View/question &#xff08;&#x95ee;&#x7b54;&#x9898;&#xff09;/QuestionView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "434"
-            endingLineNumber = "434"
+            startingLineNumber = "442"
+            endingLineNumber = "442"
             landmarkName = "saveAnswer()"
             landmarkType = "7">
          </BreakpointContent>
@@ -891,8 +891,8 @@
             filePath = "Murder/Home/View/Gameplay/View/question &#xff08;&#x95ee;&#x7b54;&#x9898;&#xff09;/QuestionView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "refreshUI()"
             landmarkType = "7">
          </BreakpointContent>
@@ -939,8 +939,8 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1115"
-            endingLineNumber = "1115"
+            startingLineNumber = "1121"
+            endingLineNumber = "1121"
             landmarkName = "hidePopTipView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -955,8 +955,8 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1278"
-            endingLineNumber = "1278"
+            startingLineNumber = "1284"
+            endingLineNumber = "1284"
             landmarkName = "stateBtnAction(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1102,22 +1102,6 @@
             startingLineNumber = "296"
             endingLineNumber = "296"
             landmarkName = "deleteFriends()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9611307B-BB28-4ED4-AF31-9308E4ADA5DD"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2222"
-            endingLineNumber = "2222"
-            landmarkName = "rtcEngine(_:didAudioMuted:byUid:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

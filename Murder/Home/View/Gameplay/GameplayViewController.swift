@@ -707,6 +707,12 @@ extension GameplayViewController {
         threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         threadView.isHidden = true
         self.view.addSubview(threadView)
+        
+        // 投票
+        self.view.addSubview(commonQuestionView)
+        commonQuestionView.isHidden = true
+        commonQuestionView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+
     }
     
     /// 添加红点
@@ -1418,13 +1424,10 @@ extension GameplayViewController {
         if gamePlayModel?.scriptNodeResult.nodeType == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题
             
             if currentScriptRoleModel?.scriptQuestionList?.count != 0 {
-                self.view.addSubview(commonQuestionView)
+                commonQuestionView.isHidden = false
                 commonQuestionView.room_id = room_id
                 commonQuestionView.script_node_id = script_node_id
                 commonQuestionView.scriptQuestionList = currentScriptRoleModel?.scriptQuestionList
-                commonQuestionView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-                
-                
                 
                 // 答题 触发倒计时
                 gameCountdownRequest(room_id: room_id, script_node_id: script_node_id!) { (result, error) in
@@ -1714,130 +1717,6 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                 }
             }
             
-            
-//            if ownSecretTalkId == 0 { // 未进入密聊室
-//                let indexStr = itemModel.secretTalkId!
-//                if indexPath.item%2 == 0 {
-//                    if indexStr != 0 {
-//                         cell.l_miLabel.isHidden = false
-//                         cell.l_miLabel.text = "密\(indexStr)"
-//                         cell.l_comImgView.isHidden = true
-//                     } else {
-//                         cell.l_comImgView.isHidden = true
-//                         cell.l_miLabel.isHidden = true
-//                     }
-//                } else {
-//                    if indexStr != 0 {
-//                        cell.r_miLabel.isHidden = false
-//                        cell.r_miLabel.text = "密\(indexStr)"
-//                        cell.r_comImgView.isHidden = true
-//                    } else {
-//                        cell.r_comImgView.isHidden = true
-//                        cell.r_miLabel.isHidden = true
-//                    }
-//                }
-//
-//            } else {
-//                // 自己在左边还是右边
-//                if ownIndex! % 2 == 0 { // 左边
-//                    if indexPath.item%2 == 0 {
-//                        if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
-//                            let indexStr = itemModel.secretTalkId!
-//                            cell.l_miLabel.isHidden = false
-//                            cell.l_miLabel.text = "密\(indexStr)"
-//                            cell.l_comImgView.isHidden = true
-//
-//                        } else {
-//                            if itemModel.secretTalkId! == 0 {
-//                                cell.l_miLabel.isHidden = true
-//                                cell.l_comImgView.image = UIImage(named: "image0")
-//                                cell.l_comImgView.isHidden = false
-//                            } else {
-//                                let indexStr = itemModel.secretTalkId!
-//                                if indexStr == ownSecretTalkId {
-//                                    cell.l_miLabel.isHidden = false
-//                                    cell.l_miLabel.text = "密\(indexStr)"
-//                                    cell.l_comImgView.isHidden = true
-//                                } else {
-//                                    cell.l_comImgView.image = UIImage(named: "image0")
-//                                    cell.l_comImgView.isHidden = false
-//                                    cell.l_miLabel.isHidden = true
-//                                }
-//
-//                            }
-//
-//                        }
-//
-//                    } else {
-//                        if itemModel.secretTalkId! == 0 {
-//                            cell.r_miLabel.isHidden = true
-//                            cell.r_comImgView.image = UIImage(named: "image0")
-//                            cell.r_comImgView.isHidden = false
-//                        } else {
-//                            let indexStr = itemModel.secretTalkId!
-//                            if indexStr == ownSecretTalkId {
-//                                cell.r_miLabel.isHidden = false
-//                                cell.r_miLabel.text = "密\(indexStr)"
-//                                cell.r_comImgView.isHidden = true
-//                            } else {
-//                                cell.r_comImgView.image = UIImage(named: "image0")
-//                                cell.r_comImgView.isHidden = false
-//                                cell.r_miLabel.isHidden = true
-//                            }
-//
-//                        }
-//                    }
-//
-//                } else {
-//                    if indexPath.item%2 != 0 {
-//                        if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
-//                            let indexStr = itemModel.secretTalkId!
-//                            cell.r_miLabel.isHidden = false
-//                            cell.r_miLabel.text = "密\(indexStr)"
-//                            cell.r_comImgView.isHidden = true
-//
-//                        } else {
-//                            if itemModel.secretTalkId! == 0 {
-//                                cell.r_miLabel.isHidden = true
-//                                cell.r_comImgView.image = UIImage(named: "image0")
-//                                cell.r_comImgView.isHidden = false
-//                            } else {
-//                                let indexStr = itemModel.secretTalkId!
-//                                if indexStr == ownSecretTalkId {
-//                                    cell.r_miLabel.isHidden = false
-//                                    cell.r_miLabel.text = "密\(indexStr)"
-//                                    cell.r_comImgView.isHidden = true
-//                                } else {
-//                                    cell.r_comImgView.image = UIImage(named: "image0")
-//                                    cell.r_comImgView.isHidden = false
-//                                    cell.r_miLabel.isHidden = true
-//                                }
-//
-//                            }
-//                        }
-//
-//                    } else {
-//                        if itemModel.secretTalkId! == 0 {
-//                            cell.l_miLabel.isHidden = true
-//                            cell.l_comImgView.image = UIImage(named: "image0")
-//                            cell.l_comImgView.isHidden = false
-//                        } else {
-//                            let indexStr = itemModel.secretTalkId!
-//                            if indexStr == ownSecretTalkId {
-//                                cell.l_miLabel.isHidden = false
-//                                cell.l_miLabel.text = "密\(indexStr)"
-//                                cell.l_comImgView.isHidden = true
-//                            } else {
-//                                cell.l_comImgView.image = UIImage(named: "image0")
-//                                cell.l_comImgView.isHidden = false
-//                                cell.l_miLabel.isHidden = true
-//                            }
-//
-//                        }
-//                    }
-//                }
-//            }
-            
             return cell
         } else {
             
@@ -1914,136 +1793,10 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                             cell.r_comImgView.isHidden = false
                             cell.r_miLabel.isHidden = true
                         }
-                        
                     }
                 }
             }
                 
-            
-          
-//            if ownSecretTalkId == 0 { // 未进入密聊室
-//                let indexStr = itemModel.secretTalkId!
-//                if indexPath.item%2 == 0 {
-//                    if indexStr != 0 {
-//                         cell.l_miLabel.isHidden = false
-//                         cell.l_miLabel.text = "密\(indexStr)"
-//                         cell.l_comImgView.isHidden = true
-//                     } else {
-//                         cell.l_comImgView.isHidden = true
-//                         cell.l_miLabel.isHidden = true
-//                     }
-//                } else {
-//                    if indexStr != 0 {
-//                        cell.r_miLabel.isHidden = false
-//                        cell.r_miLabel.text = "密\(indexStr)"
-//                        cell.r_comImgView.isHidden = true
-//                    } else {
-//                        cell.r_comImgView.isHidden = true
-//                        cell.r_miLabel.isHidden = true
-//                    }
-//                }
-//
-//            } else {
-//                // 自己在左边还是右边
-//                if ownIndex! % 2 == 0 { // 左边
-//                    if indexPath.item%2 == 0 {
-//                        if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
-//                            let indexStr = itemModel.secretTalkId!
-//                            cell.l_miLabel.isHidden = false
-//                            cell.l_miLabel.text = "密\(indexStr)"
-//                            cell.l_comImgView.isHidden = true
-//
-//                        } else {
-//                            if itemModel.secretTalkId! == 0 {
-//                                cell.l_miLabel.isHidden = true
-//                                cell.l_comImgView.image = UIImage(named: "image0")
-//                                cell.l_comImgView.isHidden = false
-//                            } else {
-//                                let indexStr = itemModel.secretTalkId!
-//                                if indexStr == ownSecretTalkId {
-//                                    cell.l_miLabel.isHidden = false
-//                                    cell.l_miLabel.text = "密\(indexStr)"
-//                                    cell.l_comImgView.isHidden = true
-//                                } else {
-//                                    cell.l_comImgView.image = UIImage(named: "image0")
-//                                    cell.l_comImgView.isHidden = false
-//                                    cell.l_miLabel.isHidden = true
-//                                }
-//
-//                            }
-//
-//                        }
-//
-//                    } else {
-//                        if itemModel.secretTalkId! == 0 {
-//                            cell.r_miLabel.isHidden = true
-//                            cell.r_comImgView.image = UIImage(named: "image0")
-//                            cell.r_comImgView.isHidden = false
-//                        } else {
-//                            let indexStr = itemModel.secretTalkId!
-//                            if indexStr == ownSecretTalkId {
-//                                cell.r_miLabel.isHidden = false
-//                                cell.r_miLabel.text = "密\(indexStr)"
-//                                cell.r_comImgView.isHidden = true
-//                            } else {
-//                                cell.r_comImgView.image = UIImage(named: "image0")
-//                                cell.r_comImgView.isHidden = false
-//                                cell.r_miLabel.isHidden = true
-//                            }
-//
-//                        }
-//                    }
-//
-//                } else {
-//                    if indexPath.item%2 != 0 {
-//                        if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
-//                            let indexStr = itemModel.secretTalkId!
-//                            cell.r_miLabel.isHidden = false
-//                            cell.r_miLabel.text = "密\(indexStr)"
-//                            cell.r_comImgView.isHidden = true
-//
-//                        } else {
-//                            if itemModel.secretTalkId! == 0 {
-//                                cell.r_miLabel.isHidden = true
-//                                cell.r_comImgView.image = UIImage(named: "image0")
-//                                cell.r_comImgView.isHidden = false
-//                            } else {
-//                                let indexStr = itemModel.secretTalkId!
-//                                if indexStr == ownSecretTalkId {
-//                                    cell.r_miLabel.isHidden = false
-//                                    cell.r_miLabel.text = "密\(indexStr)"
-//                                    cell.r_comImgView.isHidden = true
-//                                } else {
-//                                    cell.r_comImgView.image = UIImage(named: "image0")
-//                                    cell.r_comImgView.isHidden = false
-//                                    cell.r_miLabel.isHidden = true
-//                                }
-//
-//                            }
-//                        }
-//
-//                    } else {
-//                        if itemModel.secretTalkId! == 0 {
-//                            cell.l_miLabel.isHidden = true
-//                            cell.l_comImgView.image = UIImage(named: "image0")
-//                            cell.l_comImgView.isHidden = false
-//                        } else {
-//                            let indexStr = itemModel.secretTalkId!
-//                            if indexStr == ownSecretTalkId {
-//                                cell.l_miLabel.isHidden = false
-//                                cell.l_miLabel.text = "密\(indexStr)"
-//                                cell.l_comImgView.isHidden = true
-//                            } else {
-//                                cell.l_comImgView.image = UIImage(named: "image0")
-//                                cell.l_comImgView.isHidden = false
-//                                cell.l_miLabel.isHidden = true
-//                            }
-//
-//                        }
-//                    }
-//                }
-//            }
-            
             return cell
         }
         
@@ -2453,13 +2206,11 @@ extension GameplayViewController: WebSocketDelegate {
                 
                 if gamePlayModel?.scriptNodeResult.nodeType == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题
                     if currentScriptRoleModel?.scriptQuestionList?.count != 0 {
-                    
-                        self.view.addSubview(commonQuestionView)
+                                        
+                        commonQuestionView.isHidden = false
                         commonQuestionView.room_id = room_id
                         commonQuestionView.script_node_id = script_node_id
                         commonQuestionView.scriptQuestionList = currentScriptRoleModel?.scriptQuestionList
-                        commonQuestionView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-                        
                         
                         
                         // 答题 触发倒计时
@@ -2475,9 +2226,13 @@ extension GameplayViewController: WebSocketDelegate {
                             
                         }
                     }
-                }
-                if gamePlayModel?.scriptNodeResult.nodeType == 6 {
+                } else {
                     commonQuestionView.isHidden = true
+                }
+                
+                
+                if gamePlayModel?.scriptNodeResult.nodeType == 6 {
+//                    commonQuestionView.isHidden = true
                     voteInfoBtn.isHidden = false
                     voteResultBtn.isHidden = false
                 }

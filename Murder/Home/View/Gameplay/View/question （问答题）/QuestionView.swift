@@ -52,9 +52,17 @@ class QuestionView: UIView {
     // 题目数据
     var scriptQuestionList: [ScriptQuestionListModel]? {
         didSet {
+            answerList = []
+            user_script_answer_ids = []
+            isAnswer = false
+            newArray = []
+            selectedIndex = 0
+            subjectIndexPath = []
+            
             guard let scriptQuestionList = scriptQuestionList else {
                 return
             }
+            
             
             refreshUI()
             Log(scriptQuestionList)
@@ -421,7 +429,7 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
 
 extension QuestionView {
     @objc func hideView() {
-        self.removeFromSuperview()
+        self.isHidden = true
     }
     
     @objc func bottomBtnAction(button:UIButton) {
