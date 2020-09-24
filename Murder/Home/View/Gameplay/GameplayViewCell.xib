@@ -51,15 +51,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eyU-IZ-Roa">
+                                <rect key="frame" x="158" y="11" width="44" height="44"/>
+                            </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gameplay_handsUp" translatesAutoresizingMaskIntoConstraints="NO" id="uD1-ug-TvH">
                                 <rect key="frame" x="154" y="0.0" width="18" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="18" id="cl5-3R-FZn"/>
                                     <constraint firstAttribute="height" constant="21" id="dKx-xe-dc2"/>
                                 </constraints>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eyU-IZ-Roa">
-                                <rect key="frame" x="158" y="11" width="44" height="44"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Aj-a8-U1R">
                                 <rect key="frame" x="165" y="45" width="30" height="15"/>
@@ -128,15 +128,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EDp-Xa-4t7">
+                                <rect key="frame" x="0.0" y="11" width="44" height="44"/>
+                            </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gameplay_handsUp" translatesAutoresizingMaskIntoConstraints="NO" id="Ezy-LE-3Mf">
                                 <rect key="frame" x="30" y="0.0" width="18" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="18" id="JY7-hQ-HxU"/>
                                     <constraint firstAttribute="height" constant="21" id="KkF-Xa-KUZ"/>
                                 </constraints>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EDp-Xa-4t7">
-                                <rect key="frame" x="0.0" y="11" width="44" height="44"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ojw-Rf-D8b">
                                 <rect key="frame" x="7" y="45" width="30" height="15"/>

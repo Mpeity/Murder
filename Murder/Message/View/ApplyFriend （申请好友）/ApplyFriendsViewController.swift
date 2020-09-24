@@ -54,8 +54,8 @@ extension ApplyFriendsViewController {
     func loadData() {
         friendApplyListRequest(page_no: page_no, page_size: page_size) {[weak self] (result, error) in
             if error != nil {
-                self?.myTableView.mj_header.endRefreshing()
-                self?.myTableView.mj_footer.endRefreshing()
+                self?.myTableView.mj_header?.endRefreshing()
+                self?.myTableView.mj_footer?.endRefreshing()
                 return
             }
             
@@ -67,8 +67,8 @@ extension ApplyFriendsViewController {
                 
                 let model = FriendsApplyModel(fromDictionary: data)
                 if model.list?.count ?? 0 < 15 { // 最后一页
-                    self?.myTableView.mj_header.endRefreshing()
-                    self?.myTableView.mj_footer.endRefreshing()
+                    self?.myTableView.mj_header?.endRefreshing()
+                    self?.myTableView.mj_footer?.endRefreshing()
                 }
                 
                 if self?.page_no == 1 {
@@ -90,11 +90,11 @@ extension ApplyFriendsViewController {
                 
                 
                 self?.myTableView.reloadData()
-                self?.myTableView.mj_header.endRefreshing()
-                self?.myTableView.mj_footer.endRefreshing()
+                self?.myTableView.mj_header?.endRefreshing()
+                self?.myTableView.mj_footer?.endRefreshing()
             } else {
-                self?.myTableView.mj_header.endRefreshing()
-                self?.myTableView.mj_footer.endRefreshing()
+                self?.myTableView.mj_header?.endRefreshing()
+                self?.myTableView.mj_footer?.endRefreshing()
             }
         }
     }
@@ -115,7 +115,7 @@ extension ApplyFriendsViewController {
         myTableView.mj_header = header
         
         // 进入刷新状态
-        myTableView.mj_header.beginRefreshing()
+        myTableView.mj_header?.beginRefreshing()
     }
     
     private func setupFooterView() {

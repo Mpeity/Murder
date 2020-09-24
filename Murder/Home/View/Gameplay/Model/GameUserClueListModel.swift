@@ -11,6 +11,7 @@ import Foundation
 
 class ClueListModel : NSObject {
 
+    var attachmentId : String?
     var attachment : String?
     var childId : Int?
     var isGoing : Int?
@@ -32,6 +33,8 @@ class ClueListModel : NSObject {
      * Instantiate the instance using the passed dictionary values to set the properties values
      */
     init(fromDictionary dictionary: [String:Any]){
+        attachmentId = dictionary["attachment_id"] as? String
+
         attachment = dictionary["attachment"] as? String
         childId = dictionary["child_id"] as? Int
         isGoing = dictionary["is_going"] as? Int
@@ -55,6 +58,10 @@ class ClueListModel : NSObject {
     func toDictionary() -> [String:Any]
     {
         var dictionary = [String:Any]()
+        if attachmentId != nil{
+            dictionary["attachment_id"] = attachmentId
+        }
+        
         if attachment != nil{
             dictionary["attachment"] = attachment
         }

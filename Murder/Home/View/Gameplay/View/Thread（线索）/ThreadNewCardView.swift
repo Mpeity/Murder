@@ -33,6 +33,9 @@ class ThreadNewCardView: UIView {
     var script_node_id: Int?
         
     var script_clue_id: Int?
+    
+    var script_id: Int?
+
       
     // 列表
     var clueListModel :ClueListModel? {
@@ -40,8 +43,11 @@ class ThreadNewCardView: UIView {
             if clueListModel != nil {
                 script_place_id = clueListModel?.scriptPlaceId
                 script_clue_id = clueListModel?.childId
-                if clueListModel?.attachment != nil {
-                    showDetailView(attachmentStr: clueListModel!.attachment, isOpenNum: clueListModel!.isOpen, isGoingNum: clueListModel!.isGoing)
+                
+                guard let imagePath = getImagePathWith(attachmentId: (clueListModel?.attachmentId!)!) else { return }
+                
+                if imagePath != nil {
+                    showDetailView(attachmentStr: imagePath, isOpenNum: clueListModel!.isOpen, isGoingNum: clueListModel!.isGoing)
                 }
                 if clueListModel?.isGoing == 1 { // 可深入
                     deepBtn.layer.cornerRadius = 22
@@ -63,7 +69,9 @@ class ThreadNewCardView: UIView {
         didSet {
             if clueResultModel != nil {
                 script_clue_id = clueResultModel?.childId
-                if clueResultModel?.attachment != nil {
+                guard let imagePath = getImagePathWith(attachmentId: (clueResultModel?.attachmentId!)!) else { return }
+                
+                if imagePath != nil {
                     showDetailView(attachmentStr: clueResultModel!.attachment, isOpenNum: clueResultModel!.isOpen, isGoingNum: clueResultModel!.isGoing!)
                 }
                 if clueResultModel?.isGoing == 1 { // 可深入
@@ -137,6 +145,31 @@ class ThreadNewCardView: UIView {
         contentView = nil
         commonView = nil
         removeFromSuperview()
+    }
+    
+    private func getImagePathWith(attachmentId: String) -> String? {
+        guard let script_id = script_id else {
+            Log("这里没有图片------7")
+            return nil
+        }
+        
+        if (UserDefaults.standard.value(forKey: String(script_id)) != nil) {
+            let localData = ScriptLocalData.shareInstance.getNormalDefult(key: String(script_id))
+            let dic = localData as! Dictionary<String, AnyObject>
+            let filePath = dic[attachmentId]
+            
+            let lastPath = filePath?.components(separatedBy: "/").last
+            let imagePath = NSHomeDirectory() + "/Documents/" + lastPath!
+            Log("这里有图片吗------3")
+            if !imagePath.isEmpty {
+                Log("这里有图片------5")
+                return imagePath
+            } else {
+                Log("这里没有图片------4")
+                return nil
+            }
+        }
+        return nil
     }
         
         

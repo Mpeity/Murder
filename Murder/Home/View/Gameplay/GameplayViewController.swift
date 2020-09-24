@@ -467,6 +467,7 @@ extension GameplayViewController {
         // 更新 线索小红点
         if currentScriptRoleModel?.gameUserClueList != nil {
             threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
+            threadView.script_id = script_id
             threadRedPoint()
         }
 
@@ -1176,19 +1177,13 @@ extension GameplayViewController {
                 let data = resultDic["data"] as! [String : AnyObject]
                 let resultData = data["search_clue_result"] as! [String : AnyObject]
                 let clueResultModel = SearchClueResultModel(fromDictionary: resultData)
+                
                 let threadCardView = ThreadCardDetailView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                threadCardView.script_id = self?.script_id
                 threadCardView.clueResultModel = clueResultModel
                 threadCardView.script_place_id = script_place_id
                 threadCardView.room_id = self!.room_id
                 threadCardView.script_node_id = self!.script_node_id
-                
-//                threadCardView.deepBtnActionBlock = {[weak self] (param)->() in
-//                }
-//
-//                threadCardView.publicBtnActionBlock = {[weak self] (param)->() in
-////                    self!.publicClue(model: param, script_place_id: script_place_id)
-////                    threadCardView.removeFromSuperview()
-//                }
                 
                 threadCardView.clueResultModel = clueResultModel
                 threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
@@ -1372,6 +1367,7 @@ extension GameplayViewController {
     @objc func threadBtnBtnAction(button: UIButton) {
                     
         threadView.isHidden = false
+        threadView.script_id = script_id
         threadView.script_role_id = currentScriptRoleModel?.user.scriptRoleId
         threadView.room_id = gamePlayModel?.room.roomId
         threadView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
@@ -1805,7 +1801,15 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
         if gamePlayModel!.scriptRoleList.isEmpty {
             return
         }
-        let model = gamePlayModel!.scriptRoleList[indexPath.row]
+        
+        var model = GPScriptRoleListModel(fromDictionary: [ : ])
+
+        if collectionView == leftCollectionView {
+            model = leftArr[indexPath.row] as! GPScriptRoleListModel
+        } else {
+            model = rightArr[indexPath.row] as! GPScriptRoleListModel
+        }
+        
         
         let playerView = PlayerView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         playerView.itemModel = model

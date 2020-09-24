@@ -8,7 +8,7 @@ target 'Murder' do
 
   pod 'AFNetworking', '~> 2.6'
   pod 'SVProgressHUD'
-  pod 'MJRefresh'
+  pod 'MJRefresh', '3.2.0'
   pod 'SnapKit'
   pod 'FTPopOverMenu_Swift'
 #  pod 'MLeaksFinder'
@@ -18,21 +18,21 @@ target 'Murder' do
   
   pod 'SDWebImage'
 
-  pod 'Alamofire'
+  pod 'Alamofire', '4.8.2'
   
   pod 'YYKit'
   # 弹框
   pod 'CLToast'
   # websocket
-  pod 'Starscream'
+  pod 'Starscream', '3.1.0'
   # 友盟
   pod 'UMCCommon'
   pod 'UMCPush'
   pod 'UMCCommonLog'
-#  pod 'UMCSecurityPlugins'
+  pod 'UMCSecurityPlugins'
 
   
-  pod 'ReachabilitySwift'
+  pod 'ReachabilitySwift', '4.3.1'
 
   target 'MurderTests' do
     inherit! :search_paths

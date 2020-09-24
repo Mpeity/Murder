@@ -41,7 +41,11 @@ class Script : NSObject {
 
 class ScriptSourceModel : NSObject {
 
-    var script : Script?
+//    var script : Script?
+//    var scriptNodeMapList : [ScriptNodeMapModel]?
+    
+    var script : Script!
+    var scriptClueList : [ScriptNodeMapModel]?
     var scriptNodeMapList : [ScriptNodeMapModel]?
 
 
@@ -49,16 +53,23 @@ class ScriptSourceModel : NSObject {
      * Instantiate the instance using the passed dictionary values to set the properties values
      */
     init(fromDictionary dictionary: [String:Any]){
-        if let scriptData = dictionary["script"] as? [String:Any]{
-            script = Script(fromDictionary: scriptData)
-        }
-        scriptNodeMapList = [ScriptNodeMapModel]()
-        if let scriptNodeMapListArray = dictionary["script_node_map_list"] as? [[String:Any]]{
-            for dic in scriptNodeMapListArray{
-                let value = ScriptNodeMapModel(fromDictionary: dic)
-                scriptNodeMapList!.append(value)
-            }
-        }
+       if let scriptData = dictionary["script"] as? [String:Any]{
+           script = Script(fromDictionary: scriptData)
+       }
+       scriptClueList = [ScriptNodeMapModel]()
+       if let scriptClueListArray = dictionary["script_clue_list"] as? [[String:Any]]{
+           for dic in scriptClueListArray{
+               let value = ScriptNodeMapModel(fromDictionary: dic)
+            scriptClueList?.append(value)
+           }
+       }
+       scriptNodeMapList = [ScriptNodeMapModel]()
+       if let scriptNodeMapListArray = dictionary["script_node_map_list"] as? [[String:Any]]{
+           for dic in scriptNodeMapListArray{
+               let value = ScriptNodeMapModel(fromDictionary: dic)
+            scriptNodeMapList?.append(value)
+           }
+       }
     }
 
     /**
@@ -68,7 +79,14 @@ class ScriptSourceModel : NSObject {
     {
         var dictionary = [String:Any]()
         if script != nil{
-            dictionary["script"] = script!.toDictionary()
+            dictionary["script"] = script.toDictionary()
+        }
+        if scriptClueList != nil{
+            var dictionaryElements = [[String:Any]]()
+            for scriptClueListElement in scriptClueList! {
+                dictionaryElements.append(scriptClueListElement.toDictionary())
+            }
+            dictionary["script_clue_list"] = dictionaryElements
         }
         if scriptNodeMapList != nil{
             var dictionaryElements = [[String:Any]]()

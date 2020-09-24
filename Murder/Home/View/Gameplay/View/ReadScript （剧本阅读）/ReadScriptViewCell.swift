@@ -34,7 +34,7 @@ class ReadScriptViewCell: UITableViewCell {
                     
                     let range = NSMakeRange(0, myMutableString.length)
                     myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
-                    myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16.0)], range: range)
+                    myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15.0)], range: range)
                     
                     textView.attributedText = myMutableString
 
@@ -78,6 +78,7 @@ class ReadScriptViewCell: UITableViewCell {
         textView.textContainerInset = UIEdgeInsets(top: 22, left: 0, bottom: 15, right: 0)
 
         textView.backgroundColor = HexColor("#F5F5F5")
+//        textView.backgroundColor = UIColor.red
         textView.textColor = HexColor("#666666")
         textView.font = UIFont.systemFont(ofSize: 15.0)
         textView.isEditable = false

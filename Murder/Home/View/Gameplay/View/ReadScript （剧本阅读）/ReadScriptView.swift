@@ -96,9 +96,9 @@ extension ReadScriptView {
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
             if type != "script" {
-                make.height.equalTo(552)
+                make.height.equalTo(552*SCALE_SCREEN)
             } else {
-                make.height.equalTo(537)
+                make.height.equalTo(537*SCALE_SCREEN)
             }
         }
         bgView.layoutIfNeeded()
@@ -110,16 +110,16 @@ extension ReadScriptView {
         tableView.register(UINib(nibName: "ReadScriptViewCell", bundle: nil), forCellReuseIdentifier: ReadScriptCellId)
         // 隐藏cell系统分割线
         tableView.separatorStyle = .none;
-        tableView.rowHeight = 492
+        tableView.rowHeight = 492*SCALE_SCREEN
         tableView.backgroundColor = UIColor.white
         bgView.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.left.right.equalToSuperview()
             if type != "script" {
-                make.height.equalTo(552)
+                make.height.equalTo(552*SCALE_SCREEN)
             } else {
-                make.height.equalTo(537)
+                make.height.equalTo(537*SCALE_SCREEN)
             }
         }
 
@@ -168,6 +168,7 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
 //        return scriptData?.count ?? 0
 //    }
 //
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return scriptData?.count ?? 0
         
@@ -280,23 +281,29 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
             let font = UIFont.systemFont(ofSize: 15)
             let height = stringSingleHeightWithWidth(text: model.content, width: FULL_SCREEN_WIDTH-30, font: font)
             
-            if height <= CGFloat(492.0) {
-                return 492
+//            let height = getContentHeight(string: model.content!)
+            
+            if height <= CGFloat(492.0*SCALE_SCREEN) {
+                return 492*SCALE_SCREEN
             }
             return height
+            
         } else {
             let model = scriptData?[indexPath.row] as! ScriptLogChapterModel
             let font = UIFont.systemFont(ofSize: 15)
             let height = stringSingleHeightWithWidth(text: model.content, width: FULL_SCREEN_WIDTH-30, font: font)
+//            let height = getContentHeight(string: model.content!)
             
-            if height <= CGFloat(492.0) {
-                return 492
+            if height <= CGFloat(492.0*SCALE_SCREEN) {
+                return 492*SCALE_SCREEN
             }
             return height
         }
         
         
     }
+    
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -313,6 +320,21 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
 
 
 extension ReadScriptView {
+    
+    private func getContentHeight(string: String) -> CGFloat {
+        let label = UILabel()
+        label.backgroundColor = UIColor.gray
+        label.text = string
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textColor = HexColor("#666666")
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        let size = label.sizeThatFits(CGSize(width: FULL_SCREEN_WIDTH-30, height: CGFloat(MAXFLOAT)))
+        let height = size.height
+        return height
+    }
+    
     @objc func hideView() {
         self.isHidden = true
     }

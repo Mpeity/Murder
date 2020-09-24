@@ -64,7 +64,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                Log("用户拒绝接收Push消息")
            }
        }
-        UMConfigure.setLogEnabled(true)
+        
+        UMCommonLogSwift.setUpUMCommonLogManager()
+        UMCommonSwift.setLogEnabled(bFlag: true)
+        UMCommonSwift.initWithAppkey(appKey: UMAppKey, channel: "App Store")
         
         
         setUI()

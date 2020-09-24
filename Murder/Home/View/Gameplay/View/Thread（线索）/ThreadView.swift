@@ -23,6 +23,10 @@ class ThreadView: UIView {
     
     private var isLeftTableView : Bool = true
     
+    
+    private var selectIndexPath: IndexPath = IndexPath(row: 0, section: 0)
+
+    
     private var clueList : [ClueListModel]? = [ClueListModel]()
     
     var room_id : Int?
@@ -30,6 +34,9 @@ class ThreadView: UIView {
     var script_role_id : Int?
     
     var script_node_id : Int?
+    
+    var script_id: Int?
+
         
     var gameUserClueList: [GameUserClueListModel]? {
         didSet {
@@ -37,9 +44,14 @@ class ThreadView: UIView {
                 return
             }            
             leftTableView.reloadData()
-            let indexPath = IndexPath(row: 0, section: 0)
+//            let indexPath = IndexPath(row: 0, section: 0)
+//            leftTableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
+//            let model = gameUserClueList![indexPath.row]
+            
+            let indexPath = selectIndexPath
             leftTableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
             let model = gameUserClueList![indexPath.row]
+            
             clueList =  model.clueList
             rightTableView.reloadData()
         }
@@ -172,7 +184,7 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
             } else {
                 cell.pointView.isHidden = true
             }
-            if indexPath.row == 0 {
+            if indexPath == selectIndexPath {
                 cell.isSelected = true
             }
             return cell
@@ -187,6 +199,9 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == leftTableView {
+            
+            selectIndexPath = indexPath
+            
             let model = gameUserClueList![indexPath.row]
             clueList =  model.clueList
             rightTableView.reloadData()
@@ -197,7 +212,7 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
             let itemModel = clueList![indexPath.row]
             let threadCardView = ThreadCardDetailView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
             threadCardView.script_node_id = script_node_id
-
+            threadCardView.script_id = script_id
             threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
             threadCardView.room_id = room_id
             threadCardView.clueListModel = itemModel

@@ -29,7 +29,7 @@ class QuestionView: UIView {
     // 题目选项
     private lazy var tableView: UITableView = UITableView()
     // confirm 确定按钮 / 提交按钮
-    private var confirmBtn: GradienButton = GradienButton()
+    private var confirmBtn: UIButton = UIButton()
     // 上一题 previous
     private var previousBtn: UIButton = UIButton()
     
@@ -56,6 +56,7 @@ class QuestionView: UIView {
             newArray = []
             selectedIndex = 0
             subjectIndexPath = []
+            
             
             guard let scriptQuestionList = scriptQuestionList else {
                 return
@@ -96,16 +97,9 @@ class QuestionView: UIView {
                        make.bottom.equalToSuperview().offset(-10)
                     }
                 }
-                
+                confirmBtn.setTitle("確認", for: .normal)
                 confirmBtn.layoutIfNeeded()
-                
-//                confirmBtn.gradientClearLayerColor(cornerRadius: 25)
-//                confirmBtn.setOtherGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
-                
-//                confirmBtn.backgroundColor = HexColor(MainColor)
-//                confirmBtn.layer.cornerRadius = 25
-//                confirmBtn.layer.masksToBounds = true
-                
+    
             } else {
                 if selectedIndex == scriptQuestionList!.count-1 {
                     confirmBtn.setTitle("提出", for: .normal)
@@ -153,6 +147,13 @@ class QuestionView: UIView {
 extension QuestionView {
     
     private func refreshUI() {
+        if selectedIndex == 0 {
+            if scriptQuestionList?.count == 1 {
+                confirmBtn.setTitle("提出", for: .normal)
+            } else {
+                confirmBtn.setTitle("確認", for: .normal)
+            }
+        }
         let model = scriptQuestionList![selectedIndex]
         subjectLabel.text = model.questionTitle
         choiceArr = model.scriptAnswer!
@@ -275,6 +276,7 @@ extension QuestionView {
         
 
         confirmBtn.setTitleColor(UIColor.white, for: .normal)
+        confirmBtn.setBackgroundImage(UIImage(named: "button_bg"), for: .normal)
         confirmBtn.setTitle("確認", for: .normal)
         confirmBtn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         confirmBtn.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)

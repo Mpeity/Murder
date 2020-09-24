@@ -36,6 +36,11 @@
 		98038F6124D82E7200CBCEE7 /* GameplayViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98038F5F24D82E7200CBCEE7 /* GameplayViewCell.xib */; };
 		98063B06251AF59B00037CD8 /* PicPickerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98063B04251AF59B00037CD8 /* PicPickerViewCell.swift */; };
 		98063B07251AF59B00037CD8 /* PicPickerViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98063B05251AF59B00037CD8 /* PicPickerViewCell.xib */; };
+		980F7966251C94C400771088 /* UMAnalyticsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980F7962251C94C400771088 /* UMAnalyticsSwift.swift */; };
+		980F7967251C94C400771088 /* UMCommonSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980F7963251C94C400771088 /* UMCommonSwift.swift */; };
+		980F7968251C94C400771088 /* UMGameAnalyticsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980F7964251C94C400771088 /* UMGameAnalyticsSwift.swift */; };
+		980F7969251C94C400771088 /* UMCommonLogSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980F7965251C94C400771088 /* UMCommonLogSwift.swift */; };
+		980F796B251C9FDC00771088 /* UMAnalyticsGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 980F796A251C9FDC00771088 /* UMAnalyticsGame.framework */; };
 		98321BC32513129D0074082C /* ContributeWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98321BC22513129D0074082C /* ContributeWebViewController.swift */; };
 		98321BC6251356DE0074082C /* UserAgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98321BC4251356DE0074082C /* UserAgreementViewController.swift */; };
 		98321BC7251356DE0074082C /* UserAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98321BC5251356DE0074082C /* UserAgreementViewController.xib */; };
@@ -334,6 +339,11 @@
 		98038F5F24D82E7200CBCEE7 /* GameplayViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameplayViewCell.xib; sourceTree = "<group>"; };
 		98063B04251AF59B00037CD8 /* PicPickerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicPickerViewCell.swift; sourceTree = "<group>"; };
 		98063B05251AF59B00037CD8 /* PicPickerViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PicPickerViewCell.xib; sourceTree = "<group>"; };
+		980F7962251C94C400771088 /* UMAnalyticsSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMAnalyticsSwift.swift; sourceTree = "<group>"; };
+		980F7963251C94C400771088 /* UMCommonSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMCommonSwift.swift; sourceTree = "<group>"; };
+		980F7964251C94C400771088 /* UMGameAnalyticsSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMGameAnalyticsSwift.swift; sourceTree = "<group>"; };
+		980F7965251C94C400771088 /* UMCommonLogSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UMCommonLogSwift.swift; sourceTree = "<group>"; };
+		980F796A251C9FDC00771088 /* UMAnalyticsGame.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMAnalyticsGame.framework; sourceTree = "<group>"; };
 		982E018F2504CC7500F37A1C /* UMPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UMPush.framework; path = Pods/UMCPush/UMPush.framework; sourceTree = "<group>"; };
 		982E01912504CC8500F37A1C /* UMCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UMCommon.framework; path = Pods/UMCCommon/UMCommon.framework; sourceTree = "<group>"; };
 		98321BC22513129D0074082C /* ContributeWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributeWebViewController.swift; sourceTree = "<group>"; };
@@ -587,6 +597,7 @@
 				9874928A24F74A1200D6FD21 /* AgoraRtmKit.framework in Frameworks */,
 				98772D0B24DBE72C00C1C125 /* AgoraRtcKit.framework in Frameworks */,
 				13EA5DA1A282F7388D7353FE /* Pods_Murder.framework in Frameworks */,
+				980F796B251C9FDC00771088 /* UMAnalyticsGame.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -782,6 +793,17 @@
 				98063B05251AF59B00037CD8 /* PicPickerViewCell.xib */,
 			);
 			path = PicPicker;
+			sourceTree = "<group>";
+		};
+		980F7961251C94C400771088 /* UMSwift */ = {
+			isa = PBXGroup;
+			children = (
+				980F7962251C94C400771088 /* UMAnalyticsSwift.swift */,
+				980F7963251C94C400771088 /* UMCommonSwift.swift */,
+				980F7964251C94C400771088 /* UMGameAnalyticsSwift.swift */,
+				980F7965251C94C400771088 /* UMCommonLogSwift.swift */,
+			);
+			path = UMSwift;
 			sourceTree = "<group>";
 		};
 		98321BC1251312780074082C /* Contribute（投稿） */ = {
@@ -1291,6 +1313,7 @@
 		98CA02AF24C583EF009EF0ED /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				980F7961251C94C400771088 /* UMSwift */,
 				983FD19E24D255E80041D79E /* InputView */,
 				98C8D2BF24CDCA04006C76D0 /* BaseNavigationViewController.swift */,
 				98A79B3A24D1692A00ECBD2A /* Share */,
@@ -1323,6 +1346,7 @@
 		98CA02C924C6BFFC009EF0ED /* Dependence */ = {
 			isa = PBXGroup;
 			children = (
+				980F796A251C9FDC00771088 /* UMAnalyticsGame.framework */,
 				9874928924F74A1200D6FD21 /* AgoraRtmKit.framework */,
 				98772D0A24DBE72C00C1C125 /* AgoraRtcKit.framework */,
 			);
@@ -1709,6 +1733,7 @@
 				986A167724C6D4D2003762C2 /* GameplayViewController.swift in Sources */,
 				0451A35F24C1AA9500E69085 /* MineViewController.swift in Sources */,
 				9867764624D196B8009A950F /* SendMessageViewController.swift in Sources */,
+				980F7968251C94C400771088 /* UMGameAnalyticsSwift.swift in Sources */,
 				98820FB324CA98050005EBDD /* ThreadRightCell.swift in Sources */,
 				0451A36124C1AAA600E69085 /* MessageViewController.swift in Sources */,
 				98C8D2B924CDAA45006C76D0 /* RecordDetailViewCell.swift in Sources */,
@@ -1725,6 +1750,7 @@
 				98063B06251AF59B00037CD8 /* PicPickerViewCell.swift in Sources */,
 				983FD1A024D2570C0041D79E /* InputTextView.swift in Sources */,
 				98649DD724CE820C005AA9C3 /* RoleCollectionViewCell.swift in Sources */,
+				980F7969251C94C400771088 /* UMCommonLogSwift.swift in Sources */,
 				98A79B3024D1056500ECBD2A /* PrepareRoomViewController.swift in Sources */,
 				9875840924E3CAA6008795C5 /* ScriptRoleModel.swift in Sources */,
 				98A268CE24D938C4004B9D53 /* AnswerView.swift in Sources */,
@@ -1733,6 +1759,7 @@
 				9866C16424E4E09E00810516 /* MineNetwork.swift in Sources */,
 				983A225D24DA5A1000532BB9 /* MessageTextCell.swift in Sources */,
 				986D9EB824F3917A005E6B03 /* VoteAnswerCell.swift in Sources */,
+				980F7967251C94C400771088 /* UMCommonSwift.swift in Sources */,
 				98649DD424CE7C76005AA9C3 /* RoleIntroductionCell.swift in Sources */,
 				986DFDD224F8F115005F2C8A /* ScriptLogDetailModel.swift in Sources */,
 				9868A32B24C98D2A009FD8F4 /* PopMenuViewCell.swift in Sources */,
@@ -1799,6 +1826,7 @@
 				9844204A24EE0FDA001A0D7C /* GPScriptNodeResultModel.swift in Sources */,
 				983A225524DA54A600532BB9 /* MessageScriptCell.swift in Sources */,
 				98820FAC24CA97C20005EBDD /* ThreadView.swift in Sources */,
+				980F7966251C94C400771088 /* UMAnalyticsSwift.swift in Sources */,
 				9844204824EE0FC2001A0D7C /* GPScriptRoleListModel.swift in Sources */,
 				98F08C0524E2765F0033DFBA /* TagModel.swift in Sources */,
 				9868A32F24C9A74F009FD8F4 /* BillingInfoView.swift in Sources */,

@@ -24,4 +24,14 @@ extension UIImage: Imageable {
     }
 }
 
+public protocol FTMenuObject {
+    
+}
 
+extension String: FTMenuObject {
+    
+}
+
+extension FTPopOverMenuModel: FTMenuObject {
+    
+}

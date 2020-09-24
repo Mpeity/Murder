@@ -218,9 +218,14 @@ extension PrepareRoomViewController {
                         let localData = ScriptLocalData.shareInstance.getNormalDefult(key: String(self!.script_id))
                         let dic = localData as! Dictionary<String, AnyObject>
                         
+                        var someArray:[ScriptNodeMapModel]?  = [ScriptNodeMapModel]()
+                        
                         let arr = self?.scriptSourceModel?.scriptNodeMapList!
+                        let arr2 = self?.scriptSourceModel?.scriptClueList!
+                        
+                        someArray = arr! + arr2!
 
-                        for item in arr! {
+                        for item in someArray! {
                             if (!dic.keys.contains(item.attachmentId) || dic[item.attachmentId] == nil) {
                                 // 下载当前图片
                                 self!.loadAllImages = false
@@ -297,21 +302,28 @@ extension PrepareRoomViewController {
     }
 
     @objc func loadProgress() {
+//        let arr = self.scriptSourceModel?.scriptNodeMapList!
+        
+        
+        var someArray:[ScriptNodeMapModel]?  = [ScriptNodeMapModel]()
         let arr = self.scriptSourceModel?.scriptNodeMapList!
+        let arr2 = self.scriptSourceModel?.scriptClueList!
+        someArray = arr! + arr2!
         
         // 任务1
-        let arrCount = arr?.count
+        guard let arrCount = someArray?.count else { return }
+        
         let queue = OperationQueue()
         queue.name = "Download queue"
         queue.maxConcurrentOperationCount = 1
 
-        for (index,viewModel) in arr!.enumerated() {
+        for (index,viewModel) in someArray!.enumerated() {
             let operation = BlockOperation { () -> Void in
                 ImageDownloader.shareInstance.loadImageProgress(currentIndex: index, script: (self.scriptSourceModel?.script!)!, scriptNodeMapModel: viewModel) { (progress, response, error) in
                     
 
                     let new = progress
-                    let scale = 1.0/Double(arrCount!)
+                    let scale = 1.0/Double(arrCount)
                     let newIndex = Double(index)+1.0
                     var newProgress = new! * newIndex * scale * 100
                     

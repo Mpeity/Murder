@@ -39,6 +39,8 @@ class ThreadCardDetailView: UIView {
     var script_clue_id: Int?
     
     var child_id: Int?
+    
+    var script_id: Int?
       
     // 列表
     var clueListModel :ClueListModel? {
@@ -47,8 +49,12 @@ class ThreadCardDetailView: UIView {
                 script_place_id = clueListModel?.scriptPlaceId
                 script_clue_id = clueListModel?.scriptClueId
                 child_id = clueListModel?.childId
-                if clueListModel?.attachment != nil {
-                    showDetailView(attachmentStr: clueListModel!.attachment, isOpenNum: clueListModel!.isOpen, isGoingNum: clueListModel!.isGoing)
+                
+                
+                guard let imagePath = getImagePathWith(attachmentId: (clueListModel?.attachmentId!)!) else { return }
+                
+                if imagePath != nil {
+                    showDetailView(attachmentStr: imagePath, isOpenNum: clueListModel!.isOpen, isGoingNum: clueListModel!.isGoing)
                 }
                 if clueListModel?.isGoing == 1 { // 可深入
                     deepBtn.layer.cornerRadius = 22
@@ -71,8 +77,11 @@ class ThreadCardDetailView: UIView {
             if clueResultModel != nil {
                 script_clue_id = clueResultModel?.scriptClueId
                 child_id = clueResultModel?.childId
-                if clueResultModel?.attachment != nil {
-                    showDetailView(attachmentStr: clueResultModel!.attachment, isOpenNum: clueResultModel!.isOpen, isGoingNum: clueResultModel!.isGoing!)
+                
+                guard let imagePath = getImagePathWith(attachmentId: (clueResultModel?.attachmentId!)!) else { return }
+
+                if imagePath != nil {
+                    showDetailView(attachmentStr: imagePath, isOpenNum: clueResultModel!.isOpen, isGoingNum: clueResultModel!.isGoing!)
                 }
                 if clueResultModel?.isGoing == 1 { // 可深入
                     deepBtn.layer.cornerRadius = 22
@@ -115,6 +124,7 @@ class ThreadCardDetailView: UIView {
                     let threadCardView = ThreadNewCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
                     
                     threadCardView.clueResultModel = model
+                    threadCardView.script_id = self?.script_id
                     threadCardView.script_place_id = self?.script_place_id
                     threadCardView.room_id = self!.room_id
                     threadCardView.script_node_id = self!.script_node_id
@@ -184,6 +194,32 @@ class ThreadCardDetailView: UIView {
 
 
 extension ThreadCardDetailView {
+    
+     private func getImagePathWith(attachmentId: String) -> String? {
+        guard let script_id = script_id else {
+            Log("这里没有图片------7")
+            return nil
+        }
+        
+        if (UserDefaults.standard.value(forKey: String(script_id)) != nil) {
+            let localData = ScriptLocalData.shareInstance.getNormalDefult(key: String(script_id))
+            let dic = localData as! Dictionary<String, AnyObject>
+            let filePath = dic[attachmentId]
+            
+            let lastPath = filePath?.components(separatedBy: "/").last
+            let imagePath = NSHomeDirectory() + "/Documents/" + lastPath!
+            Log("这里有图片吗------3")
+            if !imagePath.isEmpty {
+                Log("这里有图片------5")
+                return imagePath
+            } else {
+                Log("这里没有图片------4")
+                return nil
+            }
+        }
+        return nil
+    }
+    
     func getImageSize(_ url: String?) -> CGSize {
         guard let urlStr = url else {
             return CGSize.zero
@@ -217,12 +253,13 @@ extension ThreadCardDetailView {
         let isGoing = isGoingNum
         
         
-        Log("\(attachment)")
-        Log("\(isOpen)")
-        Log("\(isGoing)")
-        
         var imgSize = CGSize()
-        let size = getImageSize(attachment!)
+        
+//        let size = getImageSize(attachment!)
+        
+        let image = UIImage(contentsOfFile: attachment!)
+        let size = image!.size
+
         if size.height != 0, size.width != 0 {
             if size.width >= FULL_SCREEN_WIDTH {
                 imgSize.width = FULL_SCREEN_WIDTH
@@ -297,7 +334,9 @@ extension ThreadCardDetailView {
                     make.left.equalToSuperview()
                 }
                 
-                imgView.setImageWith(URL(string: attachment!))
+//                imgView.setImageWith(URL(string: attachment!))
+                
+                imgView.image = image
                 imgView.size = imgSize
                 imgView.sizeToFit()
                 
