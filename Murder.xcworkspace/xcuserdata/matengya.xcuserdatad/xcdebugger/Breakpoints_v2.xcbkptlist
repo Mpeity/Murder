@@ -573,8 +573,8 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1200"
-            endingLineNumber = "1200"
+            startingLineNumber = "1203"
+            endingLineNumber = "1203"
             landmarkName = "publicClue(model:script_place_id:)"
             landmarkType = "7">
             <Locations>
@@ -939,8 +939,8 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1116"
-            endingLineNumber = "1116"
+            startingLineNumber = "1119"
+            endingLineNumber = "1119"
             landmarkName = "hidePopTipView()"
             landmarkType = "7">
          </BreakpointContent>
@@ -955,8 +955,8 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1274"
-            endingLineNumber = "1274"
+            startingLineNumber = "1277"
+            endingLineNumber = "1277"
             landmarkName = "stateBtnAction(button:)"
             landmarkType = "7">
          </BreakpointContent>

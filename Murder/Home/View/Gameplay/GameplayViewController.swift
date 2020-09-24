@@ -496,7 +496,10 @@ extension GameplayViewController {
         let size = newImage.size
 
         bgImgView.size = size
-        scrollView.contentSize = bgImgView.bounds.size
+        scrollView.contentSize = CGSize(width: bgImgView.bounds.size.width, height: 0)
+        
+//        scrollView.contentSize = bgImgView.bounds.size
+        
         bgImgView.image = newImage
         bgImgView.sizeToFit()
                     
@@ -2073,18 +2076,7 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
 
 
 extension GameplayViewController {
-    // contentOffSet属性 点击按钮,移动图片
-    @objc func didOffSetBtn(sender: UIButton) {
-        var scrollOffSet:CGPoint = scrollView.contentOffset
-        scrollOffSet.x += 50
-        scrollOffSet.y += 50
-        
-        UIView.animate(withDuration: 1.0) {
-            self.scrollView.contentOffset = scrollOffSet
-        }
-//        // UIScrollView自带的动画
-//        scrollView.setContentOffset(scrollOffSet, animated: true)
-    }
+
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         Log(scrollView.contentOffset.x)
