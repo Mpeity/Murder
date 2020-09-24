@@ -85,7 +85,8 @@ class ThreadNewCardView: UIView {
     // 深入按钮
     @objc func deepBtnAction(_ sender: Any) {
         if (clueResultModel != nil && clueResultModel?.isGoing == 1) || (clueListModel != nil && clueListModel?.isGoing == 1) { // 可深入
-            SVProgressHUD.show(withStatus: "加载中")
+            SVProgressHUD.show()
+
             searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: script_clue_id, script_node_id: script_node_id!) {[weak self] (result, error) in
                 SVProgressHUD.dismiss()
                 if error != nil {

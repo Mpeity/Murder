@@ -146,7 +146,7 @@ extension EidtFirendsView {
         
     //MARK:- 拉黑
      @objc private func blackBtnAction() {
-        SVProgressHUD.show(withStatus: "加载中")
+        SVProgressHUD.show()
         friendIsBlockRequest(friend_id: receive_id!) {[weak self] (result, error) in
             SVProgressHUD.dismiss()
             if error != nil {

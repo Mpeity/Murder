@@ -48,7 +48,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         
         email = nameTextField.text!
         password = passwordTextField.text!
-        SVProgressHUD.show(withStatus: "加载中")
+        SVProgressHUD.show()
         loadLogin(email: email, password: password) {[weak self] (result, error) in
             SVProgressHUD.dismiss()
             if error != nil {

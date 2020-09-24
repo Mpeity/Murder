@@ -40,12 +40,10 @@ class QuestionView: UIView {
     private var cellIndexPath: NSMutableArray? = NSMutableArray.init() //多选
     // 答案
     private var user_script_answer_ids: [Int]? = [Int]()
-    
     // 答案记录
     private var answerList: [[String : AnyObject]]? = [[String : AnyObject]]()
     // 是否已经答题
     var isAnswer = false
-    
     
     private var newArray: NSMutableArray? = NSMutableArray.init()
     
@@ -129,6 +127,7 @@ class QuestionView: UIView {
                 confirmBtn.layoutIfNeeded()
 //                confirmBtn.gradientClearLayerColor(cornerRadius: 25)
 //                confirmBtn.setOtherGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+                
             }
         }
     }

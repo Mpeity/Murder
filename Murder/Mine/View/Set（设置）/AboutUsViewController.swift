@@ -31,7 +31,7 @@ class AboutUsViewController: UIViewController {
         
         setNavigationBar()
         
-        loadData()
+//        loadData()
     }
     
     

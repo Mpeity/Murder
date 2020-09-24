@@ -247,7 +247,7 @@ extension FriendReportViewController {
         }
         
         if textView?.text != nil, textView?.text != "",  report_type != nil {
-            SVProgressHUD.show(withStatus: "加载中")
+            SVProgressHUD.show()
             var reportImagesStr: String?
             if report_images != nil , report_images?.count != 0 {
                 reportImagesStr = getJSONStringFromArray(array: report_images! as NSArray)
@@ -330,7 +330,7 @@ extension FriendReportViewController : UIImagePickerControllerDelegate, UINaviga
     }
     
     private func saveImagePath(image: UIImage) {
-        SVProgressHUD.show(withStatus: "加载中")
+        SVProgressHUD.show()
 
         //将选择的图片保存到Document目录下
         //先把图片转成NSData(这里压缩图片到0.5，图片过大会造成上传时间太久或失败)

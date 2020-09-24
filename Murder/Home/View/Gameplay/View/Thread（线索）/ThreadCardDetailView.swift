@@ -94,7 +94,8 @@ class ThreadCardDetailView: UIView {
     @objc func deepBtnAction(_ sender: Any) {
 //        script_clue_id = clueResultModel?.childId
         if (clueResultModel != nil && clueResultModel?.isGoing == 1) || (clueListModel != nil && clueListModel?.isGoing == 1) { // 可深入
-            SVProgressHUD.show(withStatus: "加载中")
+            SVProgressHUD.show()
+
             searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: child_id!, script_node_id: script_node_id!) {[weak self] (result, error) in
                 SVProgressHUD.dismiss()
                 if error != nil {

@@ -218,17 +218,11 @@ class GameplayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         initWebSocketSingle()
-        
         initAgoraKit()
-        
         setUI()
-        
-//        getiPhoneBatteryState()
-        
         gamePlaying()
     }
     
@@ -1169,7 +1163,8 @@ extension GameplayViewController {
     // 搜证
     func gameSearch(script_place_id: Int) {
         script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
-        SVProgressHUD.show(withStatus: "加载中")
+                SVProgressHUD.show()
+
         searchClueRequest(room_id: room_id, script_place_id: script_place_id, script_clue_id: nil, script_node_id: script_node_id!) {[weak self] (result, error) in
             SVProgressHUD.dismiss()
             if error != nil {
@@ -1313,6 +1308,8 @@ extension GameplayViewController {
 //        button.isSelected = !button.isSelected
 //        agoraKit.muteLocalAudioStream(button.isSelected)
         
+        
+        Log("我加入了2")
         button.isSelected = !button.isSelected
         
         
@@ -1439,9 +1436,7 @@ extension GameplayViewController {
                     if resultDic["code"]!.isEqual(1) {
 
                     }
-
                 }
-                
                 return
             }
         }
@@ -1471,12 +1466,9 @@ extension GameplayViewController {
                             if resultDic["code"]!.isEqual(1) {
                         
                             }
-                            
                         }
                     }
-                    
                 }
-                
             }
         }
     }
@@ -1616,9 +1608,9 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
 //        return 0
         
         if collectionView == leftCollectionView {
-            return leftArr.count ?? 0
+            return leftArr.count
         } else {
-            return rightArr.count ?? 0
+            return rightArr.count
         }
         
      }
@@ -1628,7 +1620,8 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
         var ownSecretTalkId  = 0
         ownSecretTalkId = currentScriptRoleModel!.secretTalkId!
         
-        
+        Log("我加入了3")
+
         if collectionView == leftCollectionView {
             let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: GameplayViewCellId, for: indexPath) as! GameplayViewCell
             
@@ -1670,10 +1663,13 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                 if indexStr != 0 {
                     cell.l_miLabel.isHidden = false
                     cell.l_miLabel.text = "密\(indexStr)"
-                    cell.l_comImgView.isHidden = true
+//                    cell.l_comImgView.isHidden = true
+                    cell.l_comImgView.image = UIImage(named: "image0")
+                    
                 } else {
-                    cell.l_comImgView.isHidden = true
+//                    cell.l_comImgView.isHidden = true
                     cell.l_miLabel.isHidden = true
+                    cell.l_comImgView.image = UIImage(named: "image0")
                 }
                 
                 if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
@@ -1754,10 +1750,12 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                 if indexStr != 0 {
                     cell.r_miLabel.isHidden = false
                     cell.r_miLabel.text = "密\(indexStr)"
-                    cell.r_comImgView.isHidden = true
+//                    cell.r_comImgView.isHidden = true
+                    cell.l_comImgView.image = UIImage(named: "image0")
                 } else {
-                    cell.r_comImgView.isHidden = true
+//                    cell.r_comImgView.isHidden = true
                     cell.r_miLabel.isHidden = true
+                    cell.l_comImgView.image = UIImage(named: "image0")
                 }
                 if UserAccountViewModel.shareInstance.account?.userId ==  itemModel.user?.userId {
                     if muteLocalAudioStream {
@@ -1796,10 +1794,10 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
                     }
                 }
             }
-                
+            
+
             return cell
         }
-        
         
      }
     
@@ -1875,6 +1873,10 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
         if agoraStatus.muteLocalAudio == true {
             agoraKit.muteLocalAudioStream(true)
         }
+        
+        
+        Log("我加入了1")
+        
 //
         // 注意： 1. 由于demo欠缺业务服务器，所以用户列表是根据AgoraRtcEngineDelegate的didJoinedOfUid、didOfflineOfUid回调来管理的
         //       2. 每次加入频道成功后，新建一个用户列表然后通过回调进行统计
@@ -1885,25 +1887,20 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
         // 当有用户加入时，添加到用户列表
         // 注意：由于demo缺少业务服务器，所以当观众加入的时候，观众也会被加入用户列表，并在界面的列表显示成静音状态。 正式实现的话，通过业务服务器可以判断是参与游戏的玩家还是围观观众
         
-        let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid))
-        if index != nil {
-            let tureIndex = index! / 2
-            if index! % 2 == 0 {
-                
-                if let cell = leftCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell {
-                    
-                    cell.l_comImgView.isHidden = true
-                }
-
-            } else {
-                if let cell = rightCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell {
-                    
-                    cell.r_comImgView.isHidden = true
-                }
-            }
-            
-            
-        }
+//        let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid))
+//        if index != nil {
+//            let tureIndex = index! / 2
+//            if index! % 2 == 0 {
+//                if let cell = leftCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell {
+//                    cell.l_comImgView.isHidden = true
+//                }
+//            } else {
+//                if let cell = rightCollectionView.cellForItem(at: IndexPath(item: tureIndex, section: 0)) as? GameplayViewCell {
+//                    cell.r_comImgView.isHidden = true
+//                }
+//            }
+//        }
+        
     }
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, didOfflineOfUid uid: UInt, reason: AgoraUserOfflineReason) {
@@ -1932,44 +1929,11 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
                 }
                 
             }
-//            if let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid)),
-//            let cell = leftCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
-//
-//                if index % 2 == 0 {
-//                    cell.l_comImgView.isHidden = false
-//                    cell.l_comImgView.image = UIImage(named: "leave_icon")
-//                    cell.l_voiceView.isHidden = true
-//                    cell.l_voiceImgView.isHidden = true
-//                    cell.l_animation = false
-//                } else {
-//                    cell.r_comImgView.isHidden = false
-//                    cell.r_comImgView.image = UIImage(named: "leave_icon")
-//                    cell.r_voiceView.isHidden = true
-//                    cell.r_voiceImgView.isHidden = true
-//                    cell.r_animation = false
-//                }
-//            }
         }
     }
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, didAudioMuted muted: Bool, byUid uid: UInt) {
         // 当频道里的用户开始或停止发送音频流的时候，会收到这个回调。在界面的用户头像上显示或隐藏静音标记
-        
-//        if let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid)),
-//        let cell = leftCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
-//            if index%2 == 0 {
-//               cell.l_comImgView.isHidden = !muted
-//               cell.l_comImgView.image = UIImage(named: "image0")
-//               cell.l_voiceView.isHidden = muted
-//               cell.l_voiceImgView.isHidden = muted
-//            } else {
-//               cell.r_comImgView.isHidden = !muted
-//               cell.r_comImgView.image = UIImage(named: "image0")
-//               cell.r_voiceView.isHidden = muted
-//               cell.r_voiceImgView.isHidden = muted
-//            }
-//        }
-        
         
         if let index = getIndexWithUserIsSpeaking(uid: Int(bitPattern: uid)) {
             let tureIndex = index / 2
@@ -1987,10 +1951,8 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
                     cell.r_comImgView.image = UIImage(named: "image0")
                     cell.r_voiceView.isHidden = muted
                     cell.r_voiceImgView.isHidden = muted
-
                 }
             }
-            
         }
     }
     
@@ -2263,6 +2225,14 @@ extension GameplayViewController: WebSocketDelegate {
                 attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#ED2828"), range: theRange)
                 
                 if gamePlayModel?.scriptNodeResult.nodeType == 5 {
+                    
+                    let string = "カウントダウン：\(count)s"
+                    let ranStr = "\(count)s"
+                    let attrstring:NSMutableAttributedString = NSMutableAttributedString(string:string)
+                    let str = NSString(string: string)
+                    let theRange = str.range(of: ranStr)
+                    attrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: theRange)
+                    
                     commonQuestionView.countLabel.isHidden = false
                     commonQuestionView.countLabel.textColor = HexColor(LightDarkGrayColor)
                     commonQuestionView.countLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
@@ -2273,7 +2243,6 @@ extension GameplayViewController: WebSocketDelegate {
                     commonQuestionView.countLabel.isHidden = true
                     timerView.isHidden = false
                     timerLabel.attributedText = attrstring
-
                 }
             }
             

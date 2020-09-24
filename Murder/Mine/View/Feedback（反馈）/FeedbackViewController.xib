@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeedbackViewController" customModule="Murder" customModuleProvider="target">
             <connections>
                 <outlet property="confirmBtn" destination="T96-ma-lki" id="RXN-cY-PDQ"/>
+                <outlet property="confirmWidth" destination="Szf-1q-j6o" id="wYm-K3-zte"/>
                 <outlet property="textFieldView" destination="yob-zb-zKd" id="eZr-sH-JCK"/>
                 <outlet property="textView" destination="5kx-Pe-OaF" id="44K-xK-Xqm"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -18,21 +19,22 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T96-ma-lki">
-                    <rect key="frame" x="15" y="800.5" width="384" height="50"/>
+                    <rect key="frame" x="15" y="605.5" width="345" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="GRp-B7-wRM"/>
+                        <constraint firstAttribute="width" constant="345" id="Szf-1q-j6o"/>
                     </constraints>
-                    <state key="normal" title="確認"/>
+                    <state key="normal" title="確認" backgroundImage="button_bg"/>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OCY-pb-zKd">
-                    <rect key="frame" x="15" y="62" width="384" height="50"/>
+                    <rect key="frame" x="15" y="18" width="345" height="50"/>
                     <subviews>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="メールアドレスを入力（任意）" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yob-zb-zKd">
-                            <rect key="frame" x="17.5" y="15" width="349" height="20"/>
+                            <rect key="frame" x="17.5" y="15" width="310" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="Xvb-l0-YAt"/>
                             </constraints>
@@ -54,10 +56,10 @@
                     </userDefinedRuntimeAttributes>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ONU-tY-DXb">
-                    <rect key="frame" x="15" y="127" width="384" height="200"/>
+                    <rect key="frame" x="15" y="83" width="345" height="200"/>
                     <subviews>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5kx-Pe-OaF" customClass="EWTextView" customModule="Murder" customModuleProvider="target">
-                            <rect key="frame" x="17.5" y="0.0" width="349" height="200"/>
+                            <rect key="frame" x="17.5" y="0.0" width="310" height="200"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -84,7 +86,6 @@
                 <constraint firstItem="OCY-pb-zKd" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="Ht0-ck-MIT"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="T96-ma-lki" secondAttribute="bottom" constant="11.5" id="KC6-jw-ngY"/>
                 <constraint firstItem="ONU-tY-DXb" firstAttribute="top" secondItem="OCY-pb-zKd" secondAttribute="bottom" constant="15" id="Mwb-Tf-fQP"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="T96-ma-lki" secondAttribute="trailing" constant="15" id="Pvv-zQ-nPb"/>
                 <constraint firstItem="ONU-tY-DXb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="fRN-R5-GCX"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ONU-tY-DXb" secondAttribute="trailing" constant="15" id="iHm-AA-4UX"/>
                 <constraint firstItem="OCY-pb-zKd" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="18" id="mch-27-VsS"/>
@@ -95,4 +96,7 @@
             <point key="canvasLocation" x="139" y="82"/>
         </view>
     </objects>
+    <resources>
+        <image name="button_bg" width="143.5" height="49.5"/>
+    </resources>
 </document>

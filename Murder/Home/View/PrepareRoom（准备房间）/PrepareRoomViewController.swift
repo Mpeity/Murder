@@ -346,7 +346,8 @@ extension PrepareRoomViewController {
 
     //MARK: -  准备游戏
     func loadData() {
-        SVProgressHUD.show(withStatus: "加载中")
+        SVProgressHUD.show()
+
         roomReadyRequest(room_id: room_id) {[weak self] (result, error) in
             if error != nil {
                 return
@@ -1304,7 +1305,8 @@ extension PrepareRoomViewController: WebSocketDelegate {
     
     // initSocket方法
     func initWebSocketSingle () {
-        SVProgressHUD.show(withStatus: "加载中")
+        SVProgressHUD.show()
+
         SingletonSocket.sharedInstance.socket.delegate = self
     }
     
@@ -1329,7 +1331,8 @@ extension PrepareRoomViewController: WebSocketDelegate {
         current_client_id = dic["client_id"] as? String
         let datas = getJSONStringFromDictionary(dictionary: ["room_id":room_id as Int])
         if dic["type"] as? String == "init" {
-            SVProgressHUD.show(withStatus: "加载中")
+            SVProgressHUD.show()
+
             bindRequest(scene: 1, client_id: current_client_id, datas: datas) {[weak self] (result, error) in
                 SVProgressHUD.dismiss()
                 if error != nil {

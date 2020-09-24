@@ -71,7 +71,8 @@ class ScriptDetailsViewController: UIViewController {
 extension ScriptDetailsViewController {
     func scriptDetailsFun() {
         if script_id != nil {
-            SVProgressHUD.show(withStatus: "加载中")
+            SVProgressHUD.show()
+
             scriptDetail(script_id: script_id) { [weak self] (result, error) in
                 SVProgressHUD.dismiss()
                     if error != nil {

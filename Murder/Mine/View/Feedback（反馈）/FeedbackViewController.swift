@@ -17,6 +17,7 @@ class FeedbackViewController: UIViewController {
     // 确认
     @IBOutlet weak var confirmBtn: UIButton!
     
+    @IBOutlet weak var confirmWidth: NSLayoutConstraint!
     // 标题
     private var titleLabel: UILabel = UILabel()
     // 返回上一层按钮
@@ -51,9 +52,13 @@ extension FeedbackViewController {
     private func setUI() {
         confirmBtn.setTitle("確認", for: .normal)
         confirmBtn.setTitleColor(UIColor.white, for: .normal)
+        
+        confirmWidth.constant = FULL_SCREEN_WIDTH - 30
+        
+        confirmBtn.layoutIfNeeded()
         confirmBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
         confirmBtn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        confirmBtn.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)
+//        confirmBtn.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)
         
         
         textView.placeHolder = "お問い合わせ内容を入力"

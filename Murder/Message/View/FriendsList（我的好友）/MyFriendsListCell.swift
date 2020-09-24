@@ -54,26 +54,26 @@ class MyFriendsListCell: UITableViewCell {
                 
             }
             
+            if itemModel.gameText != nil {
+                statusLabel.text = itemModel.gameText!
+            }
+            
             if itemModel.gameStatus != nil {
                 let status = itemModel.gameStatus
                 // 游戏状态【0空闲1准备中2游戏中3离线
                 switch status {
                 case 0:
-                    statusLabel.text = "アイドル中"
                     statusLabel.textColor = HexColor("#9A57FE")
                     break
                 case 1:
-                    statusLabel.text = "準備中"
                     statusLabel.textColor = HexColor("#FEAD21")
 
                     break
                 case 2:
-                    statusLabel.text = "ゲームで"
                     statusLabel.textColor = HexColor("#FE5757")
 
                     break
                 case 3:
-                    statusLabel.text = "オフライン"
                     statusLabel.textColor = HexColor("#999999")
 
                     break

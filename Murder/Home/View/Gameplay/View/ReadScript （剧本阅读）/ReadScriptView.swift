@@ -42,7 +42,7 @@ class ReadScriptView: UIView {
     
     var scriptData : [AnyObject]? {
         didSet {
-            if !scriptData!.isEmpty{
+            if !scriptData!.isEmpty , scriptData?.count != 0{
                 popMenuView.type = type
                 popMenuView.titleArray = scriptData!
                 popMenuView.snp.remakeConstraints { (make) in
@@ -276,7 +276,7 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if type == "script" {
-            let model = scriptData![indexPath.row] as! GPChapterModel
+            let model = scriptData?[indexPath.row] as! GPChapterModel
             let font = UIFont.systemFont(ofSize: 15)
             let height = stringSingleHeightWithWidth(text: model.content, width: FULL_SCREEN_WIDTH-30, font: font)
             
@@ -285,7 +285,7 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
             }
             return height
         } else {
-            let model = scriptData![indexPath.row] as! ScriptLogChapterModel
+            let model = scriptData?[indexPath.row] as! ScriptLogChapterModel
             let font = UIFont.systemFont(ofSize: 15)
             let height = stringSingleHeightWithWidth(text: model.content, width: FULL_SCREEN_WIDTH-30, font: font)
             
@@ -367,7 +367,7 @@ extension ReadScriptView: PopMenuViewDelegate {
             let currentIndex = index
             let indexPath = IndexPath(row: currentIndex, section: 0)
             let item = scriptData![currentIndex] as! GPChapterModel
-            label.text = "【 \(item.name!) 】"
+            label.text = "\(item.name!) "
             tableView.scrollToRow(at: indexPath, at: .top, animated: true)
             
             let mapData = ["user_id":UserAccountViewModel.shareInstance.account?.userId!,"type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"game_status_type":"chapter_see","script_role_chapter_id":item.scriptRoleChapterId!,"key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
@@ -412,15 +412,16 @@ extension ReadScriptView {
 //            let y = scrollView.contentOffset.y
 //            let index = Int(y / 492)
             let item = scriptData![index!] as! GPChapterModel
-            label.text = "【 \(item.name!) 】"
+            label.text = "\(item.name!)"
         } else {
 //            let y = scrollView.contentOffset.y
 //            let index = Int(y / 492)
             let item = scriptData![index!] as! ScriptLogChapterModel
-            label.text = "【 \(item.name!) 】"
+            label.text = "\(item.name!)"
         }
          
-        
+        popMenuView.selectIndexPath = IndexPath(row: index!, section: 0)
+
         hideBottomView()
     }
     
