@@ -16,6 +16,9 @@ let Script_Change_Notif = "Script_Change_Notif"
 // 是否有未读消息通知
 let No_Read_Num_Notif = "No_Read_Num_Notif"
 
+// 发送消息通知
+let Send_Message_Notif = "Send_Message_Notif"
+
 // 删除好友
 let Delete_Friend_Notif = "Delete_Friend_Notif"
 

@@ -704,9 +704,6 @@ extension SendMessageViewController: AgoraRtmDelegate {
         } else {
            Log("不是你")
         }
-        
-        
-        
     }
     
     func rtmKit(_ kit: AgoraRtmKit, imageMessageReceived message: AgoraRtmImageMessage, fromPeer peerId: String) {

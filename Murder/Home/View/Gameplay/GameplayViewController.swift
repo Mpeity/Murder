@@ -2138,7 +2138,6 @@ extension GameplayViewController: WebSocketDelegate {
                 script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
                 
                 if gamePlayModel?.room.status! == 3  { // 房间已经解散
-                    showToastCenter(msg: "房间已解散!")
                     popRootVC()
                 }
                 

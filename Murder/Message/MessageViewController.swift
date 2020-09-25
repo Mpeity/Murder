@@ -35,7 +35,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(notifAction), name: NSNotification.Name(rawValue: Send_Message_Notif), object: nil)
         
         setUI()
         msgNoRead()
@@ -53,6 +53,26 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self?.AgoraRtmLogin()
             }
         })
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+
+    }
+}
+
+//MARK: - Notif
+extension MessageViewController {
+    @objc func notifAction() {
+        loadRefresh()
     }
 }
 
@@ -265,9 +285,11 @@ extension MessageViewController: AgoraRtmDelegate {
     }
     
     // Receive one to one offline messages
-//    func rtmKit(_ kit: AgoraRtmKit, messageReceived message: AgoraRtmMessage, fromPeer peerId: String) {
-//        AgoraRtm.add(offlineMessage: message, from: peerId)
-//    }
+    func rtmKit(_ kit: AgoraRtmKit, messageReceived message: AgoraRtmMessage, fromPeer peerId: String) {
+        AgoraRtm.add(offlineMessage: message, from: peerId)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Send_Message_Notif), object: nil)
+        
+    }
 //
 //    func rtmKit(_ kit: AgoraRtmKit, imageMessageReceived message: AgoraRtmImageMessage, fromPeer peerId: String) {
 //        AgoraRtm.add(offlineMessage: message, from: peerId)

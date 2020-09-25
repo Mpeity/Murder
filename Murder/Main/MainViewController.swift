@@ -129,6 +129,8 @@ extension MainViewController: AgoraRtmDelegate {
     // Receive one to one offline messages
     func rtmKit(_ kit: AgoraRtmKit, messageReceived message: AgoraRtmMessage, fromPeer peerId: String) {
         AgoraRtm.add(offlineMessage: message, from: peerId)
+        
+//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Send_Message_Notif), object: nil)
     }
     
     func rtmKit(_ kit: AgoraRtmKit, imageMessageReceived message: AgoraRtmImageMessage, fromPeer peerId: String) {
