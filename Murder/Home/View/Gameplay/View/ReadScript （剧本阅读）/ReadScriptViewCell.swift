@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YYKit
 
 // 点击textViewBlock回掉
 typealias textViewTapBlcok = (Bool) ->()
@@ -15,6 +16,7 @@ class ReadScriptViewCell: UITableViewCell {
 
     @IBOutlet weak var textView: UITextView!
     
+    @IBOutlet weak var titleLabel: YYLabel!
     var textViewSelected: Bool = false
     
     
@@ -30,14 +32,12 @@ class ReadScriptViewCell: UITableViewCell {
                     let content = itemModel?.content
 
                     let myMutableString = try! NSMutableAttributedString(data: (content!.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
-                    
-                    
-                    let range = NSMakeRange(0, myMutableString.length)
-                    myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
-                    myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15.0)], range: range)
-                    
-                    textView.attributedText = myMutableString
+                      let range = NSMakeRange(0, myMutableString.length)
+                      myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
+                      myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15.0)], range: range)
 
+                      titleLabel.attributedText = myMutableString
+                    
                 }
                 
             }
@@ -51,15 +51,13 @@ class ReadScriptViewCell: UITableViewCell {
                 // 富文本
                 if logChapterModel?.content != nil {
                     let content = logChapterModel?.content
-
+                    
                     let myMutableString = try! NSMutableAttributedString(data: (content!.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
-                    
-                    
-                    let range = NSMakeRange(0, myMutableString.length)
-                    myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
-                    myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16.0)], range: range)
-                    
-                    textView.attributedText = myMutableString
+                        let range = NSMakeRange(0, myMutableString.length)
+                        myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
+                        myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15.0)], range: range)
+  
+                        titleLabel.attributedText = myMutableString
                 }
                 
             }
@@ -75,20 +73,28 @@ class ReadScriptViewCell: UITableViewCell {
         // contentInset  这个属性设置的是textView到容器之间的距离，这个值设成非零后，四个方向都会有弹簧效果
         
         // 这个属性设置的是容器到文字之间的距离
-        textView.textContainerInset = UIEdgeInsets(top: 22, left: 0, bottom: 15, right: 0)
-
-        textView.backgroundColor = HexColor("#F5F5F5")
-//        textView.backgroundColor = UIColor.red
-        textView.textColor = HexColor("#666666")
-        textView.font = UIFont.systemFont(ofSize: 15.0)
-        textView.isEditable = false
-        textView.isScrollEnabled = false
-        textView.showsVerticalScrollIndicator = false
-        textView.showsHorizontalScrollIndicator = false
+//        textView.textContainerInset = UIEdgeInsets(top: 22, left: 0, bottom: 15, right: 0)
+//
+//        textView.backgroundColor = HexColor("#F5F5F5")
+//        textView.textColor = HexColor("#666666")
+//        textView.font = UIFont.systemFont(ofSize: 15.0)
+//        textView.isEditable = false
+//        textView.isScrollEnabled = false
+//        textView.showsVerticalScrollIndicator = false
+//        textView.showsHorizontalScrollIndicator = false
+//
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+//        textView.addGestureRecognizer(tap)
         
+        
+        titleLabel.numberOfLines = 0
+//        titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+        titleLabel.textColor = HexColor(LightDarkGrayColor)
+        titleLabel.font = UIFont.systemFont(ofSize: 15)
+        titleLabel.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-        textView.addGestureRecognizer(tap)
-
+        titleLabel.addGestureRecognizer(tap)
+        titleLabel.backgroundColor = HexColor("#F5F5F5")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -102,9 +108,6 @@ class ReadScriptViewCell: UITableViewCell {
 extension ReadScriptViewCell {
     @objc func tapAction(){
         
-//        guard let textViewTapBlcok = textViewTapBlcok else { return }
-//        textViewTapBlcok
-        
         textViewSelected = !textViewSelected
         if textViewSelected {
             print("textViewSelected\(textViewSelected)")
@@ -112,6 +115,5 @@ extension ReadScriptViewCell {
             print("no_textViewSelected\(textViewSelected)")
         }
         textViewTapBlcok!(textViewSelected)
-        
     }
 }

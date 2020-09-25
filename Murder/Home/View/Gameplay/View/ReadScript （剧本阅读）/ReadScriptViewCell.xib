@@ -17,24 +17,23 @@
                 <rect key="frame" x="0.0" y="0.0" width="403" height="553"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mFk-SH-mxH">
-                        <rect key="frame" x="15" y="0.0" width="373" height="538"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                    </textView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DZ2-Ve-6kN">
+                        <rect key="frame" x="35" y="11" width="333" height="531"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="mFk-SH-mxH" secondAttribute="trailing" constant="15" id="frq-sz-TTa"/>
-                    <constraint firstAttribute="bottom" secondItem="mFk-SH-mxH" secondAttribute="bottom" constant="15" id="hJr-Ha-W7F"/>
-                    <constraint firstItem="mFk-SH-mxH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="lZz-Il-5bj"/>
-                    <constraint firstItem="mFk-SH-mxH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="ptX-ur-Zgq"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="DZ2-Ve-6kN" secondAttribute="bottom" id="L2C-ST-vmG"/>
+                    <constraint firstItem="DZ2-Ve-6kN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="XF1-9G-IoA"/>
+                    <constraint firstItem="DZ2-Ve-6kN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="15" id="gfa-Dh-uJU"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="DZ2-Ve-6kN" secondAttribute="trailing" constant="15" id="huO-zF-WZv"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="textView" destination="mFk-SH-mxH" id="rKK-0v-5lh"/>
+                <outlet property="titleLabel" destination="DZ2-Ve-6kN" id="U5y-jL-7ex"/>
             </connections>
             <point key="canvasLocation" x="83.333333333333343" y="111.49553571428571"/>
         </tableViewCell>

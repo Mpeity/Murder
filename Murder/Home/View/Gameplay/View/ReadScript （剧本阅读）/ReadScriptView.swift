@@ -32,10 +32,61 @@ class ReadScriptView: UIView {
     
     var script_node_id: Int?
     
-    var type :String? = "script"
+    var type :String? = "script" {
+        didSet {
+            headerView.snp.remakeConstraints { (make) in
+                make.top.equalToSuperview()
+                make.width.equalTo(FULL_SCREEN_WIDTH)
+                if type != "script" {
+                    make.height.equalTo(60)
+                } else {
+                    make.height.equalTo(45)
+                }
+            }
+            
+            if type != "script" {
+                headerView.addSubview(iconImgView)
+                iconImgView.setImageWith(URL(string: (UserAccountViewModel.shareInstance.account?.head!)!))
+                iconImgView.layer.cornerRadius = 15
+                iconImgView.layer.masksToBounds = true
+                iconImgView.snp.makeConstraints { (make) in
+                    make.height.width.equalTo(30)
+                    make.top.equalToSuperview().offset(8)
+                    make.left.equalToSuperview().offset(22)
+                }
+                headerView.addSubview(nameLabel)
+                nameLabel.textColor = HexColor("#333333")
+                nameLabel.text = UserAccountViewModel.shareInstance.account?.nickname!
+                nameLabel.font = UIFont.systemFont(ofSize: 12)
+                nameLabel.snp.makeConstraints { (make) in
+                    make.top.equalToSuperview().offset(38)
+                    make.left.equalToSuperview().offset(12)
+                    make.width.equalTo(50)
+                    make.height.equalTo(22)
+                }
+            }
+            
+            tableView.snp.remakeConstraints { (make) in
+                if type != "script" {
+                    make.top.equalToSuperview().offset(60)
+                } else {
+                    make.top.equalToSuperview().offset(45)
+                }
+                make.left.right.equalToSuperview()
+                if type != "script" {
+                    make.height.equalTo(552*SCALE_SCREEN)
+                } else {
+                    make.height.equalTo(537*SCALE_SCREEN)
+                }
+            }
+        }
+    }
+    
+    private let headerView = UIView()
     
     var script : ScriptLogDetail? {
         didSet {
+            
         }
     }
 
@@ -85,7 +136,6 @@ class ReadScriptView: UIView {
 
 extension ReadScriptView {
     private func setUI() {
-        
 
         let bgView = UIView()
         bgView.backgroundColor = HexColor("#F5F5F5")
@@ -105,16 +155,58 @@ extension ReadScriptView {
         bgView.viewWithCorner(byRoundingCorners: [UIRectCorner.topLeft,UIRectCorner.topRight], radii: 15)
 
         
+        headerView.backgroundColor = UIColor.white
+        bgView.addSubview(headerView)
+        
+        headerView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.width.equalTo(FULL_SCREEN_WIDTH)
+            if type != "script" {
+                make.height.equalTo(60)
+            } else {
+                make.height.equalTo(45)
+            }
+        }
+
+        headerView.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.width.equalTo(200)
+            make.height.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        label.textColor = HexColor("#333333")
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+
+
+        let cancelBtn = UIButton()
+        headerView.addSubview(cancelBtn)
+        cancelBtn.snp.makeConstraints { (make) in
+            make.height.width.equalTo(40)
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview()
+        }
+        cancelBtn.addTarget(self, action: #selector(hideView), for: .touchUpInside)
+        cancelBtn.setImage(UIImage(named: "cancel_readscript"), for: .normal)
+                
+        
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "ReadScriptViewCell", bundle: nil), forCellReuseIdentifier: ReadScriptCellId)
         // 隐藏cell系统分割线
+        tableView.sectionFooterHeight = 0
+        tableView.sectionHeaderHeight = 0
         tableView.separatorStyle = .none;
         tableView.rowHeight = 492*SCALE_SCREEN
         tableView.backgroundColor = UIColor.white
         bgView.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
+            if type != "script" {
+                make.top.equalToSuperview().offset(60)
+            } else {
+                make.top.equalToSuperview().offset(45)
+            }
             make.left.right.equalToSuperview()
             if type != "script" {
                 make.height.equalTo(552*SCALE_SCREEN)
@@ -164,24 +256,22 @@ extension ReadScriptView {
 
 extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
     
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return scriptData?.count ?? 0
-//    }
-//
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return scriptData?.count ?? 0
+    }
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return scriptData?.count ?? 0
-        
-//        return 1
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReadScriptCellId, for: indexPath) as! ReadScriptViewCell
         cell.selectionStyle = .none
-        
+
         
         if type == "script" {
-            let model = scriptData![indexPath.row] as! GPChapterModel
+            let model = scriptData![indexPath.section] as! GPChapterModel
             cell.itemModel = model
             cell.textViewTapBlcok = {(param)->() in
                 if param {
@@ -189,11 +279,10 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
                 } else {
                     self.hideBottomView()
                 }
-                
             }
             return cell
         } else {
-            let model = scriptData![indexPath.row] as! ScriptLogChapterModel
+            let model = scriptData![indexPath.section] as! ScriptLogChapterModel
             cell.logChapterModel = model
             cell.textViewTapBlcok = {(param)->() in
                 if param {
@@ -201,83 +290,16 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
                 } else {
                     self.hideBottomView()
                 }
-                
             }
             return cell
         }
-        
-        
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-
-        let view = UIView()
-        view.backgroundColor = UIColor.white
-        
-        view.addSubview(label)
-        label.snp.makeConstraints { (make) in
-            make.width.equalTo(200)
-            make.height.equalToSuperview()
-            make.centerX.equalToSuperview()
-        }
-        label.textColor = HexColor("#333333")
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        
-        
-        if type != "script" {
-            view.addSubview(iconImgView)
-            iconImgView.setImageWith(URL(string: (UserAccountViewModel.shareInstance.account?.head!)!))
-            iconImgView.layer.cornerRadius = 15
-            iconImgView.layer.masksToBounds = true
-            iconImgView.snp.makeConstraints { (make) in
-                make.height.width.equalTo(30)
-                make.top.equalToSuperview().offset(8)
-                make.left.equalToSuperview().offset(22)
-            }
-            
-            
-            view.addSubview(nameLabel)
-            nameLabel.textColor = HexColor("#333333")
-            nameLabel.text = UserAccountViewModel.shareInstance.account?.nickname!
-            nameLabel.font = UIFont.systemFont(ofSize: 12)
-            nameLabel.snp.makeConstraints { (make) in
-                make.top.equalToSuperview().offset(38)
-                make.left.equalToSuperview().offset(12)
-                make.width.equalTo(50)
-                make.height.equalTo(22)
-            }
-        }
-        
-        
-        let cancelBtn = UIButton()
-        view.addSubview(cancelBtn)
-        cancelBtn.snp.makeConstraints { (make) in
-            make.height.width.equalTo(40)
-            make.centerY.equalToSuperview()
-            make.right.equalToSuperview()
-        }
-        cancelBtn.addTarget(self, action: #selector(hideView), for: .touchUpInside)
-        cancelBtn.setImage(UIImage(named: "cancel_readscript"), for: .normal)
-        return view
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if type != "script" {
-            return 60
-        } else {
-          return 45
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "第\(section)章"
-    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if type == "script" {
-            let model = scriptData?[indexPath.row] as! GPChapterModel
+            let model = scriptData?[indexPath.section] as! GPChapterModel
             let font = UIFont.systemFont(ofSize: 15)
             let height = stringSingleHeightWithWidth(text: model.content, width: FULL_SCREEN_WIDTH-30, font: font)
             
@@ -289,9 +311,10 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
             return height
             
         } else {
-            let model = scriptData?[indexPath.row] as! ScriptLogChapterModel
+            let model = scriptData?[indexPath.section] as! ScriptLogChapterModel
             let font = UIFont.systemFont(ofSize: 15)
             let height = stringSingleHeightWithWidth(text: model.content, width: FULL_SCREEN_WIDTH-30, font: font)
+            
 //            let height = getContentHeight(string: model.content!)
             
             if height <= CGFloat(492.0*SCALE_SCREEN) {
@@ -322,6 +345,17 @@ extension ReadScriptView: UITableViewDelegate, UITableViewDataSource {
 extension ReadScriptView {
     
     private func getContentHeight(string: String) -> CGFloat {
+//        let label = UILabel()
+//        label.backgroundColor = UIColor.gray
+//        label.text = string
+//        label.font = UIFont.systemFont(ofSize: 15)
+//        label.textColor = HexColor("#666666")
+//        label.textAlignment = .left
+//        label.numberOfLines = 0
+//        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+//        let size = label.sizeThatFits(CGSize(width: FULL_SCREEN_WIDTH-30, height: CGFloat(MAXFLOAT)))
+//        let height = size.height
+        
         let label = UILabel()
         label.backgroundColor = UIColor.gray
         label.text = string
@@ -331,7 +365,9 @@ extension ReadScriptView {
         label.numberOfLines = 0
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         let size = label.sizeThatFits(CGSize(width: FULL_SCREEN_WIDTH-30, height: CGFloat(MAXFLOAT)))
-        let height = size.height
+        
+        var height = size.height
+        
         return height
     }
     
@@ -352,19 +388,20 @@ extension ReadScriptView {
     func showBottomView() {
         UIView.animate(withDuration: 0.3) {
             self.bottomBtn.snp.remakeConstraints { (make) in
-                       make.right.equalToSuperview()
-                       make.left.equalToSuperview()
-                       make.height.equalTo(50)
-                       if #available(iOS 11.0, *) {
-                           make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
-                       } else {
-                           // Fallback on earlier versions
-                           make.bottom.equalToSuperview()
+               make.right.equalToSuperview()
+               make.left.equalToSuperview()
+               make.height.equalTo(50)
+               if #available(iOS 11.0, *) {
+                   make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
+               } else {
+                   // Fallback on earlier versions
+                   make.bottom.equalToSuperview()
 
-                       }
-                   }
                }
+           }
+        }
     }
+    
     // 隐藏底部目录按钮
     func hideBottomView() {
         UIView.animate(withDuration: 0.3) {
@@ -387,34 +424,35 @@ extension ReadScriptView: PopMenuViewDelegate {
         
         if type! == "script" {
             let currentIndex = index
-            let indexPath = IndexPath(row: currentIndex, section: 0)
             let item = scriptData![currentIndex] as! GPChapterModel
             label.text = "\(item.name!) "
-            tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+            tableView.scroll(toRow: 0, inSection: UInt(currentIndex), at: .top, animated: false)
+            let popIndexPath = IndexPath(row: currentIndex, section: 0)
+            popMenuView.selectIndexPath = popIndexPath
             
             let mapData = ["user_id":UserAccountViewModel.shareInstance.account?.userId!,"type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"game_status_type":"chapter_see","script_role_chapter_id":item.scriptRoleChapterId!,"key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
             let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
             SingletonSocket.sharedInstance.socket.write(string: mapJson)
-            popMenuView.selectIndexPath = indexPath
+            
+            
+            
             
         } else {
+//            let currentIndex = index
+//            let indexPath = IndexPath(row: currentIndex, section: 0)
+//            let item = scriptData![currentIndex] as! ScriptLogChapterModel
+//            label.text = "\(item.name!)"
+//            tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+            
             let currentIndex = index
-            let indexPath = IndexPath(row: currentIndex, section: 0)
             let item = scriptData![currentIndex] as! ScriptLogChapterModel
-            label.text = "【 \(item.name!) 】"
-            tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+            
+            label.text = "\(item.name!) "
+            tableView.scroll(toRow: 0, inSection: UInt(currentIndex), at: .top, animated: false)
+            let popIndexPath = IndexPath(row: currentIndex, section: 0)
+            popMenuView.selectIndexPath = popIndexPath
         
         }
-                
-        
-        
-        
-//        let script_role_id = gamePlayModel?.scriptNodeResult.myRoleId
-//        let secret_talk_id = index+1
-//        let mapData = ["type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"secret_talk_id":secret_talk_id,"game_status_type":"secret_talk","key":(UserAccountViewModel.shareInstance.account?.key!)! as String] as [String : AnyObject]
-        
-//        let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
-//        SingletonSocket.sharedInstance.socket.write(string: mapJson)
         
     }
         
@@ -423,27 +461,42 @@ extension ReadScriptView: PopMenuViewDelegate {
 extension ReadScriptView {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
-        let cellArr = tableView.indexPathsForVisibleRows
-        let indexPath = cellArr?[cellArr!.count - 1]
-        let index = indexPath?.row
+//        let cellArr = tableView.indexPathsForVisibleRows
+//        let indexPath = cellArr?[cellArr!.count - 1]
+//        let index = indexPath?.row
+//
+//        Log(indexPath)
+//        Log(index)
+//
+//        if type! == "script" {
+//            let item = scriptData![index!] as! GPChapterModel
+//            label.text = "\(item.name!)"
+//        } else {
+//            let item = scriptData![index!] as! ScriptLogChapterModel
+//            label.text = "\(item.name!)"
+//        }
+         
         
-        Log(indexPath)
-        Log(index)
-
+        
+        var nowSection = -1 as Int
+        
+        let cellArr = tableView.visibleCells
+        
+        guard let cell = cellArr.first else { return }
+        let indexPath = tableView.indexPath(for: cell)
+        nowSection = indexPath!.section
+        
         if type! == "script" {
-//            let y = scrollView.contentOffset.y
-//            let index = Int(y / 492)
-            let item = scriptData![index!] as! GPChapterModel
+            let item = scriptData![nowSection] as! GPChapterModel
             label.text = "\(item.name!)"
         } else {
-//            let y = scrollView.contentOffset.y
-//            let index = Int(y / 492)
-            let item = scriptData![index!] as! ScriptLogChapterModel
+            let item = scriptData![nowSection] as! ScriptLogChapterModel
             label.text = "\(item.name!)"
         }
-         
-        popMenuView.selectIndexPath = IndexPath(row: index!, section: 0)
-
+        
+        popMenuView.selectIndexPath = IndexPath(row: nowSection, section: 0)
+        
+        Log("nowSection-\(nowSection)")
         hideBottomView()
     }
     

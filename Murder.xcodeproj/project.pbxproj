@@ -164,6 +164,7 @@
 		9875840724E3CA4C008795C5 /* ReadyRoomModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875840624E3CA4C008795C5 /* ReadyRoomModel.swift */; };
 		9875840924E3CAA6008795C5 /* ScriptRoleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875840824E3CAA6008795C5 /* ScriptRoleModel.swift */; };
 		9875840B24E3CAC4008795C5 /* RoomUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875840A24E3CAC4008795C5 /* RoomUserModel.swift */; };
+		98770357251DABB000A3DCE5 /* MyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98770356251DABB000A3DCE5 /* MyLabel.swift */; };
 		98772D0B24DBE72C00C1C125 /* AgoraRtcKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98772D0A24DBE72C00C1C125 /* AgoraRtcKit.framework */; };
 		987A62C3250A036600C1618C /* ThreadCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987A62C2250A036600C1618C /* ThreadCardDetailView.swift */; };
 		987C611C24EA29CB00CEA48D /* GamePlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987C611B24EA29CB00CEA48D /* GamePlayModel.swift */; };
@@ -474,6 +475,7 @@
 		9875840624E3CA4C008795C5 /* ReadyRoomModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadyRoomModel.swift; sourceTree = "<group>"; };
 		9875840824E3CAA6008795C5 /* ScriptRoleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptRoleModel.swift; sourceTree = "<group>"; };
 		9875840A24E3CAC4008795C5 /* RoomUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomUserModel.swift; sourceTree = "<group>"; };
+		98770356251DABB000A3DCE5 /* MyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLabel.swift; sourceTree = "<group>"; };
 		98772D0A24DBE72C00C1C125 /* AgoraRtcKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AgoraRtcKit.framework; sourceTree = "<group>"; };
 		987A62C2250A036600C1618C /* ThreadCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadCardDetailView.swift; sourceTree = "<group>"; };
 		987C611B24EA29CB00CEA48D /* GamePlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePlayModel.swift; sourceTree = "<group>"; };
@@ -1260,6 +1262,7 @@
 				98A447D724DCF9E000C54969 /* String-Extention.swift */,
 				9866C16A24E5243900810516 /* UITextView-Extention.swift */,
 				9873BE26250DC351007C0263 /* EWTextView.swift */,
+				98770356251DABB000A3DCE5 /* MyLabel.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1823,6 +1826,7 @@
 				98A79B3424D148CB00ECBD2A /* PrepareRoomCell.swift in Sources */,
 				986B8904251AE018002920BD /* ReportImgsView.swift in Sources */,
 				98820FAF24CA97F30005EBDD /* ThreadLeftCell.swift in Sources */,
+				98770357251DABB000A3DCE5 /* MyLabel.swift in Sources */,
 				9844204A24EE0FDA001A0D7C /* GPScriptNodeResultModel.swift in Sources */,
 				983A225524DA54A600532BB9 /* MessageScriptCell.swift in Sources */,
 				98820FAC24CA97C20005EBDD /* ThreadView.swift in Sources */,

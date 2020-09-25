@@ -30,7 +30,11 @@ class PopMenuView: UIView {
     var contentTextFont : CGFloat = 15
     var isHideImg: Bool = false
     
-    var selectIndexPath: IndexPath = IndexPath(row: 0, section: 0)
+    var selectIndexPath: IndexPath = IndexPath(row: 0, section: 0) {
+        didSet {
+            tableView.selectRow(at: selectIndexPath, animated: true, scrollPosition: .bottom)
+        }
+    }
 
     
     var titleArray = [AnyObject]() {
