@@ -267,6 +267,7 @@ extension QuestionView {
         propertyLabel.textColor = HexColor(LightDarkGrayColor)
         propertyLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         self.addSubview(propertyLabel)
+        propertyLabel.isHidden = true
         propertyLabel.snp.makeConstraints { (make) in
             make.top.equalTo(subjectLabel.snp_bottom).offset(5)
             make.left.equalTo(countLabel.snp_right).offset(10)

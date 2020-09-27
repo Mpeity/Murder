@@ -143,7 +143,7 @@ extension RecordDetailViewController {
         myTableView.tableHeaderView = tableHeaderView
         
         backBtn.addTarget(self, action: #selector(backBtnAction), for: .touchUpInside)
-        titleLabel.text = "開局記録"
+        titleLabel.text = "公演履歴"
         titleLabel.textColor = UIColor.white
         titleLabel.textAlignment = .center
         

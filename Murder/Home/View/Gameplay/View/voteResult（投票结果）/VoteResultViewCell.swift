@@ -89,6 +89,8 @@ extension VoteResultViewCell {
         
         common = VoteCommonView(frame: CGRect(x: 0, y: 0, width: commonView.bounds.size.width, height: 65))
         commonView.addSubview(common!)
+        
+        propertyLabel.isHidden = true
 
     }
 }

@@ -136,9 +136,11 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     private var loadAllImages: Bool = false
     
     
+    private var statusHiden: Bool = true
     
     override var prefersStatusBarHidden: Bool {
-        return true
+//        return true
+        return statusHiden
     }
 
 
@@ -176,15 +178,23 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
         
 //        initWebSocketSingle()
         
+        statusHiden = true
+        perform(#selector(setNeedsStatusBarAppearanceUpdate))
+
         navigationController?.navigationBar.isHidden = true
         
         // 监听键盘弹出
         NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
     }
         
     override func viewWillDisappear(_ animated: Bool) {
-        SVProgressHUD.dismiss()
         super.viewWillDisappear(animated)
+        SVProgressHUD.dismiss()
+
+        statusHiden = false
+        perform(#selector(setNeedsStatusBarAppearanceUpdate))
+
         navigationController?.navigationBar.isHidden = false
         NotificationCenter.default.removeObserver(self)
     }
@@ -320,8 +330,6 @@ extension PrepareRoomViewController {
         for (index,viewModel) in someArray!.enumerated() {
             let operation = BlockOperation { () -> Void in
                 ImageDownloader.shareInstance.loadImageProgress(currentIndex: index, script: (self.scriptSourceModel?.script!)!, scriptNodeMapModel: viewModel) { (progress, response, error) in
-                    
-
                     let new = progress
                     let scale = 1.0/Double(arrCount)
                     let newIndex = Double(index)+1.0
@@ -335,22 +343,27 @@ extension PrepareRoomViewController {
                         if self.progressArr.count == someArray?.count {
                             self.loadAllImages = true
                             newProgress = 1.0 * 100
-                            DispatchQueue.main.async { [weak self] in
-                                self?.refreshUI()
-                            }
-                        }
-                        
-                        // let p = Float(s)!
-                                            
-                        print("当前进度:\(index):\(s)")
-                        if self.progressArr.count <= someArray?.count ?? 0 {
                             let progressData = ["type":"script_download" ,"scene": "1", "user_id": UserAccountViewModel.shareInstance.account?.userId! ?? 0, "group_id" : self.room_id!, "datas": s] as [String: AnyObject]
                             let progressStr = getJSONStringFromDictionary(dictionary: progressData as NSDictionary)
                             SingletonSocket.sharedInstance.socket.write(string: progressStr)
+                            DispatchQueue.main.async { [weak self] in
+                                self?.refreshUI()
+                            }
+                            return
                         }
                         
-                        
+                        // let p = Float(s)!
+
                     }
+                    
+                    let s = String(format:"%.2f",newProgress)
+                    print("当前进度:\(index):\(s)")
+                    if self.progressArr.count <= someArray?.count ?? 0 {
+                        let progressData = ["type":"script_download" ,"scene": "1", "user_id": UserAccountViewModel.shareInstance.account?.userId! ?? 0, "group_id" : self.room_id!, "datas": s] as [String: AnyObject]
+                        let progressStr = getJSONStringFromDictionary(dictionary: progressData as NSDictionary)
+                        SingletonSocket.sharedInstance.socket.write(string: progressStr)
+                    }
+                    
 
                     
 
@@ -1385,7 +1398,7 @@ extension PrepareRoomViewController: WebSocketDelegate {
             
             Log("走到这里1")
             
-            if readyRoomModel?.roomUserList != nil {
+            if readyRoomModel?.roomUserList != nil, readyRoomModel?.roomUserList?.count != 0 {
                 let userIndex = getIndexWithUserIsSpeaking(uid: UInt(bitPattern: userId))!
                 Log("走到这里2")
 

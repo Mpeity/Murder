@@ -35,7 +35,9 @@ class ReadScriptViewCell: UITableViewCell {
                       myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
                       myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15.0)], range: range)
 
-                      titleLabel.attributedText = myMutableString
+//                      titleLabel.attributedText = myMutableString
+                    
+                    textView.attributedText = myMutableString
                     
                 }
                 
@@ -55,7 +57,10 @@ class ReadScriptViewCell: UITableViewCell {
                         myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
                         myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15.0)], range: range)
   
-                       titleLabel.attributedText = myMutableString
+//                       titleLabel.attributedText = myMutableString
+                    
+                    textView.attributedText = myMutableString
+
                 }
                 
             }
@@ -71,28 +76,29 @@ class ReadScriptViewCell: UITableViewCell {
         // contentInset  这个属性设置的是textView到容器之间的距离，这个值设成非零后，四个方向都会有弹簧效果
         
         // 这个属性设置的是容器到文字之间的距离
-//        textView.textContainerInset = UIEdgeInsets(top: 22, left: 0, bottom: 15, right: 0)
-//
-//        textView.backgroundColor = HexColor("#F5F5F5")
-//        textView.textColor = HexColor("#666666")
-//        textView.font = UIFont.systemFont(ofSize: 15.0)
-//        textView.isEditable = false
-//        textView.isScrollEnabled = false
-//        textView.showsVerticalScrollIndicator = false
-//        textView.showsHorizontalScrollIndicator = false
-//
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-//        textView.addGestureRecognizer(tap)
-        
-        
-        titleLabel.numberOfLines = 0
-        titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
-        titleLabel.textColor = HexColor(LightDarkGrayColor)
-        titleLabel.font = UIFont.systemFont(ofSize: 15)
-        titleLabel.isUserInteractionEnabled = true
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+
+        textView.backgroundColor = HexColor("#F5F5F5")
+        textView.textColor = HexColor("#666666")
+        textView.font = UIFont.systemFont(ofSize: 15.0)
+        textView.isEditable = false
+        textView.isScrollEnabled = false
+        textView.showsVerticalScrollIndicator = false
+        textView.showsHorizontalScrollIndicator = false
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-        titleLabel.addGestureRecognizer(tap)
-        titleLabel.backgroundColor = HexColor("#F5F5F5")
+        textView.addGestureRecognizer(tap)
+        
+        
+        titleLabel.isHidden = true
+//        titleLabel.numberOfLines = 0
+//        titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+//        titleLabel.textColor = HexColor(LightDarkGrayColor)
+//        titleLabel.font = UIFont.systemFont(ofSize: 15)
+//        titleLabel.isUserInteractionEnabled = true
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+//        titleLabel.addGestureRecognizer(tap)
+//        titleLabel.backgroundColor = HexColor("#F5F5F5")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

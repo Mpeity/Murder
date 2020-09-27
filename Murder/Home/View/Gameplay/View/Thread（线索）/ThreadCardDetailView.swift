@@ -365,7 +365,9 @@ extension ThreadCardDetailView {
                     make.left.equalToSuperview()
                 }
                 
-                imgView.setImageWith(URL(string: attachment!))
+//                imgView.setImageWith(URL(string: attachment!))
+                
+                imgView.image = image
                 imgView.size = imgSize
                 imgView.sizeToFit()
                 
@@ -408,7 +410,8 @@ extension ThreadCardDetailView {
                 }
                 
                 
-                imgView.setImageWith(URL(string:attachment!))
+//                imgView.setImageWith(URL(string:attachment!))
+                imgView.image = image
                 imgView.size = imgSize
                 imgView.sizeToFit()
                 

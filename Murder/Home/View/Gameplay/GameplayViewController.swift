@@ -628,7 +628,8 @@ extension GameplayViewController {
         
         if popTipView == nil {
             
-            popTipView = PopTipView(frame: CGRect(x: leftSpace, y: Int(stateBtn.frame.origin.y + stateBtn.frame.size.height + 10), width: width, height: Int(height)))
+            let y = stateBtn.frame.maxY + 10
+            popTipView = PopTipView(frame: CGRect(x: leftSpace, y: Int(y), width: width, height: Int(height)))
             popTipView.backgroundColor = UIColor.clear
             popCommentView.addSubview(popTipView)
         }
@@ -746,11 +747,13 @@ extension GameplayViewController {
         headerBgView = bgView
         bgView.layer.cornerRadius = 10
         bgView.snp.makeConstraints { (make) in
+            
             if #available(iOS 11.0, *) {
                 make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(7)
             } else {
                 make.top.equalToSuperview().offset(7)
             }
+            
             make.left.equalToSuperview().offset(15)
             make.right.equalToSuperview().offset(-15)
             make.height.equalTo(70)
@@ -948,7 +951,7 @@ extension GameplayViewController {
         remainingView.addSubview(remainingLabel)
         remainingLabel.textColor = UIColor.white
         remainingLabel.font = UIFont.systemFont(ofSize: 10)
-        let remainingString = "カウントダウン：\(remainingCount)"
+        let remainingString = "操作できる回数：\(remainingCount)"
         let remainingRanStr = String(remainingCount)
         let remainingAttrstring:NSMutableAttributedString = NSMutableAttributedString(string:remainingString)
         let remainingStr = NSString(string: remainingString)

@@ -50,7 +50,7 @@ class ReadScriptView: UIView {
                 iconImgView.layer.cornerRadius = 15
                 iconImgView.layer.masksToBounds = true
                 iconImgView.snp.makeConstraints { (make) in
-                    make.height.width.equalTo(30)
+                    make.height.width.equalTo(30*SCALE_SCREEN)
                     make.top.equalToSuperview().offset(8)
                     make.left.equalToSuperview().offset(22)
                 }
@@ -59,25 +59,22 @@ class ReadScriptView: UIView {
                 nameLabel.text = UserAccountViewModel.shareInstance.account?.nickname!
                 nameLabel.font = UIFont.systemFont(ofSize: 12)
                 nameLabel.snp.makeConstraints { (make) in
-                    make.top.equalToSuperview().offset(38)
+                    make.top.equalToSuperview().offset(38*SCALE_SCREEN)
                     make.left.equalToSuperview().offset(12)
                     make.width.equalTo(50)
-                    make.height.equalTo(22)
+                    make.height.equalTo(22*SCALE_SCREEN)
                 }
             }
             
             tableView.snp.remakeConstraints { (make) in
                 if type != "script" {
-                    make.top.equalToSuperview().offset(60)
+                    make.top.equalToSuperview().offset(60*SCALE_SCREEN)
                 } else {
-                    make.top.equalToSuperview().offset(45)
+                    make.top.equalToSuperview().offset(45*SCALE_SCREEN)
                 }
                 make.left.right.equalToSuperview()
-                if type != "script" {
-                    make.height.equalTo(552*SCALE_SCREEN)
-                } else {
-                    make.height.equalTo(537*SCALE_SCREEN)
-                }
+                make.height.equalTo(492*SCALE_SCREEN)
+
             }
         }
     }
@@ -208,11 +205,7 @@ extension ReadScriptView {
                 make.top.equalToSuperview().offset(45)
             }
             make.left.right.equalToSuperview()
-            if type != "script" {
-                make.height.equalTo(552*SCALE_SCREEN)
-            } else {
-                make.height.equalTo(537*SCALE_SCREEN)
-            }
+            make.height.equalTo(492*SCALE_SCREEN)
         }
 
         bottomBtn.createButton(style: .right, spacing: 30, imageName: "catalogue", title: "目録", cornerRadius: 0, color: "#ffffff")
