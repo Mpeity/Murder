@@ -117,10 +117,15 @@ extension HomeViewController {
                         
                         let localData = ScriptLocalData.shareInstance.getNormalDefult(key: String(script_id!))
                         let dic = localData as! Dictionary<String, AnyObject>
-                        
-                        let arr = self?.scriptSourceModel?.scriptNodeMapList!
+                        var someArray:[ScriptNodeMapModel]?  = [ScriptNodeMapModel]()
 
-                        for item in arr! {
+                        let arr = self?.scriptSourceModel?.scriptNodeMapList!
+                        let arr2 = self?.scriptSourceModel?.scriptClueList!
+                        
+
+                        someArray = arr! + arr2!
+                        
+                        for item in someArray! {
                             if (!dic.keys.contains(item.attachmentId) || dic[item.attachmentId] == nil) {
                                 // 下载当前图片
                                 self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
@@ -146,14 +151,18 @@ extension HomeViewController {
     
     @objc func loadProgress() {
         
+        var someArray:[ScriptNodeMapModel]?  = [ScriptNodeMapModel]()
         let arr = self.scriptSourceModel?.scriptNodeMapList!
-        // 任务1
-        let arrCount = arr?.count
+        let arr2 = self.scriptSourceModel?.scriptClueList!
+        someArray = arr! + arr2!
         
         
         let queue = OperationQueue()
         queue.name = "Download queue"
         queue.maxConcurrentOperationCount = 1
+        
+        // 任务1
+        guard let arrCount = someArray?.count else { return }
 
         for (index,viewModel) in arr!.enumerated() {
             let operation = BlockOperation { () -> Void in
@@ -161,13 +170,13 @@ extension HomeViewController {
                     
 
                     let new = progress
-                    let scale = 1.0/Double(arrCount!)
+                    let scale = 1.0/Double(arrCount)
                     let newIndex = Double(index)+1.0
                     var newProgress = new! * newIndex * scale * 100
                     Log("newProgress---\(newProgress)")
                     if response != nil {
                         self.progressArr.append(response as AnyObject)
-                        if self.progressArr.count == arr?.count {
+                        if self.progressArr.count == someArray?.count {
                             newProgress = 1.0 * 100
                             DispatchQueue.main.async { [weak self] in
                                 self?.gotoVC()

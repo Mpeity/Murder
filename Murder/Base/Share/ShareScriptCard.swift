@@ -347,7 +347,7 @@ private extension ShareScriptCard {
                 option.enableOfflineMessaging = true
                 
                 let rtmMessage = AgoraRtmMessage(text: "type")
-                self!.send(rtmMessage: rtmMessage, type: type, name: name, option: option)
+                self?.send(rtmMessage: rtmMessage, type: type, name: name, option: option)
                 
             })
         case .group(_):

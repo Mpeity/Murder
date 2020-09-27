@@ -128,9 +128,9 @@
                             <state key="normal" image="message_delete"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zox-ur-6ol">
-                            <rect key="frame" x="237" y="2" width="28" height="14"/>
+                            <rect key="frame" x="237" y="2" width="28" height="28"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="14" id="10g-fS-Jo0"/>
+                                <constraint firstAttribute="height" constant="28" id="10g-fS-Jo0"/>
                                 <constraint firstAttribute="width" constant="28" id="mkc-2b-Nju"/>
                             </constraints>
                             <state key="normal" image="edit_friend"/>

@@ -34,7 +34,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        navigationController?.navigationBar.isHidden = false
         NotificationCenter.default.addObserver(self, selector: #selector(notifAction), name: NSNotification.Name(rawValue: Send_Message_Notif), object: nil)
         
         setUI()

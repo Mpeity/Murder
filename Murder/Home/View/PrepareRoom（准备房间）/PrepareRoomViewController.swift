@@ -329,23 +329,32 @@ extension PrepareRoomViewController {
                     
                     if response != nil {
                         self.progressArr.append(response as AnyObject)
-                        if self.progressArr.count == arr?.count {
+                        
+                        let s = String(format:"%.2f",newProgress)
+
+                        if self.progressArr.count == someArray?.count {
                             self.loadAllImages = true
                             newProgress = 1.0 * 100
                             DispatchQueue.main.async { [weak self] in
                                 self?.refreshUI()
                             }
                         }
+                        
+                        // let p = Float(s)!
+                                            
+                        print("当前进度:\(index):\(s)")
+                        if self.progressArr.count <= someArray?.count ?? 0 {
+                            let progressData = ["type":"script_download" ,"scene": "1", "user_id": UserAccountViewModel.shareInstance.account?.userId! ?? 0, "group_id" : self.room_id!, "datas": s] as [String: AnyObject]
+                            let progressStr = getJSONStringFromDictionary(dictionary: progressData as NSDictionary)
+                            SingletonSocket.sharedInstance.socket.write(string: progressStr)
+                        }
+                        
+                        
                     }
 
+                    
 
-                    let s = String(format:"%.2f",newProgress)
-                    let p = Float(s)!
-                    print("当前进度:\(index):\(p)")
-
-                    let progressData = ["type":"script_download" ,"scene": "1", "user_id": UserAccountViewModel.shareInstance.account?.userId! ?? 0, "group_id" : self.room_id!, "datas": p] as [String: AnyObject]
-                    let progressStr = getJSONStringFromDictionary(dictionary: progressData as NSDictionary)
-                    SingletonSocket.sharedInstance.socket.write(string: progressStr)
+                    
 
                 }
             }
@@ -1341,11 +1350,11 @@ extension PrepareRoomViewController: WebSocketDelegate {
         
         let dic = getDictionaryFromJSONString(jsonString: text)
         current_client_id = dic["client_id"] as? String
-        let datas = getJSONStringFromDictionary(dictionary: ["room_id":room_id as Int])
+        let datas_roomId = getJSONStringFromDictionary(dictionary: ["room_id":room_id as Int])
         if dic["type"] as? String == "init" {
             SVProgressHUD.show()
 
-            bindRequest(scene: 1, client_id: current_client_id, datas: datas) {[weak self] (result, error) in
+            bindRequest(scene: 1, client_id: current_client_id, datas: datas_roomId) {[weak self] (result, error) in
                 SVProgressHUD.dismiss()
                 if error != nil {
                     return
@@ -1365,57 +1374,68 @@ extension PrepareRoomViewController: WebSocketDelegate {
             Log("script_download-websocketDidReceiveMessage=\(socket)\(text)")
 
             let userId = dic["user_id"] as! Int
-            let datas = dic["datas"] as! Float
-            let s = String(format:"%.2f",datas)
-            let progress = Float(s)!
+            let dataStr = dic["datas"] as! String
             
-            let userIndex = getIndexWithUserIsSpeaking(uid: UInt(bitPattern: userId))!
-            let userList = readyRoomModel?.roomUserList
-            let model = userList![userIndex]
+//            let dataDoubel = Double(dataStr)
+//            let newdatas = Float(dataDoubel)
             
-            if model.status == 0 { // 未开始
-                if model.scriptRoleId == 0 { // 未选择角色
-                    prepareBtn.isUserInteractionEnabled = false
-                    prepareBtn.setTitle("ダウンロード中:\(progress)%", for: .normal)
-                    if progress == 100.0 {
-                        prepareBtn.setTitle("準備", for: .normal)
-                        prepareBtn.isUserInteractionEnabled = true
-                    }
-                    
-                } else {
-                    if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
-                        cell.progressLabel.isHidden = false
+//            let s = String(format:"%.2f",dataStr)
+            
+            let progress = dataStr
+            
+            Log("走到这里1")
+            
+            if readyRoomModel?.roomUserList != nil {
+                let userIndex = getIndexWithUserIsSpeaking(uid: UInt(bitPattern: userId))!
+                Log("走到这里2")
+
+                let userList = readyRoomModel?.roomUserList
+                let model = userList![userIndex]
+                
+                if model.status == 0 { // 未开始
+                    if model.scriptRoleId == 0 { // 未选择角色
+                        if model.userId == UserAccountViewModel.shareInstance.account?.userId {
+                            prepareBtn.isUserInteractionEnabled = false
+                            prepareBtn.setTitle("ダウンロード中:\(progress)%", for: .normal)
+                            if progress == "100.00" || progress == "100" || progress == "100.0" {
+                                prepareBtn.setTitle("準備", for: .normal)
+                                prepareBtn.isUserInteractionEnabled = true
+                            }
+                        }
                         
-                        cell.progressLabel.text = String("\(progress)%")
-                        tableView.reloadData()
+                    } else {
+                        if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
+                            cell.progressLabel.isHidden = false
+                            
+                            cell.progressLabel.text = String("\(progress)%")
+                            tableView.reloadData()
+                        }
                     }
-                }
-                if progress == 100.0 || progress == 100.00 ||  progress == 100  {
+                    if progress == "100.00" || progress == "100" || progress == "100.0"  {
+                        if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
+                            cell.progressLabel.text = String("\(progress)%")
+                            cell.prepareBtn.isHidden = true
+                            cell.progressLabel.isHidden = true
+                            tableView.reloadData()
+                        }
+                    }
+                } else { // 已准备
                     if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
-                        cell.progressLabel.text = String("\(progress)%")
                         cell.prepareBtn.isHidden = true
-                        cell.progressLabel.isHidden = true
+                        cell.progressLabel.isHidden = false
+                        cell.progressLabel.text = String("\(progress)%")
                         tableView.reloadData()
                     }
-                }
-            } else { // 已准备
-                if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
-                    cell.prepareBtn.isHidden = true
-                    cell.progressLabel.isHidden = false
-                    cell.progressLabel.text = String("\(progress)%")
-                    tableView.reloadData()
-                }
-                if progress == 100.0 || progress == 100.00 ||  progress == 100  {
-                    if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
-                        cell.progressLabel.text = String("\(progress)%")
-                        cell.progressLabel.isHidden = true
-                        cell.prepareBtn.isHidden = false
-                        tableView.reloadData()
+                    if progress == "100.00" || progress == "100" || progress == "100.0"  {
+                        if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
+                            cell.progressLabel.text = String("\(progress)%")
+                            cell.progressLabel.isHidden = true
+                            cell.prepareBtn.isHidden = false
+                            tableView.reloadData()
+                        }
                     }
                 }
             }
-
-            
         } else if (dic["type"] as? String == "room_ready") {
             // 取到结果
             guard  let resultDic :[String : AnyObject] = dic as? [String : AnyObject] else { return }

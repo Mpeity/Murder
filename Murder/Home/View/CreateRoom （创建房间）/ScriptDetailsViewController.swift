@@ -389,7 +389,7 @@ extension ScriptDetailsViewController: ShareViewDelegate {
     }
     
     func shareLineBtnClick() {
-        
+        showToastCenter(msg: "開発中です")
     }
     
     func shareCopyBtnClick() {

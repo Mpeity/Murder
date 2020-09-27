@@ -174,7 +174,9 @@ private let msg_talk_url = "/api/msg/msg_talk"
  */
 func msgTalkListRequest(receive_id: Int, page_no: Int, page_size: Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {    
     let urlString = msg_talk_url
-    let parameters = ["receive_id": receive_id,"page_no": page_no, "page_size": page_size] as [String : AnyObject]
+//    let parameters = ["receive_id": receive_id,"page_no": page_no, "page_size": page_size] as [String : AnyObject]
+    
+    let parameters = ["receive_id": receive_id] as [String : AnyObject]
     NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }

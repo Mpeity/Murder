@@ -30,7 +30,6 @@ class ReadScriptViewCell: UITableViewCell {
                 
                 if itemModel?.content != nil {
                     let content = itemModel?.content
-
                     let myMutableString = try! NSMutableAttributedString(data: (content!.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
                       let range = NSMakeRange(0, myMutableString.length)
                       myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
@@ -47,7 +46,6 @@ class ReadScriptViewCell: UITableViewCell {
     var logChapterModel: ScriptLogChapterModel? {
         didSet {
             if logChapterModel != nil {
-                
                 // 富文本
                 if logChapterModel?.content != nil {
                     let content = logChapterModel?.content
@@ -57,7 +55,7 @@ class ReadScriptViewCell: UITableViewCell {
                         myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
                         myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15.0)], range: range)
   
-                        titleLabel.attributedText = myMutableString
+                       titleLabel.attributedText = myMutableString
                 }
                 
             }
@@ -88,7 +86,7 @@ class ReadScriptViewCell: UITableViewCell {
         
         
         titleLabel.numberOfLines = 0
-//        titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+        titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
         titleLabel.textColor = HexColor(LightDarkGrayColor)
         titleLabel.font = UIFont.systemFont(ofSize: 15)
         titleLabel.isUserInteractionEnabled = true
