@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+
 extension String {
    var isEmptyString: Bool {
        let trimmedStr = self.trimmingCharacters(in: .whitespacesAndNewlines)

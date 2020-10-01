@@ -23,14 +23,12 @@ class RecordDetailHeaderView: UIView {
     
     var scriptLogDetail :ScriptLogDetail? {
         didSet {
-            guard let scriptLogDetail = scriptLogDetail else {
+            guard scriptLogDetail != nil else {
                 return
             }
             refreshUI()
         }
     }
-    
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -66,7 +64,7 @@ extension RecordDetailHeaderView {
             nameLabel.text = scriptLogDetail?.scriptName!
         }
         if scriptLogDetail?.author != nil {
-            authorLabel.text = "著者：\(scriptLogDetail!.author!)"
+            authorLabel.text = "作者：\(scriptLogDetail!.author!)"
         }
         if scriptLogDetail?.roomId != nil {
             roomIdLabel.text = "ルームID：\(scriptLogDetail!.roomId!)"

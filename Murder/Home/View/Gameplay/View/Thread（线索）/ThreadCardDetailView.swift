@@ -51,7 +51,7 @@ class ThreadCardDetailView: UIView {
                 child_id = clueListModel?.childId
                 
                 
-                guard let imagePath = getImagePathWith(attachmentId: (clueListModel?.attachmentId!)!) else { return }
+                let imagePath = getImagePathWith(attachmentId: (clueListModel?.attachmentId!)!)
                 
                 if imagePath != nil {
                     showDetailView(attachmentStr: imagePath, isOpenNum: clueListModel!.isOpen, isGoingNum: clueListModel!.isGoing)
@@ -78,7 +78,7 @@ class ThreadCardDetailView: UIView {
                 script_clue_id = clueResultModel?.scriptClueId
                 child_id = clueResultModel?.childId
                 
-                guard let imagePath = getImagePathWith(attachmentId: (clueResultModel?.attachmentId!)!) else { return }
+                let imagePath = getImagePathWith(attachmentId: (clueResultModel?.attachmentId!)!)
 
                 if imagePath != nil {
                     showDetailView(attachmentStr: imagePath, isOpenNum: clueResultModel!.isOpen, isGoingNum: clueResultModel!.isGoing!)
@@ -128,6 +128,7 @@ class ThreadCardDetailView: UIView {
                     threadCardView.script_place_id = self?.script_place_id
                     threadCardView.room_id = self!.room_id
                     threadCardView.script_node_id = self!.script_node_id
+                    
                     threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
                     UIApplication.shared.keyWindow?.addSubview(threadCardView)
                     
@@ -205,7 +206,9 @@ extension ThreadCardDetailView {
             let localData = ScriptLocalData.shareInstance.getNormalDefult(key: String(script_id))
             let dic = localData as! Dictionary<String, AnyObject>
             let filePath = dic[attachmentId]
-            
+            if filePath == nil {
+                return nil
+            }
             let lastPath = filePath?.components(separatedBy: "/").last
             let imagePath = NSHomeDirectory() + "/Documents/" + lastPath!
             Log("这里有图片吗------3")

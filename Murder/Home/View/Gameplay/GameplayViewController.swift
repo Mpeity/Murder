@@ -215,10 +215,18 @@ class GameplayViewController: UIViewController {
     // 地点index
     private var placeIndex: Int = 0
     
+//    override  var  prefersStatusBarHidden:  Bool  {
+//        return  true
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+//        let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
+//        statusBar?.backgroundColor = UIColor.clear
+        
         
         initWebSocketSingle()
         initAgoraKit()
@@ -228,7 +236,10 @@ class GameplayViewController: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)        
+        super.viewWillAppear(animated)
+        
+        UIApplication.shared.setStatusBarHidden(true, with: .none)
+        
         navigationController?.navigationBar.isHidden = true
         
         if !SingletonSocket.sharedInstance.socket.isConnected {
@@ -241,6 +252,9 @@ class GameplayViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        UIApplication.shared.setStatusBarHidden(false, with: .none)
+
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -249,9 +263,7 @@ class GameplayViewController: UIViewController {
         userLogout()
     }
     
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
+
     
     deinit {
 
@@ -274,9 +286,6 @@ extension GameplayViewController {
                 if resultDic["code"]!.isEqual(1) {
                     let data = resultDic["data"] as! [String : AnyObject]
                     self?.gamePlayModel = GamePlayModel(fromDictionary: data)
-                    
-                   
-                    
                     
                     self?.joinSecretTalk()
                     self?.refreshUI()
@@ -326,7 +335,7 @@ extension GameplayViewController {
 extension GameplayViewController {
     
     private func joinSecretTalk() {
-        
+        script_id = gamePlayModel?.script.scriptId
         if let scriptRoleList = gamePlayModel!.scriptRoleList {
             for (index, itemModel) in scriptRoleList.enumerated() {
                 let userId = itemModel.user.userId
@@ -484,25 +493,40 @@ extension GameplayViewController {
     
 
         Log("这里有图片------6\(image!)")
+        var size = CGSize.zero
+        var newImage = UIImage()
+        if (image?.size.height)! < FULL_SCREEN_HEIGHT {
+            let height = FULL_SCREEN_HEIGHT
+            let scale = CGFloat(FULL_SCREEN_HEIGHT / (image?.size.height)!)
+            let width = (image?.size.width)! * scale
+            let newSize = CGSize(width: width, height: height)
+            newImage = imageWithImage(image: image!, size: newSize)
+            size = newImage.size
+        } else {
+            let height = FULL_SCREEN_HEIGHT
+            let scale = CGFloat(FULL_SCREEN_HEIGHT / (image?.size.height)!)
+            let width = (image?.size.width)! * scale
+            let newSize = CGSize(width: width, height: height)
+            newImage = imageWithImage(image: image!, size: newSize)
+            size = newImage.size
+        }
+        
+        
     
-        let height = FULL_SCREEN_HEIGHT
-        let scale = CGFloat(FULL_SCREEN_HEIGHT / (image?.size.height)!)
-        let width = (image?.size.width)! * scale
         
-        let newSize = CGSize(width: width, height: height)
-        
-        let newImage = imageWithImage(image: image!, size: newSize)
-            
-        let size = newImage.size
 
         bgImgView.size = size
         scrollView.contentSize = CGSize(width: bgImgView.bounds.size.width, height: 0)
+
+        
+//        scrollView.contentSize = CGSize(width: bgImgView.bounds.size.width, height: 0)
         
 //        scrollView.contentSize = bgImgView.bounds.size
         
         bgImgView.image = newImage
         bgImgView.sizeToFit()
-                    
+        bgImgView.contentMode = .scaleAspectFill
+
         drawImagesButtons(mapModel: model!, orignalSize: (image?.size)!)
         
         // 绘制地图小红点
@@ -628,7 +652,17 @@ extension GameplayViewController {
         
         if popTipView == nil {
             
-            let y = stateBtn.frame.maxY + 10
+//            let y = stateBtn.frame.maxY + 10
+            
+//            let y = STATUS_BAR_HEIGHT + 40 + stateBtn.frame.height * 0.5
+            
+            var y = 0
+            if IS_iPHONE_X {
+                y = Int(STATUS_BAR_HEIGHT + 50 + stateBtn.frame.height )
+            } else {
+                y = Int(STATUS_BAR_HEIGHT + 40 + stateBtn.frame.height * 0.5)
+            }
+            
             popTipView = PopTipView(frame: CGRect(x: leftSpace, y: Int(y), width: width, height: Int(height)))
             popTipView.backgroundColor = UIColor.clear
             popCommentView.addSubview(popTipView)
@@ -644,6 +678,8 @@ extension GameplayViewController {
         self.view.addSubview(scrollView)
         bgImgView.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT)
         self.scrollView.addSubview(bgImgView)
+        
+        scrollView.backgroundColor = UIColor.white
 
         
         //是否有,弹簧效果
@@ -1151,7 +1187,7 @@ extension GameplayViewController {
             remainingCount = currentScriptRoleModel!.user!.point!
         }
 //        remainingCount -= 1
-        let remainingString = "カウントダウン：\(remainingCount)"
+        let remainingString = "操作できる回数：\(remainingCount)"
         let remainingRanStr = String(remainingCount)
         let remainingAttrstring:NSMutableAttributedString = NSMutableAttributedString(string:remainingString)
         let remainingStr = NSString(string: remainingString)
@@ -2149,7 +2185,7 @@ extension GameplayViewController: WebSocketDelegate {
                         remainingCount = currentScriptRoleModel!.user!.point!
                     }
                     remainingView.isHidden = false
-                    let remainingString = "カウントダウン：\(remainingCount)"
+                    let remainingString = "操作できる回数：\(remainingCount)"
                     let remainingRanStr = String(remainingCount)
                     let remainingAttrstring:NSMutableAttributedString = NSMutableAttributedString(string:remainingString)
                     let remainingStr = NSString(string: remainingString)

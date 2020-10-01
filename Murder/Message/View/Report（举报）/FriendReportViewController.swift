@@ -238,12 +238,14 @@ extension FriendReportViewController {
     // 提交
     @objc func commonBtnAction() {
         
-        if textView?.text == nil || textView?.text == "" {
-            showToastCenter(msg: "通報する理由を以下から選んでください")
+        if report_type == nil || report_type == "" {
+            showToastCenter(msg: "通報する内容を出来るだけ詳しくご記入してください")
+            return
         }
         
-        if report_type == nil || report_type != "" {
-            showToastCenter(msg: "通報する内容を出来るだけ詳しくご記入してください")
+        if textView?.text == nil || textView?.text == "" {
+            showToastCenter(msg: "通報する理由を以下から選んでください")
+            return
         }
         
         if textView?.text != nil, textView?.text != "",  report_type != nil {

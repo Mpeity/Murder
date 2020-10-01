@@ -9,6 +9,35 @@
 import Foundation
 
 
+class ScriptRoleResult : NSObject {
+    var headId : String?
+    var name : String?
+
+    /**
+     * Instantiate the instance using the passed dictionary values to set the properties values
+     */
+    init(fromDictionary dictionary: [String:Any]){
+        headId = dictionary["head_id"] as? String
+        name = dictionary["name"] as? String
+    }
+
+    /**
+     * Returns all the available property values in the form of [String:Any] object where the key is the approperiate json key and the value is the value of the corresponding property
+     */
+    func toDictionary() -> [String:Any]
+    {
+        var dictionary = [String:Any]()
+        if headId != nil{
+            dictionary["head_id"] = headId
+        }
+        if name != nil{
+            dictionary["name"] = name
+        }
+        return dictionary
+    }
+}
+
+
 
 class ScriptLogDetail : NSObject {
 
@@ -138,17 +167,19 @@ class ScriptLogDetailUserModel : NSObject {
 
 }
 
+
 class ScriptLogChapterModel : NSObject {
 
     var content : String?
+    var h5Url : String?
     var name : String?
-
 
     /**
      * Instantiate the instance using the passed dictionary values to set the properties values
      */
     init(fromDictionary dictionary: [String:Any]){
         content = dictionary["content"] as? String
+        h5Url = dictionary["h5_url"] as? String
         name = dictionary["name"] as? String
     }
 
@@ -161,6 +192,9 @@ class ScriptLogChapterModel : NSObject {
         if content != nil{
             dictionary["content"] = content
         }
+        if h5Url != nil{
+            dictionary["h5_url"] = h5Url
+        }
         if name != nil{
             dictionary["name"] = name
         }
@@ -168,16 +202,24 @@ class ScriptLogChapterModel : NSObject {
     }
 }
 
+
 class ScriptLogDetailModel : NSObject {
     var chapterList : [ScriptLogChapterModel]?
     var roomUserList : [ScriptLogDetailUserModel]?
     var script : ScriptLogDetail?
+    var roleResult : ScriptRoleResult?
+
 
     /**
      * Instantiate the instance using the passed dictionary values to set the properties values
      */
     init(fromDictionary dictionary: [String:Any]){
         chapterList = [ScriptLogChapterModel]()
+        
+        if let roleResultData = dictionary["role_result"] as? [String:Any]{
+            roleResult = ScriptRoleResult(fromDictionary: roleResultData)
+        }
+        
         if let chapterListArray = dictionary["chapter_list"] as? [[String:Any]]{
             for dic in chapterListArray{
                 let value = ScriptLogChapterModel(fromDictionary: dic)
@@ -215,6 +257,9 @@ class ScriptLogDetailModel : NSObject {
                 dictionaryElements.append(roomUserListElement.toDictionary())
             }
             dictionary["room_user_list"] = dictionaryElements
+        }
+        if roleResult != nil{
+            dictionary["role_result"] = roleResult!.toDictionary()
         }
         if script != nil{
             dictionary["script"] = script?.toDictionary()

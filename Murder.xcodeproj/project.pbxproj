@@ -127,7 +127,6 @@
 		9868A33224C9A765009FD8F4 /* BillingInfoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9868A33024C9A765009FD8F4 /* BillingInfoViewCell.swift */; };
 		9868A33324C9A765009FD8F4 /* BillingInfoViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9868A33124C9A765009FD8F4 /* BillingInfoViewCell.xib */; };
 		986A167724C6D4D2003762C2 /* GameplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A167524C6D4D2003762C2 /* GameplayViewController.swift */; };
-		986A167824C6D4D2003762C2 /* GameplayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 986A167624C6D4D2003762C2 /* GameplayViewController.xib */; };
 		986A540D24EB796D004140F3 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A540C24EB796D004140F3 /* ImageDownloader.swift */; };
 		986A540F24EB89E8004140F3 /* ScriptSourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A540E24EB89E8004140F3 /* ScriptSourceModel.swift */; };
 		986A541124EBAAB7004140F3 /* ScriptNodeMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A541024EBAAB7004140F3 /* ScriptNodeMapModel.swift */; };
@@ -202,7 +201,6 @@
 		98A447D624DCF4A600C54969 /* UserAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A447D524DCF4A600C54969 /* UserAccount.swift */; };
 		98A447D824DCF9E000C54969 /* String-Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A447D724DCF9E000C54969 /* String-Extention.swift */; };
 		98A79B3024D1056500ECBD2A /* PrepareRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A79B2E24D1056500ECBD2A /* PrepareRoomViewController.swift */; };
-		98A79B3124D1056500ECBD2A /* PrepareRoomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A79B2F24D1056500ECBD2A /* PrepareRoomViewController.xib */; };
 		98A79B3424D148CB00ECBD2A /* PrepareRoomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A79B3224D148CB00ECBD2A /* PrepareRoomCell.swift */; };
 		98A79B3524D148CB00ECBD2A /* PrepareRoomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A79B3324D148CB00ECBD2A /* PrepareRoomCell.xib */; };
 		98A79B3724D1591B00ECBD2A /* OutOfRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A79B3624D1591B00ECBD2A /* OutOfRoomView.swift */; };
@@ -433,7 +431,6 @@
 		9868A33024C9A765009FD8F4 /* BillingInfoViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillingInfoViewCell.swift; sourceTree = "<group>"; };
 		9868A33124C9A765009FD8F4 /* BillingInfoViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BillingInfoViewCell.xib; sourceTree = "<group>"; };
 		986A167524C6D4D2003762C2 /* GameplayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameplayViewController.swift; sourceTree = "<group>"; };
-		986A167624C6D4D2003762C2 /* GameplayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameplayViewController.xib; sourceTree = "<group>"; };
 		986A540C24EB796D004140F3 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		986A540E24EB89E8004140F3 /* ScriptSourceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptSourceModel.swift; sourceTree = "<group>"; };
 		986A541024EBAAB7004140F3 /* ScriptNodeMapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptNodeMapModel.swift; sourceTree = "<group>"; };
@@ -515,7 +512,6 @@
 		98A447D524DCF4A600C54969 /* UserAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccount.swift; sourceTree = "<group>"; };
 		98A447D724DCF9E000C54969 /* String-Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String-Extention.swift"; sourceTree = "<group>"; };
 		98A79B2E24D1056500ECBD2A /* PrepareRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareRoomViewController.swift; sourceTree = "<group>"; };
-		98A79B2F24D1056500ECBD2A /* PrepareRoomViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrepareRoomViewController.xib; sourceTree = "<group>"; };
 		98A79B3224D148CB00ECBD2A /* PrepareRoomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareRoomCell.swift; sourceTree = "<group>"; };
 		98A79B3324D148CB00ECBD2A /* PrepareRoomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrepareRoomCell.xib; sourceTree = "<group>"; };
 		98A79B3624D1591B00ECBD2A /* OutOfRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutOfRoomView.swift; sourceTree = "<group>"; };
@@ -1137,7 +1133,6 @@
 			isa = PBXGroup;
 			children = (
 				98A79B2E24D1056500ECBD2A /* PrepareRoomViewController.swift */,
-				98A79B2F24D1056500ECBD2A /* PrepareRoomViewController.xib */,
 				98A79B3224D148CB00ECBD2A /* PrepareRoomCell.swift */,
 				98A79B3324D148CB00ECBD2A /* PrepareRoomCell.xib */,
 				98A79B3624D1591B00ECBD2A /* OutOfRoomView.swift */,
@@ -1222,7 +1217,6 @@
 			isa = PBXGroup;
 			children = (
 				986A167524C6D4D2003762C2 /* GameplayViewController.swift */,
-				986A167624C6D4D2003762C2 /* GameplayViewController.xib */,
 				98038F5E24D82E7200CBCEE7 /* GameplayViewCell.swift */,
 				98038F5F24D82E7200CBCEE7 /* GameplayViewCell.xib */,
 				98D8A35324DC04A200469923 /* Model */,
@@ -1523,8 +1517,6 @@
 				98063B07251AF59B00037CD8 /* PicPickerViewCell.xib in Resources */,
 				98820FA324CA6DA90005EBDD /* HomeListViewCell.xib in Resources */,
 				98038F6124D82E7200CBCEE7 /* GameplayViewCell.xib in Resources */,
-				986A167824C6D4D2003762C2 /* GameplayViewController.xib in Resources */,
-				98A79B3124D1056500ECBD2A /* PrepareRoomViewController.xib in Resources */,
 				98649DE024CEC1FD005AA9C3 /* RoleIntroductionView.xib in Resources */,
 				983FD1AE24D2AF060041D79E /* ScriptTableHeaderCollectionViewCell.xib in Resources */,
 				9868A33324C9A765009FD8F4 /* BillingInfoViewCell.xib in Resources */,

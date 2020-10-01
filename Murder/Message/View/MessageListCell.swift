@@ -82,7 +82,7 @@ class MessageListCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         numLabel.textColor = UIColor.white
-        numLabel.font = UIFont.systemFont(ofSize: 7)
+        numLabel.font = UIFont.systemFont(ofSize: 9)
         
         nicknameLabel.textColor = HexColor(DarkGrayColor)
         timeLabel.textColor = HexColor(LightGrayColor)

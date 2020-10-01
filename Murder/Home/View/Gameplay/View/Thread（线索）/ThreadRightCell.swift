@@ -31,10 +31,10 @@ class ThreadRightCell: UITableViewCell {
             } else {
                 pointView.isHidden = true
             }
-            if clueListModel.isOpen == 0 { // 独有
-                tagLabel.isHidden = false
-            } else {
+            if clueListModel.isPrivate == 0 { // 独有
                 tagLabel.isHidden = true
+            } else {
+                tagLabel.isHidden = false
             }
         }
     }

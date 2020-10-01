@@ -10,6 +10,7 @@ import UIKit
 import AgoraRtcKit
 import Starscream
 import SVProgressHUD
+import Reachability
 
 let PrepareRoomCellId = "PrepareRoomCellId"
 
@@ -105,11 +106,6 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
         return commonView
     }()
     
-    var isStatusBarHidden = false {
-        didSet{
-            self.setNeedsStatusBarAppearanceUpdate()
-        }
-    }
 
     private var readyRoomModel: ReadyRoomModel?
     
@@ -136,18 +132,19 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
     private var loadAllImages: Bool = false
     
     
-    private var statusHiden: Bool = true
     
-    override var prefersStatusBarHidden: Bool {
-//        return true
-        return statusHiden
-    }
+//    override  var  prefersStatusBarHidden:  Bool  {
+//        return  true
+//    }
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+        NetworkStatusListener()
         
         initAgoraKit()
         SingletonSocket.sharedInstance.socket.disconnect()
@@ -178,8 +175,9 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
         
 //        initWebSocketSingle()
         
-        statusHiden = true
-        perform(#selector(setNeedsStatusBarAppearanceUpdate))
+        
+        UIApplication.shared.setStatusBarHidden(true, with: .none)
+
 
         navigationController?.navigationBar.isHidden = true
         
@@ -192,16 +190,22 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
         super.viewWillDisappear(animated)
         SVProgressHUD.dismiss()
 
-        statusHiden = false
-        perform(#selector(setNeedsStatusBarAppearanceUpdate))
-
+        UIApplication.shared.setStatusBarHidden(false, with: .none)
         navigationController?.navigationBar.isHidden = false
+
+
+//        navigationController?.navigationBar.isHidden = false
         NotificationCenter.default.removeObserver(self)
     }
     
 
     
     deinit {
+        
+        // 关闭网络状态消息监听
+        reachability.stopNotifier()
+        // 移除网络状态消息通知
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.reachabilityChanged, object: reachability)
         NotificationCenter.default.removeObserver(self)
     }
        
@@ -326,7 +330,7 @@ extension PrepareRoomViewController {
         let queue = OperationQueue()
         queue.name = "Download queue"
         queue.maxConcurrentOperationCount = 1
-
+        SVProgressHUD.show()
         for (index,viewModel) in someArray!.enumerated() {
             let operation = BlockOperation { () -> Void in
                 ImageDownloader.shareInstance.loadImageProgress(currentIndex: index, script: (self.scriptSourceModel?.script!)!, scriptNodeMapModel: viewModel) { (progress, response, error) in
@@ -334,41 +338,55 @@ extension PrepareRoomViewController {
                     let scale = 1.0/Double(arrCount)
                     let newIndex = Double(index)+1.0
                     var newProgress = new! * newIndex * scale * 100
-                    
+//                    var newProgress = new! * 100
+
                     if response != nil {
+                        Log("response是---\(response)")
                         self.progressArr.append(response as AnyObject)
-                        
-                        let s = String(format:"%.2f",newProgress)
-
-                        if self.progressArr.count == someArray?.count {
-                            self.loadAllImages = true
-                            newProgress = 1.0 * 100
-                            let progressData = ["type":"script_download" ,"scene": "1", "user_id": UserAccountViewModel.shareInstance.account?.userId! ?? 0, "group_id" : self.room_id!, "datas": s] as [String: AnyObject]
-                            let progressStr = getJSONStringFromDictionary(dictionary: progressData as NSDictionary)
-                            SingletonSocket.sharedInstance.socket.write(string: progressStr)
-                            DispatchQueue.main.async { [weak self] in
-                                self?.refreshUI()
-                            }
-                            return
-                        }
-                        
-                        // let p = Float(s)!
-
                     }
                     
+                    if self.progressArr.count == someArray?.count {
+                        self.loadAllImages = true
+                        SVProgressHUD.dismiss()
+
+                        newProgress = 1.0 * 100
+                        
+                        let s = String(format:"%.2f",newProgress)
+                        let progressData = ["type":"script_download" ,"scene": "1", "user_id": UserAccountViewModel.shareInstance.account?.userId! ?? 0, "group_id" : self.room_id!, "datas": s] as [String: AnyObject]
+                        let progressStr = getJSONStringFromDictionary(dictionary: progressData as NSDictionary)
+                        SingletonSocket.sharedInstance.socket.write(string: progressStr)
+                        DispatchQueue.main.async { [weak self] in
+                            self?.refreshUI()
+                        }
+                        return
+                    }
+                    
+//                    else {
+//                        Log("response是---\(response)")
+//                        if self.progressArr.count == someArray?.count {
+//                            self.loadAllImages = true
+//                            newProgress = 1.0 * 100
+//                            SVProgressHUD.dismiss()
+//
+//                            let s = String(format:"%.2f",newProgress)
+//
+//                            let progressData = ["type":"script_download" ,"scene": "1", "user_id": UserAccountViewModel.shareInstance.account?.userId! ?? 0, "group_id" : self.room_id!, "datas": s] as [String: AnyObject]
+//                            let progressStr = getJSONStringFromDictionary(dictionary: progressData as NSDictionary)
+//                            SingletonSocket.sharedInstance.socket.write(string: progressStr)
+//                            DispatchQueue.main.async { [weak self] in
+//                                self?.refreshUI()
+//                            }
+//                            return
+//                        }
+//                    }
+                    
                     let s = String(format:"%.2f",newProgress)
-                    print("当前进度:\(index):\(s)")
+//                    print("当前进度:\(index):\(s)")
                     if self.progressArr.count <= someArray?.count ?? 0 {
                         let progressData = ["type":"script_download" ,"scene": "1", "user_id": UserAccountViewModel.shareInstance.account?.userId! ?? 0, "group_id" : self.room_id!, "datas": s] as [String: AnyObject]
                         let progressStr = getJSONStringFromDictionary(dictionary: progressData as NSDictionary)
                         SingletonSocket.sharedInstance.socket.write(string: progressStr)
                     }
-                    
-
-                    
-
-                    
-
                 }
             }
 
@@ -605,7 +623,13 @@ extension PrepareRoomViewController {
 
      
         if popTipView == nil {
-            popTipView = PopTipView(frame: CGRect(x: leftSpace, y: stateBtn.frame.maxY+10, width: width, height: height))
+            var y = 0
+            if IS_iPHONE_X {
+                y = Int(STATUS_BAR_HEIGHT + 50 + stateBtn.frame.height )
+            } else {
+                y = Int(STATUS_BAR_HEIGHT + 40 + stateBtn.frame.height * 0.5) 
+            }
+            popTipView = PopTipView(frame: CGRect(x: leftSpace, y: CGFloat(y), width: width, height: height))
             popTipView.backgroundColor = UIColor.clear
             popCommentView.addSubview(popTipView)
         }
@@ -897,6 +921,9 @@ extension PrepareRoomViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+        
         let scriptRoleModel = readyRoomModel?.scriptRoleList?[indexPath.row]
         if scriptRoleModel?.hasPlayer ?? false { //已有玩家选择
             Log("已有玩家选择\(scriptRoleModel?.hasPlayer)")
@@ -1048,7 +1075,11 @@ extension PrepareRoomViewController {
             return
         }
 
+    
         button.isSelected = !button.isSelected
+        
+        Log(button.isSelected)
+        
         var status = 0
         if button.isSelected { // 准备
             prepareBtn.setTitle("準備取り消し", for: . normal)
@@ -1384,6 +1415,8 @@ extension PrepareRoomViewController: WebSocketDelegate {
             }
         } else if (dic["type"] as? String == "script_download"){
             
+            SVProgressHUD.dismiss()
+            
             Log("script_download-websocketDidReceiveMessage=\(socket)\(text)")
 
             let userId = dic["user_id"] as! Int
@@ -1419,17 +1452,20 @@ extension PrepareRoomViewController: WebSocketDelegate {
                     } else {
                         if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
                             cell.progressLabel.isHidden = false
-                            
                             cell.progressLabel.text = String("\(progress)%")
                             tableView.reloadData()
                         }
+                        
                     }
+                    
+                    
                     if progress == "100.00" || progress == "100" || progress == "100.0"  {
                         if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
                             cell.progressLabel.text = String("\(progress)%")
                             cell.prepareBtn.isHidden = true
                             cell.progressLabel.isHidden = true
                             tableView.reloadData()
+                            prepareBtn.isUserInteractionEnabled = true
                         }
                     }
                 } else { // 已准备
@@ -1445,6 +1481,7 @@ extension PrepareRoomViewController: WebSocketDelegate {
                             cell.progressLabel.isHidden = true
                             cell.prepareBtn.isHidden = false
                             tableView.reloadData()
+                            prepareBtn.isUserInteractionEnabled = true
                         }
                     }
                 }
@@ -1504,7 +1541,7 @@ extension PrepareRoomViewController: ShareViewDelegate {
     }
     
     func shareLineBtnClick() {
-        
+        showToastCenter(msg: "開発中です")
     }
     
     func shareCopyBtnClick() {
@@ -1512,6 +1549,57 @@ extension PrepareRoomViewController: ShareViewDelegate {
     }
     
     
+}
+
+
+extension PrepareRoomViewController {
+    func NetworkStatusListener() {
+        // 1、设置网络状态消息监听 2、获得网络Reachability对象
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged),name: Notification.Name.reachabilityChanged,object: reachability)
+        do{
+            // 3、开启网络状态消息监听
+            try reachability.startNotifier()
+        }catch{
+            print("could not start reachability notifier")
+        }
+    }
+    
+    
+    
+    
+    // 主动检测网络状态
+    @objc func reachabilityChanged(note: NSNotification) {
+        
+        let reachability = note.object as! Reachability // 准备获取网络连接信息
+        
+        if reachability.isReachable { // 判断网络连接状态
+            print("网络连接：可用")
+            if reachability.isReachableViaWiFi { // 判断网络连接类型
+                print("连接类型：WiFi")
+                // strServerInternetAddrss = getHostAddress_WLAN() // 获取主机IP地址 192.168.31.2 小米路由器
+                // processClientSocket(strServerInternetAddrss)    // 初始化Socket并连接，还得恢复按钮可用
+            } else {
+                print("连接类型：移动网络")
+                // getHostAddrss_GPRS()  // 通过外网获取主机IP地址，并且初始化Socket并建立连接
+            }
+        } else {
+            print("网络连接：不可用")
+            DispatchQueue.main.async { // 不加这句导致界面还没初始化完成就打开警告框，这样不行
+//                self.alert_noNetwrok() // 警告框，提示没有网络
+                
+                self.userLogout()
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+    }
+    
+    // 警告框，提示没有连接网络 *********************
+    func alert_noNetwrok() -> Void {
+        let alert = UIAlertController(title: "系统提示", message: "请打开网络连接", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "确定", style: .default, handler: nil)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 

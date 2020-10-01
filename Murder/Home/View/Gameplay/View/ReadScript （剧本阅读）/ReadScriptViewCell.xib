@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
+        <deployment version="4352" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -10,45 +10,33 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReadScriptCellId" rowHeight="553" id="KGk-i7-Jjw" customClass="ReadScriptViewCell" customModule="Murder" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="403" height="553"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReadScriptCellId" rowHeight="564" id="KGk-i7-Jjw" customClass="ReadScriptViewCell" customModule="Murder" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="481" height="564"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="403" height="553"/>
+                <rect key="frame" x="0.0" y="0.0" width="481" height="564"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DZ2-Ve-6kN">
-                        <rect key="frame" x="30" y="11" width="343" height="531"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VOQ-SV-agC">
-                        <rect key="frame" x="30" y="11" width="343" height="531"/>
+                        <rect key="frame" x="15" y="0.0" width="451" height="564"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="VOQ-SV-agC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="BYd-3t-EBD"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="VOQ-SV-agC" secondAttribute="trailing" constant="10" id="EdS-KY-hAZ"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="DZ2-Ve-6kN" secondAttribute="bottom" id="L2C-ST-vmG"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="VOQ-SV-agC" secondAttribute="bottom" id="MKL-Ri-NTN"/>
-                    <constraint firstItem="DZ2-Ve-6kN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="XF1-9G-IoA"/>
-                    <constraint firstItem="DZ2-Ve-6kN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="gfa-Dh-uJU"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="DZ2-Ve-6kN" secondAttribute="trailing" constant="10" id="huO-zF-WZv"/>
-                    <constraint firstItem="VOQ-SV-agC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="rqW-iZ-r99"/>
+                    <constraint firstItem="VOQ-SV-agC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="N91-1k-z0J"/>
+                    <constraint firstItem="VOQ-SV-agC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="anj-gZ-ndb"/>
+                    <constraint firstAttribute="trailing" secondItem="VOQ-SV-agC" secondAttribute="trailing" constant="15" id="fi7-Ih-r0K"/>
+                    <constraint firstAttribute="bottom" secondItem="VOQ-SV-agC" secondAttribute="bottom" id="sbB-C1-zZl"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="textView" destination="VOQ-SV-agC" id="reC-vq-5F2"/>
-                <outlet property="titleLabel" destination="DZ2-Ve-6kN" id="U5y-jL-7ex"/>
             </connections>
-            <point key="canvasLocation" x="83.333333333333343" y="111.49553571428571"/>
+            <point key="canvasLocation" x="203.62318840579712" y="177.45535714285714"/>
         </tableViewCell>
     </objects>
 </document>

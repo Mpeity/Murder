@@ -63,12 +63,14 @@ class MyFriendsListViewController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        UIApplication.shared.setStatusBarHidden(false, with: .none)
+
         NotificationCenter.default.removeObserver(self)
     }
     
-    override var prefersStatusBarHidden: Bool {
-        return false
-    }
+//    override var prefersStatusBarHidden: Bool {
+//        return false
+//    }
     
     deinit {
         NotificationCenter.default.removeObserver(self)

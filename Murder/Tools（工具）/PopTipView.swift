@@ -29,14 +29,14 @@ class PopTipView: UIView {
             }
             
             // 富文本
-            let myMutableString = try! NSMutableAttributedString(data: (content.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+            guard let news = content.removingPercentEncoding,let data = news.data(using: .unicode) else{return}
+            let att = [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html]
+            guard let attStr = try? NSMutableAttributedString(data: data, options: att, documentAttributes: nil) else{return}
+            let range = NSMakeRange(0, attStr.length)
+            attStr.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12.0)], range: range)
             
-            
-            let range = NSMakeRange(0, myMutableString.length)
-            myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
-            myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12.0)], range: range)
 
-            contentTextView.attributedText = myMutableString
+            contentTextView.attributedText = attStr
         }
     }
     

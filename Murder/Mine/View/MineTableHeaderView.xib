@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MineTableHeaderView" customModule="Murder" customModuleProvider="target">
             <connections>
+                <outlet property="allView" destination="5sN-yH-Ssk" id="ve7-TS-c1h"/>
                 <outlet property="avatarImgView" destination="GmX-D9-3Rz" id="yOE-Z8-qGw"/>
                 <outlet property="bgImgView" destination="3mm-3s-cmM" id="tEc-9T-dUY"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="Oga-tT-Pde"/>
@@ -45,7 +46,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5sN-yH-Ssk" userLabel="allView">
-                    <rect key="frame" x="245" y="217" width="103" height="15"/>
+                    <rect key="frame" x="258" y="217" width="77" height="15"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wHC-hx-rlm" userLabel="leftView">
                             <rect key="frame" x="0.0" y="0.0" width="37" height="15"/>
@@ -80,10 +81,10 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gmz-N6-WWd" userLabel="rightView">
-                            <rect key="frame" x="40.5" y="0.0" width="62.5" height="15"/>
+                            <rect key="frame" x="40.5" y="0.0" width="36.5" height="15"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID:125486" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hcr-TU-MDC">
-                                    <rect key="frame" x="6" y="0.0" width="50.5" height="15"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID:12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hcr-TU-MDC">
+                                    <rect key="frame" x="6" y="0.0" width="24.5" height="15"/>
                                     <constraints>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="nzL-hj-grd"/>
                                     </constraints>

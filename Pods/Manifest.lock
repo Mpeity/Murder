@@ -23,7 +23,6 @@ PODS:
   - Alamofire (4.8.2)
   - Bugly (2.5.71)
   - CLToast (1.0.3)
-  - FTPopOverMenu_Swift (0.3.3)
   - MJRefresh (3.2.0)
   - ReachabilitySwift (4.3.1)
   - SDCycleScrollView (1.75):
@@ -48,7 +47,6 @@ DEPENDENCIES:
   - Alamofire (= 4.8.2)
   - Bugly
   - CLToast
-  - FTPopOverMenu_Swift
   - MJRefresh (= 3.2.0)
   - ReachabilitySwift (= 4.3.1)
   - SDCycleScrollView (= 1.75)
@@ -68,7 +66,6 @@ SPEC REPOS:
     - Alamofire
     - Bugly
     - CLToast
-    - FTPopOverMenu_Swift
     - MJRefresh
     - ReachabilitySwift
     - SDCycleScrollView
@@ -87,7 +84,6 @@ SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
   CLToast: 2e88c737d01eb44316e21ccc9ac485df8f5b35bf
-  FTPopOverMenu_Swift: 1effa730d18851c604b2937e9f956ea4b9782e4e
   MJRefresh: ed450d6eb9d3346a2cb033ab7eb6de090aeef437
   ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
   SDCycleScrollView: 884b88f0266dd4708a0e1934975c69cb971707b1
@@ -101,6 +97,6 @@ SPEC CHECKSUMS:
   UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 665f55c9819a3db87067fe56f3c6108e232395bb
+PODFILE CHECKSUM: 6d6d2ccb1f602dc25b0158bb783ba5d4a6de3523
 
 COCOAPODS: 1.7.5

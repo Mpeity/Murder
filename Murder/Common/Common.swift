@@ -90,12 +90,19 @@ extension UIDevice {
 //
 //        return false
         
-        let screenHeight = UIScreen.main.nativeBounds.size.height;
-        if screenHeight == 2436 || screenHeight == 1792 || screenHeight == 2688 || screenHeight == 1624 {
-            return true
-        }
-        return false
+//        let screenHeight = UIScreen.main.nativeBounds.size.height;
+//        if screenHeight == 2436 || screenHeight == 1792 || screenHeight == 2688 || screenHeight == 1624 {
+//            return true
+//        }
+//        return false
         
+        guard #available(iOS 11.0, *) else {
+            return false
+        }
+
+        let isX = UIApplication.shared.windows[0].safeAreaInsets.bottom > 0
+        print("是不是--->\(isX)")
+        return isX
     }
 }
 

@@ -76,6 +76,5 @@ class BannerWebViewController: UIViewController, WKNavigationDelegate{
     @objc func backBtnAction() {
         self.navigationController?.popViewController(animated: true)
     }
-        
-    
+      
 }

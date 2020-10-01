@@ -27,15 +27,22 @@ func getHeight(string: String, width:CGFloat)-> CGSize {
 }
 
 //MARK:- 富文本
-func setMutableString(content: String, _ color: UIColor = HexColor("#666666") , fontSize: CGFloat = 12) -> NSMutableAttributedString {
-    let myMutableString = try! NSMutableAttributedString(data: (content.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+func setMutableString(content: String, _ color: UIColor = HexColor("#666666") , fontSize: CGFloat = 12) -> NSAttributedString? {
+//    let myMutableString = try! NSMutableAttributedString(data: (content.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+//
+//
+//    let range = NSMakeRange(0, myMutableString.length)
+//    myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
+//    myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: fontSize)], range: range)
     
     
-    let range = NSMakeRange(0, myMutableString.length)
-    myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
-    myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: fontSize)], range: range)
+    guard let news = content.removingPercentEncoding,let data = news.data(using: .unicode) else{return nil}
+    let att = [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html]
+    guard let attStr = try? NSMutableAttributedString(data: data, options: att, documentAttributes: nil) else{return nil}
+    let range = NSMakeRange(0, attStr.length)
+    attStr.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: fontSize)], range: range)
     
-    return myMutableString
+    return attStr
 }
 
 func getDateStr(timeStamp:String) -> String {

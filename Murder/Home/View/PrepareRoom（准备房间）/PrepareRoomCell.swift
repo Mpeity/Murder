@@ -86,7 +86,6 @@ class PrepareRoomCell: UITableViewCell {
                     } else {
                         prepareBtn.isHidden = true
                         progressLabel.isHidden = false
-
                     }
                 }
             } else {
@@ -94,6 +93,7 @@ class PrepareRoomCell: UITableViewCell {
                 nameLabel.text = "選択"
                 ownerLabel.isHidden = true
                 prepareBtn.isHidden = true
+                progressLabel.isHidden = true
             }
         }
     }

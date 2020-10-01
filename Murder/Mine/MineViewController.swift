@@ -23,12 +23,13 @@ class MineViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
-        loadUserInfo()
+//        loadUserInfo()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        loadUserInfo()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

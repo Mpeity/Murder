@@ -30,10 +30,10 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JWC-8p-QsP" userLabel="point">
-                        <rect key="frame" x="60" y="10" width="12" height="12"/>
+                        <rect key="frame" x="54" y="10" width="15" height="15"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zO5-hr-EP9">
-                                <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
+                                <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="7"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -41,16 +41,16 @@
                         </subviews>
                         <color key="backgroundColor" red="0.92941176469999998" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="12" id="NjT-69-WC1"/>
+                            <constraint firstAttribute="height" constant="15" id="NjT-69-WC1"/>
                             <constraint firstItem="zO5-hr-EP9" firstAttribute="leading" secondItem="JWC-8p-QsP" secondAttribute="leading" id="V6b-0i-kOR"/>
                             <constraint firstItem="zO5-hr-EP9" firstAttribute="top" secondItem="JWC-8p-QsP" secondAttribute="top" id="WYQ-n1-8tt"/>
                             <constraint firstAttribute="bottom" secondItem="zO5-hr-EP9" secondAttribute="bottom" id="i7z-jf-Elw"/>
                             <constraint firstAttribute="trailing" secondItem="zO5-hr-EP9" secondAttribute="trailing" id="nQS-cV-m5u"/>
-                            <constraint firstAttribute="width" constant="12" id="tqW-52-rLD"/>
+                            <constraint firstAttribute="width" constant="15" id="tqW-52-rLD"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                <integer key="value" value="6"/>
+                                <real key="value" value="7.5"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
@@ -100,7 +100,7 @@
                     <constraint firstItem="Uuu-WT-Upb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="HsU-qK-fD3"/>
                     <constraint firstAttribute="trailing" secondItem="Ez6-uU-QMA" secondAttribute="trailing" constant="15" id="NlK-j2-L4c"/>
                     <constraint firstItem="JWC-8p-QsP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="O1O-K1-7AX"/>
-                    <constraint firstItem="JWC-8p-QsP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="60" id="SwC-et-BcC"/>
+                    <constraint firstItem="JWC-8p-QsP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="54" id="SwC-et-BcC"/>
                     <constraint firstAttribute="trailing" secondItem="uBQ-lg-0qd" secondAttribute="trailing" constant="15" id="WxD-GS-4IR"/>
                     <constraint firstItem="Ez6-uU-QMA" firstAttribute="leading" secondItem="h8k-h0-A6H" secondAttribute="trailing" constant="10" id="YAW-Ls-Ykv"/>
                     <constraint firstItem="uBQ-lg-0qd" firstAttribute="bottom" secondItem="Uuu-WT-Upb" secondAttribute="bottom" id="Z3h-KD-2go"/>

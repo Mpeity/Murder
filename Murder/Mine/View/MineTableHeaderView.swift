@@ -19,6 +19,8 @@ class MineTableHeaderView: UIView {
     // 昵称
     @IBOutlet weak var nicknameLabel: UILabel!
     
+    @IBOutlet weak var allView: UIView!
+    
     @IBOutlet weak var leftView: UIView!
     
     @IBOutlet weak var rightView: UIView!
@@ -26,6 +28,13 @@ class MineTableHeaderView: UIView {
     @IBOutlet weak var levelLabel: UILabel!
     // 标识
     @IBOutlet weak var identifyLabel: UILabel!
+    
+    // 等级标记
+    var tapView: UIView!
+    
+    var tapCommonView: UIView!
+    
+    
     
     var mineModel: MineModel? {
         didSet {
@@ -50,6 +59,9 @@ class MineTableHeaderView: UIView {
             }
         }
     }
+    
+    
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -97,9 +109,53 @@ extension MineTableHeaderView {
         rightView.layer.borderColor = UIColor.white.cgColor
         rightView.layer.borderWidth = 0.5
         rightView.layer.cornerRadius = 7.5
+        
+        levelLabel.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(showLevelView))
+        levelLabel.addGestureRecognizer(tap)
     }
     
 }
+
+extension MineTableHeaderView {
+    @objc func showLevelView() {
+        allView.layoutIfNeeded()
+
+        if tapCommonView == nil {
+            tapCommonView = UIView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            tapCommonView.backgroundColor = UIColor.clear
+            UIApplication.shared.keyWindow?.addSubview(tapCommonView)
+            tapCommonView.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(hideLevelView))
+            tapCommonView.addGestureRecognizer(tap)
+        }
+        
+        tapCommonView.isHidden = false
+
+        if tapView == nil {
+            let leftSpace = allView.frame.origin.x - levelLabel.frame.width * 0.5
+            let y = 170 + STATUS_BAR_HEIGHT
+            tapView = UIView(frame: CGRect(x: leftSpace, y: y, width: 132, height: 42))
+            tapCommonView.addSubview(tapView)
+            let tapImgView = UIImageView(frame: CGRect(x: 0, y: 0, width: 132, height: 42))
+            tapImgView.image = UIImage(named: "mine_level_bg")
+            tapView.addSubview(tapImgView)
+            
+            let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 132, height: 42))
+            titleLabel.text = mineModel?.expScore!
+            titleLabel.textColor = HexColor(MainColor)
+            titleLabel.textAlignment = .center
+            titleLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+            tapView.addSubview(titleLabel)
+        }
+    }
+    
+    @objc func hideLevelView() {
+        tapCommonView.isHidden = true
+    }
+
+}
+
 
 extension MineTableHeaderView {
     //加载xib

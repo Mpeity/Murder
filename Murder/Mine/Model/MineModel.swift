@@ -10,6 +10,7 @@ import Foundation
 
 class MineModel : NSObject {
 
+    var expScore : String?
     var head : String?
     var headId : String?
     var level : String?
@@ -21,6 +22,7 @@ class MineModel : NSObject {
      * Instantiate the instance using the passed dictionary values to set the properties values
      */
     init(fromDictionary dictionary: [String:Any]){
+        expScore = dictionary["exp_score"] as? String
         head = dictionary["head"] as? String
         headId = dictionary["head_id"] as? String
         level = dictionary["level"] as? String
@@ -48,6 +50,9 @@ class MineModel : NSObject {
         }
         if userId != nil{
             dictionary["user_id"] = userId
+        }
+        if expScore != nil{
+            dictionary["exp_score"] = expScore
         }
         return dictionary
     }

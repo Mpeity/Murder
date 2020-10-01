@@ -34,15 +34,18 @@ class ScriptViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private var pay_type = -1
     
     
-    override var prefersStatusBarHidden: Bool {
-        return false
-    }
+//    override var prefersStatusBarHidden: Bool {
+//        return false
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        UIApplication.shared.setStatusBarHidden(false, with: .none)
         navigationController?.navigationBar.isHidden = false
+        
         NotificationCenter.default.addObserver(self, selector: #selector(loadChange(notif:)), name: NSNotification.Name(rawValue: Script_Change_Notif), object: nil)
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

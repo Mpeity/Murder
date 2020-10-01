@@ -10,7 +10,7 @@ target 'Murder' do
   pod 'SVProgressHUD'
   pod 'MJRefresh', '3.2.0'
   pod 'SnapKit'
-  pod 'FTPopOverMenu_Swift'
+#  pod 'FTPopOverMenu_Swift'
 #  pod 'MLeaksFinder'
   pod 'Bugly'
   # 轮播图

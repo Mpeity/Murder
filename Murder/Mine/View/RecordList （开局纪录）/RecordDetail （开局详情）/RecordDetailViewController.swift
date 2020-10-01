@@ -206,6 +206,8 @@ extension RecordDetailViewController {
         readScriptView.type = "truth"
         readScriptView.scriptData = scriptLogDetailModel?.chapterList
         readScriptView.room_id = Int((scriptLogDetailModel?.script?.roomId!)!)
+        readScriptView.roleResultModel = scriptLogDetailModel?.roleResult
+        
 //        readScriptView.script_role_id = scriptLogDetailModel?.scriptNodeResult.myRoleId
 //        readScriptView.script_node_id = scriptLogDetailModel?.scriptNodeResult.scriptNodeId
         
