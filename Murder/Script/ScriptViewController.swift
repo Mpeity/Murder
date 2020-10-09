@@ -147,8 +147,8 @@ extension ScriptViewController {
                     self?.scriptModel?.list?.append(contentsOf: model.list!)
                 }
                 
-                if self?.scriptModel!.list != nil {
-                    if self?.scriptModel!.list?.count == 0 {
+                if self?.scriptModel?.list != nil {
+                    if self?.scriptModel?.list?.count == 0 {
                         self?.defaultView.isHidden = false
                     } else {
                         self?.defaultView.isHidden = true

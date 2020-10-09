@@ -147,6 +147,7 @@ class PrepareRoomViewController: UIViewController, UITextFieldDelegate {
         NetworkStatusListener()
         
         initAgoraKit()
+        
         SingletonSocket.sharedInstance.socket.disconnect()
         SingletonSocket.sharedInstance.socket.delegate = nil
         
@@ -244,8 +245,9 @@ extension PrepareRoomViewController {
                                 // 下载当前图片
                                 self!.loadAllImages = false
                                 self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
-                                Thread.detachNewThreadSelector(#selector(self!.loadProgress), toTarget: self!, with: nil)
-                                break
+                                Thread.detachNewThreadSelector(#selector(self!.newLoadProgress), toTarget: self!, with: nil)
+                                
+                                return
                             }
                             
                             Log("break")
@@ -257,7 +259,7 @@ extension PrepareRoomViewController {
                         
                     } else {
                         self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
-                        Thread.detachNewThreadSelector(#selector(self!.loadProgress), toTarget: self!, with: nil)
+                        Thread.detachNewThreadSelector(#selector(self!.newLoadProgress), toTarget: self!, with: nil)
                     }
                 }
             }
@@ -311,6 +313,63 @@ extension PrepareRoomViewController {
                 
             } else {
                 
+            }
+        }
+    }
+    
+    @objc func newLoadProgress() {
+        var someArray:[ScriptNodeMapModel]?  = [ScriptNodeMapModel]()
+        let arr = self.scriptSourceModel?.scriptNodeMapList!
+        let arr2 = self.scriptSourceModel?.scriptClueList!
+        someArray = arr! + arr2!
+        
+        // 任务1
+        guard let arrCount = someArray?.count else { return }
+        SVProgressHUD.show()
+        let group = DispatchGroup()
+        for (index,viewModel) in someArray!.enumerated() {
+            group.enter()
+            ImageDownloader.shareInstance.loadImageProgress(currentIndex: index, script: (self.scriptSourceModel?.script!)!, scriptNodeMapModel: viewModel) {[weak self] (progress, response, error) in
+                if error != nil {
+                    Log("error-\(error)")
+                    SVProgressHUD.dismiss()
+                    showToastCenter(msg: "ネットワークエラー~")
+                    self?.userLogout()
+                    self?.navigationController?.popToRootViewController(animated: true)
+                    return
+                }
+                let new = progress
+                let scale = 1.0/Double(arrCount)
+                let newIndex = Double(index)+1.0
+                var newProgress = new! * newIndex * scale * 100
+                if response != nil {
+                    self?.progressArr.append(response as AnyObject)
+                    newProgress = Double(self?.progressArr.count ?? 0) * scale * 100
+                    Log("response是---\(response)")
+                    Log("newProgress--\(newProgress)")
+                    
+                    if self?.progressArr.count == arrCount {
+                        Log("下载完毕")
+                        self?.loadAllImages = true
+                        SVProgressHUD.dismiss()
+                        newProgress = 1.0 * 100
+                    }
+                    
+                    let s = String(format:"%.2f",newProgress)
+                    if self?.progressArr.count ?? 0 <= someArray?.count ?? 0 {
+                        let progressData = ["type":"script_download" ,"scene": "1", "user_id": UserAccountViewModel.shareInstance.account?.userId! ?? 0, "group_id" : self?.room_id!, "datas": s] as [String: AnyObject]
+                        let progressStr = getJSONStringFromDictionary(dictionary: progressData as NSDictionary)
+                        SingletonSocket.sharedInstance.socket.write(string: progressStr)
+                    }
+                    group.leave()
+                }
+            }
+        }
+        
+        // 刷新UI
+        group.notify(queue: DispatchQueue.main) {
+            DispatchQueue.main.async { [weak self] in
+                self?.refreshUI()
             }
         }
     }
@@ -459,10 +518,12 @@ extension PrepareRoomViewController {
         if readyRoomModel?.roomId != nil {
             currentLabel.text = "ルームID：\(readyRoomModel?.roomId! ?? 0)"
         }
-        roleCount = readyRoomModel?.scriptRoleList?.count as! Int
-        playerCount = readyRoomModel?.roomUserList?.count as! Int
+//        roleCount = readyRoomModel?.scriptRoleList?.count as! Int
+//        playerCount = readyRoomModel?.roomUserList?.count as! Int
+//
+//        choiceLabel.text = "キャラクターを選択（\(playerCount)/\(roleCount)）"
         
-        choiceLabel.text = "キャラクターを選択（\(playerCount)/\(roleCount)）"
+        
         let userList = readyRoomModel?.roomUserList
         for itemModel in userList! {
             if (itemModel.userId == UserAccountViewModel.shareInstance.account?.userId) {
@@ -786,6 +847,7 @@ extension PrepareRoomViewController {
         
         // 选择角色
         self.view.addSubview(choiceLabel)
+        choiceLabel.text = "キャラクターを選択（0/0）"
         choiceLabel.snp.makeConstraints { (make) in
             make.height.equalTo(50)
             make.left.equalToSuperview().offset(15)
@@ -1371,7 +1433,6 @@ extension PrepareRoomViewController: WebSocketDelegate {
     // initSocket方法
     func initWebSocketSingle () {
         SVProgressHUD.show()
-
         SingletonSocket.sharedInstance.socket.delegate = self
     }
     

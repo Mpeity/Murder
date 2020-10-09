@@ -69,6 +69,7 @@ func getTime() -> String {
     return String(timeStamp)
 }
 
+//根据指定尺寸缩放图片
 func imageWithImage(image: UIImage, size: CGSize) -> UIImage {
     UIGraphicsBeginImageContext(size)
     image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: size))

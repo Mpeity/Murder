@@ -43,6 +43,7 @@ class GotoMessageViewController: UIViewController, UITableViewDelegate, UITableV
         
        
         UIApplication.shared.setStatusBarHidden(false, with: .none)
+        
         navigationController?.navigationBar.isHidden = false
 
         setUI()

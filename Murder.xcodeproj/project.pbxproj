@@ -209,6 +209,7 @@
 		98A79B3E24D1695A00ECBD2A /* ShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A79B3D24D1695A00ECBD2A /* ShareView.xib */; };
 		98A79B4124D1754800ECBD2A /* LookFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A79B4024D1754800ECBD2A /* LookFriendsView.swift */; };
 		98A79B4324D1755C00ECBD2A /* LookFriendsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A79B4224D1755C00ECBD2A /* LookFriendsView.xib */; };
+		98AD1D9F252EF657005798C5 /* Image-Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AD1D9E252EF657005798C5 /* Image-Extention.swift */; };
 		98B26A6E24F0CF4C00671202 /* BigImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B26A6D24F0CF4C00671202 /* BigImageViewController.swift */; };
 		98B26A7024F1401400671202 /* GameUserClueListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B26A6F24F1401400671202 /* GameUserClueListModel.swift */; };
 		98B26A7224F2045600671202 /* SearchClueResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B26A7124F2045600671202 /* SearchClueResultModel.swift */; };
@@ -520,6 +521,7 @@
 		98A79B3D24D1695A00ECBD2A /* ShareView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareView.xib; sourceTree = "<group>"; };
 		98A79B4024D1754800ECBD2A /* LookFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookFriendsView.swift; sourceTree = "<group>"; };
 		98A79B4224D1755C00ECBD2A /* LookFriendsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LookFriendsView.xib; sourceTree = "<group>"; };
+		98AD1D9E252EF657005798C5 /* Image-Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image-Extention.swift"; sourceTree = "<group>"; };
 		98B26A6D24F0CF4C00671202 /* BigImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigImageViewController.swift; sourceTree = "<group>"; };
 		98B26A6F24F1401400671202 /* GameUserClueListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUserClueListModel.swift; sourceTree = "<group>"; };
 		98B26A7124F2045600671202 /* SearchClueResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchClueResultModel.swift; sourceTree = "<group>"; };
@@ -1257,6 +1259,7 @@
 				9866C16A24E5243900810516 /* UITextView-Extention.swift */,
 				9873BE26250DC351007C0263 /* EWTextView.swift */,
 				98770356251DABB000A3DCE5 /* MyLabel.swift */,
+				98AD1D9E252EF657005798C5 /* Image-Extention.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1780,6 +1783,7 @@
 				9867764924D19A68009A950F /* ApplyFriendView.swift in Sources */,
 				98B26A7624F28FAA00671202 /* GameVoteResultModel.swift in Sources */,
 				98663A7224FCAFE0007726A5 /* FriendsApplyModel.swift in Sources */,
+				98AD1D9F252EF657005798C5 /* Image-Extention.swift in Sources */,
 				0451A37724C1AF6500E69085 /* MainViewController.swift in Sources */,
 				98A268D024D938ED004B9D53 /* VoteCommonView.swift in Sources */,
 				98A79B4124D1754800ECBD2A /* LookFriendsView.swift in Sources */,

@@ -99,11 +99,8 @@ extension HomeViewController {
     
     //MARK:- 检测本地是否有当前剧本数据
     func checkLocalScriptWith(script_id: Int?) {
-        SVProgressHUD.show()
-
         if (script_id != nil){
             scriptSourceRequest(script_id: script_id!) {[weak self] (result, error) in
-                
                 if error != nil {
                     return
                 }
@@ -121,27 +118,30 @@ extension HomeViewController {
 
                         let arr = self?.scriptSourceModel?.scriptNodeMapList!
                         let arr2 = self?.scriptSourceModel?.scriptClueList!
-                        
-
                         someArray = arr! + arr2!
                         
                         for item in someArray! {
                             if (!dic.keys.contains(item.attachmentId) || dic[item.attachmentId] == nil) {
                                 // 下载当前图片
                                 self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
-                                Thread.detachNewThreadSelector(#selector(self!.loadProgress), toTarget: self!, with: nil)
-                                break
+                                Thread.detachNewThreadSelector(#selector(self!.newLoadProgress), toTarget: self!, with: nil)
+
+                                return
                             }
+                            
+                            Log("break")
                         }
                         
                         // 本地有剧本数据
                         DispatchQueue.main.async { [weak self] in
+                            
                             self?.gotoVC()
+                            
                         }
                     } else {
                     
                         self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
-                        Thread.detachNewThreadSelector(#selector(self!.loadProgress), toTarget: self!, with: nil)
+                        Thread.detachNewThreadSelector(#selector(self!.newLoadProgress), toTarget: self!, with: nil)
                                 
                     }
                 }
@@ -149,44 +149,48 @@ extension HomeViewController {
         }
     }
     
-    @objc func loadProgress() {
-        
+    @objc func newLoadProgress() {
         var someArray:[ScriptNodeMapModel]?  = [ScriptNodeMapModel]()
         let arr = self.scriptSourceModel?.scriptNodeMapList!
         let arr2 = self.scriptSourceModel?.scriptClueList!
         someArray = arr! + arr2!
         
-        
-        let queue = OperationQueue()
-        queue.name = "Download queue"
-        queue.maxConcurrentOperationCount = 1
-        
         // 任务1
         guard let arrCount = someArray?.count else { return }
-
-        for (index,viewModel) in arr!.enumerated() {
-            let operation = BlockOperation { () -> Void in
-                ImageDownloader.shareInstance.loadImageProgress(currentIndex: index, script: (self.scriptSourceModel?.script!)!, scriptNodeMapModel: viewModel) { (progress, response, error) in
-                    
-
-                    let new = progress
-                    let scale = 1.0/Double(arrCount)
-                    let newIndex = Double(index)+1.0
-                    var newProgress = new! * newIndex * scale * 100
-                    Log("newProgress---\(newProgress)")
-                    if response != nil {
-                        self.progressArr.append(response as AnyObject)
-                        if self.progressArr.count == someArray?.count {
-                            newProgress = 1.0 * 100
-                            DispatchQueue.main.async { [weak self] in
-                                self?.gotoVC()
-                            }
-                        }
+        SVProgressHUD.show()
+        let group = DispatchGroup()
+        for (index,viewModel) in someArray!.enumerated() {
+            group.enter()
+            ImageDownloader.shareInstance.loadImageProgress(currentIndex: index, script: (self.scriptSourceModel?.script!)!, scriptNodeMapModel: viewModel) {[weak self] (progress, response, error) in
+                if error != nil {
+                    Log(error)
+                    SVProgressHUD.dismiss()
+//                    showToastCenter(msg: "ネットワークエラー~")
+                    return
+                }
+                let new = progress
+                let scale = 1.0/Double(arrCount)
+                let newIndex = Double(index)+1.0
+                var newProgress = new! * newIndex * scale * 100
+                if response != nil {
+                    self?.progressArr.append(response as AnyObject)
+                    newProgress = Double(self?.progressArr.count ?? 0) * scale * 100
+                    Log("newProgress--\(newProgress)")
+                    if self?.progressArr.count == arrCount {
+                        Log("下载完毕")
+                        SVProgressHUD.dismiss()
+                        newProgress = 1.0 * 100
                     }
+                    group.leave()
                 }
             }
-
-            queue.addOperation(operation)
+        }
+        
+        // 刷新UI
+        group.notify(queue: DispatchQueue.main) {
+            DispatchQueue.main.async { [weak self] in
+                self?.gotoVC()
+            }
         }
     }
         
@@ -195,11 +199,9 @@ extension HomeViewController {
         SVProgressHUD.show()
 
         checkUrlRequest {[weak self] (result, error) in
-            SVProgressHUD.dismiss()
             if error != nil {
                 return
             }
-
             // 取到结果
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {

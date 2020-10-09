@@ -200,7 +200,8 @@ extension RecordDetailViewController {
     
     // 查看真相
     @objc func truthBtnAction() {
-        let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+//        let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        let readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT),type: "truth")
         readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
 
         readScriptView.type = "truth"

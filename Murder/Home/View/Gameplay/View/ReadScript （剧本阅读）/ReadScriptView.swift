@@ -47,7 +47,7 @@ class ReadScriptView: UIView {
     
 //    let bgView = UIView()
     
-    var table_headerHeight: CGFloat = 60
+    var table_headerHeight: CGFloat = 45
     
     
     var type :String? = "script" {
@@ -155,9 +155,18 @@ class ReadScriptView: UIView {
         setUI()
     }
     
+    init(frame: CGRect, type: String) {
+        super.init(frame: frame)
+        self.type = type
+        setUI()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    
     
     deinit {
         
@@ -418,15 +427,12 @@ extension ReadScriptView {
                make.right.equalToSuperview()
                make.left.equalToSuperview()
                make.height.equalTo(50)
-//               if #available(iOS 11.0, *) {
-//                   make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
-//               } else {
-//                   // Fallback on earlier versions
-//                   make.bottom.equalToSuperview()
-//               }
-                
-                make.bottom.equalToSuperview()
-
+               if #available(iOS 11.0, *) {
+                   make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
+               } else {
+                   // Fallback on earlier versions
+                   make.bottom.equalToSuperview()
+               }
            }
         }
     }

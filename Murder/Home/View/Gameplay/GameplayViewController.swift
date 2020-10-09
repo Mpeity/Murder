@@ -138,7 +138,9 @@ class GameplayViewController: UIViewController {
     // 发起解散
     var dissolveView = DissolveView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     // 剧本阅读
-    var readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+//    var readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+    
+    var readScriptView = ReadScriptView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT), type: "script")
     
     // 线索
     let threadView = ThreadView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
@@ -495,32 +497,30 @@ extension GameplayViewController {
         Log("这里有图片------6\(image!)")
         var size = CGSize.zero
         var newImage = UIImage()
-        if (image?.size.height)! < FULL_SCREEN_HEIGHT {
-            let height = FULL_SCREEN_HEIGHT
-            let scale = CGFloat(FULL_SCREEN_HEIGHT / (image?.size.height)!)
-            let width = (image?.size.width)! * scale
-            let newSize = CGSize(width: width, height: height)
-            newImage = imageWithImage(image: image!, size: newSize)
-            size = newImage.size
-        } else {
-            let height = FULL_SCREEN_HEIGHT
-            let scale = CGFloat(FULL_SCREEN_HEIGHT / (image?.size.height)!)
-            let width = (image?.size.width)! * scale
-            let newSize = CGSize(width: width, height: height)
-            newImage = imageWithImage(image: image!, size: newSize)
-            size = newImage.size
-        }
+//        if (image?.size.height)! < FULL_SCREEN_HEIGHT {
+//            let height = FULL_SCREEN_HEIGHT
+//            let scale = CGFloat(FULL_SCREEN_HEIGHT / (image?.size.height)!)
+//            let width = (image?.size.width)! * scale
+//            let newSize = CGSize(width: width, height: height)
+//            newImage = image!.scaleImage(scaleSize: scale)!
+////            newImage = imageWithImage(image: image!, size: newSize)
+//            size = newImage.size
+//        } else {
+//        }
+        
+        let height = FULL_SCREEN_HEIGHT
+        let scale = CGFloat(FULL_SCREEN_HEIGHT / (image?.size.height)!)
+        let width = (image?.size.width)! * scale
+        let newSize = CGSize(width: width, height: height)
+        newImage = image!.imageWithImage(size: newSize)
+        size = newImage.size
         
         
     
         
 
         bgImgView.size = size
-        scrollView.contentSize = CGSize(width: bgImgView.bounds.size.width, height: 0)
-
-        
-//        scrollView.contentSize = CGSize(width: bgImgView.bounds.size.width, height: 0)
-        
+        scrollView.contentSize = CGSize(width: size.width, height: 0)
 //        scrollView.contentSize = bgImgView.bounds.size
         
         bgImgView.image = newImage
@@ -676,8 +676,23 @@ extension GameplayViewController {
         
         scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         self.view.addSubview(scrollView)
-        bgImgView.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT)
+        if IS_iPHONE_X {
+            bgImgView.frame = CGRect(x: 0, y: -STATUS_BAR_HEIGHT, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT)
+        } else {
+            bgImgView.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT)
+        }
         self.scrollView.addSubview(bgImgView)
+//        bgImgView.snp.makeConstraints { (make) in
+//            if #available(iOS 11.0, *) {
+//                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+//            } else {
+//                // Fallback on earlier versions
+//                make.top.equalToSuperview()
+//            }
+//            make.left.equalToSuperview()
+//            make.width.equalToSuperview()
+//            make.height.equalToSuperview()
+//        }
         
         scrollView.backgroundColor = UIColor.white
 
@@ -2117,13 +2132,13 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
 extension GameplayViewController {
 
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        Log(scrollView.contentOffset.x)
-    }
-    
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        Log(scrollView.contentOffset.x)
-    }
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        Log(scrollView.contentOffset.x)
+//    }
+//
+//    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+//        Log(scrollView.contentOffset.x)
+//    }
 }
 
 
