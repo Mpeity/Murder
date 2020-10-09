@@ -99,6 +99,7 @@ extension ScriptTableViewCell {
     func setUI() {
         // 封面
         coverImgView.layer.cornerRadius = 5
+        coverImgView.layer.masksToBounds = true
         // 名字
         nameLabel.textColor = HexColor(DarkGrayColor)
         nameLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)

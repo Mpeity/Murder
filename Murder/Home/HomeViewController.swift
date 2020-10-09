@@ -125,7 +125,6 @@ extension HomeViewController {
                                 // 下载当前图片
                                 self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
                                 Thread.detachNewThreadSelector(#selector(self!.newLoadProgress), toTarget: self!, with: nil)
-
                                 return
                             }
                             

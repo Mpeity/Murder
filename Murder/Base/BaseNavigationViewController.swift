@@ -2,7 +2,7 @@
 //  BaseNavigationViewController.swift
 //  Murder
 //
-//  Created by 马滕亚 on 2020/7/26.
+//  Created by m.a.c on 2020/7/26.
 //  Copyright © 2020 m.a.c. All rights reserved.
 //
 
@@ -19,19 +19,19 @@ class BaseNavigationViewController: UINavigationController {
     }
     
     override func pushViewController(_ viewController:UIViewController, animated:Bool) {
-        // 自定义导航栏的样式
         
-        // 设置导航栏背景图片
-//        navigationBar.setBackgroundImage(<#T##backgroundImage: UIImage?##UIImage?#>, for: <#T##UIBarMetrics#>)
+//        if children.count>0{
+//            viewController.hidesBottomBarWhenPushed = true
+//        }
+//        super.pushViewController(viewController, animated: animated)
         
-        // 设置标题颜色
-        
-        
-        // 设置标题字号
-//        navigationBar.titleTextAttributes
-        
-        if children.count>0{
-            viewController.hidesBottomBarWhenPushed = true
+        if self.viewControllers.count > 0 {
+            if self.viewControllers.count == 1 {
+                viewController.hidesBottomBarWhenPushed = true
+            }
+           
+        } else {
+            viewController.hidesBottomBarWhenPushed = false
         }
         
         super.pushViewController(viewController, animated: animated)

@@ -235,7 +235,7 @@ func friendReportRequest(report_id: Int, report_type: String, report_content: St
     if report_images != nil, report_images != "" {
          parameters = ["report_id": report_id,"report_type": report_type, "report_content": report_content, "report_images": report_images!] as [String : AnyObject]
     } else {
-         parameters = ["receive_id": report_id,"report_type": report_type, "report_content": report_content] as [String : AnyObject]
+         parameters = ["report_id": report_id,"report_type": report_type, "report_content": report_content] as [String : AnyObject]
     }
     NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters ) { (result, error) in
         finished(result as? [String : AnyObject], error)

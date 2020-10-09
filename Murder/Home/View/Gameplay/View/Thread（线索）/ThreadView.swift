@@ -35,7 +35,11 @@ class ThreadView: UIView {
     
     var script_node_id : Int?
     
-    var script_id: Int?
+    var script_id: Int? {
+        didSet {
+            
+        }
+    }
 
         
     var gameUserClueList: [GameUserClueListModel]? {

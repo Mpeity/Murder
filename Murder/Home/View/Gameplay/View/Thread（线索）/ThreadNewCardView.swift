@@ -34,12 +34,20 @@ class ThreadNewCardView: UIView {
         
     var script_clue_id: Int?
     
-    var script_id: Int?
+    var script_id: Int? {
+        didSet {
+            
+        }
+    }
 
       
     // 列表
     var clueListModel :ClueListModel? {
         didSet {
+            if clueListModel == nil {
+                return
+            }
+            
             if clueListModel != nil {
                 script_place_id = clueListModel?.scriptPlaceId
                 script_clue_id = clueListModel?.childId
@@ -69,10 +77,10 @@ class ThreadNewCardView: UIView {
         didSet {
             if clueResultModel != nil {
                 script_clue_id = clueResultModel?.childId
-                guard let imagePath = getImagePathWith(attachmentId: (clueResultModel?.attachmentId!)!) else { return }
-                
+                let imagePath = getImagePathWith(attachmentId: (clueResultModel?.attachmentId!)!)
+
                 if imagePath != nil {
-                    showDetailView(attachmentStr: clueResultModel!.attachment, isOpenNum: clueResultModel!.isOpen, isGoingNum: clueResultModel!.isGoing!)
+                    showDetailView(attachmentStr: imagePath, isOpenNum: clueResultModel!.isOpen, isGoingNum: clueResultModel!.isGoing!)
                 }
                 if clueResultModel?.isGoing == 1 { // 可深入
                     deepBtn.layer.cornerRadius = 22
@@ -225,8 +233,14 @@ extension ThreadNewCardView {
         let isOpen = isOpenNum
         let isGoing = isGoingNum
         
+        
         var imgSize = CGSize()
-        let size = getImageSize(attachment!)
+        
+//        let size = getImageSize(attachment!)
+        
+        let image = UIImage(contentsOfFile: attachment!)
+        let size = image!.size
+
         if size.height != 0, size.width != 0 {
             if size.width >= FULL_SCREEN_WIDTH {
                 imgSize.width = FULL_SCREEN_WIDTH
@@ -301,7 +315,9 @@ extension ThreadNewCardView {
                     make.left.equalToSuperview()
                 }
                 
-                imgView.setImageWith(URL(string: attachment!))
+//                imgView.setImageWith(URL(string: attachment!))
+                
+                imgView.image = image
                 imgView.size = imgSize
                 imgView.sizeToFit()
                 
@@ -330,7 +346,9 @@ extension ThreadNewCardView {
                     make.left.equalToSuperview()
                 }
                 
-                imgView.setImageWith(URL(string: attachment!))
+//                imgView.setImageWith(URL(string: attachment!))
+                
+                imgView.image = image
                 imgView.size = imgSize
                 imgView.sizeToFit()
                 
@@ -373,7 +391,8 @@ extension ThreadNewCardView {
                 }
                 
                 
-                imgView.setImageWith(URL(string:attachment!))
+//                imgView.setImageWith(URL(string:attachment!))
+                imgView.image = image
                 imgView.size = imgSize
                 imgView.sizeToFit()
                 

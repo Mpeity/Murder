@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -42,7 +43,7 @@
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3時間 | 3000字 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aJg-1H-QOu">
-                            <rect key="frame" x="112" y="31" width="89" height="24"/>
+                            <rect key="frame" x="112" y="31" width="88" height="24"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="24" id="N8d-zK-NEZ"/>
                             </constraints>
@@ -157,7 +158,8 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <viewLayoutGuide key="safeArea" id="JKD-dU-4mv"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="HZc-j7-Nr7" secondAttribute="bottom" id="3MK-3N-vlY"/>
                 <constraint firstItem="HZc-j7-Nr7" firstAttribute="top" secondItem="XKi-iL-AD3" secondAttribute="top" id="7gq-uM-aba"/>
@@ -168,12 +170,14 @@
                 <constraint firstItem="HZc-j7-Nr7" firstAttribute="leading" secondItem="JKD-dU-4mv" secondAttribute="leading" id="xyb-ct-fwY"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="JKD-dU-4mv"/>
             <point key="canvasLocation" x="152.17391304347828" y="158.03571428571428"/>
         </view>
     </objects>
     <resources>
         <image name="home_list_one" width="80" height="105"/>
         <image name="mine_header_bg" width="375" height="210"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

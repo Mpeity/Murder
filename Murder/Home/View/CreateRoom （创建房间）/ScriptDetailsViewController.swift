@@ -367,9 +367,9 @@ extension ScriptDetailsViewController {
             if resultDic["code"]!.isEqual(1) { // 免费获取剧本成功
                 let vc = CreateRoomViewController()
                 vc.script_id = (self?.scriptDetailModel?.scriptId)!
-                vc.name = self!.scriptDetailModel.name
-                vc.cover = self!.scriptDetailModel.cover
-                self!.navigationController?.pushViewController(vc, animated: true)
+                vc.name = self?.scriptDetailModel.name
+                vc.cover = self?.scriptDetailModel.cover
+                self?.navigationController?.pushViewController(vc, animated: true)
             } else {
                 
             }

@@ -119,15 +119,18 @@ class ThreadCardDetailView: UIView {
                     self!.hide()
                     
                     let model = SearchClueResultModel(fromDictionary: resultData)
-                    self?.clueResultModel = model
+//                    self?.clueResultModel = model
                     
                     let threadCardView = ThreadNewCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
                     
-                    threadCardView.clueResultModel = model
+                    
                     threadCardView.script_id = self?.script_id
                     threadCardView.script_place_id = self?.script_place_id
                     threadCardView.room_id = self!.room_id
                     threadCardView.script_node_id = self!.script_node_id
+                    
+                    threadCardView.clueResultModel = model
+
                     
                     threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
                     UIApplication.shared.keyWindow?.addSubview(threadCardView)

@@ -2,7 +2,7 @@
 //  SingletonSocket.swift
 //  Murder
 //
-//  Created by 马滕亚 on 2020/8/14.
+//  Created by m.a.c on 2020/8/14.
 //  Copyright © 2020 m.a.c. All rights reserved.
 //
 

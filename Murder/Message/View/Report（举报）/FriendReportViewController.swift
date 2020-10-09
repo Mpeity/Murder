@@ -154,7 +154,7 @@ extension FriendReportViewController {
             textView = EWTextView(frame: CGRect(x: 15, y: 0, width: textBgView.width - 30, height: 200))
             textView?.backgroundColor = UIColor.clear
             textView?.font = UIFont.systemFont(ofSize: 12)
-            textView?.textColor = HexColor(LightGrayColor)
+            textView?.textColor = HexColor(DarkGrayColor)
             textView?.placeHolder = "通報する内容を出来るだけ詳しくご記入してください"
             textView?.delegate = self
             textView?.returnKeyType = .done
@@ -239,12 +239,12 @@ extension FriendReportViewController {
     @objc func commonBtnAction() {
         
         if report_type == nil || report_type == "" {
-            showToastCenter(msg: "通報する内容を出来るだけ詳しくご記入してください")
+            showToastCenter(msg: "通報する理由を以下から選んでください")
             return
         }
         
         if textView?.text == nil || textView?.text == "" {
-            showToastCenter(msg: "通報する理由を以下から選んでください")
+            showToastCenter(msg: "通報する内容を出来るだけ詳しくご記入してください")
             return
         }
         

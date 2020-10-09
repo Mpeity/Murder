@@ -1009,7 +1009,6 @@ extension PrepareRoomViewController {
         agoraStatus.muteAllRemote = false
         agoraStatus.muteLocalAudio = false
         agoraKit.leaveChannel(nil)
-
 //        SingletonSocket.sharedInstance.socket.disconnect()
     }
     

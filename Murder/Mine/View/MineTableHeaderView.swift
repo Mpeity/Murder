@@ -34,7 +34,9 @@ class MineTableHeaderView: UIView {
     
     var tapCommonView: UIView!
     
+    let tapImgView = UIImageView(frame: CGRect(x: 0, y: 0, width: 132, height: 42))
     
+    let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 132, height: 42))
     
     var mineModel: MineModel? {
         didSet {
@@ -137,16 +139,15 @@ extension MineTableHeaderView {
             let y = 170 + STATUS_BAR_HEIGHT
             tapView = UIView(frame: CGRect(x: leftSpace, y: y, width: 132, height: 42))
             tapCommonView.addSubview(tapView)
-            let tapImgView = UIImageView(frame: CGRect(x: 0, y: 0, width: 132, height: 42))
             tapImgView.image = UIImage(named: "mine_level_bg")
             tapView.addSubview(tapImgView)
-            
-            let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 132, height: 42))
-            titleLabel.text = mineModel?.expScore!
             titleLabel.textColor = HexColor(MainColor)
             titleLabel.textAlignment = .center
             titleLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
             tapView.addSubview(titleLabel)
+        }
+        if mineModel?.expScore != nil {
+            titleLabel.text = mineModel?.expScore!
         }
     }
     

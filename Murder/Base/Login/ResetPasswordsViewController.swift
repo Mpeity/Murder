@@ -2,7 +2,7 @@
 //  ResetPasswordsViewController.swift
 //  Murder
 //
-//  Created by 马滕亚 on 2020/7/20.
+//  Created by m.a.c on 2020/7/20.
 //  Copyright © 2020 m.a.c. All rights reserved.
 //
 
