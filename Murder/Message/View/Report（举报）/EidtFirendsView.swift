@@ -2,7 +2,7 @@
 //  EidtFirendsView.swift
 //  Murder
 //
-//  Created by 马滕亚 on 2020/9/22.
+//  Created by m.a.c on 2020/9/22.
 //  Copyright © 2020 m.a.c. All rights reserved.
 //
 

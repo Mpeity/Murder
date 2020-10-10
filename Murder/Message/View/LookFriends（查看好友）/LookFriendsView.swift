@@ -3,7 +3,7 @@
 //  LookFriendsView.swift
 //  Murder
 //
-//  Created by 马滕亚 on 2020/7/29.
+//  Created by m.a.c on 2020/7/29.
 //  Copyright © 2020 m.a.c. All rights reserved.
 //
 
