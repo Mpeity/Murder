@@ -2,7 +2,7 @@
 //  ScriptDetailModel.swift
 //  Murder
 //
-//  Created by 马滕亚 on 2020/8/11.
+//  Created by m.a.c on 2020/8/11.
 //  Copyright © 2020 m.a.c. All rights reserved.
 //
 
