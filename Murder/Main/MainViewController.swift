@@ -18,6 +18,9 @@ class MainViewController: UITabBarController {
     
     var redPoint = UIView()
     
+    var timer: DispatchSourceTimer?
+
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupTabbar()
@@ -52,6 +55,19 @@ class MainViewController: UITabBarController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(notifFunc(notif:)), name: NSNotification.Name(rawValue: No_Read_Num_Notif), object: nil)
         mgsNoRead()
+        
+        timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
+                
+        timer?.schedule(deadline: .now(), repeating: .seconds(2))
+        // 设定时间源的触发事件
+        timer?.setEventHandler(handler: {
+            DispatchQueue.main.async { [weak self] in
+                self?.onlineTime()
+            }
+        })
+        // 启动时间源
+        timer?.resume()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -101,11 +117,6 @@ extension MainViewController: AgoraRtmDelegate {
             print(String(account!))
             
             guard errorCode == .ok else {
-//                showToastCenter(msg: "AgoraRtmLogout\(errorCode)")
-                #warning("注释一下，记得解开")
-//                UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
-//                userLogout()
-//                self!.AgoraRtmLogout()
                 return
             }
             AgoraRtm.status = .online
@@ -166,6 +177,12 @@ extension MainViewController {
                     self!.redPoint.isHidden = false
                 }
             }
+        }
+    }
+    
+    private func onlineTime() {
+        onlineTimeRequest { (result, error) in
+            
         }
     }
     

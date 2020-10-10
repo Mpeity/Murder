@@ -182,6 +182,21 @@ func msgTalkListRequest(receive_id: Int, page_no: Int, page_size: Int, finished:
     }
 }
 
+//MARK:- 消息对话
+private let update_is_read_url = "/api/msg/update_is_read"
+/** 消息列表
+ * @params [参数名] [类型] [是否必传]
+ * receive_id [string]    是    对方用户ID
+ */
+func updateIsReadRequest(receive_id: Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    let urlString = update_is_read_url
+    let parameters = ["receive_id": receive_id] as [String : AnyObject]
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+
 //MARK:- 获取历史纪录
 /** 消息列表
  * @params [参数名] [类型] [是否必传]

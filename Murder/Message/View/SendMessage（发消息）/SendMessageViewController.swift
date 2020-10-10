@@ -98,6 +98,14 @@ class SendMessageViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        updateIsReadRequest(receive_id: messageListModel!.userId!) { (result, error) in
+            
+            
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
     
 
@@ -106,14 +114,6 @@ class SendMessageViewController: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.removeObserver(self)
     }
     
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-//
-//        if String(describing: touch.view?.classForCoder) == "UITableViewCellContentView" {
-//           return false
-//        } else {
-//           return true
-//        }
-//    }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
 
@@ -232,8 +232,6 @@ extension SendMessageViewController {
             make.width.equalTo(FULL_SCREEN_WIDTH)
             make.bottom.equalTo(bottomView.snp_top)
         }
-        
-        //        tableView.frame = CGRect(x: 0, y: NAVIGATION_BAR_HEIGHT, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT-HOME_INDICATOR_HEIGHT-NAVIGATION_BAR_HEIGHT-bottomView.height)
 
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
@@ -241,9 +239,7 @@ extension SendMessageViewController {
             // Fallback on earlier versions
         }
         Log(tableView.frame)
-        
-//        tableView.contentOffset = CGPoint(x: CGFloat.greatestFiniteMagnitude, y: CGFloat.greatestFiniteMagnitude)
-        
+                
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
         tap.delegate = self
         tableView.addGestureRecognizer(tap)
@@ -665,6 +661,7 @@ private extension SendMessageViewController {
                     
                     UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
                     userLogout()
+                    AgoraRtmLogout()
                     return
                 }
                 Log(peerOnlineStatus)

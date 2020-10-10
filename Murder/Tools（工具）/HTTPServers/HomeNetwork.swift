@@ -401,3 +401,21 @@ func gameCountdownRequest(room_id: Int, script_node_id: Int, finished: @escaping
         finished(result as? [String : AnyObject], error)
     }
 }
+
+
+//MARK:- 游戏倒计时【异步调用】
+private let online_time_url = "/api/user/online_time"
+/** 注册接口
+ * @params [参数名] [类型] [是否必传]
+ * room_id [int]    是    房间ID
+ * script_node_id [int]    是    游戏节点ID
+ */
+func onlineTimeRequest(finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = online_time_url
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: nil) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+

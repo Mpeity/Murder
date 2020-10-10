@@ -223,15 +223,11 @@ class GameplayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+         
+        // 禁止侧滑
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
-//        let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
-//        statusBar?.backgroundColor = UIColor.clear
-        
-        
         initWebSocketSingle()
-        initAgoraKit()
         setUI()
         gamePlaying()
     }
@@ -244,6 +240,8 @@ class GameplayViewController: UIViewController {
         
         navigationController?.navigationBar.isHidden = true
         
+        initAgoraKit()
+
         if !SingletonSocket.sharedInstance.socket.isConnected {
             reConnectTime = 0
             socketReconnect()
