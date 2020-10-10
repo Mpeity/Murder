@@ -194,9 +194,6 @@ class GameplayViewController: UIViewController {
     var leftArr = NSMutableArray.init()
     var rightArr = NSMutableArray.init()
 
-    
-//    var rightArr: NSMutableArray = NSMutableArray.init()
-
     // 游戏进行中Model
     private var gamePlayModel : GamePlayModel?
     
@@ -209,17 +206,14 @@ class GameplayViewController: UIViewController {
     // 是否加入密聊室
     var isJoinCollogueRoom: Bool? = false
     
-    // 线索
-//    var threadView : ThreadView?
+    
     // 答题页面
     let commonQuestionView = QuestionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     
     // 地点index
     private var placeIndex: Int = 0
     
-//    override  var  prefersStatusBarHidden:  Bool  {
-//        return  true
-//    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -253,8 +247,6 @@ class GameplayViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         UIApplication.shared.setStatusBarHidden(false, with: .none)
-
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -305,9 +297,7 @@ extension GameplayViewController {
 extension GameplayViewController {
     
     func getImagePathWith(attachmentId: String) -> String? {
-        Log("这里有图片吗------2----\(script_id)")
         guard let script_id = script_id else {
-            Log("这里没有图片------7")
             return nil
         }
         
@@ -318,12 +308,9 @@ extension GameplayViewController {
             
             let lastPath = filePath?.components(separatedBy: "/").last
             let imagePath = NSHomeDirectory() + "/Documents/" + lastPath!
-            Log("这里有图片吗------3")
             if !imagePath.isEmpty {
-                Log("这里有图片------5")
                 return imagePath
             } else {
-                Log("这里没有图片------4")
                 return nil
             }
         }
@@ -349,7 +336,6 @@ extension GameplayViewController {
         
         // 绘制地图
         if currentScriptRoleModel?.scriptNodeMapList != nil {
-            Log("这里有图片吗------1")
             let model = currentScriptRoleModel?.scriptNodeMapList?[0]
             drawImage(model: model)
         }
@@ -450,7 +436,6 @@ extension GameplayViewController {
             }
             
             // 绘制地图
-            Log("这里有图片吗------1")
             let model = currentScriptRoleModel?.scriptNodeMapList?[placeIndex]
             drawImage(model: model)
         }
@@ -485,37 +470,17 @@ extension GameplayViewController {
     //MARK:- 绘制地图
     func drawImage(model: GPNodeMapListModel?) {
         guard let imagePath = getImagePathWith(attachmentId: (model?.attachmentId!)!) else { return }
-        Log("这里有图片------6\(model?.attachmentId)")
-        
 
         let image = UIImage(contentsOfFile: imagePath)
-    
-    
 
-        Log("这里有图片------6\(image!)")
         var size = CGSize.zero
         var newImage = UIImage()
-//        if (image?.size.height)! < FULL_SCREEN_HEIGHT {
-//            let height = FULL_SCREEN_HEIGHT
-//            let scale = CGFloat(FULL_SCREEN_HEIGHT / (image?.size.height)!)
-//            let width = (image?.size.width)! * scale
-//            let newSize = CGSize(width: width, height: height)
-//            newImage = image!.scaleImage(scaleSize: scale)!
-////            newImage = imageWithImage(image: image!, size: newSize)
-//            size = newImage.size
-//        } else {
-//        }
-        
         let height = FULL_SCREEN_HEIGHT
         let scale = CGFloat(FULL_SCREEN_HEIGHT / (image?.size.height)!)
         let width = (image?.size.width)! * scale
         let newSize = CGSize(width: width, height: height)
         newImage = image!.imageWithImage(size: newSize)
         size = newImage.size
-        
-        
-    
-        
 
         bgImgView.size = size
         scrollView.contentSize = CGSize(width: size.width, height: 0)
@@ -680,18 +645,6 @@ extension GameplayViewController {
             bgImgView.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT)
         }
         self.scrollView.addSubview(bgImgView)
-//        bgImgView.snp.makeConstraints { (make) in
-//            if #available(iOS 11.0, *) {
-//                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-//            } else {
-//                // Fallback on earlier versions
-//                make.top.equalToSuperview()
-//            }
-//            make.left.equalToSuperview()
-//            make.width.equalToSuperview()
-//            make.height.equalToSuperview()
-//        }
-        
         scrollView.backgroundColor = UIColor.white
 
         
@@ -863,7 +816,6 @@ extension GameplayViewController {
             make.height.equalTo(9)
         }
         
-//        currentNetworkType()
         AlamofiremonitorNet()
         
         
@@ -1080,8 +1032,6 @@ extension GameplayViewController {
         microphoneBtn.isSelected = true
         microphoneBtn.setImage(UIImage(named: "createroom_voice"), for: .selected)
         microphoneBtn.setImage(UIImage(named: "createroom_no_voice"), for: .normal)
-        
-//        microphoneBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_microphone", title: "マイク", cornerRadius: 25, color: "#20014D")
         microphoneBtn.addTarget(self, action: #selector(microphoneBtnAction(button:)), for: .touchUpInside)
         
         
@@ -1355,14 +1305,8 @@ extension GameplayViewController {
     /// 底部按钮
     //MARK: 麦克风
     @objc func microphoneBtnAction(button: UIButton) {
-//        button.isSelected = !button.isSelected
-//        agoraKit.muteLocalAudioStream(button.isSelected)
-        
-        
-        Log("我加入了2")
         button.isSelected = !button.isSelected
-        
-        
+    
         if button.isSelected {
             muteLocalAudioStream = false
         } else {
@@ -1532,17 +1476,6 @@ extension GameplayViewController {
         playerView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         self.view.addSubview(playerView)
     }
-    
-    
-    
-    //MARK:- 点击空白 关闭弹窗
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        popMenuView.isHidden = true
-//        placeBtn.isSelected = true
-//
-//        tipView.dismiss()
-//        stateBtn.isSelected = true
-//    }
 }
 
 //MARK:- 密谈
@@ -1671,8 +1604,6 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
         var ownSecretTalkId  = 0
         ownSecretTalkId = currentScriptRoleModel!.secretTalkId!
         
-        Log("我加入了3")
-
         if collectionView == leftCollectionView {
             let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: GameplayViewCellId, for: indexPath) as! GameplayViewCell
             
@@ -2092,35 +2023,6 @@ extension GameplayViewController: AgoraRtcEngineDelegate {
              }
               
         }
-        
-        
-        
-//        if let index = getIndexWithUserIsSpeaking(uid: Int(uid)),
-//            let cell = leftCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? GameplayViewCell {
-//
-//            if index%2 == 0 {
-//                if totalVolume <= 0 {
-//                    cell.l_voiceView.isHidden = true
-//                    cell.l_voiceImgView.isHidden = true
-//                    cell.l_animation = false
-//                } else {
-//                    cell.l_voiceView.isHidden = false
-//                    cell.l_voiceImgView.isHidden = false
-//                    cell.l_animation = true
-//                }
-//
-//            } else {
-//                if totalVolume <= 0 {
-//                    cell.r_voiceView.isHidden = true
-//                    cell.r_voiceImgView.isHidden = true
-//                    cell.r_animation = false
-//                } else {
-//                    cell.r_voiceView.isHidden = false
-//                    cell.r_voiceImgView.isHidden = false
-//                    cell.r_animation = true
-//                }
-//            }
-//        }
     }
     
 }
