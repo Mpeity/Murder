@@ -12,7 +12,10 @@ import UIKit
 extension UIImage {
     //根据指定尺寸缩放图片
     func imageWithImage(size: CGSize) -> UIImage {
-        UIGraphicsBeginImageContext(size)
+//        UIGraphicsBeginImageContext(size)
+        
+        // 不失真
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         self.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: size))
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
          UIGraphicsEndImageContext()

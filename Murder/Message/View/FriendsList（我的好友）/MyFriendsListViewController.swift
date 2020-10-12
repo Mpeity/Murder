@@ -191,9 +191,13 @@ extension MyFriendsListViewController {
     private func setupHeaderView() {
         let header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(loadRefresh))
         header?.backgroundColor = UIColor.white
-        header?.setTitle("下拉刷新", for: .idle)
-        header?.setTitle("释放更新", for: .pulling)
-        header?.setTitle("加载中...", for: .refreshing)
+//        header?.setTitle("下拉刷新", for: .idle)
+//        header?.setTitle("释放更新", for: .pulling)
+//        header?.setTitle("加载中...", for: .refreshing)
+        
+        header?.lastUpdatedTimeLabel.isHidden = true  // 隐藏时间
+        header?.stateLabel.isHidden = true // 隐藏文字
+        header?.isAutomaticallyChangeAlpha = true //自动更改透明度
         
         // 设置tableview的header
         myTableView.mj_header = header

@@ -289,6 +289,7 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
         if indexPath.section == 0 {
             let height =  getContentHeight()
             return height
+//            return 500
         } else {
             return 82
         }
@@ -308,23 +309,32 @@ extension ScriptDetailsViewController {
             let string =  scriptDetailModel!.introduction!            
             
             let label = UILabel()
-            label.backgroundColor = UIColor.gray
-            label.text = string
-            label.font = UIFont.systemFont(ofSize: 14)
-            label.textColor = HexColor("#666666")
-            label.textAlignment = .left
-            label.numberOfLines = 0
-            label.lineBreakMode = NSLineBreakMode.byWordWrapping
-            let size = label.sizeThatFits(CGSize(width: FULL_SCREEN_WIDTH-40, height: CGFloat(MAXFLOAT)))
-            var height = size.height
+//            label.backgroundColor = UIColor.gray
+//            label.text = string
+//            label.font = UIFont.systemFont(ofSize: 14)
+//            label.textColor = HexColor("#666666")
+//            label.textAlignment = .left
+//            label.numberOfLines = 0
             
-//            var height = stringSingleHeightWithWidth(text: string, width: FULL_SCREEN_WIDTH-40, font: UIFont.systemFont(ofSize: 14))
+//            label.lineBreakMode = NSLineBreakMode.byWordWrapping
+//            let size = label.sizeThatFits(CGSize(width: FULL_SCREEN_WIDTH-40, height: CGFloat(MAXFLOAT)))
+//            var height = size.height
+            
+            
+//            guard let news = string.removingPercentEncoding,let data = news.data(using: .unicode) else{return 0}
+//            let att = [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html]
+//            guard let attStr = try? NSMutableAttributedString(data: data, options: att, documentAttributes: nil) else{return 0}
+//            label.attributedText = attStr
+//            var height:CGFloat = label.attributedText?.boundingRect(with: CGSize(width: FULL_SCREEN_WIDTH-40, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, context: nil).size.height ?? 0
+
+            
+            var height = stringSingleHeightWithWidth(text: string, width: FULL_SCREEN_WIDTH-40, font: UIFont.systemFont(ofSize: 14))
             
             if height < 82 {
                 height = 82
             }
             if contentSelected! {
-                return height
+                return height+40
             } else {
                 return 82
             }

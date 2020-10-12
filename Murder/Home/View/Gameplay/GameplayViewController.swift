@@ -952,7 +952,7 @@ extension GameplayViewController {
         remainingView.addSubview(remainingLabel)
         remainingLabel.textColor = UIColor.white
         remainingLabel.font = UIFont.systemFont(ofSize: 10)
-        let remainingString = "操作できる回数：\(remainingCount)"
+        let remainingString = "捜査できる回数：\(remainingCount)"
         let remainingRanStr = String(remainingCount)
         let remainingAttrstring:NSMutableAttributedString = NSMutableAttributedString(string:remainingString)
         let remainingStr = NSString(string: remainingString)
@@ -1150,7 +1150,7 @@ extension GameplayViewController {
             remainingCount = currentScriptRoleModel!.user!.point!
         }
 //        remainingCount -= 1
-        let remainingString = "操作できる回数：\(remainingCount)"
+        let remainingString = "捜査できる回数：\(remainingCount)"
         let remainingRanStr = String(remainingCount)
         let remainingAttrstring:NSMutableAttributedString = NSMutableAttributedString(string:remainingString)
         let remainingStr = NSString(string: remainingString)
@@ -1158,11 +1158,12 @@ extension GameplayViewController {
         remainingAttrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor(LightOrangeColor), range: remainingTheRange)
         remainingLabel.attributedText = remainingAttrstring
         
-        if remainingCount == 0 {
-            CLToastManager.share.cornerRadius = 15
-            CLToastManager.share.bgColor = HexColor(hex: "#000000", alpha: 0.6)
-            CLToast.cl_show(msg: "あなたの捜査できる回数はすでになくなりました")
-        }
+//        if remainingCount == 0 {
+//            CLToastManager.share.cornerRadius = 15
+//            CLToastManager.share.bgColor = HexColor(hex: "#000000", alpha: 0.6)
+//            CLToast.cl_show(msg: "あなたの捜査できる回数はすでになくなりました")
+//        }
+        
         
     }
     
@@ -1230,6 +1231,12 @@ extension GameplayViewController {
     /// 头部按钮
     //MARK: 退出房间按钮
     @objc func exitBtnAction(button: UIButton) {
+        
+        // 游戏结束
+        if gamePlayModel?.scriptNodeResult.nodeType == 6 {
+            popRootVC()
+        }
+        
         dissolveView.isHidden = false
         dissolveView.dissolutionView.isHidden = false
     }
@@ -1438,7 +1445,6 @@ extension GameplayViewController {
         
         if gamePlayModel?.scriptNodeResult.nodeType == 6 {
             popRootVC()
-            return
         }
         
         gameReadyRequest(role_id: (currentScriptRoleModel?.user.scriptRoleId)!, room_id: room_id, current_script_node_id: script_node_id!) {[weak self] (result, error) in
@@ -2100,7 +2106,7 @@ extension GameplayViewController: WebSocketDelegate {
                         remainingCount = currentScriptRoleModel!.user!.point!
                     }
                     remainingView.isHidden = false
-                    let remainingString = "操作できる回数：\(remainingCount)"
+                    let remainingString = "捜査できる回数：\(remainingCount)"
                     let remainingRanStr = String(remainingCount)
                     let remainingAttrstring:NSMutableAttributedString = NSMutableAttributedString(string:remainingString)
                     let remainingStr = NSString(string: remainingString)
@@ -2108,11 +2114,12 @@ extension GameplayViewController: WebSocketDelegate {
                     remainingAttrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor(LightOrangeColor), range: remainingTheRange)
                     remainingLabel.attributedText = remainingAttrstring
                     
-                    if remainingCount == 0 {
-                        CLToastManager.share.cornerRadius = 15
-                        CLToastManager.share.bgColor = HexColor(hex: "#000000", alpha: 0.6)
-                        CLToast.cl_show(msg: "あなたの捜査できる回数はすでになくなりました")
-                    }
+//                    if remainingCount == 0 {
+//                        CLToastManager.share.cornerRadius = 15
+//                        CLToastManager.share.bgColor = HexColor(hex: "#000000", alpha: 0.6)
+//                        CLToast.cl_show(msg: "あなたの捜査できる回数はすでになくなりました")
+//                    }
+                    
                 }
                 
                 if gamePlayModel?.scriptNodeResult.nodeType == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题

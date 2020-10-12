@@ -18,6 +18,7 @@ class SynopsisViewCell: UITableViewCell {
     // 箭头
     @IBOutlet weak var boultBtn: UIButton!
     
+    @IBOutlet weak var contentTextView: UITextView!
     var boultBtnBlock : BoultBtnBlock?
     
     
@@ -28,7 +29,7 @@ class SynopsisViewCell: UITableViewCell {
             }
             
 
-//            let myMutableString = try! NSMutableAttributedString(data: (content.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+            let myMutableString = try! NSMutableAttributedString(data: (content.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
 //            let range = NSMakeRange(0, myMutableString.length)
 //            myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
 //            myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14.0)], range: range)
@@ -36,15 +37,15 @@ class SynopsisViewCell: UITableViewCell {
             guard let news = content.removingPercentEncoding,let data = news.data(using: .unicode) else{return}
             let att = [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html]
             guard let attStr = try? NSMutableAttributedString(data: data, options: att, documentAttributes: nil) else{return}
-            let range = NSMakeRange(0, attStr.length)
-//            attStr.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14.0)], range: range)
-            
-            
-            
-            
-            contentLabel.attributedText = attStr
+//            contentLabel.attributedText = attStr
 
             
+//            contentTextView.backgroundColor = UIColor.red
+            
+            contentTextView.attributedText = attStr
+            
+//            contentTextView.attributedText = myMutableString
+
             
         }
     }
@@ -56,9 +57,14 @@ class SynopsisViewCell: UITableViewCell {
         backgroundColor = UIColor.white
 
         contentLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+        
         contentLabel.textColor = HexColor(LightDarkGrayColor)
         contentLabel.font = UIFont.systemFont(ofSize: 14)
         boultBtn.addTarget(self, action: #selector(boultBtnAction(button:)), for: .touchUpInside)
+        contentTextView.isEditable = false
+        contentTextView.isScrollEnabled = false
+        
+//        contentTextView.isHidden = true
     }
     
     

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -40,16 +41,27 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vYe-SF-I5H">
+                        <rect key="frame" x="20" y="0.0" width="353" height="45.5"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="textColor" systemColor="labelColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="Hei-Ez-Mae" secondAttribute="bottom" id="4EO-pT-zAe"/>
+                    <constraint firstItem="vYe-SF-I5H" firstAttribute="top" secondItem="t4t-tp-k7w" secondAttribute="top" id="7iK-PI-gym"/>
                     <constraint firstAttribute="trailing" secondItem="Hei-Ez-Mae" secondAttribute="trailing" constant="15" id="L9l-Cw-m6c"/>
                     <constraint firstItem="pCD-cu-V2c" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="PPz-nl-U6h"/>
                     <constraint firstItem="t4t-tp-k7w" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="RiZ-7G-ftH"/>
                     <constraint firstAttribute="trailing" secondItem="t4t-tp-k7w" secondAttribute="trailing" constant="20" id="W1I-sI-tZO"/>
                     <constraint firstAttribute="bottom" secondItem="pCD-cu-V2c" secondAttribute="bottom" constant="7.5" id="Yc9-tB-qHk"/>
+                    <constraint firstItem="vYe-SF-I5H" firstAttribute="bottom" secondItem="t4t-tp-k7w" secondAttribute="bottom" id="gpg-q6-i2X"/>
                     <constraint firstItem="Hei-Ez-Mae" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="hBL-ud-1Sd"/>
+                    <constraint firstItem="vYe-SF-I5H" firstAttribute="leading" secondItem="t4t-tp-k7w" secondAttribute="leading" id="lDd-d1-GcD"/>
                     <constraint firstItem="t4t-tp-k7w" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="qFj-xe-f8q"/>
+                    <constraint firstItem="vYe-SF-I5H" firstAttribute="trailing" secondItem="t4t-tp-k7w" secondAttribute="trailing" id="rkp-l5-xqc"/>
                     <constraint firstItem="pCD-cu-V2c" firstAttribute="top" secondItem="t4t-tp-k7w" secondAttribute="bottom" constant="24" id="wGB-19-r3t"/>
                 </constraints>
             </tableViewCellContentView>
@@ -57,6 +69,7 @@
             <connections>
                 <outlet property="boultBtn" destination="pCD-cu-V2c" id="cMd-Vd-cfX"/>
                 <outlet property="contentLabel" destination="t4t-tp-k7w" id="NCN-1Q-ueL"/>
+                <outlet property="contentTextView" destination="vYe-SF-I5H" id="PLs-it-69A"/>
             </connections>
             <point key="canvasLocation" x="22.463768115942031" y="53.571428571428569"/>
         </tableViewCell>
@@ -64,5 +77,11 @@
     <resources>
         <image name="jiantou_down" width="15" height="15"/>
         <image name="jiantou_up" width="15" height="15"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

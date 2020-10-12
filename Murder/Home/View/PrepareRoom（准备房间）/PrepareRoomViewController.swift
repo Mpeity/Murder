@@ -736,7 +736,7 @@ extension PrepareRoomViewController {
             make.height.equalTo(18)
             make.width.equalTo(180)
         }
-        gameNameLabel.text = "平凡な宿"
+        gameNameLabel.text = "タイトル"
         gameNameLabel.font = UIFont.systemFont(ofSize: 14.0)
         gameNameLabel.textColor = UIColor.white
         gameNameLabel.textAlignment = .left
@@ -824,7 +824,7 @@ extension PrepareRoomViewController {
             make.height.equalTo(16)
             make.width.equalTo(100)
         }
-        currentLabel.text = "ルームID：52845698"
+        currentLabel.text = "ルームID："
         currentLabel.font = UIFont.systemFont(ofSize: 13.0)
         currentLabel.textColor = UIColor.white
         currentLabel.textAlignment = .left
@@ -1285,6 +1285,7 @@ extension PrepareRoomViewController: AgoraRtcEngineDelegate {
 //        userList = [UserInfo]()
         
         guard let index = getIndexWithUserIsSpeaking(uid: uid),let userList = readyRoomModel?.roomUserList! else { return }
+        
         let model = userList[index]
 //        let str = "\(model.nickname!)入室しました"
         let obj = ["name": model.nickname!, "status" : "入室しました"] as [String : AnyObject]

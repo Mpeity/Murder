@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -31,7 +32,7 @@
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="e7d-cK-zwm"/>
                                     <constraint firstItem="BzR-8F-XEY" firstAttribute="centerY" secondItem="U8M-pW-7xd" secondAttribute="centerY" id="nBH-rI-pJT"/>
@@ -45,8 +46,8 @@
                                     <constraint firstAttribute="height" constant="44" id="ngQ-Je-blx"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iID-d1-R7k">
-                                <rect key="frame" x="158" y="63" width="44" height="36"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="こはく" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iID-d1-R7k">
+                                <rect key="frame" x="171" y="63" width="31" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -84,7 +85,6 @@
                             <constraint firstItem="U8M-pW-7xd" firstAttribute="leading" secondItem="7O4-gz-UcV" secondAttribute="leading" id="QZr-LX-8Uq"/>
                             <constraint firstItem="Lsr-w4-s2e" firstAttribute="leading" secondItem="eyU-IZ-Roa" secondAttribute="leading" id="WPX-sl-ACt"/>
                             <constraint firstItem="Lsr-w4-s2e" firstAttribute="top" secondItem="7O4-gz-UcV" secondAttribute="top" constant="11" id="X4n-vt-y2e"/>
-                            <constraint firstItem="iID-d1-R7k" firstAttribute="centerX" secondItem="Lsr-w4-s2e" secondAttribute="centerX" id="a1o-w9-taq"/>
                             <constraint firstAttribute="trailing" secondItem="Lsr-w4-s2e" secondAttribute="trailing" id="dHA-4V-lZ9"/>
                             <constraint firstItem="iID-d1-R7k" firstAttribute="top" secondItem="Lsr-w4-s2e" secondAttribute="bottom" constant="8" id="iNf-AJ-Qdr"/>
                             <constraint firstItem="iID-d1-R7k" firstAttribute="top" secondItem="8Aj-a8-U1R" secondAttribute="bottom" constant="3" id="izg-se-Ih1"/>
@@ -122,8 +122,8 @@
                                     <constraint firstAttribute="width" constant="44" id="eGZ-35-cTX"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="こはく" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o9s-xS-xyX">
-                                <rect key="frame" x="0.0" y="63" width="44" height="36"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="こはく" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o9s-xS-xyX">
+                                <rect key="frame" x="0.0" y="63" width="31" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -150,7 +150,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="RLi-eZ-F18" firstAttribute="top" secondItem="EDp-Xa-4t7" secondAttribute="top" id="2LH-LA-VyW"/>
                             <constraint firstItem="RLi-eZ-F18" firstAttribute="top" secondItem="cZJ-Bc-MHf" secondAttribute="top" constant="11" id="3So-yN-L8v"/>
@@ -167,12 +167,12 @@
                             <constraint firstItem="o9s-xS-xyX" firstAttribute="top" secondItem="RLi-eZ-F18" secondAttribute="bottom" constant="8" id="aQz-hP-2xh"/>
                             <constraint firstItem="251-IT-V1c" firstAttribute="centerY" secondItem="RLi-eZ-F18" secondAttribute="centerY" id="esd-ND-eBB"/>
                             <constraint firstAttribute="trailing" secondItem="251-IT-V1c" secondAttribute="trailing" id="ojn-BP-k4D"/>
-                            <constraint firstItem="o9s-xS-xyX" firstAttribute="centerX" secondItem="RLi-eZ-F18" secondAttribute="centerX" id="sOE-3v-mzw"/>
                             <constraint firstItem="o9s-xS-xyX" firstAttribute="top" secondItem="ojw-Rf-D8b" secondAttribute="bottom" constant="3" id="zXD-Tr-Kp0"/>
                         </constraints>
                     </view>
                 </subviews>
             </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
                 <constraint firstItem="7O4-gz-UcV" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="5UQ-3j-LQV"/>
                 <constraint firstAttribute="trailing" secondItem="7O4-gz-UcV" secondAttribute="trailing" id="Xn0-bs-PeR"/>
@@ -183,7 +183,6 @@
                 <constraint firstAttribute="bottom" secondItem="cZJ-Bc-MHf" secondAttribute="bottom" id="n2W-Ka-rwc"/>
                 <constraint firstItem="cZJ-Bc-MHf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="rig-0q-YuO"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="202" height="99"/>
             <connections>
                 <outlet property="l_avatarImgView" destination="RLi-eZ-F18" id="cJY-6x-Mex"/>
@@ -210,5 +209,8 @@
         <image name="avart_one" width="38" height="38.5"/>
         <image name="gameplay_handsUp" width="18" height="21"/>
         <image name="gameplay_voice" width="18" height="18"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
