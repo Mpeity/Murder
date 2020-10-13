@@ -32,7 +32,14 @@ private let feedback_url = "/api/user/feedback"
 func feedbackRequest(email: String, content: String, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
     
     let urlString = feedback_url
-    let parameters = ["email": email, "content": content] as [String : AnyObject]
+    var parameters = [:] as [String : AnyObject]
+    if email == "" || email == " " {
+        parameters = ["content": content] as [String : AnyObject]
+    } else {
+        parameters = ["email": email, "content": content] as [String : AnyObject]
+    }
+//    let parameters = ["email": email, "content": content] as [String : AnyObject]
+    
     NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }

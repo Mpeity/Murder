@@ -347,7 +347,7 @@ extension FriendReportViewController : UIImagePickerControllerDelegate, UINaviga
             try fileManager.createDirectory(atPath: documentPath, withIntermediateDirectories: true, attributes: nil)
         }
         catch let error {
-            print(error)
+            Log(error)
         }
         fileManager.createFile(atPath: (documentPath as NSString).appending("/image.png"), contents: data, attributes: nil)
         //得到选择后沙盒中图片的完整路径

@@ -50,15 +50,14 @@ extension FeedbackViewController {
     }
     
     private func setUI() {
-        confirmBtn.setTitle("確認", for: .normal)
+        confirmBtn.setTitle("提出", for: .normal)
         confirmBtn.setTitleColor(UIColor.white, for: .normal)
-        
         confirmWidth.constant = FULL_SCREEN_WIDTH - 30
         
         confirmBtn.layoutIfNeeded()
         confirmBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
         confirmBtn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-//        confirmBtn.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)
+        confirmBtn.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)
         
         
         textView.placeHolder = "お問い合わせ内容を入力"
@@ -81,6 +80,7 @@ extension FeedbackViewController {
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
                 showToastCenter(msg: "提出完了")
+                self.navigationController?.popViewController(animated: true)
             } else {
                 showToastCenter(msg: "提出失敗しました、再度試してください")
             }

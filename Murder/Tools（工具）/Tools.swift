@@ -60,12 +60,12 @@ func getTime() -> String {
     // 创建一个日期格式器
     let dformatter = DateFormatter()
     dformatter.dateFormat = "yyyy年MM月dd日 HH:mm:ss"
-    print("当前日期时间：\(dformatter.string(from: now as Date))")
+    Log("当前日期时间：\(dformatter.string(from: now as Date))")
      
     //当前时间的时间戳
     let timeInterval:TimeInterval = now.timeIntervalSince1970*1000
     let timeStamp = Int(timeInterval)
-    print("当前时间的时间戳：\(timeStamp)")
+    Log("当前时间的时间戳：\(timeStamp)")
     return String(timeStamp)
 }
 
@@ -105,27 +105,29 @@ func getArrayFromJSONString(jsonString:String) ->NSArray{
 - returns: JSONString
 */
 func getJSONStringFromDictionary(dictionary:NSDictionary) -> String {
-   if (!JSONSerialization.isValidJSONObject(dictionary)) {
-       print("无法解析出JSONString")
-       return ""
-   }
-   let data : NSData! = try? JSONSerialization.data(withJSONObject: dictionary, options: []) as NSData?
-   let JSONString = NSString(data:data as Data,encoding: String.Encoding.utf8.rawValue)
-   return JSONString! as String
+    
+    if (!JSONSerialization.isValidJSONObject(dictionary)) {
+    
+        Log("无法解析出JSONString")
+        return ""
+    }
+    let data : NSData! = try? JSONSerialization.data(withJSONObject: dictionary, options: []) as NSData?
+    let JSONString = NSString(data:data as Data,encoding: String.Encoding.utf8.rawValue)
+    return JSONString! as String
 
 }
 
 //数组转json
 func getJSONStringFromArray(array:NSArray) -> String {
     
-   if (!JSONSerialization.isValidJSONObject(array)) {
-       print("无法解析出JSONString")
-       return ""
-   }
+    if (!JSONSerialization.isValidJSONObject(array)) {
+        Log("无法解析出JSONString")
+        return ""
+    }
     
-   let data : NSData! = try? JSONSerialization.data(withJSONObject: array, options: []) as NSData?
-   let JSONString = NSString(data:data as Data,encoding: String.Encoding.utf8.rawValue)
-   return JSONString! as String    
+    let data : NSData! = try? JSONSerialization.data(withJSONObject: array, options: []) as NSData?
+    let JSONString = NSString(data:data as Data,encoding: String.Encoding.utf8.rawValue)
+    return JSONString! as String
 }
 
 
@@ -280,13 +282,13 @@ func getNetworkType() {
 func AlamofiremonitorNet() {
  let manager = NetworkReachabilityManager(host: "www.apple.com")
     manager?.listener = { status in
-        print("网络状态: \(status)")
+        Log("网络状态: \(status)")
         if status == .reachable(.ethernetOrWiFi) { //WIFI
-            print("wifi")
+            Log("wifi")
         } else if status == .reachable(.wwan) { // 蜂窝网络
-            print("4G")
+            Log("4G")
         } else if status == .notReachable { // 无网络
-            print("无网络")
+            Log("无网络")
         } else { // 其他
             
         }

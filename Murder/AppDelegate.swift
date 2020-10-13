@@ -96,11 +96,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             for item in bytes {
                 deviceId += String(format:"%02x", item&0x000000FF)
             }
-            print("iOS 13 deviceToken：\(deviceId)")
+            Log("iOS 13 deviceToken：\(deviceId)")
         } else {
             let device = NSData(data: deviceToken)
             deviceId = device.description.replacingOccurrences(of:"<", with:"").replacingOccurrences(of:">", with:"").replacingOccurrences(of:" ", with:"")
-            print("我的deviceToken：\(deviceId)")
+            Log("我的deviceToken：\(deviceId)")
         }
  
     }
@@ -120,7 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let userInfo = notification.request.content.userInfo
         if (notification.request.trigger?.isKind(of: UNPushNotificationTrigger.self))! {
            let info = userInfo as NSDictionary
-           print(info)
+            Log(info)
            //应用处于前台时的远程推送接受
            UMessage.setAutoAlert(false)
            UMessage.didReceiveRemoteNotification(userInfo)
@@ -138,7 +138,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let userInfo = response.notification.request.content.userInfo
         if (response.notification.request.trigger?.isKind(of: UNPushNotificationTrigger.self))! {
            let info = userInfo as NSDictionary
-           print(info)
+            Log(info)
            //应用处于后台时的远程推送接受
            UMessage.didReceiveRemoteNotification(userInfo)
             

@@ -65,9 +65,9 @@ extension RecordDetailViewController {
             
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
-                self!.scriptLogDetailModel = ScriptLogDetailModel(fromDictionary: data)
+                self?.scriptLogDetailModel = ScriptLogDetailModel(fromDictionary: data)
                 self?.myTableView.reloadData()
-                self!.tableHeaderView.scriptLogDetail = self!.scriptLogDetailModel?.script
+                self?.tableHeaderView.scriptLogDetail = self!.scriptLogDetailModel?.script
             }
         }
     }

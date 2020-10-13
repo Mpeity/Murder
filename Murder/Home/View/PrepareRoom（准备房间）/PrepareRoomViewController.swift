@@ -228,9 +228,9 @@ extension PrepareRoomViewController {
                     let data = resultDic["data"] as! [String : AnyObject]
                     self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
                     
-                    if (UserDefaults.standard.value(forKey: String(self!.script_id)) != nil) {
+                    if (UserDefaults.standard.value(forKey: String((self?.script_id)!)) != nil) {
                         
-                        let localData = ScriptLocalData.shareInstance.getNormalDefult(key: String(self!.script_id))
+                        let localData = ScriptLocalData.shareInstance.getNormalDefult(key: String((self?.script_id)!))
                         let dic = localData as! Dictionary<String, AnyObject>
                         
                         var someArray:[ScriptNodeMapModel]?  = [ScriptNodeMapModel]()
@@ -243,7 +243,7 @@ extension PrepareRoomViewController {
                         for item in someArray! {
                             if (!dic.keys.contains(item.attachmentId) || dic[item.attachmentId] == nil) {
                                 // 下载当前图片
-                                self!.loadAllImages = false
+                                self?.loadAllImages = false
                                 self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
                                 Thread.detachNewThreadSelector(#selector(self!.newLoadProgress), toTarget: self!, with: nil)
                                 
@@ -334,7 +334,7 @@ extension PrepareRoomViewController {
                     Log("error-\(error)")
                     SVProgressHUD.dismiss()
                     showToastCenter(msg: "ネットワークエラー~")
-                    self?.userLogout()
+                    self?.userOut()
                     self?.navigationController?.popToRootViewController(animated: true)
                     return
                 }
@@ -631,7 +631,7 @@ extension PrepareRoomViewController {
             
             break
         case 3: // 解散
-            userLogout()
+            userOut()
             self.navigationController?.popToRootViewController(animated: true)
             break
         default:
@@ -1004,7 +1004,7 @@ extension PrepareRoomViewController: UITableViewDelegate, UITableViewDataSource 
 extension PrepareRoomViewController {
     
     //MARK: 解散房间是 退出声网/断开socekt
-    private func userLogout() {
+    private func userOut() {
         // 退出当前剧本，离开群聊频道
         agoraStatus.muteAllRemote = false
         agoraStatus.muteLocalAudio = false
@@ -1031,7 +1031,7 @@ extension PrepareRoomViewController {
             self?.agoraKit.leaveChannel(nil)
             self?.agoraStatus.muteAllRemote = false
             self?.agoraStatus.muteLocalAudio = false
-            outRoomRequest(room_id: self!.room_id) { (result, error) in
+            outRoomRequest(room_id: (self?.room_id)!) { (result, error) in
                 if error != nil {
                     return
                 }
@@ -1043,7 +1043,7 @@ extension PrepareRoomViewController {
             }
             commonView.removeFromSuperview()
 //            self?.navigationController?.popViewController(animated: true)
-            self?.navigationController?.popToRootViewController(animated: true)
+            self?.navigationController?.popToRootViewController(animated: false)
         }
         
         // 站起
@@ -1102,7 +1102,7 @@ extension PrepareRoomViewController {
 //        self.navigationController?.popToRootViewController(animated: true)
         
         let vc = GotoMessageViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: false)
         
         
 //         UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
@@ -1470,7 +1470,7 @@ extension PrepareRoomViewController: WebSocketDelegate {
                 if resultDic["code"]!.isEqual(1) {
                     self?.loadData()
                 } else {
-                    self?.userLogout()
+                    self?.userOut()
                 }
                 
             }
@@ -1621,7 +1621,7 @@ extension PrepareRoomViewController {
             // 3、开启网络状态消息监听
             try reachability.startNotifier()
         }catch{
-            print("could not start reachability notifier")
+            Log("could not start reachability notifier")
         }
     }
     
@@ -1634,21 +1634,21 @@ extension PrepareRoomViewController {
         let reachability = note.object as! Reachability // 准备获取网络连接信息
         
         if reachability.isReachable { // 判断网络连接状态
-            print("网络连接：可用")
+            Log("网络连接：可用")
             if reachability.isReachableViaWiFi { // 判断网络连接类型
-                print("连接类型：WiFi")
+                Log("连接类型：WiFi")
                 // strServerInternetAddrss = getHostAddress_WLAN() // 获取主机IP地址 192.168.31.2 小米路由器
                 // processClientSocket(strServerInternetAddrss)    // 初始化Socket并连接，还得恢复按钮可用
             } else {
-                print("连接类型：移动网络")
+                Log("连接类型：移动网络")
                 // getHostAddrss_GPRS()  // 通过外网获取主机IP地址，并且初始化Socket并建立连接
             }
         } else {
-            print("网络连接：不可用")
+            Log("网络连接：不可用")
             DispatchQueue.main.async { // 不加这句导致界面还没初始化完成就打开警告框，这样不行
 //                self.alert_noNetwrok() // 警告框，提示没有网络
                 
-                self.userLogout()
+                self.userOut()
                 self.navigationController?.popToRootViewController(animated: true)
             }
         }

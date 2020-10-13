@@ -31,6 +31,8 @@ class ReadScriptViewCell: UITableViewCell {
                 if itemModel?.content != nil {
                     let content = itemModel?.content
                     let myMutableString = try! NSMutableAttributedString(data: (content!.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+                    let range = NSMakeRange(0, myMutableString.length)
+                    myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15.0)], range: range)
                     textView.attributedText = myMutableString
                 }
                 
@@ -45,6 +47,12 @@ class ReadScriptViewCell: UITableViewCell {
                 if logChapterModel?.content != nil {
                     let content = logChapterModel?.content
                     let myMutableString = try! NSMutableAttributedString(data: (content!.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+                    
+//                    let txt = NSMutableAttributedString.init(string: content!)
+//                    myMutableString.insert(txt, at: 0)
+                    
+//                    let range = NSMakeRange(0, myMutableString.length)
+//                    myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15.0)], range: range)
                     textView.attributedText = myMutableString
                     
                 }
@@ -96,9 +104,9 @@ extension ReadScriptViewCell {
         
         textViewSelected = !textViewSelected
         if textViewSelected {
-            print("textViewSelected\(textViewSelected)")
+            Log("textViewSelected\(textViewSelected)")
         } else {
-            print("no_textViewSelected\(textViewSelected)")
+            Log("no_textViewSelected\(textViewSelected)")
         }
         textViewTapBlcok!(textViewSelected)
     }

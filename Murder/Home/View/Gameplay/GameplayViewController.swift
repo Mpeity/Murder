@@ -213,6 +213,9 @@ class GameplayViewController: UIViewController {
     // 地点index
     private var placeIndex: Int = 0
     
+    // FIXME: 处理节点弹框
+    let nodeTypeView = NodeTypeView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+    
 
     
     override func viewDidLoad() {
@@ -252,7 +255,7 @@ class GameplayViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         SingletonSocket.sharedInstance.socket.disconnect()
-        userLogout()
+        userOut()
     }
     
 
@@ -464,7 +467,10 @@ extension GameplayViewController {
             threadView.script_id = script_id
             threadRedPoint()
         }
-
+        
+        // FIXME: 处理节点弹框
+//        nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
+//        nodeTypeView.isHidden = false
     }
     
     //MARK:- 绘制地图
@@ -713,6 +719,10 @@ extension GameplayViewController {
         self.view.addSubview(commonQuestionView)
         commonQuestionView.isHidden = true
         commonQuestionView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+        // FIXME: 处理节点弹框
+        // 节点过渡页面
+//        UIApplication.shared.keyWindow?.addSubview(nodeTypeView)
+//        nodeTypeView.isHidden = true
 
     }
     
@@ -1257,7 +1267,7 @@ extension GameplayViewController {
     }
     
     //MARK: 解散房间是 退出声网/断开socekt
-    private func userLogout() {
+    private func userOut() {
         // 退出当前剧本，离开群聊频道
         agoraStatus.muteAllRemote = false
         agoraStatus.muteLocalAudio = false
@@ -1268,8 +1278,8 @@ extension GameplayViewController {
     
     //MARK: 退出房间
     private func popRootVC() {
-        userLogout()
-        self.navigationController?.popToRootViewController(animated: true)
+        userOut()
+        self.navigationController?.popToRootViewController(animated: false)
         return
     }
     
@@ -1277,7 +1287,7 @@ extension GameplayViewController {
     @objc func messageBtnAction(button: UIButton) {
 //        self.navigationController?.popViewController(animated: true)
         let vc = GotoMessageViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     //
@@ -1445,6 +1455,7 @@ extension GameplayViewController {
         
         if gamePlayModel?.scriptNodeResult.nodeType == 6 {
             popRootVC()
+            return
         }
         
         gameReadyRequest(role_id: (currentScriptRoleModel?.user.scriptRoleId)!, room_id: room_id, current_script_node_id: script_node_id!) {[weak self] (result, error) in
@@ -1853,7 +1864,7 @@ extension GameplayViewController {
         agoraKit.enableAudioVolumeIndication(1000, smooth: 3, report_vad: false)
         // 加入案发现场的群聊频道
 
-        print(String(room_id!))
+        Log(String(room_id!))
         
         let uid:UInt = UInt(bitPattern: (UserAccountViewModel.shareInstance.account?.userId!)!)
         agoraKit.joinChannel(byToken: nil, channelId: String(room_id!), info: nil, uid: uid , joinSuccess: nil)
@@ -2093,6 +2104,9 @@ extension GameplayViewController: WebSocketDelegate {
                 if pre_node_type != gamePlayModel?.scriptNodeResult.nodeType {
                     commonBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 19)
                     commonBtn.isUserInteractionEnabled = true
+                    // FIXME: 处理节点弹框
+//                    nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
+                    
                 }
                 
                 script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId

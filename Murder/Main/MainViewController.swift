@@ -74,6 +74,8 @@ class MainViewController: UITabBarController {
         super.viewWillDisappear(animated)
         
 //        AgoraRtmLogout()
+        timer?.cancel()
+        timer = nil
         
     }
     
@@ -114,7 +116,7 @@ extension MainViewController: AgoraRtmDelegate {
 
         AgoraRtm.kit?.login(byToken: nil, user: String(account!)) { [weak self] (errorCode) in
             
-            print(String(account!))
+            Log(String(account!))
             
             guard errorCode == .ok else {
                 return
@@ -181,6 +183,11 @@ extension MainViewController {
     }
     
     private func onlineTime() {
+        
+        if UserAccountViewModel.shareInstance.isLogin == false {
+            return
+        }
+        
         onlineTimeRequest { (result, error) in
             
         }

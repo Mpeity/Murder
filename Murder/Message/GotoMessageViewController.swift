@@ -278,7 +278,7 @@ extension GotoMessageViewController: AgoraRtmDelegate {
 
             AgoraRtm.kit?.login(byToken: nil, user: String(account!)) { [weak self] (errorCode) in
                 
-                print(String(account!))
+                Log(String(account!))
                 
                 guard errorCode == .ok else {
                     UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())

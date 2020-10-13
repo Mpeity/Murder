@@ -71,8 +71,9 @@ extension BigImageViewController {
         //开始下载
         Alamofire.download(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil, to: destination).downloadProgress { progress in
 
-            print("当前进度: \(progress.fractionCompleted)")
-            print("\(Float(progress.fractionCompleted))------\(Float(progress.totalUnitCount))")
+            Log("当前进度: \(progress.fractionCompleted)")
+            Log("\(Float(progress.fractionCompleted))------\(Float(progress.totalUnitCount))")
+            
             finished(Float(progress.fractionCompleted) as? CGFloat, nil, nil)
 
         }

@@ -80,13 +80,17 @@ extension NetworkTools {
                     finished(result as AnyObject?, nil)
                 } else if resultData["code"]!.isEqual(21000) {
                     // 请登录
-                    UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
                     userLogout()
-//                    AgoraRtmLogout()
+                    AgoraRtmLogout()
+                    
+                    UIApplication.shared.keyWindow?.rootViewController =  BaseNavigationViewController(rootViewController: LoginViewController())
+                    
+                    
                     
                     CLToastManager.share.cornerRadius = 25
                     CLToastManager.share.bgColor = HexColor(hex: "#000000", alpha: 0.6)
                     CLToast.cl_show(msg: resultData["msg"]! as! String)
+                                        
                 } else { // code 值处理
                     
                     CLToastManager.share.cornerRadius = 25

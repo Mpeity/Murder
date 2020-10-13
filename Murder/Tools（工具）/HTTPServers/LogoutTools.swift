@@ -31,7 +31,7 @@ func userLogout() {
         do {
             try defaultManager.removeItem(atPath: UserAccountViewModel.shareInstance.accountPath)
         } catch  {
-            
+            return
         }
         
     }

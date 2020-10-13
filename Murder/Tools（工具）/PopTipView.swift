@@ -34,7 +34,6 @@ class PopTipView: UIView {
             guard let attStr = try? NSMutableAttributedString(data: data, options: att, documentAttributes: nil) else{return}
             let range = NSMakeRange(0, attStr.length)
             attStr.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12.0)], range: range)
-            
 
             contentTextView.attributedText = attStr
         }

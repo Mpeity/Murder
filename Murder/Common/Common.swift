@@ -101,7 +101,7 @@ extension UIDevice {
         }
 
         let isX = UIApplication.shared.windows[0].safeAreaInsets.bottom > 0
-        print("是不是--->\(isX)")
+        Log("是不是--->\(isX)")
         return isX
     }
 }
