@@ -469,8 +469,8 @@ extension GameplayViewController {
         }
         
         // FIXME: 处理节点弹框
-//        nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
-//        nodeTypeView.isHidden = false
+        nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
+        nodeTypeView.isHidden = false
     }
     
     //MARK:- 绘制地图
@@ -721,8 +721,8 @@ extension GameplayViewController {
         commonQuestionView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         // FIXME: 处理节点弹框
         // 节点过渡页面
-//        UIApplication.shared.keyWindow?.addSubview(nodeTypeView)
-//        nodeTypeView.isHidden = true
+        UIApplication.shared.keyWindow?.addSubview(nodeTypeView)
+        nodeTypeView.isHidden = true
 
     }
     
@@ -2105,7 +2105,7 @@ extension GameplayViewController: WebSocketDelegate {
                     commonBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 19)
                     commonBtn.isUserInteractionEnabled = true
                     // FIXME: 处理节点弹框
-//                    nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
+                    nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
                     
                 }
                 
