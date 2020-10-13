@@ -214,7 +214,7 @@ class GameplayViewController: UIViewController {
     private var placeIndex: Int = 0
     
     // FIXME: 处理节点弹框
-    let nodeTypeView = NodeTypeView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+//    let nodeTypeView = NodeTypeView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     
 
     
