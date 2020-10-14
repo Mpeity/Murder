@@ -131,6 +131,8 @@ class GameplayViewController: UIViewController {
     
     // 前一个节点
     var pre_node_type: Int? = 0
+    
+    var previous_node_type: Int? = 0
     // 当前id
     var script_node_id: Int? = 0
     // 我的id
@@ -213,7 +215,7 @@ class GameplayViewController: UIViewController {
     // 地点index
     private var placeIndex: Int = 0
     
-    // FIXME: 处理节点弹框
+    // 处理节点弹框
     let nodeTypeView = NodeTypeView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     
     // 是否是旁观者 
@@ -373,13 +375,18 @@ extension GameplayViewController {
                 }
             }
         }
+
+        if pre_node_type != gamePlayModel?.scriptNodeResult.nodeType && currentScriptRoleModel?.readyOk == 0 {
+            // FIXME: 处理节点弹框
+            nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
+            nodeTypeView.isHidden = false
+        }
+        
     }
     
     private func refreshUI() {
         leftArr.removeAllObjects()
         rightArr.removeAllObjects()
-        
-        
         
         if let scriptRoleList = gamePlayModel!.scriptRoleList {
             for (index, itemModel) in scriptRoleList.enumerated() {
@@ -437,8 +444,7 @@ extension GameplayViewController {
         }
         
         if gamePlayModel?.scriptNodeResult.describe != nil {
-            preference.drawing.message = gamePlayModel?.scriptNodeResult!.describe! as! String
-            
+            preference.drawing.message = gamePlayModel!.scriptNodeResult!.describe!
             addPopTipView()
         }
         
@@ -482,8 +488,25 @@ extension GameplayViewController {
             }
             
             // FIXME: 处理节点弹框
-            nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
-            nodeTypeView.isHidden = false
+//            if pre_node_type != gamePlayModel?.scriptNodeResult.nodeType && currentScriptRoleModel?.readyOk == 0 {
+//                // FIXME: 处理节点弹框
+//                nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
+//                nodeTypeView.isHidden = false
+//            }
+            
+        }
+        
+        // 旁观者 地图弹框
+        if onLooker == true || gamePlayModel?.scriptNodeResult.scriptNodeMapList != nil{
+            popMenuView.onLooker = true
+            popMenuView.selectIndexPath = IndexPath(row: placeIndex, section: 0)
+            popMenuView.titleArray = gamePlayModel!.scriptNodeResult.scriptNodeMapList! as [AnyObject]
+            popMenuView.snp.remakeConstraints { (make) in
+                make.centerX.equalToSuperview()
+                make.top.equalTo(placeBtn.snp.bottom).offset(5)
+                make.height.equalTo(55*popMenuView.titleArray.count)
+                make.width.equalTo(136)
+            }
         }
         
     
@@ -505,18 +528,21 @@ extension GameplayViewController {
         size = newImage.size
 
         bgImgView.size = size
+        // 设置地图只横向滑动
         scrollView.contentSize = CGSize(width: size.width, height: 0)
-//        scrollView.contentSize = bgImgView.bounds.size
         
         bgImgView.image = newImage
         bgImgView.sizeToFit()
         bgImgView.contentMode = .scaleAspectFill
-
-        drawImagesButtons(mapModel: model!, orignalSize: (image?.size)!)
         
+        if onLooker == false {
+            // 绘制地图上的 线索按钮
+            drawImagesButtons(mapModel: model!, orignalSize: (image?.size)!)
+        }
         // 绘制地图小红点
         let placeStr = model?.name
         placeRedPoint(placeStr: placeStr!)
+        
     }
     
     //MARK:- thread redpoint
@@ -561,7 +587,7 @@ extension GameplayViewController {
          placeBtn.setTitle(placeStr, for: .normal)
          
          // 背景地图
-         if currentScriptRoleModel?.scriptNodeMapList != nil {
+         if currentScriptRoleModel?.scriptNodeMapList != nil && onLooker != true {
              let arr = currentScriptRoleModel?.scriptNodeMapList!
              for item in arr! {
                  if item.see == 0 { // 未查看
@@ -738,7 +764,6 @@ extension GameplayViewController {
             self.view.addSubview(commonQuestionView)
             commonQuestionView.isHidden = true
             commonQuestionView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-            // FIXME: 处理节点弹框
             // 节点过渡页面
             UIApplication.shared.keyWindow?.addSubview(nodeTypeView)
             nodeTypeView.isHidden = true
@@ -936,6 +961,12 @@ extension GameplayViewController {
         popMenuView.refresh()
         popMenuView.isHidden = true
         popMenuView.delegate = self
+        
+        if onLooker == true {
+            popMenuView.onLooker = true
+        } else {
+            popMenuView.onLooker = false
+        }
 
         
         
@@ -1601,23 +1632,27 @@ extension GameplayViewController: CollogueRoomViewDelegate {
 //MARK: - PopMenuDelegate
 extension GameplayViewController: PlacePopMenuViewDelegate {
     func cellDidSelected(index: Int, model: AnyObject?) {
+        if onLooker != true {
+            placeBtn.isSelected = true
+            placeIndex = index
+            let currentIndex = index
+            let itemModel = currentScriptRoleModel?.scriptNodeMapList![currentIndex]
+            
+            drawImage(model: itemModel)
+            let script_role_id = currentScriptRoleModel?.user.scriptRoleId!
+            let script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId!
+            let mapData = ["user_id":UserAccountViewModel.shareInstance.account?.userId!,"type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id,"status":1,"script_role_id":script_role_id,"game_status_type":"map_see","script_node_map_id":itemModel?.scriptNodeMapId!,"key":UserAccountViewModel.shareInstance.account?.key] as [String : Any]
+            
+            let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
+            SingletonSocket.sharedInstance.socket.write(string: mapJson)
+        } else {
+            placeBtn.isSelected = true
+            placeIndex = index
+            let currentIndex = index
+            let itemModel = gamePlayModel?.scriptNodeResult.scriptNodeMapList?[currentIndex]
+            drawImage(model: itemModel)
+        }
         
-        
-
-        placeBtn.isSelected = true
-
-        placeIndex = index
-
-        let currentIndex = index
-        let itemModel = currentScriptRoleModel?.scriptNodeMapList![currentIndex]
-        
-        drawImage(model: itemModel)
-        let script_role_id = currentScriptRoleModel?.user.scriptRoleId!
-        let script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId!
-        let mapData = ["user_id":UserAccountViewModel.shareInstance.account?.userId!,"type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id,"status":1,"script_role_id":script_role_id,"game_status_type":"map_see","script_node_map_id":itemModel?.scriptNodeMapId!,"key":UserAccountViewModel.shareInstance.account?.key] as [String : Any]
-        
-        let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
-        SingletonSocket.sharedInstance.socket.write(string: mapJson)
     }
 }
 
@@ -2145,9 +2180,13 @@ extension GameplayViewController: WebSocketDelegate {
                 if pre_node_type != gamePlayModel?.scriptNodeResult.nodeType {
                     commonBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 19)
                     commonBtn.isUserInteractionEnabled = true
+                    
+                }
+                
+                if previous_node_type != gamePlayModel?.scriptNodeResult.nodeType && currentScriptRoleModel?.readyOk == 0 {
                     // FIXME: 处理节点弹框
                     nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
-                    
+                    nodeTypeView.isHidden = false
                 }
                 
                 script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
@@ -2156,7 +2195,7 @@ extension GameplayViewController: WebSocketDelegate {
                     popRootVC()
                 }
                 
-                if gamePlayModel?.scriptNodeResult.nodeType == 4 { // 搜证
+                if gamePlayModel?.scriptNodeResult.nodeType == 4 && onLooker == false { // 搜证
                     if currentScriptRoleModel?.user?.point != nil {
                         remainingCount = currentScriptRoleModel!.user!.point!
                     }
@@ -2168,14 +2207,8 @@ extension GameplayViewController: WebSocketDelegate {
                     let remainingTheRange = remainingStr.range(of: remainingRanStr)
                     remainingAttrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor(LightOrangeColor), range: remainingTheRange)
                     remainingLabel.attributedText = remainingAttrstring
-                    
-//                    if remainingCount == 0 {
-//                        CLToastManager.share.cornerRadius = 15
-//                        CLToastManager.share.bgColor = HexColor(hex: "#000000", alpha: 0.6)
-//                        CLToast.cl_show(msg: "あなたの捜査できる回数はすでになくなりました")
-//                    }
-                    
                 }
+                
                 
                 if gamePlayModel?.scriptNodeResult.nodeType == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题
                     if currentScriptRoleModel?.scriptQuestionList?.count != 0 {
@@ -2204,11 +2237,13 @@ extension GameplayViewController: WebSocketDelegate {
                 }
                 
                 
-                if gamePlayModel?.scriptNodeResult.nodeType == 6 {
+                if gamePlayModel?.scriptNodeResult.nodeType == 6 && onLooker == false {
 //                    commonQuestionView.isHidden = true
                     voteInfoBtn.isHidden = false
                     voteResultBtn.isHidden = false
                 }
+                
+                previous_node_type = gamePlayModel?.scriptNodeResult.nodeType
             }
         } else if (dic["type"] as? String == "room_ready") {
             

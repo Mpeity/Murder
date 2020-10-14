@@ -15,6 +15,9 @@ import SVProgressHUD
 let BaseUrl = "https://mousha.mx5918.com"
 let SocketUrl = "ws://mousha.mx5918.com"
 
+//let BaseUrl = "https://www.madami.ltd"
+//let SocketUrl = "ws://www.madami.ltd"
+
 enum MethodType {
     case GET
     case POST
