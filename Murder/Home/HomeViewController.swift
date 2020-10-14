@@ -353,8 +353,32 @@ extension HomeViewController {
         }
     }
     
+    // 旁观者进入房间
+    func onLookerJoinRoom(room_id: Int, room_password: String?, script_id: Int, hasPassword: Bool) {
+        joinRoomLookRequest(room_id: room_id, room_password: room_password, hasPassword: hasPassword) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+
+                let resultData = resultDic["data"] as? [String : AnyObject]
+                let script_node_id = resultData?["script_node_id"] as? Int
+                let script_id = resultData?["script_id"] as? Int
+                
+                let vc = GameplayViewController()
+                vc.script_node_id = script_node_id!
+                vc.room_id = room_id
+                vc.script_id = script_id
+                vc.onLooker = true
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+    }
+    
     // 判断房间是否需要密码
-    func checkRoomId(room_id: Int, codeResult: @escaping(_ code: Int)->()) {
+    func checkRoomId(room_id: Int, codeResult: @escaping(_ code: [String : AnyObject])->()) {
         roomCheckPassword(room_id: room_id) { (result, error) in
             if error != nil {
                 return
@@ -365,9 +389,22 @@ extension HomeViewController {
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
                 let resultData = data["result"] as! [String : AnyObject]
-                let is_pass = resultData["is_pass"] as! Int
-                codeResult(is_pass)
+//                let is_pass = resultData["is_pass"] as! Int
+//                codeResult(is_pass)
+                
+                codeResult(resultData)
             }
+            
+        }
+    }
+    
+    // 是否是可以旁观
+    func checkOnlooker(onlooker: Int, model: HomeRoomModel?) {
+        if onlooker == 1 { // 旁观者
+            onLookerJoinRoom(room_id: (model?.roomId!)!, room_password: nil, script_id: (model?.scriptId)!, hasPassword: false)
+
+        } else {
+            joinRoom(room_id: (model?.roomId!)!, room_password: nil, script_id: (model?.scriptId)!, hasPassword: false)
             
         }
     }
@@ -485,37 +522,26 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         UIApplication.shared.keyWindow?.addSubview(commonView)
         let model = roomList?[indexPath.row]
         commonView.roomModel = model
-    
         
-        
-//        let vc = PrepareRoomViewController()
-//        vc.room_id = 1
-//        vc.script_id = model.scriptId
-//
-//        navigationController?.pushViewController(vc, animated: true)
-//        return
+        checkRoomId(room_id: model!.roomId!) {[weak self] (resultData) in
             
-            
-        
-        checkRoomId(room_id: model!.roomId!) {[weak self] (code) in
             
             commonView.enterBtnTapBlcok = {[weak self] (param)->() in
-                Log(code)
                 commonView.removeFromSuperview()
+
+                
+                Log(resultData)
+                // 是否有秘密
+                let code = resultData["is_pass"] as! Int
+                // 是否可以旁观
+                let onLooker = resultData["game_ing"] as! Int
                 if code == 1 { // 有密码
-                    self!.textInputView.textFieldView.becomeFirstResponder()
+                    self?.textInputView.textFieldView.becomeFirstResponder()
                     UIApplication.shared.keyWindow?.addSubview(self!.textInputView)
                 } else {
-//                    if model.userScriptStatus == 0 { // 未拥有该剧本
-//                        let vc = ScriptDetailsViewController()
-//                        vc.script_id = model.scriptId
-//                        self?.navigationController?.pushViewController(vc, animated: true)
-//                    } else {
-//                        self?.joinRoom(room_id: model.roomId, room_password: nil, script_id: model.scriptId, hasPassword: false)
-//                    }
+                    self?.checkOnlooker(onlooker: onLooker, model: model)
                     
-                    self?.joinRoom(room_id: (model?.roomId!)!, room_password: nil, script_id: (model?.scriptId)!, hasPassword: false)
-                    
+//                    self?.joinRoom(room_id: (model?.roomId!)!, room_password: nil, script_id: (model?.scriptId)!, hasPassword: false)
                 }
             }
         }

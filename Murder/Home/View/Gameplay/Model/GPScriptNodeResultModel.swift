@@ -21,6 +21,8 @@ class GPScriptNodeResultModel : NSObject {
     var orderNum : Int?
     var readyOk : Int?
     var scriptNodeId : Int?
+    var scriptNodeMapList : [GPNodeMapListModel]?
+
 
 //    var buttonName : String?
 //    var chapter : [GPChapterModel]?
@@ -58,13 +60,14 @@ class GPScriptNodeResultModel : NSObject {
         scriptNodeId = dictionary["script_node_id"] as? Int
         myRoleId = dictionary["my_role_id"] as? Int
 
-//        scriptNodeMapList = [GPNodeMapListModel]()
-//        if let scriptNodeMapListArray = dictionary["script_node_map_list"] as? [[String:Any]]{
-//            for dic in scriptNodeMapListArray{
-//                let value = GPNodeMapListModel(fromDictionary: dic)
-//                scriptNodeMapList?.append(value)
-//            }
-//        }
+        scriptNodeMapList = [GPNodeMapListModel]()
+        if let scriptNodeMapListArray = dictionary["script_node_map_list"] as? [[String:Any]]{
+            for dic in scriptNodeMapListArray{
+                let value = GPNodeMapListModel(fromDictionary: dic)
+                scriptNodeMapList?.append(value)
+            }
+        }
+        
 //        if let scriptPlaceListArray = dictionary["script_place_list"] as? [[String:Any]]{
 //            for dic in scriptPlaceListArray{
 //                let value = GPPlaceListModel(fromDictionary: dic)
@@ -117,13 +120,14 @@ class GPScriptNodeResultModel : NSObject {
         if scriptNodeId != nil{
             dictionary["script_node_id"] = scriptNodeId
         }
-//        if scriptNodeMapList != nil{
-//            var dictionaryElements = [[String:Any]]()
-//            for scriptNodeMapListElement in scriptNodeMapList! {
-//                dictionaryElements.append(scriptNodeMapListElement.toDictionary())
-//            }
-//            dictionary["script_node_map_list"] = dictionaryElements
-//        }
+        if scriptNodeMapList != nil{
+            var dictionaryElements = [[String:Any]]()
+            for scriptNodeMapListElement in scriptNodeMapList! {
+                dictionaryElements.append(scriptNodeMapListElement.toDictionary())
+            }
+            dictionary["script_node_map_list"] = dictionaryElements
+        }
+        
 //        if scriptPlaceList != nil{
 //            var dictionaryElements = [[String:Any]]()
 //            for scriptPlaceListElement in scriptPlaceList! {

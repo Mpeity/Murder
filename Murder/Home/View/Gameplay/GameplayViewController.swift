@@ -216,6 +216,12 @@ class GameplayViewController: UIViewController {
     // FIXME: 处理节点弹框
     let nodeTypeView = NodeTypeView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     
+    // 是否是旁观者 
+    var onLooker: Bool? = false {
+        didSet {
+            
+        }
+    }
 
     
     override func viewDidLoad() {
@@ -281,10 +287,17 @@ extension GameplayViewController {
                 if resultDic["code"]!.isEqual(1) {
                     let data = resultDic["data"] as! [String : AnyObject]
                     self?.gamePlayModel = GamePlayModel(fromDictionary: data)
+                    if self?.onLooker == true {
+                        let model = self?.gamePlayModel?.scriptNodeResult.scriptNodeMapList?[0]
+                        self?.drawImage(model: model)
+                    } else {
+                    }
+                    
                     
                     self?.joinSecretTalk()
+
                     self?.refreshUI()
-                    
+
                 } else {
                     
                 }
@@ -343,19 +356,21 @@ extension GameplayViewController {
             drawImage(model: model)
         }
         
-        if (currentScriptRoleModel?.secretTalkId)! > 0 {
-            isJoinCollogueRoom = true
-            let index = (currentScriptRoleModel?.secretTalkId!)! - 1
-            commonBtnTapAction(index: index)
-            if collogueRoomView == nil {
-                collogueRoomView = CollogueRoomView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-                collogueRoomView!.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-                collogueRoomView?.roomCount = gamePlayModel?.script.secretTalkRoomNum
-                collogueRoomView?.room_id = room_id
-                collogueRoomView?.delegate = self
-                collogueRoomView?.selectIndexPath = IndexPath(row: index, section: 0)
-                self.view.addSubview(collogueRoomView!)
-                collogueRoomView?.isHidden = true
+        if currentScriptRoleModel != nil {
+            if (currentScriptRoleModel?.secretTalkId)! > 0 {
+                isJoinCollogueRoom = true
+                let index = (currentScriptRoleModel?.secretTalkId!)! - 1
+                commonBtnTapAction(index: index)
+                if collogueRoomView == nil {
+                    collogueRoomView = CollogueRoomView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                    collogueRoomView!.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                    collogueRoomView?.roomCount = gamePlayModel?.script.secretTalkRoomNum
+                    collogueRoomView?.room_id = room_id
+                    collogueRoomView?.delegate = self
+                    collogueRoomView?.selectIndexPath = IndexPath(row: index, section: 0)
+                    self.view.addSubview(collogueRoomView!)
+                    collogueRoomView?.isHidden = true
+                }
             }
         }
     }
@@ -427,50 +442,51 @@ extension GameplayViewController {
             addPopTipView()
         }
         
-        
-        if currentScriptRoleModel?.scriptNodeMapList != nil {
-            popMenuView.selectIndexPath = IndexPath(row: placeIndex, section: 0)
-            popMenuView.titleArray = (currentScriptRoleModel?.scriptNodeMapList!)! as [AnyObject]
-            popMenuView.snp.remakeConstraints { (make) in
-                make.centerX.equalToSuperview()
-                make.top.equalTo(placeBtn.snp.bottom).offset(5)
-                make.height.equalTo(55*popMenuView.titleArray.count)
-                make.width.equalTo(136)
+        if currentScriptRoleModel != nil {
+            if currentScriptRoleModel?.scriptNodeMapList != nil {
+                popMenuView.selectIndexPath = IndexPath(row: placeIndex, section: 0)
+                popMenuView.titleArray = (currentScriptRoleModel?.scriptNodeMapList!)! as [AnyObject]
+                popMenuView.snp.remakeConstraints { (make) in
+                    make.centerX.equalToSuperview()
+                    make.top.equalTo(placeBtn.snp.bottom).offset(5)
+                    make.height.equalTo(55*popMenuView.titleArray.count)
+                    make.width.equalTo(136)
+                }
+                
+                // 绘制地图
+                let model = currentScriptRoleModel?.scriptNodeMapList?[placeIndex]
+                drawImage(model: model)
             }
             
-            // 绘制地图
-            let model = currentScriptRoleModel?.scriptNodeMapList?[placeIndex]
-            drawImage(model: model)
-        }
-        
-        
-        // 更新 地图小红点
-        let itemModel = currentScriptRoleModel?.scriptNodeMapList![placeIndex]
-        let placeStr = itemModel?.name
-        placeRedPoint(placeStr: placeStr!)
-        
-        
-        
+            
+            // 更新 地图小红点
+            let itemModel = currentScriptRoleModel?.scriptNodeMapList![placeIndex]
+            let placeStr = itemModel?.name
+            placeRedPoint(placeStr: placeStr!)
+            
 
-        // 更新 剧本小红点
-        if currentScriptRoleModel?.chapter != nil {
-            readScriptView.scriptData = currentScriptRoleModel?.chapter
-            readScriptView.type = "script"
-            scriptRedPoint()
-        }
-        
-        
+            // 更新 剧本小红点
+            if currentScriptRoleModel?.chapter != nil {
+                readScriptView.scriptData = currentScriptRoleModel?.chapter
+                readScriptView.type = "script"
+                scriptRedPoint()
+            }
+            
+            
 
-        // 更新 线索小红点
-        if currentScriptRoleModel?.gameUserClueList != nil {
-            threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
-            threadView.script_id = script_id
-            threadRedPoint()
+            // 更新 线索小红点
+            if currentScriptRoleModel?.gameUserClueList != nil {
+                threadView.gameUserClueList = currentScriptRoleModel?.gameUserClueList
+                threadView.script_id = script_id
+                threadRedPoint()
+            }
+            
+            // FIXME: 处理节点弹框
+            nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
+            nodeTypeView.isHidden = false
         }
         
-        // FIXME: 处理节点弹框
-        nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
-        nodeTypeView.isHidden = false
+    
     }
     
     //MARK:- 绘制地图
@@ -665,65 +681,68 @@ extension GameplayViewController {
         
         setHeaderView()
         setMiddleView()
-        setBottomView()
         
-        // 申请解散弹框
-        self.view.addSubview(dissolveView)
-        dissolveView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        // 不解散
-        dissolveView.dissolutionBtnNoBlcok = {[weak self] () ->() in
+        if onLooker != true {
             
-            self!.dissolutionRequest(status: 1)
-            self!.dissolveView.votingView.isHidden = true
-            self!.dissolveView.dissolutionView.isHidden = true
-            self!.dissolveView.isHidden = true
+            setBottomView()
             
+            // 申请解散弹框
+            self.view.addSubview(dissolveView)
+            dissolveView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            // 不解散
+            dissolveView.dissolutionBtnNoBlcok = {[weak self] () ->() in
+                
+                self!.dissolutionRequest(status: 1)
+                self!.dissolveView.votingView.isHidden = true
+                self!.dissolveView.dissolutionView.isHidden = true
+                self!.dissolveView.isHidden = true
+                
+            }
+            
+            // 解散
+            dissolveView.dissolutionBtnTapBlcok = {[weak self] () ->() in
+                self!.dissolutionRequest(status: 3)
+                self!.dissolveView.votingView.isHidden = true
+                self!.dissolveView.dissolutionView.isHidden = true
+                self!.dissolveView.isHidden = true
+            }
+            
+            // 发起解散
+            dissolveView.dissolutionBtnStartBlcok = {[weak self] () ->() in
+                // 【1拒绝解散3解散状态】
+                self!.dissolutionRequest(status: 3)
+                self!.dissolveView.votingView.isHidden = true
+                self!.dissolveView.dissolutionView.isHidden = true
+                self!.dissolveView.isHidden = true
+            }
+            
+            // 取消发起
+            dissolveView.dissolutionBtnCancelBlcok = {[weak self] () ->() in
+                self!.dissolveView.votingView.isHidden = true
+                self!.dissolveView.dissolutionView.isHidden = true
+                self!.dissolveView.isHidden = true
+            }
+            dissolveView.isHidden = true
+            
+            // 剧本阅读
+            readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            readScriptView.isHidden = true
+            self.view.addSubview(readScriptView)
+            
+            // 线索
+            threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            threadView.isHidden = true
+            self.view.addSubview(threadView)
+            
+            // 投票
+            self.view.addSubview(commonQuestionView)
+            commonQuestionView.isHidden = true
+            commonQuestionView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            // FIXME: 处理节点弹框
+            // 节点过渡页面
+            UIApplication.shared.keyWindow?.addSubview(nodeTypeView)
+            nodeTypeView.isHidden = true
         }
-        
-        // 解散
-        dissolveView.dissolutionBtnTapBlcok = {[weak self] () ->() in
-            self!.dissolutionRequest(status: 3)
-            self!.dissolveView.votingView.isHidden = true
-            self!.dissolveView.dissolutionView.isHidden = true
-            self!.dissolveView.isHidden = true
-        }
-        
-        // 发起解散
-        dissolveView.dissolutionBtnStartBlcok = {[weak self] () ->() in
-            // 【1拒绝解散3解散状态】
-            self!.dissolutionRequest(status: 3)
-            self!.dissolveView.votingView.isHidden = true
-            self!.dissolveView.dissolutionView.isHidden = true
-            self!.dissolveView.isHidden = true
-        }
-        
-        // 取消发起
-        dissolveView.dissolutionBtnCancelBlcok = {[weak self] () ->() in
-            self!.dissolveView.votingView.isHidden = true
-            self!.dissolveView.dissolutionView.isHidden = true
-            self!.dissolveView.isHidden = true
-        }
-        dissolveView.isHidden = true
-        
-        // 剧本阅读
-        readScriptView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        readScriptView.isHidden = true
-        self.view.addSubview(readScriptView)
-        
-        // 线索
-        threadView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        threadView.isHidden = true
-        self.view.addSubview(threadView)
-        
-        // 投票
-        self.view.addSubview(commonQuestionView)
-        commonQuestionView.isHidden = true
-        commonQuestionView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        // FIXME: 处理节点弹框
-        // 节点过渡页面
-        UIApplication.shared.keyWindow?.addSubview(nodeTypeView)
-        nodeTypeView.isHidden = true
-
     }
     
     /// 添加红点
@@ -1242,13 +1261,17 @@ extension GameplayViewController {
     //MARK: 退出房间按钮
     @objc func exitBtnAction(button: UIButton) {
         
-        // 游戏结束
-        if gamePlayModel?.scriptNodeResult.nodeType == 6 {
+        if onLooker == true {
             popRootVC()
+        } else {
+            // 游戏结束
+            if gamePlayModel?.scriptNodeResult.nodeType == 6 {
+                popRootVC()
+            }
+            dissolveView.isHidden = false
+            dissolveView.dissolutionView.isHidden = false
         }
-        
-        dissolveView.isHidden = false
-        dissolveView.dissolutionView.isHidden = false
+
     }
     
     // 解散接口
@@ -1619,7 +1642,9 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
          
         var ownSecretTalkId  = 0
-        ownSecretTalkId = currentScriptRoleModel!.secretTalkId!
+        if currentScriptRoleModel != nil {
+            ownSecretTalkId = currentScriptRoleModel!.secretTalkId!
+        }
         
         if collectionView == leftCollectionView {
             let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: GameplayViewCellId, for: indexPath) as! GameplayViewCell
@@ -1863,24 +1888,40 @@ extension GameplayViewController {
         // 启动音量回调，用来在界面上显示房间其他人的说话音量
         agoraKit.enableAudioVolumeIndication(1000, smooth: 3, report_vad: false)
         // 加入案发现场的群聊频道
+        
+        Log(onLooker)
 
         Log(String(room_id!))
-        
+        // 旁观者 静音
+        if onLooker == true {
+            agoraKit.muteLocalAudioStream(true)
+        }
         let uid:UInt = UInt(bitPattern: (UserAccountViewModel.shareInstance.account?.userId!)!)
         agoraKit.joinChannel(byToken: nil, channelId: String(room_id!), info: nil, uid: uid , joinSuccess: nil)
+        
+        if onLooker == true {
+            
+        }
     }
 }
 
 // MARK: AgoraRtcEngineDelegate
 extension GameplayViewController: AgoraRtcEngineDelegate {
     func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinChannel channel: String, withUid uid: UInt, elapsed: Int) {
+        
+       
+        
         if agoraStatus.muteAllRemote == true {
             agoraKit.muteAllRemoteAudioStreams(true)
         }
+        
+        
         if agoraStatus.muteLocalAudio == true {
             agoraKit.muteLocalAudioStream(true)
         }
         
+//        // 开关本地音频发送  YES: 停止发送本地音频流 NO: （默认）继续发送本地音频流
+//        agoraKit.muteLocalAudioStream(muteLocalAudioStream)
         
         Log("我加入了1")
         
