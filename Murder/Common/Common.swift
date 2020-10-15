@@ -34,8 +34,11 @@ let redirect_uri = "http://www.520it.com"
 
 // 声网APPID
 let AgoraKit_AppId = "c9c14d866ca149119d7c6110dc47be36"
+//// 友盟推送
+//let UMAppKey = "5f5492aa375dc31531b9826e"
 // 友盟推送
-let UMAppKey = "5f5492aa375dc31531b9826e"
+let UMAppKey = "5f87beb9c0e4ff295b223a85"
+
 
 
 //MARK:- bugly

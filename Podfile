@@ -6,7 +6,7 @@ target 'Murder' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'AFNetworking', '~> 2.6'
+  pod 'AFNetworking', '~> 4.0'
   pod 'SVProgressHUD'
   pod 'MJRefresh', '3.2.0'
   pod 'SnapKit'
