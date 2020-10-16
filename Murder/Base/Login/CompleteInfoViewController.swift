@@ -31,7 +31,7 @@ class CompleteInfoViewController: UIViewController, UITextFieldDelegate  {
     @IBOutlet weak var commonBtnWidth: NSLayoutConstraint!
     
     // 性别
-    private var sex: String?
+    private var sex: String? = "0"
     // 头像
     private var file: String?
     
@@ -158,13 +158,7 @@ extension CompleteInfoViewController {
     
     //MARK:- 完善信息
     @objc func commonBtnAction() {
-//        if !file!.isEmpty  && !sex!.isEmpty && (nicknameTextfield!.text != nil){
-//            editInfo(head: file!)
-//        } else {
-//            showToastCenter(msg: "提示语")
-//        }
-    
-        if file != nil  && sex != nil && nicknameTextfield.text != nil{
+        if file != nil && nicknameTextfield.text != nil{
             editInfo(head: file!)
         }
     }

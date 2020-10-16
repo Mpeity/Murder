@@ -123,6 +123,9 @@ extension SettingViewController {
             self.navigationController?.pushViewController(feedbackVC, animated: true)
             break
         case 2:
+            // 跳转到应用页面
+            let str = "itms-apps://itunes.apple.com/app/id1535883814"
+            UIApplication.shared.openURL(URL(string: str)!)
             break
         default:
             break
