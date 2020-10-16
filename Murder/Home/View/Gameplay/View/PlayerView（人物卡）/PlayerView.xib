@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -39,7 +40,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Bv-Ai-9fQ" userLabel="headerView">
                             <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ku-nY-p53">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ku-nY-p53">
                                     <rect key="frame" x="0.0" y="0.0" width="150" height="43"/>
                                     <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
                                     <state key="normal" title="キャラクター">
@@ -49,7 +50,7 @@
                                         <action selector="roleBtnAction:" destination="-1" eventType="touchUpInside" id="Ssc-ES-5Cx"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AaC-ao-knA">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AaC-ao-knA">
                                     <rect key="frame" x="150" y="0.0" width="150" height="43"/>
                                     <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
                                     <state key="normal" title="プレーヤー">
@@ -133,7 +134,7 @@
                                         <constraint firstAttribute="height" constant="60" id="LSi-WM-ccX"/>
                                     </constraints>
                                 </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XW8-a8-rfc" customClass="GradienButton" customModule="Murder" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XW8-a8-rfc" customClass="GradienButton" customModule="Murder" customModuleProvider="target">
                                     <rect key="frame" x="25" y="178" width="250" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="L40-ZK-lcR"/>
@@ -158,7 +159,7 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TwJ-G4-3fH">
                                     <rect key="frame" x="90.5" y="118" width="119" height="15"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sex_man" translatesAutoresizingMaskIntoConstraints="NO" id="AXu-Sk-7yj">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AXu-Sk-7yj">
                                             <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="15" id="ICJ-Nd-g30"/>
@@ -185,7 +186,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="IUb-U3-H1u" secondAttribute="trailing" id="53g-vR-ubu"/>
                                         <constraint firstItem="IUb-U3-H1u" firstAttribute="top" secondItem="TwJ-G4-3fH" secondAttribute="top" id="984-HG-tZO"/>
@@ -251,6 +252,7 @@
                     </connections>
                 </button>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="bIw-qA-d10" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="155" id="C5l-cV-5KX"/>
@@ -258,12 +260,13 @@
                 <constraint firstItem="KhW-Yh-qD3" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="iW4-Ps-Wg8"/>
                 <constraint firstItem="KhW-Yh-qD3" firstAttribute="top" secondItem="bIw-qA-d10" secondAttribute="bottom" constant="44" id="vTb-7t-W3h"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="100.00000000000001" y="154.6875"/>
         </view>
     </objects>
     <resources>
         <image name="cancel" width="35" height="35"/>
-        <image name="sex_man" width="15" height="15.5"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

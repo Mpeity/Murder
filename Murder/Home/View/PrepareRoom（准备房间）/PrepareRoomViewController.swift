@@ -1598,7 +1598,7 @@ extension PrepareRoomViewController: ShareViewDelegate {
         model.introduction = readyRoomModel?.introduction
         model.roomId = readyRoomModel?.roomId
         vc.shareModel = model
-        navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: false)
     }
     
     func shareLineBtnClick() {

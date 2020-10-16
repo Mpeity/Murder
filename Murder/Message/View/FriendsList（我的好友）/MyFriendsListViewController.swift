@@ -53,6 +53,9 @@ class MyFriendsListViewController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = false
+        
         // 监听键盘弹出
         NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillChangeFrame(notif:)) , name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
@@ -63,6 +66,7 @@ class MyFriendsListViewController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
         UIApplication.shared.setStatusBarHidden(false, with: .none)
 
         NotificationCenter.default.removeObserver(self)
@@ -259,7 +263,9 @@ extension MyFriendsListViewController {
             let messageListModel = MessageListModel(fromDictionary: [:])
             messageListModel.head = model?.head
             messageListModel.level = model?.level
-            messageListModel.sex = model?.sexText == "男" ? 1 : 2
+//            messageListModel.sex = model?.sexText == "男" ? 1 : 2
+            
+            messageListModel.sex = model?.sex
             messageListModel.userId = model?.userId
             messageListModel.nickname = model?.nickname
             

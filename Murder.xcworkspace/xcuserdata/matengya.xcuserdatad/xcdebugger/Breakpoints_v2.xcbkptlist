@@ -477,8 +477,8 @@
             filePath = "Murder/Home/View/Gameplay/View/PlayerView&#xff08;&#x4eba;&#x7269;&#x5361;&#xff09;/PlayerView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "checkUser()"
             landmarkType = "7">
          </BreakpointContent>
@@ -623,7 +623,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "161"
             endingLineNumber = "161"
-            landmarkName = "sendBtnAction()"
+            landmarkName = "setUI()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

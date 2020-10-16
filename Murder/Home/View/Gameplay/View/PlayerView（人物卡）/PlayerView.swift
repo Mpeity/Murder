@@ -38,16 +38,14 @@ class PlayerView: UIView {
                 
                 var image : UIImage!
                 if itemModel?.user?.sex == 1 {
-//                    image = UIImage(named: "sexman")
                     image = UIImage(named: "sex_man")
-                } else {
-//                    image = UIImage(named: "sexwoman")
+                } else if itemModel?.user?.sex == 2 {
                     image = UIImage(named: "sex_woman")
-
+                } else {
+                    
                 }
                 sexImgView.image = image
-                
-        
+
                 if itemModel?.user?.level != nil {
                     levelLabel.text = itemModel?.user?.level
                 }

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -52,7 +53,7 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="evz-9g-vdk">
                                     <rect key="frame" x="78" y="94" width="119" height="15"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sex_man" translatesAutoresizingMaskIntoConstraints="NO" id="vFr-8t-uIc">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vFr-8t-uIc">
                                             <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="15" id="tId-4d-Qm2"/>
@@ -79,7 +80,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="15" id="1Ty-Kw-exK"/>
                                         <constraint firstItem="vFr-8t-uIc" firstAttribute="top" secondItem="evz-9g-vdk" secondAttribute="top" id="BQV-gd-VRq"/>
@@ -106,7 +107,7 @@
                                 <constraint firstItem="Ffk-Qm-3aY" firstAttribute="leading" secondItem="oYd-AX-gie" secondAttribute="leading" constant="25" id="l2b-wE-Pvs"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gh3-pU-99P" customClass="GradienButton" customModule="Murder" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gh3-pU-99P" customClass="GradienButton" customModule="Murder" customModuleProvider="target">
                             <rect key="frame" x="25" y="181" width="225" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="dgS-ww-L8t"/>
@@ -153,6 +154,7 @@
                     <state key="normal" image="cancel"/>
                 </button>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="vBB-cj-xhl"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="ha0-Ax-GXg" firstAttribute="top" secondItem="kWl-AG-Blp" secondAttribute="bottom" constant="44" id="I8N-0U-T3O"/>
@@ -160,7 +162,6 @@
                 <constraint firstItem="kWl-AG-Blp" firstAttribute="top" secondItem="vBB-cj-xhl" secondAttribute="top" constant="220" id="rHW-EB-j4A"/>
                 <constraint firstItem="ha0-Ax-GXg" firstAttribute="centerX" secondItem="FRs-yy-bNd" secondAttribute="centerX" id="vxH-wl-jsW"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="vBB-cj-xhl"/>
             <point key="canvasLocation" x="31.884057971014496" y="49.553571428571423"/>
         </view>
     </objects>
@@ -168,6 +169,8 @@
         <image name="cancel" width="35" height="35"/>
         <image name="image5" width="40" height="40"/>
         <image name="message_delete" width="11" height="11"/>
-        <image name="sex_man" width="15" height="15.5"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
