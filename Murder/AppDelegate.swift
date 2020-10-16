@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let buglyConfig = BuglyConfig()
         buglyConfig.reportLogLevel = .error
         buglyConfig.unexpectedTerminatingDetectionEnable = true
-        buglyConfig.debugMode = true
+        buglyConfig.debugMode = false
         Bugly.start(withAppId: BUGLY_APP_ID, config: buglyConfig)
         
         
@@ -72,7 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         setUI()
         //        [application setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-        application.setStatusBarHidden(false, with: .fade)
+        
+        application.setStatusBarHidden(false, with: .none)
         
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.backgroundColor = UIColor.white
