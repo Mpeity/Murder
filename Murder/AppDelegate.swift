@@ -72,6 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         setUI()
         //        [application setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+        
         application.setStatusBarHidden(false, with: .none)
         
         self.window = UIWindow.init(frame: UIScreen.main.bounds)

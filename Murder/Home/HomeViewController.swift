@@ -50,6 +50,13 @@ class HomeViewController: UIViewController,UITextFieldDelegate {
     
     private var progressArr = [AnyObject]()
     
+    // 是否可以旁观 1-可旁观
+    var onLooker: Int = 0
+    
+    // room_password
+    var room_password: String?
+    var currentModel: HomeRoomModel?
+    
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -97,6 +104,35 @@ class HomeViewController: UIViewController,UITextFieldDelegate {
 //MARK:- 网络请求
 extension HomeViewController {
     
+    private func checkUser() {
+        SVProgressHUD.show()
+
+        checkUrlRequest {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                self?.checkUserModel = CheckUserModel(fromDictionary: data)
+                
+                var script_id  = -1
+                if self?.checkUserModel!.stage != 0 {
+                    if self?.checkUserModel!.stage == 1 {
+                        let model = self?.checkUserModel?.readyResult
+                        script_id = model!.scriptId!
+                    } else if (self?.checkUserModel!.stage == 2) {
+                        let model = self?.checkUserModel?.gameResult
+                        script_id = model!.scriptId!
+                    }
+                    self?.checkLocalScriptWith(script_id: script_id)
+                }
+            }
+        }
+    }
+
+    
     //MARK:- 检测本地是否有当前剧本数据
     func checkLocalScriptWith(script_id: Int?) {
         if (script_id != nil){
@@ -130,13 +166,17 @@ extension HomeViewController {
                             
                             Log("break")
                         }
-                        
                         // 本地有剧本数据
                         DispatchQueue.main.async { [weak self] in
-                            
-                            self?.gotoVC()
-                            
+                            if self?.onLooker != 1 {
+                                self?.gotoVC()
+                            } else {
+                                self?.onLookerGotoVC()
+                            }
                         }
+                        
+                        
+                        
                     } else {
                     
                         self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
@@ -164,7 +204,6 @@ extension HomeViewController {
                 if error != nil {
                     Log(error)
                     SVProgressHUD.dismiss()
-//                    showToastCenter(msg: "ネットワークエラー~")
                     return
                 }
                 let new = progress
@@ -184,44 +223,20 @@ extension HomeViewController {
                 }
             }
         }
-        
         // 刷新UI
         group.notify(queue: DispatchQueue.main) {
+            // 本地有剧本数据
             DispatchQueue.main.async { [weak self] in
-                self?.gotoVC()
-            }
-        }
-    }
-        
-    
-    private func checkUser() {
-        SVProgressHUD.show()
-
-        checkUrlRequest {[weak self] (result, error) in
-            if error != nil {
-                return
-            }
-            // 取到结果
-            guard  let resultDic :[String : AnyObject] = result else { return }
-            if resultDic["code"]!.isEqual(1) {
-                let data = resultDic["data"] as! [String : AnyObject]
-                self?.checkUserModel = CheckUserModel(fromDictionary: data)
-                
-                var script_id  = -1
-                if self?.checkUserModel!.stage != 0 {
-                    if self?.checkUserModel!.stage == 1 {
-                        let model = self?.checkUserModel?.readyResult
-                        script_id = model!.scriptId!
-                    } else if (self?.checkUserModel!.stage == 2) {
-                        let model = self?.checkUserModel?.gameResult
-                        script_id = model!.scriptId!
-                    }
-                    self?.checkLocalScriptWith(script_id: script_id)
+                if self?.onLooker != 1 {
+                    self?.gotoVC()
+                } else {
+                    self?.onLookerGotoVC()
                 }
             }
         }
     }
-    
+        
+    // 玩家
     func gotoVC() {
         SVProgressHUD.dismiss()
         if self.checkUserModel!.stage == 1 {
@@ -239,6 +254,17 @@ extension HomeViewController {
             vc.script_id = model?.scriptId
             self.navigationController?.pushViewController(vc, animated: true)
             return
+        }
+    }
+    
+    // 旁观者
+    func onLookerGotoVC() {
+        let room_password = self.room_password
+        let model = roomList?[currentIndex]
+        if room_password == nil || room_password == "" || room_password == " "  {
+            onLookerJoinRoom(room_id: (model?.roomId!)!, room_password: nil, script_id: (model?.scriptId)!, hasPassword: false)
+        } else {
+            onLookerJoinRoom(room_id: (model?.roomId!)!, room_password: room_password!, script_id: (model?.scriptId)!, hasPassword: true)
         }
     }
     
@@ -311,16 +337,10 @@ extension HomeViewController {
                     return
 
                 }
-  
-                
-                Log("---------\(Thread.current)")
-
-                
                 self?.tableView.mj_header.endRefreshing()
                 self?.tableView.mj_footer.endRefreshing()
                 
             } else {
-                
                self?.tableView.mj_header.endRefreshing()
                self?.tableView.mj_footer.endRefreshing()
             }
@@ -336,25 +356,42 @@ extension HomeViewController {
             // 取到结果
             guard  let resultDic :[String : AnyObject] = result else { return }
             if resultDic["code"]!.isEqual(1) {
-//                let vc = ScriptDetailsViewController()
-//                vc.script_id = script_id
-//                self?.navigationController?.pushViewController(vc, animated: true)
-                
                 let vc = PrepareRoomViewController()
                 vc.room_id = room_id
                 vc.script_id = script_id
-                
-                
                 self?.navigationController?.pushViewController(vc, animated: true)
-                
             } else {
                 showToastCenter(msg: "暗証番号が正しくありません")
             }
         }
     }
     
+    // 旁观者进入房间
+    func onLookerJoinRoom(room_id: Int, room_password: String?, script_id: Int, hasPassword: Bool) {
+        joinRoomLookRequest(room_id: room_id, room_password: room_password, hasPassword: hasPassword) {[weak self] (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+
+                let resultData = resultDic["data"] as? [String : AnyObject]
+                let script_node_id = resultData?["script_node_id"] as? Int
+                let script_id = resultData?["script_id"] as? Int
+                
+                let vc = GameplayViewController()
+                vc.script_node_id = script_node_id!
+                vc.room_id = room_id
+                vc.script_id = script_id
+                vc.onLooker = true
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+    }
+    
     // 判断房间是否需要密码
-    func checkRoomId(room_id: Int, codeResult: @escaping(_ code: Int)->()) {
+    func checkRoomId(room_id: Int, codeResult: @escaping(_ code: [String : AnyObject])->()) {
         roomCheckPassword(room_id: room_id) { (result, error) in
             if error != nil {
                 return
@@ -365,10 +402,26 @@ extension HomeViewController {
             if resultDic["code"]!.isEqual(1) {
                 let data = resultDic["data"] as! [String : AnyObject]
                 let resultData = data["result"] as! [String : AnyObject]
-                let is_pass = resultData["is_pass"] as! Int
-                codeResult(is_pass)
+//                let is_pass = resultData["is_pass"] as! Int
+//                codeResult(is_pass)
+                
+                codeResult(resultData)
             }
             
+        }
+    }
+    
+    // 判断是旁观还是玩家
+    func checkOnlooker(onlooker: Int, model: HomeRoomModel?, room_password: String?) {
+        if onlooker == 1 { // 旁观者
+            checkLocalScriptWith(script_id: model?.scriptId)
+        } else {
+            if room_password == nil || room_password == "" || room_password == " " {
+                joinRoom(room_id: (model?.roomId!)!, room_password: nil, script_id: (model?.scriptId)!, hasPassword: false)
+
+            } else {
+                joinRoom(room_id: (model?.roomId!)!, room_password: room_password!, script_id: (model?.scriptId)!, hasPassword: true)
+            }
         }
     }
 }
@@ -436,18 +489,6 @@ extension HomeViewController {
         
         setupHeaderView()
         setupFooterView()
-        
-//        let headerView = UIView()
-//        self.view.addSubview(headerView)
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(hideView))
-//        headerView.addGestureRecognizer(tap)
-//        headerView.snp.makeConstraints { (make) in
-//            make.left.equalToSuperview()
-//            make.right.equalToSuperview()
-//            make.top.equalToSuperview()
-//            make.bottom.equalTo(bgView.snp.top)
-//
-//        }
     }
 }
 
@@ -485,37 +526,25 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         UIApplication.shared.keyWindow?.addSubview(commonView)
         let model = roomList?[indexPath.row]
         commonView.roomModel = model
-    
         
-        
-//        let vc = PrepareRoomViewController()
-//        vc.room_id = 1
-//        vc.script_id = model.scriptId
-//
-//        navigationController?.pushViewController(vc, animated: true)
-//        return
+        checkRoomId(room_id: model!.roomId!) {[weak self] (resultData) in
             
-            
-        
-        checkRoomId(room_id: model!.roomId!) {[weak self] (code) in
             
             commonView.enterBtnTapBlcok = {[weak self] (param)->() in
-                Log(code)
                 commonView.removeFromSuperview()
+
+                
+                Log(resultData)
+                // 是否有秘密
+                let code = resultData["is_pass"] as! Int
+                // 是否可以旁观
+                let onLooker = resultData["game_ing"] as! Int
+                self?.onLooker = onLooker
                 if code == 1 { // 有密码
-                    self!.textInputView.textFieldView.becomeFirstResponder()
+                    self?.textInputView.textFieldView.becomeFirstResponder()
                     UIApplication.shared.keyWindow?.addSubview(self!.textInputView)
                 } else {
-//                    if model.userScriptStatus == 0 { // 未拥有该剧本
-//                        let vc = ScriptDetailsViewController()
-//                        vc.script_id = model.scriptId
-//                        self?.navigationController?.pushViewController(vc, animated: true)
-//                    } else {
-//                        self?.joinRoom(room_id: model.roomId, room_password: nil, script_id: model.scriptId, hasPassword: false)
-//                    }
-                    
-                    self?.joinRoom(room_id: (model?.roomId!)!, room_password: nil, script_id: (model?.scriptId)!, hasPassword: false)
-                    
+                    self?.checkOnlooker(onlooker: onLooker, model: model, room_password: nil)
                 }
             }
         }
@@ -532,11 +561,9 @@ extension HomeViewController: InputTextViewDelegate  {
         textInputView.removeFromSuperview()
         let text = textInputView.textFieldView.text!
         let model = roomList?[currentIndex]
-        joinRoom(room_id: (model?.roomId!)!, room_password: text, script_id: model!.scriptId, hasPassword: true)
-        
-//        let vc = ScriptDetailsViewController()
-//        vc.script_id = model.scriptId
-//        navigationController?.pushViewController(vc, animated: true)
+//        joinRoom(room_id: (model?.roomId!)!, room_password: text, script_id: model!.scriptId, hasPassword: true)
+        room_password = text
+        checkOnlooker(onlooker: onLooker, model: model, room_password: text)
         
     }
     

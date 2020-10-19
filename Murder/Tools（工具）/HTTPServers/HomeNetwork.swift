@@ -47,6 +47,27 @@ func joinRoomRequest(room_id: Int, room_password: String?, hasPassword: Bool, fi
     }
 }
 
+//MARK:- 旁观进入房间
+private let join_room_look_url = "/api/room/join_room_look"
+/** 注册接口
+ * @params [参数名] [类型] [是否必传]
+ * room_id [int]    是    房间ID
+ * room_password [string]        房间密码
+ */
+func joinRoomLookRequest(room_id: Int, room_password: String?, hasPassword: Bool, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = join_room_look_url
+    var parameters = [String : AnyObject]()
+    if hasPassword {
+        parameters = ["room_id" : room_id, "room_password": room_password!] as [String : AnyObject]
+    } else {
+        parameters = ["room_id" : room_id] as [String : AnyObject]
+    }
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
 
 //MARK:- 检测房间是否需要密码
 private let room_check_password_url = "/api/room/room_check_password"
@@ -417,5 +438,6 @@ func onlineTimeRequest(finished: @escaping(_ reslut: [String: AnyObject]?, _ err
         finished(result as? [String : AnyObject], error)
     }
 }
+
 
 

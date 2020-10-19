@@ -130,6 +130,26 @@
       "filename" : "icon-76.png",
       "idiom" : "ipad",
       "scale" : "1x",
+      "size" : "50x50"
+    },
+    {
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "size" : "50x50"
+    },
+    {
+      "idiom" : "ipad",
+      "scale" : "1x",
+      "size" : "72x72"
+    },
+    {
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "size" : "72x72"
+    },
+    {
+      "idiom" : "ipad",
+      "scale" : "1x",
       "size" : "76x76"
     },
     {

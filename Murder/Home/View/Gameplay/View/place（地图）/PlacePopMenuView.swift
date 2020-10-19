@@ -26,6 +26,8 @@ class PlacePopMenuView: UIView {
     var contentTextColor : UIColor = UIColor.white
     var contentTextFont : CGFloat = 15
     var isHideImg: Bool = false
+    // 是否是旁观者 是 隐藏小红点
+    var onLooker: Bool? = false
     
     var selectIndexPath: IndexPath = IndexPath(row: 0, section: 0)
 
@@ -121,12 +123,15 @@ extension PlacePopMenuView: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = UIColor.clear
         cell.lineView.backgroundColor = lineColor
         
-        if model.see == 0 {
-            addPoint(placeStr: model.name!, commonView: cell.contentLabel)
-        } else {
-            hideRedPoint(commonView: cell.contentLabel)
+        // 不是旁观者 未读添加小红点
+        if onLooker != true {
+            if model.see == 0 {
+                addPoint(placeStr: model.name!, commonView: cell.contentLabel)
+            } else {
+                hideRedPoint(commonView: cell.contentLabel)
+            }
         }
-
+        
         if indexPath.row == titleArray.count-1 {
             cell.lineView.isHidden = true
         } else {
