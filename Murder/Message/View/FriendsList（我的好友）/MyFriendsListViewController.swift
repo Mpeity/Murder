@@ -256,7 +256,9 @@ extension MyFriendsListViewController {
             commonView.isShareScript = isShareScript
             commonView.shareModel = shareModel
             commonView.friendsModel = model
-            self.view.addSubview(commonView)
+            
+            UIApplication.shared.keyWindow?.addSubview(commonView)
+//            self.view.addSubview(commonView)
         } else {
             
             let vc = SendMessageViewController()

@@ -289,7 +289,6 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
         if indexPath.section == 0 {
             let height =  getContentHeight()
             return height
-//            return 500
         } else {
             return 82
         }
@@ -328,13 +327,15 @@ extension ScriptDetailsViewController {
 //            var height:CGFloat = label.attributedText?.boundingRect(with: CGSize(width: FULL_SCREEN_WIDTH-40, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, context: nil).size.height ?? 0
 
             
-            var height = stringSingleHeightWithWidth(text: string, width: FULL_SCREEN_WIDTH-40, font: UIFont.systemFont(ofSize: 14))
+            var height = stringSingleHeightWithWidth(text: string, width: FULL_SCREEN_WIDTH-40, font: UIFont.systemFont(ofSize: 16))
+            
+            Log(string)
             
             if height < 82 {
                 height = 82
             }
             if contentSelected! {
-                return height+40
+                return height+70
             } else {
                 return 82
             }

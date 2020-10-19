@@ -45,7 +45,24 @@ class ShareScriptCard: UIView, AgoraRtmDelegate {
     
     var friendsModel: FriendListModel? {
         didSet {
+            guard let friendsModel = friendsModel else {
+                return
+            }
+            if friendsModel.sex != nil {
+                let sex = friendsModel.sex!
+                switch sex {
+                case 1:
+                    sexImgView.image = UIImage(named: "sex_man")
+                case 2:
+                    sexImgView.image = UIImage(named: "sex_woman")
+                default:
+                    break
+                }
+            }
             
+            if friendsModel.nickname != nil {
+                commonLabel.text = friendsModel.nickname
+            }
         }
     }
 
@@ -83,7 +100,6 @@ class ShareScriptCard: UIView, AgoraRtmDelegate {
                     }
                 }
                 
-                commonLabel.text = UserAccountViewModel.shareInstance.account?.nickname
             }
         }
     }
