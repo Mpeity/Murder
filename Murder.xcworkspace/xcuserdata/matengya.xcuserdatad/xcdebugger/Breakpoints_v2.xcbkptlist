@@ -270,8 +270,8 @@
             filePath = "Murder/Base/Share/ShareScriptCard.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "addMgs()"
             landmarkType = "7">
             <Locations>
@@ -422,6 +422,22 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "68F55278-3139-4CEA-968B-A0072BB447CB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Murder/Base/Login/CompleteInfoViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
+            landmarkName = "commonBtnAction()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             uuid = "4A1F6F1E-3090-4108-B849-78F1FF706058"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -461,8 +477,8 @@
             filePath = "Murder/Home/View/Gameplay/View/PlayerView&#xff08;&#x4eba;&#x7269;&#x5361;&#xff09;/PlayerView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
             landmarkName = "checkUser()"
             landmarkType = "7">
          </BreakpointContent>
@@ -513,6 +529,22 @@
             endingLineNumber = "75"
             landmarkName = "itemModel"
             landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "171128DB-928B-4637-AAFB-7271B050BE81"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Murder/Base/Login/CompleteInfoViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
+            landmarkName = "getInfo()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -589,8 +621,8 @@
             filePath = "Murder/Base/Share/ShareScriptCard.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "sendBtnAction()"
             landmarkType = "7">
          </BreakpointContent>
@@ -685,8 +717,8 @@
             filePath = "Murder/Base/Share/ShareScriptCard.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "addMgs()"
             landmarkType = "7">
          </BreakpointContent>
@@ -701,8 +733,8 @@
             filePath = "Murder/Base/Share/ShareScriptCard.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "addMgs()"
             landmarkType = "7">
          </BreakpointContent>
