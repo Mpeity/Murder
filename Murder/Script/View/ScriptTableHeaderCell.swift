@@ -78,7 +78,7 @@ extension ScriptTableHeaderCell {
     func setUI() {
         titleLabel.textColor = HexColor(DarkGrayColor)
         titleLabel.font = UIFont.systemFont(ofSize: 13)
-        self.addSubview(titleLabel)
+        self.contentView.addSubview(titleLabel)
         
         titleLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(15)
@@ -88,7 +88,7 @@ extension ScriptTableHeaderCell {
         }
         collectionView.delegate = self
         collectionView.dataSource = self
-        self.addSubview(collectionView)
+        self.contentView.addSubview(collectionView)
         
         collectionView.reloadData()
     }
