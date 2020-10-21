@@ -115,7 +115,7 @@
                                     <constraint firstAttribute="height" constant="34" id="vn2-mK-0vc"/>
                                 </constraints>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avart_one" translatesAutoresizingMaskIntoConstraints="NO" id="RLi-eZ-F18">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="RLi-eZ-F18">
                                 <rect key="frame" x="0.0" y="11" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="YJ2-bU-ivE"/>
@@ -206,7 +206,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="avart_one" width="38" height="38.5"/>
+        <image name="default_avatar" width="114" height="114"/>
         <image name="gameplay_handsUp" width="18" height="21"/>
         <image name="gameplay_voice" width="18" height="18"/>
         <systemColor name="systemBackgroundColor">

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="162" height="33"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vpr-gO-LNL">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vpr-gO-LNL">
                         <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="25" id="S6M-mX-s6s"/>
@@ -35,6 +35,7 @@
                     </label>
                 </subviews>
             </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
                 <constraint firstItem="vpr-gO-LNL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="IXC-Qk-XQq"/>
                 <constraint firstItem="Gjh-Pg-zS5" firstAttribute="bottom" secondItem="vpr-gO-LNL" secondAttribute="bottom" id="MUF-6C-1gY"/>
@@ -42,7 +43,6 @@
                 <constraint firstItem="vpr-gO-LNL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="lLE-Ry-OdR"/>
                 <constraint firstItem="Gjh-Pg-zS5" firstAttribute="leading" secondItem="vpr-gO-LNL" secondAttribute="trailing" constant="13" id="lSG-xs-jln"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="162" height="33"/>
             <connections>
                 <outlet property="choiceBtn" destination="vpr-gO-LNL" id="Dty-97-MjW"/>

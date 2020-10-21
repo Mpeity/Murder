@@ -10,8 +10,11 @@ import UIKit
 
 let QuestionViewCellId = "QuestionViewCellId"
 
+typealias QuestionViewCancelTapBlock = ()->()
 
 class QuestionView: UIView {
+    
+    var questionViewCancelTapBlock: QuestionViewCancelTapBlock?
     
     var room_id: Int?
     
@@ -432,6 +435,9 @@ extension QuestionView: UITableViewDelegate, UITableViewDataSource {
 extension QuestionView {
     @objc func hideView() {
         self.isHidden = true
+        if (questionViewCancelTapBlock != nil)  {
+            questionViewCancelTapBlock!()
+        }
     }
     
     @objc func bottomBtnAction(button:UIButton) {

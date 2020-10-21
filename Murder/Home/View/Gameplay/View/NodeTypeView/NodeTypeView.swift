@@ -24,16 +24,13 @@ class NodeTypeView: UIView {
             guard let content = content else {
                 return
             }
-        
+            
             // 富文本
             guard let news = content.removingPercentEncoding,let data = news.data(using: .unicode) else{return}
             let att = [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html]
             guard let attStr = try? NSMutableAttributedString(data: data, options: att, documentAttributes: nil) else{return}
             let range = NSMakeRange(0, attStr.length)
             attStr.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15.0)], range: range)
-
-            textView?.attributedText = attStr
-            
             
             var height = attStr.string.ga_heightForComment(fontSize: 15, width: FULL_SCREEN_WIDTH-30-20)
             
@@ -41,16 +38,16 @@ class NodeTypeView: UIView {
             var commonHeight = 0.0
             if height >=  scaleHeight {
                 height = scaleHeight + 10
-                commonHeight = Double(scaleHeight + 15 + 15 + 50 + 10)
+                commonHeight = Double(scaleHeight + 15 + 15 + 50 + 20)
             } else {
-                commonHeight = Double(height + 15 + 15 + 50 + 10)
+                commonHeight = Double(height + 15 + 15 + 50 + 20)
                 height += 10
             }
             
             textView?.snp.makeConstraints({ (make) in
                 make.left.equalToSuperview().offset(10)
                 make.right.equalToSuperview().offset(-10)
-                make.top.equalToSuperview().offset(0)
+                make.top.equalToSuperview().offset(10)
                 make.height.equalTo(height)
             })
             textView?.layoutIfNeeded()
@@ -62,6 +59,14 @@ class NodeTypeView: UIView {
                 make.top.equalToSuperview().offset((Double(FULL_SCREEN_HEIGHT)-commonHeight)*0.5)
             })
             contentView?.layoutIfNeeded()
+            
+        
+            
+
+            textView?.attributedText = attStr
+            
+            
+            
         }
     }
     

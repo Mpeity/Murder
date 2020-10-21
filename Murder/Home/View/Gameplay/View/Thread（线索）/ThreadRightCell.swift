@@ -26,6 +26,19 @@ class ThreadRightCell: UITableViewCell {
             }
             titleLabel.text = clueListModel.scriptClueName
             contentLabel.text = clueListModel.scriptClueDetail
+
+            var height = contentLabel.text?.ga_heightForComment(fontSize: 12, width: (FULL_SCREEN_WIDTH - 110 - 57))
+            Log(height)
+
+            if height ?? 0 <= 32 {
+                height = 100
+            } else {
+                height = height! + 20 + 48
+            }
+            
+            clueListModel.cellHeight = height
+            
+
             if clueListModel.isRead == 0 {
                 pointView.isHidden = false
             } else {

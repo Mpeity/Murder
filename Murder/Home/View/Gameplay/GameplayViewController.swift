@@ -218,6 +218,8 @@ class GameplayViewController: UIViewController {
     // 处理节点弹框
     let nodeTypeView = NodeTypeView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
     
+    var hideQuestionView : Bool? = false
+    
     // 是否是旁观者 
     var onLooker: Bool? = false {
         didSet {
@@ -764,6 +766,9 @@ extension GameplayViewController {
             self.view.addSubview(commonQuestionView)
             commonQuestionView.isHidden = true
             commonQuestionView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            commonQuestionView.questionViewCancelTapBlock = {[weak self]() in
+                self?.hideQuestionView = true
+            }
             // 节点过渡页面
             UIApplication.shared.keyWindow?.addSubview(nodeTypeView)
             nodeTypeView.isHidden = true
@@ -1468,18 +1473,26 @@ extension GameplayViewController {
     @objc func commonBtnAction(button: UIButton) {
 //        节点类型【1故事背景2自我介绍3剧本阅读4搜证5答题6结算】
         
-        Log("当前节点")
         Log(pre_node_type)
         Log(gamePlayModel?.scriptNodeResult.nodeType)
         
         
-        pre_node_type = gamePlayModel?.scriptNodeResult.nodeType
+//        pre_node_type =
         
         
-        if gamePlayModel?.scriptNodeResult.nodeType != 5 {
+        if pre_node_type ==  gamePlayModel?.scriptNodeResult.nodeType {
+            Log("当前节点与前一个节点一样")
+            Log(pre_node_type)
+            Log(gamePlayModel?.scriptNodeResult.nodeType)
+        }
+        
+        
+
+        
+//        if gamePlayModel?.scriptNodeResult.nodeType != 5 {
             commonBtn.setGradienButtonColor(start: "#999999", end: "#999999", cornerRadius: 19)
             commonBtn.isUserInteractionEnabled = false
-        }
+//        }
 
         
         script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
@@ -1488,6 +1501,7 @@ extension GameplayViewController {
             
             if currentScriptRoleModel?.scriptQuestionList?.count != 0 {
                 commonQuestionView.isHidden = false
+                hideQuestionView = false
                 commonQuestionView.room_id = room_id
                 commonQuestionView.script_node_id = script_node_id
                 commonQuestionView.scriptQuestionList = currentScriptRoleModel?.scriptQuestionList
@@ -2177,10 +2191,14 @@ extension GameplayViewController: WebSocketDelegate {
                                 
                 refreshUI()
                 
-                if pre_node_type != gamePlayModel?.scriptNodeResult.nodeType {
+//                if previous_node_type != gamePlayModel?.scriptNodeResult.nodeType && currentScriptRoleModel?.readyOk == 0 {
+//                    commonBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 19)
+//                    commonBtn.isUserInteractionEnabled = true
+//                }
+                
+                if currentScriptRoleModel?.readyOk == 0 {
                     commonBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 19)
                     commonBtn.isUserInteractionEnabled = true
-                    
                 }
                 
                 if previous_node_type != gamePlayModel?.scriptNodeResult.nodeType && currentScriptRoleModel?.readyOk == 0 {
@@ -2210,7 +2228,7 @@ extension GameplayViewController: WebSocketDelegate {
                 }
                 
                 
-                if gamePlayModel?.scriptNodeResult.nodeType == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题
+                if gamePlayModel?.scriptNodeResult.nodeType == 5 && currentScriptRoleModel?.readyOk == 0 && self.hideQuestionView == false { // 答题
                     if currentScriptRoleModel?.scriptQuestionList?.count != 0 {
                                         
                         commonQuestionView.isHidden = false
@@ -2244,6 +2262,10 @@ extension GameplayViewController: WebSocketDelegate {
                 }
                 
                 previous_node_type = gamePlayModel?.scriptNodeResult.nodeType
+                
+                pre_node_type = gamePlayModel?.scriptNodeResult.nodeType
+                
+
             }
         } else if (dic["type"] as? String == "room_ready") {
             

@@ -34,7 +34,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bq2-jd-ORu" userLabel="playerView">
                             <rect key="frame" x="0.0" y="30" width="275" height="138"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image5" translatesAutoresizingMaskIntoConstraints="NO" id="Bo8-Qo-jh0">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="Bo8-Qo-jh0">
                                     <rect key="frame" x="107.5" y="0.0" width="60" height="60"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="60" id="1no-Cg-DSl"/>
@@ -178,8 +178,8 @@
     </objects>
     <resources>
         <image name="cancel" width="35" height="35"/>
+        <image name="default_avatar" width="114" height="114"/>
         <image name="edit_friend" width="17.5" height="4"/>
-        <image name="image5" width="40" height="40"/>
         <image name="message_delete" width="11" height="11"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

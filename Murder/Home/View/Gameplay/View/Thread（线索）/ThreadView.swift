@@ -236,6 +236,17 @@ extension ThreadView: UITableViewDelegate, UITableViewDataSource {
     }
     
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if tableView == leftTableView {
+            return 50
+        } else {
+            
+            let clueListModel = clueList![indexPath.row]
+//            return 100
+            return clueListModel.cellHeight ?? 100
+        }
+    }
+    
       
 }
 

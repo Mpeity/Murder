@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -28,14 +28,15 @@
                             <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="かごめ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="elB-m7-1oD">
-                        <rect key="frame" x="30" y="5" width="46" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="elB-m7-1oD">
+                        <rect key="frame" x="30" y="5" width="0.0" height="0.0"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
             </view>
+            <viewLayoutGuide key="safeArea" id="Ocb-RU-FVN"/>
             <constraints>
                 <constraint firstItem="BSp-So-iT7" firstAttribute="leading" secondItem="dEa-W9-4cA" secondAttribute="leading" id="3Fb-N6-b0g"/>
                 <constraint firstItem="BSp-So-iT7" firstAttribute="top" secondItem="dEa-W9-4cA" secondAttribute="top" constant="5" id="7r1-Bz-6Vu"/>
@@ -43,7 +44,6 @@
                 <constraint firstItem="BSp-So-iT7" firstAttribute="leading" secondItem="dEa-W9-4cA" secondAttribute="leading" id="Cvj-0a-vdL"/>
                 <constraint firstItem="elB-m7-1oD" firstAttribute="top" secondItem="BSp-So-iT7" secondAttribute="top" id="rJy-f5-KOD"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="Ocb-RU-FVN"/>
             <size key="customSize" width="165" height="32"/>
             <connections>
                 <outlet property="choiceBtn" destination="BSp-So-iT7" id="J8q-In-JFp"/>

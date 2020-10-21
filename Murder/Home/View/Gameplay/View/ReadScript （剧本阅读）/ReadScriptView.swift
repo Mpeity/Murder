@@ -467,10 +467,11 @@ extension ReadScriptView: PopMenuViewDelegate {
             
             popMenuView.selectIndexPath = popIndexPath
 
-            
-            let mapData = ["user_id":UserAccountViewModel.shareInstance.account?.userId!,"type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"game_status_type":"chapter_see","script_role_chapter_id":item.scriptRoleChapterId!,"key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
-            let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
-            SingletonSocket.sharedInstance.socket.write(string: mapJson)
+            if item.see! == 0 {
+                let mapData = ["user_id":UserAccountViewModel.shareInstance.account?.userId!,"type":"game_status","scene":1,"room_id":room_id!,"group_id":room_id!,"script_node_id":script_node_id!,"status":1,"script_role_id":script_role_id!,"game_status_type":"chapter_see","script_role_chapter_id":item.scriptRoleChapterId!,"key":UserAccountViewModel.shareInstance.account?.key] as [String : AnyObject]
+                let mapJson = getJSONStringFromDictionary(dictionary: mapData as NSDictionary)
+                SingletonSocket.sharedInstance.socket.write(string: mapJson)
+            }
             
         } else {
             

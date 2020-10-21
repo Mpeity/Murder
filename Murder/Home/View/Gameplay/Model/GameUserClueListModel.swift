@@ -10,6 +10,9 @@ import Foundation
 
 
 class ClueListModel : NSObject {
+    
+    
+    var cellHeight: CGFloat?
 
     var attachmentId : String?
     var attachment : String?

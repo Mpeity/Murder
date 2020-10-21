@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -96,7 +97,7 @@
                                 <constraint firstItem="8zs-zF-Mvn" firstAttribute="centerX" secondItem="GFO-kn-6IB" secondAttribute="centerX" id="Veg-qY-HKO"/>
                             </constraints>
                         </view>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_list_one" translatesAutoresizingMaskIntoConstraints="NO" id="ZzR-MI-wdM">
+                        <imageView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_list_one" translatesAutoresizingMaskIntoConstraints="NO" id="ZzR-MI-wdM">
                             <rect key="frame" x="128.5" y="165" width="157" height="205"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="205" id="M2l-kd-hPd"/>
@@ -112,7 +113,7 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K6f-Ms-y4X">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K6f-Ms-y4X">
                             <rect key="frame" x="15" y="758" width="384" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="G2u-Yu-ero"/>
@@ -160,7 +161,8 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Xeg-bz-4HR" secondAttribute="bottom" id="02C-Ad-9KS"/>
                 <constraint firstAttribute="bottom" secondItem="Syr-54-9n8" secondAttribute="bottom" id="2tL-Hg-nt7"/>
@@ -171,7 +173,6 @@
                 <constraint firstItem="Xeg-bz-4HR" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="mia-L8-WLw"/>
                 <constraint firstItem="Xeg-bz-4HR" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="zul-qK-CAJ"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="137.68115942028987" y="93.75"/>
         </view>
     </objects>
@@ -180,5 +181,8 @@
         <image name="image5" width="40" height="40"/>
         <image name="prepare_share_bg" width="375" height="668.5"/>
         <image name="sex_man" width="15" height="15.5"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

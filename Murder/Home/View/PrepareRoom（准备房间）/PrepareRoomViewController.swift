@@ -335,7 +335,7 @@ extension PrepareRoomViewController {
                     SVProgressHUD.dismiss()
                     showToastCenter(msg: "ネットワークエラー~")
                     self?.userOut()
-                    self?.navigationController?.popToRootViewController(animated: true)
+                    self?.navigationController?.popToRootViewController(animated: false)
                     return
                 }
                 let new = progress
@@ -632,7 +632,7 @@ extension PrepareRoomViewController {
             break
         case 3: // 解散
             userOut()
-            self.navigationController?.popToRootViewController(animated: true)
+            self.navigationController?.popToRootViewController(animated: false)
             break
         default:
             break
@@ -1649,7 +1649,7 @@ extension PrepareRoomViewController {
 //                self.alert_noNetwrok() // 警告框，提示没有网络
                 
                 self.userOut()
-                self.navigationController?.popToRootViewController(animated: true)
+                self.navigationController?.popToRootViewController(animated: false)
             }
         }
     }

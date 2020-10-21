@@ -63,8 +63,9 @@ extension AnswerView: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let item = trueAnswers![indexPath.item]
-        let width = labelWidth(text: item.answerTitle!, height: 25, fontSize: 12)
-        return CGSize(width: width+20+25+13, height: 25)
+        
+        let width = labelWidth(text: item.answerTitle!, height: 25, fontSize: 15)
+        return CGSize(width: width+20+25+20, height: 25)
     }
     
     //MARK: - Delegate

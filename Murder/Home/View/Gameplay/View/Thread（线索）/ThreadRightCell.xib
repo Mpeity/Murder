@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -49,8 +49,9 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zippoライターです" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1TD-jI-s3w">
-                                <rect key="frame" x="15.5" y="34.5" width="270.5" height="50"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zippoライターです" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1TD-jI-s3w">
+                                <rect key="frame" x="15.5" y="34.5" width="255" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -81,7 +82,7 @@
                             <constraint firstItem="ZAm-rf-ESJ" firstAttribute="centerY" secondItem="S1K-2g-m3N" secondAttribute="centerY" id="ZRV-LB-pgu"/>
                             <constraint firstItem="h9m-YX-bAu" firstAttribute="top" secondItem="Lwf-SL-fG3" secondAttribute="top" constant="34" id="aDt-L1-dye"/>
                             <constraint firstItem="S1K-2g-m3N" firstAttribute="leading" secondItem="Lwf-SL-fG3" secondAttribute="leading" constant="15.5" id="cYG-YO-6hn"/>
-                            <constraint firstAttribute="trailing" secondItem="1TD-jI-s3w" secondAttribute="trailing" id="d6x-da-5Cc"/>
+                            <constraint firstAttribute="trailing" secondItem="1TD-jI-s3w" secondAttribute="trailing" constant="15.5" id="d6x-da-5Cc"/>
                             <constraint firstItem="h9m-YX-bAu" firstAttribute="leading" secondItem="Lwf-SL-fG3" secondAttribute="leading" id="lb4-L9-TTh"/>
                             <constraint firstAttribute="trailing" secondItem="ZAm-rf-ESJ" secondAttribute="trailing" constant="13" id="oC2-dG-wu0"/>
                             <constraint firstItem="Adz-b4-tez" firstAttribute="top" secondItem="Lwf-SL-fG3" secondAttribute="top" constant="6" id="pn7-zd-a3J"/>

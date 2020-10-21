@@ -78,9 +78,11 @@ class ReadScriptViewCell: UITableViewCell {
         textView.isScrollEnabled = true
         textView.showsVerticalScrollIndicator = false
         textView.showsHorizontalScrollIndicator = false
+        textView.isSelectable = false
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
         tap.delegate = self
+        
         textView.addGestureRecognizer(tap)
 
     }

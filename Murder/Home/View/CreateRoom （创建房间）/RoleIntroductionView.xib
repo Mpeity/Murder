@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -25,7 +25,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YHd-Qk-9jt">
                     <rect key="frame" x="37.5" y="219" width="339" height="315"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avart_one" translatesAutoresizingMaskIntoConstraints="NO" id="Tem-oI-fat">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="Tem-oI-fat">
                             <rect key="frame" x="139.5" y="55" width="60" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="WmO-Qk-bxd"/>
@@ -80,6 +80,7 @@
                     <state key="normal" image="cancel"/>
                 </button>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="yVG-nP-a4n"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="YHd-Qk-9jt" firstAttribute="top" secondItem="yVG-nP-a4n" secondAttribute="top" constant="175" id="3DS-WR-9Vm"/>
@@ -88,12 +89,11 @@
                 <constraint firstItem="yVG-nP-a4n" firstAttribute="trailing" secondItem="YHd-Qk-9jt" secondAttribute="trailing" constant="37.5" id="lPI-z6-Ouq"/>
                 <constraint firstItem="l4M-53-Fvj" firstAttribute="top" secondItem="YHd-Qk-9jt" secondAttribute="bottom" constant="44" id="pPH-pz-vG1"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="yVG-nP-a4n"/>
             <point key="canvasLocation" x="100.00000000000001" y="154.6875"/>
         </view>
     </objects>
     <resources>
-        <image name="avart_one" width="38" height="38.5"/>
         <image name="cancel" width="35" height="35"/>
+        <image name="default_avatar" width="114" height="114"/>
     </resources>
 </document>
