@@ -202,6 +202,7 @@ extension HomeViewController {
             group.enter()
             ImageDownloader.shareInstance.loadImageProgress(currentIndex: index, script: (self.scriptSourceModel?.script!)!, scriptNodeMapModel: viewModel) {[weak self] (progress, response, error) in
                 if error != nil {
+                    group.leave()
                     Log(error)
                     SVProgressHUD.dismiss()
                     return

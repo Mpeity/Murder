@@ -34,6 +34,7 @@ class NodeTypeView: UIView {
             
             var height = attStr.string.ga_heightForComment(fontSize: 15, width: FULL_SCREEN_WIDTH-30-20)
             
+            
             let scaleHeight = 0.65 * FULL_SCREEN_HEIGHT
             var commonHeight = 0.0
             if height >=  scaleHeight {
@@ -44,26 +45,33 @@ class NodeTypeView: UIView {
                 height += 10
             }
             
-            textView?.snp.makeConstraints({ (make) in
+            commonHeight += 20
+            height += 20
+            
+            textView?.snp.remakeConstraints({ (make) in
                 make.left.equalToSuperview().offset(10)
                 make.right.equalToSuperview().offset(-10)
                 make.top.equalToSuperview().offset(10)
                 make.height.equalTo(height)
             })
-            textView?.layoutIfNeeded()
+            
+            textView?.attributedText = attStr
 
-            contentView?.snp.makeConstraints({ (make) in
+
+            contentView?.snp.remakeConstraints({ (make) in
                 make.left.equalToSuperview().offset(15)
                 make.width.equalTo(FULL_SCREEN_WIDTH-30)
                 make.height.equalTo(commonHeight)
                 make.top.equalToSuperview().offset((Double(FULL_SCREEN_HEIGHT)-commonHeight)*0.5)
             })
+            
             contentView?.layoutIfNeeded()
             
-        
+            textView?.layoutIfNeeded()
+
             
 
-            textView?.attributedText = attStr
+            
             
             
             
@@ -115,6 +123,12 @@ extension NodeTypeView {
             contentView?.layer.cornerRadius = 10
             contentView?.layer.masksToBounds = true
             commonView?.addSubview(contentView!)
+            contentView?.snp.makeConstraints({ (make) in
+                make.left.equalToSuperview().offset(15)
+                make.width.equalTo(FULL_SCREEN_WIDTH-30)
+                make.height.equalTo(0)
+                make.top.equalToSuperview().offset(0)
+            })
         }
         
         if textView == nil {
@@ -122,6 +136,12 @@ extension NodeTypeView {
             textView?.backgroundColor = UIColor.white
             textView?.isEditable = false
             contentView?.addSubview(textView!)
+            textView?.snp.makeConstraints({ (make) in
+                make.left.equalToSuperview().offset(10)
+                make.right.equalToSuperview().offset(-10)
+                make.top.equalToSuperview().offset(10)
+                make.height.equalTo(30)
+            })
         }
         
         

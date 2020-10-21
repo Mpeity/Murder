@@ -39,6 +39,7 @@ class CreateRoomViewController: UIViewController {
     // 创建房间按钮
     @IBOutlet weak var createBtn: UIButton!
     
+    @IBOutlet weak var createBtnWidth: NSLayoutConstraint!
     var titleLabel: UILabel = UILabel()
     
     var leftBtn: UIButton = UIButton()
@@ -120,6 +121,8 @@ extension CreateRoomViewController {
         
         heightConstraint.constant = STATUS_BAR_HEIGHT + 287
         
+        createBtnWidth.constant = FULL_SCREEN_WIDTH - 30
+        
         titleLabel.text = "ルームを作る"
         titleLabel.textColor = UIColor.white
         titleLabel.textAlignment = .center
@@ -145,7 +148,8 @@ extension CreateRoomViewController {
         passwordLabel.textColor = HexColor(LightGrayColor)
         passwordLabel.font = UIFont.systemFont(ofSize: 14)
         
-        createBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+//        createBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
+        createBtn.setBackgroundImage(UIImage(named: "button_bg"), for: .normal)
         createBtn.addTarget(self, action: #selector(createBtnAction), for: .touchUpInside)
 
     }

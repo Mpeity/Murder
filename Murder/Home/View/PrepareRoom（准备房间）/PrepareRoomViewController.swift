@@ -331,6 +331,7 @@ extension PrepareRoomViewController {
             group.enter()
             ImageDownloader.shareInstance.loadImageProgress(currentIndex: index, script: (self.scriptSourceModel?.script!)!, scriptNodeMapModel: viewModel) {[weak self] (progress, response, error) in
                 if error != nil {
+                    group.leave()
                     Log("error-\(error)")
                     SVProgressHUD.dismiss()
                     showToastCenter(msg: "ネットワークエラー~")

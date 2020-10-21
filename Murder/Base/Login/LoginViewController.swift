@@ -156,6 +156,11 @@ extension LoginViewController {
         // 登录
         loginBtn.setTitleColor(UIColor.white, for: .normal)
         loginBtn.titleLabel?.text = "ログイン"
+        if IS_SMALL_SCREEN {
+            loginBtn.setBackgroundImage(UIImage(named: "s_button_bg"), for: .normal)
+        } else {
+            loginBtn.setBackgroundImage(UIImage(named: "button_bg"), for: .normal)
+        }
         
         // 用户协议
         userAgreementLabel.attributedText = getNSAttributedString(str: "「利用規約」に同意してログインする", color: LightGrayColor)

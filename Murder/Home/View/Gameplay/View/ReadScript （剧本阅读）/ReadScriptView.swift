@@ -134,6 +134,9 @@ class ReadScriptView: UIView {
                     make.width.equalTo(136)
                 }
                 
+//                tableView.estimatedRowHeight = 0
+//                tableView.estimatedSectionHeaderHeight = 0
+//                tableView.estimatedSectionFooterHeight = 0
                 tableView.reloadData()
                
                 if type != "script" {
@@ -248,6 +251,11 @@ extension ReadScriptView {
         tableView.bounces = false
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         tableView.backgroundColor = HexColor("#F5F5F5")
+        tableView.estimatedRowHeight = 0
+        tableView.estimatedSectionHeaderHeight = 0
+        tableView.estimatedSectionFooterHeight = 0
+        tableView.sectionHeaderHeight = 0
+        tableView.sectionFooterHeight = 0
         
         tableView.isPagingEnabled = true
         

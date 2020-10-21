@@ -54,6 +54,8 @@ let SCALE_SCREEN = FULL_SCREEN_WIDTH / 375.0
 //#define H_PROPORTION (ScreenWidth) / 375.0
 //#define H_P(value) (value) * H_PROPORTION
 
+// 小屏幕手机
+let IS_SMALL_SCREEN =  UIDevice.current.isSmallScreen()
 //iPHONE_X 判断
 let IS_iPHONE_X = UIDevice.current.isX()
 // 状态栏高度
@@ -106,6 +108,14 @@ extension UIDevice {
         Log("是不是--->\(isX)")
         return isX
     }
+    
+    public func isSmallScreen() -> Bool {
+        if UIScreen.main.bounds.width < 375 {
+            return true
+        }
+        return false
+    }
+    
 }
 
 

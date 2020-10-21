@@ -60,18 +60,24 @@ extension SetPasswordsViewController {
         commonView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(hideFunc))
         commonView.addGestureRecognizer(tap)
+        
+        passwordTextField.delegate = self
+        moreTextField.delegate = self
 
-
-        passwordTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .valueChanged)
-        moreTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .valueChanged)
+        
+        
+        
         passwordTextField.isSecureTextEntry = true
 //        passwordTextField.keyboardType = .asciiCapable
 
         moreTextField.isSecureTextEntry = true
         moreTextField.keyboardType = .asciiCapable
         
-        passwordTextField.delegate = self
-        moreTextField.delegate = self
+        passwordTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .editingChanged)
+        
+        moreTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .editingChanged)
+        
+       
         
         oneView.layer.cornerRadius = 25
         oneView.layer.borderWidth = 0.5
@@ -178,7 +184,8 @@ extension SetPasswordsViewController {
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
 
-        if passwordTextField.text?.count != 0 && moreTextField.text?.count != 0 {
+        
+        if (passwordTextField.text?.count != 0 && moreTextField.text?.count != 0) {
             confirmBtn.setOtherGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
             confirmBtn.isUserInteractionEnabled = true
 

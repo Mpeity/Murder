@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -111,11 +111,10 @@
                                 <constraint firstItem="JIc-81-HPb" firstAttribute="top" secondItem="gIz-00-ZBe" secondAttribute="top" id="czG-3n-1wp"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Tj-WC-YWN">
-                            <rect key="frame" x="44.5" y="256" width="250" height="44"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Tj-WC-YWN">
+                            <rect key="frame" x="25" y="256" width="289" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="8BQ-mC-43B"/>
-                                <constraint firstAttribute="width" constant="250" id="EgG-NE-OaI"/>
                             </constraints>
                             <state key="normal" title="入室する"/>
                         </button>
@@ -124,15 +123,16 @@
                     <constraints>
                         <constraint firstItem="blV-ys-DyW" firstAttribute="top" secondItem="zeK-p4-ZcQ" secondAttribute="top" constant="20" id="0Yu-vH-BHN"/>
                         <constraint firstItem="gIz-00-ZBe" firstAttribute="leading" secondItem="YCb-vG-28S" secondAttribute="leading" id="2pP-Gj-dvO"/>
+                        <constraint firstAttribute="trailing" secondItem="2Tj-WC-YWN" secondAttribute="trailing" constant="25" id="5QF-rn-RBD"/>
                         <constraint firstAttribute="trailing" secondItem="blV-ys-DyW" secondAttribute="trailing" constant="10" id="Kve-xl-usv"/>
                         <constraint firstAttribute="height" constant="315" id="WjV-Zh-NkL"/>
                         <constraint firstAttribute="trailing" secondItem="quU-dd-cfE" secondAttribute="trailing" constant="10" id="asT-uf-BYF"/>
                         <constraint firstItem="gIz-00-ZBe" firstAttribute="top" secondItem="YCb-vG-28S" secondAttribute="bottom" constant="12.5" id="bXt-hi-M0V"/>
                         <constraint firstItem="quU-dd-cfE" firstAttribute="top" secondItem="blV-ys-DyW" secondAttribute="bottom" constant="10" id="eP9-vG-g9d"/>
                         <constraint firstAttribute="bottom" secondItem="2Tj-WC-YWN" secondAttribute="bottom" constant="15" id="jIS-4a-4jh"/>
-                        <constraint firstItem="2Tj-WC-YWN" firstAttribute="centerX" secondItem="zeK-p4-ZcQ" secondAttribute="centerX" id="jvE-3u-mpj"/>
                         <constraint firstItem="YCb-vG-28S" firstAttribute="top" secondItem="quU-dd-cfE" secondAttribute="bottom" constant="36" id="lDw-Tl-BWx"/>
                         <constraint firstItem="YCb-vG-28S" firstAttribute="centerX" secondItem="zeK-p4-ZcQ" secondAttribute="centerX" id="nYF-xk-EUE"/>
+                        <constraint firstItem="2Tj-WC-YWN" firstAttribute="leading" secondItem="zeK-p4-ZcQ" secondAttribute="leading" constant="25" id="qDA-35-HTv"/>
                         <constraint firstItem="quU-dd-cfE" firstAttribute="leading" secondItem="zeK-p4-ZcQ" secondAttribute="leading" constant="10" id="vc1-bf-7Vo"/>
                         <constraint firstItem="blV-ys-DyW" firstAttribute="leading" secondItem="zeK-p4-ZcQ" secondAttribute="leading" constant="10" id="vzK-T6-Ee3"/>
                     </constraints>
@@ -151,6 +151,7 @@
                     <state key="normal" image="cancel"/>
                 </button>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="kfD-8e-KHM"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="cAg-oy-19E" firstAttribute="top" secondItem="zeK-p4-ZcQ" secondAttribute="bottom" constant="44" id="0QB-On-hy4"/>
@@ -159,7 +160,6 @@
                 <constraint firstItem="kfD-8e-KHM" firstAttribute="trailing" secondItem="zeK-p4-ZcQ" secondAttribute="trailing" constant="37.5" id="TAf-qn-TO5"/>
                 <constraint firstItem="zeK-p4-ZcQ" firstAttribute="leading" secondItem="kfD-8e-KHM" secondAttribute="leading" constant="37.5" id="aUe-Ta-rj0"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="kfD-8e-KHM"/>
             <point key="canvasLocation" x="100.00000000000001" y="154.6875"/>
         </view>
     </objects>

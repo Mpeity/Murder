@@ -84,6 +84,9 @@ class ListPopUpView: UIView {
 
 extension ListPopUpView {
     private func setUI() {
+        
+        topConstraint.constant = 175 * SCALE_SCREEN
+        
         nameLabel.textColor = HexColor(DarkGrayColor)
         nameLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         
@@ -98,7 +101,8 @@ extension ListPopUpView {
         timeLabel.textColor = HexColor(DarkGrayColor)
         timeLabel.font = UIFont.systemFont(ofSize: 18)
         
-        enterBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
+//        enterBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
+        enterBtn.setBackgroundImage(UIImage(named: "button_bg"), for: .normal)
         enterBtn.addTarget(self, action: #selector(enterBtnAction), for: .touchUpInside)
         enterBtn.setTitleColor(UIColor.white, for: .normal)
         

@@ -489,13 +489,6 @@ extension GameplayViewController {
                 threadRedPoint()
             }
             
-            // FIXME: 处理节点弹框
-//            if pre_node_type != gamePlayModel?.scriptNodeResult.nodeType && currentScriptRoleModel?.readyOk == 0 {
-//                // FIXME: 处理节点弹框
-//                nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
-//                nodeTypeView.isHidden = false
-//            }
-            
         }
         
         // 旁观者 地图弹框
@@ -1082,7 +1075,7 @@ extension GameplayViewController {
                 make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(-7)
             } else {
                 // Fallback on earlier versions
-                make.right.equalToSuperview().offset(-7)
+                make.bottom.equalToSuperview().offset(-7)
             }
         }
         
@@ -1114,26 +1107,32 @@ extension GameplayViewController {
         
         // 剧本按钮
         bgView.addSubview(scriptBtn)
+        
         scriptBtn.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(13)
+            make.left.equalToSuperview().offset(13*SCALE_SCREEN)
             make.top.equalToSuperview()
-            make.size.equalTo(50)
+            make.width.equalTo(50*SCALE_SCREEN)
+            make.height.equalTo(50)
         }
-        scriptBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_script", title: "シナリオ", cornerRadius: 25, color: "#20014D")
+        
+        
+        scriptBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_script", title: "シナリオ", cornerRadius: 0, color: "#20014D")
+        scriptBtn.backgroundColor = UIColor.clear
 
         scriptBtn.addTarget(self, action: #selector(scriptBtnAction(button:)), for: .touchUpInside)
-//        addRedPoint(commonView: scriptBtn, x: 30, y: 5)
         
         
         // 线索按钮
         bgView.addSubview(threadBtn)
         threadBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(scriptBtn.snp.right).offset(7)
+            make.left.equalTo(scriptBtn.snp.right).offset(7*SCALE_SCREEN)
             make.top.equalToSuperview()
-            make.size.equalTo(50)
+            make.width.equalTo(50*SCALE_SCREEN)
+            make.height.equalTo(50)
         }
-        threadBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_thread", title: "手掛かり", cornerRadius: 25, color: "#20014D")
+        threadBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_thread", title: "手掛かり", cornerRadius: 0, color: "#20014D")
         threadBtn.addTarget(self, action: #selector(threadBtnBtnAction(button:)), for: .touchUpInside)
+        threadBtn.backgroundColor = UIColor.clear
 //        addRedPoint(commonView: threadBtn, x: 30, y: 5)
 
         
@@ -1141,12 +1140,14 @@ extension GameplayViewController {
         // 密谈按钮
         bgView.addSubview(collogueBtn)
         collogueBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(threadBtn.snp.right).offset(7)
+            make.left.equalTo(threadBtn.snp.right).offset(7*SCALE_SCREEN)
             make.top.equalToSuperview()
-            make.size.equalTo(50)
+            make.width.equalTo(50*SCALE_SCREEN)
+            make.height.equalTo(50)
         }
-        collogueBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_collogue", title: "密談", cornerRadius: 25, color: "#20014D")
+        collogueBtn.createButton(style: .top, spacing: 5, imageName: "gameplay_collogue", title: "密談", cornerRadius: 0, color: "#20014D")
         collogueBtn.addTarget(self, action: #selector(collogueBtnAction(button:)), for: .touchUpInside)
+        collogueBtn.backgroundColor = UIColor.clear
         
         collogueLabel.textColor = UIColor.black
         collogueLabel.font = UIFont.systemFont(ofSize: 10)
@@ -1165,7 +1166,7 @@ extension GameplayViewController {
             make.right.equalToSuperview().offset(-6)
             make.top.equalToSuperview().offset(6)
             make.bottom.equalToSuperview().offset(-6)
-            make.width.equalTo(94)
+            make.width.equalTo(94*SCALE_SCREEN)
         }
         commonBtn.layoutIfNeeded()
         commonBtn.setTitleColor(UIColor.white, for: .normal)
@@ -2201,11 +2202,14 @@ extension GameplayViewController: WebSocketDelegate {
                     commonBtn.isUserInteractionEnabled = true
                 }
                 
-                if previous_node_type != gamePlayModel?.scriptNodeResult.nodeType && currentScriptRoleModel?.readyOk == 0 {
-                    // FIXME: 处理节点弹框
-                    nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
-                    nodeTypeView.isHidden = false
+                if gamePlayModel?.scriptNodeResult.nodeType != 1 {
+                    if previous_node_type != gamePlayModel?.scriptNodeResult.nodeType && currentScriptRoleModel?.readyOk == 0 {
+                        // FIXME: 处理节点弹框
+                        nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
+                        nodeTypeView.isHidden = false
+                    }
                 }
+                
                 
                 script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
                 
@@ -2225,6 +2229,8 @@ extension GameplayViewController: WebSocketDelegate {
                     let remainingTheRange = remainingStr.range(of: remainingRanStr)
                     remainingAttrstring.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor(LightOrangeColor), range: remainingTheRange)
                     remainingLabel.attributedText = remainingAttrstring
+                } else {
+                    remainingView.isHidden = true
                 }
                 
                 
