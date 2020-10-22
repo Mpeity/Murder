@@ -90,7 +90,7 @@ extension CompleteInfoViewController {
 //        commonBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
         commonBtn.setOtherGradienButtonColor(start: "#CACACA", end: "#CACACA", cornerRadius: 25)
         commonBtn.setTitleColor(UIColor.white, for: .normal)
-        commonBtn.setTitle("スタット", for: .normal)
+        commonBtn.setTitle("スタート", for: .normal)
         commonBtn.addTarget(self, action: #selector(commonBtnAction), for: .touchUpInside)
         commonBtn.isUserInteractionEnabled = false
         

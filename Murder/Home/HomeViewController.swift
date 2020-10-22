@@ -457,7 +457,7 @@ extension HomeViewController {
         
         let footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(loadMore))
         footer?.setTitle("", for: .idle)
-        footer?.setTitle("加载中...", for: .refreshing)
+        footer?.setTitle("ローディング中...", for: .refreshing)
         footer?.setTitle("~ 以上です ~", for: .noMoreData)
         footer?.stateLabel.font = UIFont.systemFont(ofSize: 12)
         footer?.stateLabel.textColor = HexColor("#999999")
