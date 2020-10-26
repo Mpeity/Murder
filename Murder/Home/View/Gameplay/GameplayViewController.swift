@@ -132,7 +132,7 @@ class GameplayViewController: UIViewController {
     // 前一个节点
     var pre_node_type: Int? = 0
     
-    var previous_node_type: Int? = 0
+    var previous_node_id: Int? = 0
     // 当前id
     var script_node_id: Int? = 0
     // 我的id
@@ -1057,7 +1057,7 @@ extension GameplayViewController {
         }
         voteInfoBtn.layoutIfNeeded()
         voteInfoBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
-        voteInfoBtn.setTitle("決算情報", for: .normal)
+        voteInfoBtn.setTitle("得点", for: .normal)
         voteInfoBtn.setTitleColor(UIColor.white, for: .normal)
         voteInfoBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         voteInfoBtn.addTarget(self, action: #selector(voteInfoBtnAction), for: .touchUpInside)
@@ -1490,13 +1490,12 @@ extension GameplayViewController {
         
 
         
-//        if gamePlayModel?.scriptNodeResult.nodeType != 5 {
+        if gamePlayModel?.scriptNodeResult.nodeType != 5 {
             commonBtn.setGradienButtonColor(start: "#999999", end: "#999999", cornerRadius: 19)
             commonBtn.isUserInteractionEnabled = false
-//        }
+        }
 
         
-        script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
         
         if gamePlayModel?.scriptNodeResult.nodeType == 5 && currentScriptRoleModel?.readyOk == 0 { // 答题
             
@@ -1552,6 +1551,8 @@ extension GameplayViewController {
                 }
             }
         }
+        
+        
     }
     
     
@@ -1891,6 +1892,7 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
         
         let playerView = PlayerView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
         playerView.itemModel = model
+        playerView.delegate = self
         playerView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         self.view.addSubview(playerView)
     }
@@ -2200,15 +2202,22 @@ extension GameplayViewController: WebSocketDelegate {
                 if currentScriptRoleModel?.readyOk == 0 {
                     commonBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 19)
                     commonBtn.isUserInteractionEnabled = true
+                } else {
+                    commonBtn.setGradienButtonColor(start: "#999999", end: "#999999", cornerRadius: 19)
+                    commonBtn.isUserInteractionEnabled = false
                 }
                 
                 if gamePlayModel?.scriptNodeResult.nodeType != 1 {
-                    if previous_node_type != gamePlayModel?.scriptNodeResult.nodeType && currentScriptRoleModel?.readyOk == 0 {
+                    if previous_node_id != gamePlayModel?.scriptNodeResult.scriptNodeId {
                         // FIXME: 处理节点弹框
                         nodeTypeView.content = gamePlayModel?.scriptNodeResult!.describe!
                         nodeTypeView.isHidden = false
                     }
                 }
+                
+                
+                
+                
                 
                 
                 script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
@@ -2267,7 +2276,7 @@ extension GameplayViewController: WebSocketDelegate {
                     voteResultBtn.isHidden = false
                 }
                 
-                previous_node_type = gamePlayModel?.scriptNodeResult.nodeType
+                previous_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
                 
                 pre_node_type = gamePlayModel?.scriptNodeResult.nodeType
                 
@@ -2328,6 +2337,12 @@ extension GameplayViewController: WebSocketDelegate {
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
         Log("gameplay--websocketDidReceiveData=\(socket)\(data)")
     }
+}
 
+// MARL: - PlayerDelegate
+extension GameplayViewController: PlayerViewDelegate {
+    func roleSearchButtonTap() {
+        
+    }
 }
 

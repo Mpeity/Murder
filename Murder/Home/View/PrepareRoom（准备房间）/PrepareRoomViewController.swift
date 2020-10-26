@@ -331,23 +331,30 @@ extension PrepareRoomViewController {
             group.enter()
             ImageDownloader.shareInstance.loadImageProgress(currentIndex: index, script: (self.scriptSourceModel?.script!)!, scriptNodeMapModel: viewModel) {[weak self] (progress, response, error) in
                 if error != nil {
-                    group.leave()
                     Log("error-\(error)")
                     SVProgressHUD.dismiss()
                     showToastCenter(msg: "ネットワークエラー~")
                     self?.userOut()
                     self?.navigationController?.popToRootViewController(animated: false)
+                    group.leave()
                     return
                 }
                 let new = progress
                 let scale = 1.0/Double(arrCount)
                 let newIndex = Double(index)+1.0
-                var newProgress = new! * newIndex * scale * 100
-                if response != nil {
+//                var newProgress = new! * newIndex * scale * 100
+                
+                var newProgress = 0.0
+
+                if response != nil && progress == 1 {
                     self?.progressArr.append(response as AnyObject)
                     newProgress = Double(self?.progressArr.count ?? 0) * scale * 100
+                   
                     Log("response是---\(response)")
                     Log("newProgress--\(newProgress)")
+//                    if newProgress > 100.0 {
+//                        return
+//                    }
                     
                     if self?.progressArr.count == arrCount {
                         Log("下载完毕")
@@ -362,7 +369,12 @@ extension PrepareRoomViewController {
                         let progressStr = getJSONStringFromDictionary(dictionary: progressData as NSDictionary)
                         SingletonSocket.sharedInstance.socket.write(string: progressStr)
                     }
-                    group.leave()
+                    if newProgress > 100.0 {
+                        
+                    } else {
+                        group.leave()
+                    }
+                    
                 }
             }
         }
@@ -961,6 +973,22 @@ extension PrepareRoomViewController: UITableViewDelegate, UITableViewDataSource 
         cell.backgroundColor = HexColor("#27025E")
         let scriptRoleModel = readyRoomModel?.scriptRoleList?[indexPath.row]
         cell.scriptRoleModel = scriptRoleModel
+        cell.roleImgViewTapBlock = {[weak self](scriptRoleModel) in
+            let roleView = PrepareRoleView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            roleView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            roleView.itemModel = scriptRoleModel
+            
+            self?.view.addSubview(roleView)
+            
+        }
+        
+        cell.playerImgViewTapBlock = {[weak self] (roomUserModel)in
+            let playerView = PreparePlayerView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            
+            playerView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            
+            self?.view.addSubview(playerView)
+        }
         cell.roomUserModel = nil
         // 匹配人物选择
         if (readyRoomModel?.roomUserList?.count ?? 0 > 0) {
@@ -979,6 +1007,10 @@ extension PrepareRoomViewController: UITableViewDelegate, UITableViewDataSource 
                 }
             }
         }
+        
+        
+        
+        
         return cell
         
     }
@@ -1514,6 +1546,8 @@ extension PrepareRoomViewController: WebSocketDelegate {
                     } else {
                         if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
                             cell.progressLabel.isHidden = false
+                            cell.progressLabel.textColor = HexColor("#FC3859")
+
                             cell.progressLabel.text = String("\(progress)%")
                             tableView.reloadData()
                         }
@@ -1525,9 +1559,13 @@ extension PrepareRoomViewController: WebSocketDelegate {
                         if let index = getIndexWithUser(uid: userId), let cell = tableView.cellForRow(at: IndexPath(item: index, section: 0)) as? PrepareRoomCell {
                             cell.progressLabel.text = String("\(progress)%")
                             cell.prepareBtn.isHidden = true
-                            cell.progressLabel.isHidden = true
-                            tableView.reloadData()
+//                            tableView.reloadData()
                             prepareBtn.isUserInteractionEnabled = true
+                            
+                            cell.progressLabel.isHidden = true
+                            cell.progressLabel.textColor = UIColor.clear
+
+
                         }
                     }
                 } else { // 已准备
@@ -1535,6 +1573,8 @@ extension PrepareRoomViewController: WebSocketDelegate {
                         cell.prepareBtn.isHidden = true
                         cell.progressLabel.isHidden = false
                         cell.progressLabel.text = String("\(progress)%")
+                        cell.progressLabel.textColor = HexColor("#FC3859")
+
                         tableView.reloadData()
                     }
                     if progress == "100.00" || progress == "100" || progress == "100.0"  {
@@ -1542,6 +1582,7 @@ extension PrepareRoomViewController: WebSocketDelegate {
                             cell.progressLabel.text = String("\(progress)%")
                             cell.progressLabel.isHidden = true
                             cell.prepareBtn.isHidden = false
+                            cell.progressLabel.textColor = UIColor.clear
                             tableView.reloadData()
                             prepareBtn.isUserInteractionEnabled = true
                         }

@@ -89,6 +89,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     
+    // 版本更新
+    func applicationWillEnterForeground(_ application: UIApplication) {
+//        updateVersion()
+    }
+    
+    
     ///请求完成后会调用把获取的deviceToken返回给我们
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         var deviceId = String()
@@ -245,10 +251,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 extension AppDelegate {
     private func setUI() {
-
         UITabBar.appearance().tintColor = HexColor("#9A57EF")
     }
 }
+
+
 
 
 

@@ -202,16 +202,17 @@ extension HomeViewController {
             group.enter()
             ImageDownloader.shareInstance.loadImageProgress(currentIndex: index, script: (self.scriptSourceModel?.script!)!, scriptNodeMapModel: viewModel) {[weak self] (progress, response, error) in
                 if error != nil {
-                    group.leave()
                     Log(error)
                     SVProgressHUD.dismiss()
+                    group.leave()
+
                     return
                 }
                 let new = progress
                 let scale = 1.0/Double(arrCount)
                 let newIndex = Double(index)+1.0
                 var newProgress = new! * newIndex * scale * 100
-                if response != nil {
+                if response != nil && progress == 1 {
                     self?.progressArr.append(response as AnyObject)
                     newProgress = Double(self?.progressArr.count ?? 0) * scale * 100
                     Log("newProgress--\(newProgress)")

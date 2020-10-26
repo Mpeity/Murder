@@ -76,9 +76,6 @@ extension ImageDownloader {
                  
         //开始下载
         Alamofire.download(scriptNodeMapModel.attachment, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil, to: destination).downloadProgress { progress in
-            
-//            print("index=\(scriptNodeMapModel.attachment):\(Thread.current)")
-//            print("当前进度: \(progress.fractionCompleted)")
             if progress.fractionCompleted == 1.0 {
                 finished(progress.fractionCompleted, scriptNodeMapModel as AnyObject, nil)
             } else {
@@ -92,6 +89,8 @@ extension ImageDownloader {
             }
 
             if let imagePath = response.destinationURL?.path,let image = UIImage(contentsOfFile: imagePath)  {
+                
+                
 
                 if (UserDefaults.standard.value(forKey: String(script.scriptId!)) != nil) {
                     let data = ScriptLocalData.shareInstance.getNormalDefult(key: String(script.scriptId!))

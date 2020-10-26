@@ -184,6 +184,10 @@
 		98820FBF24CACCF50005EBDD /* QuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98820FBE24CACCF50005EBDD /* QuestionView.xib */; };
 		98820FC224CACF6B0005EBDD /* QuestionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98820FC024CACF6B0005EBDD /* QuestionViewCell.swift */; };
 		98820FC324CACF6B0005EBDD /* QuestionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98820FC124CACF6B0005EBDD /* QuestionViewCell.xib */; };
+		988A76602546ABB60082C2BB /* PrepareRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988A765F2546ABB60082C2BB /* PrepareRoleView.swift */; };
+		988A76642546ABC90082C2BB /* PrepareRoleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 988A76632546ABC90082C2BB /* PrepareRoleView.xib */; };
+		988A76682546ABDC0082C2BB /* PreparePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988A76672546ABDC0082C2BB /* PreparePlayerView.swift */; };
+		988A766C2546ABE70082C2BB /* PreparePlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 988A766B2546ABE70082C2BB /* PreparePlayerView.xib */; };
 		988D4D5B24CC7A7100C4B979 /* MessageListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988D4D5924CC7A7100C4B979 /* MessageListCell.swift */; };
 		988D4D5C24CC7A7100C4B979 /* MessageListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 988D4D5A24CC7A7100C4B979 /* MessageListCell.xib */; };
 		988D4D6024CC856100C4B979 /* MineListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988D4D5E24CC856100C4B979 /* MineListCell.swift */; };
@@ -255,6 +259,9 @@
 		98CA02BC24C5A44D009EF0ED /* CompleteInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98CA02BA24C5A44D009EF0ED /* CompleteInfoViewController.xib */; };
 		98CA02BF24C5A4E9009EF0ED /* ResetPasswordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CA02BD24C5A4E9009EF0ED /* ResetPasswordsViewController.swift */; };
 		98CA02C024C5A4E9009EF0ED /* ResetPasswordsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98CA02BE24C5A4E9009EF0ED /* ResetPasswordsViewController.xib */; };
+		98D2C96E25466B9500E5794D /* UpdateVersionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D2C96D25466B9500E5794D /* UpdateVersionView.swift */; };
+		98D2C97225466BC700E5794D /* UpdateVersionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98D2C97125466BC700E5794D /* UpdateVersionView.xib */; };
+		98D2C98D2546754E00E5794D /* UpdateVersionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D2C98C2546754E00E5794D /* UpdateVersionModel.swift */; };
 		98D6CF1224E0E05400A47FEF /* UserAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D6CF1124E0E05400A47FEF /* UserAccountViewModel.swift */; };
 		98D8A35024DBEE4100469923 /* AgoraRtcKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 98772D0A24DBE72C00C1C125 /* AgoraRtcKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		98D8A35224DC043900469923 /* AgoraStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D8A35124DC043900469923 /* AgoraStatus.swift */; };
@@ -268,6 +275,9 @@
 		98F08C0324E276080033DFBA /* RoleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F08C0224E276080033DFBA /* RoleModel.swift */; };
 		98F08C0524E2765F0033DFBA /* TagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F08C0424E2765F0033DFBA /* TagModel.swift */; };
 		98F08C0724E2B5890033DFBA /* ScriptNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F08C0624E2B5890033DFBA /* ScriptNetwork.swift */; };
+		98F55AD12546A14100D85E88 /* MineScriptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F55AD02546A14100D85E88 /* MineScriptViewController.swift */; };
+		98F55AD62546A17A00D85E88 /* MineScriptCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F55AD42546A17A00D85E88 /* MineScriptCell.swift */; };
+		98F55AD72546A17A00D85E88 /* MineScriptCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98F55AD52546A17A00D85E88 /* MineScriptCell.xib */; };
 		98F746D324EFBFA60035BDA1 /* GPSettlementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F746D224EFBFA60035BDA1 /* GPSettlementModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -496,6 +506,10 @@
 		98820FC024CACF6B0005EBDD /* QuestionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewCell.swift; sourceTree = "<group>"; };
 		98820FC124CACF6B0005EBDD /* QuestionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionViewCell.xib; sourceTree = "<group>"; };
 		9882884A2505F6A3003B5C78 /* Murder-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Murder-Bridging-Header.h"; sourceTree = "<group>"; };
+		988A765F2546ABB60082C2BB /* PrepareRoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareRoleView.swift; sourceTree = "<group>"; };
+		988A76632546ABC90082C2BB /* PrepareRoleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrepareRoleView.xib; sourceTree = "<group>"; };
+		988A76672546ABDC0082C2BB /* PreparePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparePlayerView.swift; sourceTree = "<group>"; };
+		988A766B2546ABE70082C2BB /* PreparePlayerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreparePlayerView.xib; sourceTree = "<group>"; };
 		988D4D5924CC7A7100C4B979 /* MessageListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListCell.swift; sourceTree = "<group>"; };
 		988D4D5A24CC7A7100C4B979 /* MessageListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageListCell.xib; sourceTree = "<group>"; };
 		988D4D5E24CC856100C4B979 /* MineListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineListCell.swift; sourceTree = "<group>"; };
@@ -568,6 +582,9 @@
 		98CA02BA24C5A44D009EF0ED /* CompleteInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CompleteInfoViewController.xib; sourceTree = "<group>"; };
 		98CA02BD24C5A4E9009EF0ED /* ResetPasswordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordsViewController.swift; sourceTree = "<group>"; };
 		98CA02BE24C5A4E9009EF0ED /* ResetPasswordsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ResetPasswordsViewController.xib; sourceTree = "<group>"; };
+		98D2C96D25466B9500E5794D /* UpdateVersionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateVersionView.swift; sourceTree = "<group>"; };
+		98D2C97125466BC700E5794D /* UpdateVersionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpdateVersionView.xib; sourceTree = "<group>"; };
+		98D2C98C2546754E00E5794D /* UpdateVersionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateVersionModel.swift; sourceTree = "<group>"; };
 		98D6CF1124E0E05400A47FEF /* UserAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountViewModel.swift; sourceTree = "<group>"; };
 		98D8A35124DC043900469923 /* AgoraStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgoraStatus.swift; sourceTree = "<group>"; };
 		98D9C8E224F5F9B30058DD45 /* GradienButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradienButton.swift; sourceTree = "<group>"; };
@@ -580,6 +597,9 @@
 		98F08C0224E276080033DFBA /* RoleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleModel.swift; sourceTree = "<group>"; };
 		98F08C0424E2765F0033DFBA /* TagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagModel.swift; sourceTree = "<group>"; };
 		98F08C0624E2B5890033DFBA /* ScriptNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptNetwork.swift; sourceTree = "<group>"; };
+		98F55AD02546A14100D85E88 /* MineScriptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineScriptViewController.swift; sourceTree = "<group>"; };
+		98F55AD42546A17A00D85E88 /* MineScriptCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineScriptCell.swift; sourceTree = "<group>"; };
+		98F55AD52546A17A00D85E88 /* MineScriptCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MineScriptCell.xib; sourceTree = "<group>"; };
 		98F746D224EFBFA60035BDA1 /* GPSettlementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSettlementModel.swift; sourceTree = "<group>"; };
 		ED48888C3AEA291C0B61940F /* Pods-Murder.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Murder.debug.xcconfig"; path = "Target Support Files/Pods-Murder/Pods-Murder.debug.xcconfig"; sourceTree = "<group>"; };
 		F3911288888EE65B70EE5DE4 /* Pods-MurderTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurderTests.debug.xcconfig"; path = "Target Support Files/Pods-MurderTests/Pods-MurderTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -682,8 +702,9 @@
 		0451A37524C1AF0100E69085 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				98D2C98B2546753700E5794D /* Model */,
+				98D2C96C25466B2300E5794D /* View */,
 				0451A37624C1AF6500E69085 /* MainViewController.swift */,
-				986B5A1B24FDEDED00DFCBB5 /* CheckUserModel.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1080,6 +1101,17 @@
 			path = "question （问答题）";
 			sourceTree = "<group>";
 		};
+		988A765E2546AB460082C2BB /* PrepareView */ = {
+			isa = PBXGroup;
+			children = (
+				988A765F2546ABB60082C2BB /* PrepareRoleView.swift */,
+				988A76632546ABC90082C2BB /* PrepareRoleView.xib */,
+				988A76672546ABDC0082C2BB /* PreparePlayerView.swift */,
+				988A766B2546ABE70082C2BB /* PreparePlayerView.xib */,
+			);
+			path = PrepareView;
+			sourceTree = "<group>";
+		};
 		988D4D5824CC7A4800C4B979 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1097,6 +1129,7 @@
 		988D4D5D24CC853D00C4B979 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				98F55ACF2546A0D000D85E88 /* MineScript（我的剧本） */,
 				98321BC1251312780074082C /* Contribute（投稿） */,
 				98C8D2C624CDD303006C76D0 /* Set（设置） */,
 				98C8D2C124CDD2BF006C76D0 /* Feedback（反馈） */,
@@ -1145,6 +1178,7 @@
 		98A79B2D24D1052100ECBD2A /* PrepareRoom（准备房间） */ = {
 			isa = PBXGroup;
 			children = (
+				988A765E2546AB460082C2BB /* PrepareView */,
 				98A79B2E24D1056500ECBD2A /* PrepareRoomViewController.swift */,
 				98A79B3224D148CB00ECBD2A /* PrepareRoomCell.swift */,
 				98A79B3324D148CB00ECBD2A /* PrepareRoomCell.xib */,
@@ -1364,6 +1398,24 @@
 			path = Dependence;
 			sourceTree = "<group>";
 		};
+		98D2C96C25466B2300E5794D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				98D2C96D25466B9500E5794D /* UpdateVersionView.swift */,
+				98D2C97125466BC700E5794D /* UpdateVersionView.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		98D2C98B2546753700E5794D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				986B5A1B24FDEDED00DFCBB5 /* CheckUserModel.swift */,
+				98D2C98C2546754E00E5794D /* UpdateVersionModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		98D8A35324DC04A200469923 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1404,6 +1456,16 @@
 				98F08C0424E2765F0033DFBA /* TagModel.swift */,
 			);
 			path = ScriptDetail;
+			sourceTree = "<group>";
+		};
+		98F55ACF2546A0D000D85E88 /* MineScript（我的剧本） */ = {
+			isa = PBXGroup;
+			children = (
+				98F55AD02546A14100D85E88 /* MineScriptViewController.swift */,
+				98F55AD42546A17A00D85E88 /* MineScriptCell.swift */,
+				98F55AD52546A17A00D85E88 /* MineScriptCell.xib */,
+			);
+			path = "MineScript（我的剧本）";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1534,12 +1596,14 @@
 				98649DE024CEC1FD005AA9C3 /* RoleIntroductionView.xib in Resources */,
 				983FD1AE24D2AF060041D79E /* ScriptTableHeaderCollectionViewCell.xib in Resources */,
 				9868A33324C9A765009FD8F4 /* BillingInfoViewCell.xib in Resources */,
+				988A766C2546ABE70082C2BB /* PreparePlayerView.xib in Resources */,
 				98820FB824CAB7210005EBDD /* ThreadCardView.xib in Resources */,
 				9873BE30250E6526007C0263 /* PopTipView.xib in Resources */,
 				9867764C24D19A90009A950F /* ApplyFriendView.xib in Resources */,
 				988D4D6124CC856100C4B979 /* MineListCell.xib in Resources */,
 				9868A31F24C95F5A009FD8F4 /* ReadScriptViewCell.xib in Resources */,
 				9867764224D18C7A009A950F /* DeleteFriendsView.xib in Resources */,
+				98F55AD72546A17A00D85E88 /* MineScriptCell.xib in Resources */,
 				98CA02B824C5961B009EF0ED /* RegisterViewController.xib in Resources */,
 				98A79B3924D1592D00ECBD2A /* OutOfRoomView.xib in Resources */,
 				983A225E24DA5A1000532BB9 /* MessageTextCell.xib in Resources */,
@@ -1578,12 +1642,14 @@
 				98C8D2D224CDDA0E006C76D0 /* AboutUsViewController.xib in Resources */,
 				9866D447251A121A0017D9F2 /* FriendReportViewController.xib in Resources */,
 				0451A37224C1AD0700E69085 /* Message.storyboard in Resources */,
+				98D2C97225466BC700E5794D /* UpdateVersionView.xib in Resources */,
 				983A225A24DA54D200532BB9 /* MessageScriptInviteCell.xib in Resources */,
 				0451A36D24C1AB8700E69085 /* Home.storyboard in Resources */,
 				98B4A1D724D3B01E007CE295 /* SetPasswordsViewController.xib in Resources */,
 				988D4D5C24CC7A7100C4B979 /* MessageListCell.xib in Resources */,
 				98C8D2AC24CD8028006C76D0 /* MineTableHeaderView.xib in Resources */,
 				98CA02B424C5850F009EF0ED /* LoginViewController.xib in Resources */,
+				988A76642546ABC90082C2BB /* PrepareRoleView.xib in Resources */,
 				98038F5D24D7BBA200CBCEE7 /* PrepareRoomShareView.xib in Resources */,
 				98A79B3E24D1695A00ECBD2A /* ShareView.xib in Resources */,
 				98649DEF24CEDB65005AA9C3 /* CreateRoomViewController.xib in Resources */,
@@ -1778,6 +1844,7 @@
 				986B5A2424FFB44200DFCBB5 /* MessageContentModel.swift in Sources */,
 				9844205024EE13CF001A0D7C /* GPNodeMapListModel.swift in Sources */,
 				98C8D2D124CDDA0E006C76D0 /* AboutUsViewController.swift in Sources */,
+				98D2C96E25466B9500E5794D /* UpdateVersionView.swift in Sources */,
 				98B4A1D924D41445007CE295 /* ShareScriptCard.swift in Sources */,
 				98820FA224CA6DA90005EBDD /* HomeListViewCell.swift in Sources */,
 				98820FA524CA71D30005EBDD /* HomeListHeaderView.swift in Sources */,
@@ -1800,6 +1867,7 @@
 				98A79B4124D1754800ECBD2A /* LookFriendsView.swift in Sources */,
 				98649DE624CEC720005AA9C3 /* MyFriendsListCell.swift in Sources */,
 				98CA02AB24C5322B009EF0ED /* ScriptTableViewCell.swift in Sources */,
+				98F55AD62546A17A00D85E88 /* MineScriptCell.swift in Sources */,
 				9844204E24EE1384001A0D7C /* GPChapterModel.swift in Sources */,
 				9866C16924E5175900810516 /* ScriptTagNameModel.swift in Sources */,
 				9866C16B24E5243900810516 /* UITextView-Extention.swift in Sources */,
@@ -1810,6 +1878,7 @@
 				98663A7024FC9C7E007726A5 /* UserFindModel.swift in Sources */,
 				983FD1AA24D2AA3D0041D79E /* ScriptTableHeaderCell.swift in Sources */,
 				98D8A35224DC043900469923 /* AgoraStatus.swift in Sources */,
+				988A76602546ABB60082C2BB /* PrepareRoleView.swift in Sources */,
 				98663A6E24FC8A59007726A5 /* FriendsModel.swift in Sources */,
 				987D7F562511D225007F847D /* GotoMessageViewController.swift in Sources */,
 				983FD1A724D27CE40041D79E /* ApplyFriendsListCell.swift in Sources */,
@@ -1838,6 +1907,7 @@
 				983A225524DA54A600532BB9 /* MessageScriptCell.swift in Sources */,
 				98820FAC24CA97C20005EBDD /* ThreadView.swift in Sources */,
 				980F7966251C94C400771088 /* UMAnalyticsSwift.swift in Sources */,
+				98D2C98D2546754E00E5794D /* UpdateVersionModel.swift in Sources */,
 				9844204824EE0FC2001A0D7C /* GPScriptRoleListModel.swift in Sources */,
 				98F08C0524E2765F0033DFBA /* TagModel.swift in Sources */,
 				9868A32F24C9A74F009FD8F4 /* BillingInfoView.swift in Sources */,
@@ -1845,6 +1915,7 @@
 				98321BC6251356DE0074082C /* UserAgreementViewController.swift in Sources */,
 				9871EB4024E41EAB006464A4 /* ScriptTagModel.swift in Sources */,
 				98A31BEE25344CB9006F073D /* NodeTypeView.swift in Sources */,
+				98F55AD12546A14100D85E88 /* MineScriptViewController.swift in Sources */,
 				9868A32124C95F72009FD8F4 /* ReadScriptView.swift in Sources */,
 				98F08BF724E237EE0033DFBA /* HomeBannerModel.swift in Sources */,
 				98673B6524ECAFAB007F5102 /* ScriptLocalData.swift in Sources */,
@@ -1892,6 +1963,7 @@
 				9874929424F793AE00D6FD21 /* Message.swift in Sources */,
 				9868A31E24C95F5A009FD8F4 /* ReadScriptViewCell.swift in Sources */,
 				98038F5924D7BB7E00CBCEE7 /* PrepareRoomShareView.swift in Sources */,
+				988A76682546ABDC0082C2BB /* PreparePlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2085,7 +2157,7 @@
 				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.0.4;
+				CURRENT_PROJECT_VERSION = 1.0.5;
 				DEVELOPMENT_TEAM = 5LAYXCMLMG;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2098,6 +2170,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codery.Murder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "murder-Development";
@@ -2117,7 +2190,7 @@
 				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.0.4;
+				CURRENT_PROJECT_VERSION = 1.0.5;
 				DEVELOPMENT_TEAM = 5LAYXCMLMG;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2130,6 +2203,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codery.Murder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "murder-Development";

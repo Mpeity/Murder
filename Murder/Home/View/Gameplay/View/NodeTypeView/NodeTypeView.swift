@@ -2,7 +2,7 @@
 //  NodeTypeView.swift
 //  Murder
 //
-//  Created by 马滕亚 on 2020/10/12.
+//  Created by m.a.c on 2020/10/12.
 //  Copyright © 2020 m.a.c. All rights reserved.
 //
 

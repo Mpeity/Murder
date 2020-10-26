@@ -74,7 +74,7 @@ extension BillingInfoView {
             make.height.equalToSuperview()
             make.centerX.equalToSuperview()
         }
-        label.text = "決算情報"
+        label.text = "得点"
         label.textColor = HexColor("#333333")
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)

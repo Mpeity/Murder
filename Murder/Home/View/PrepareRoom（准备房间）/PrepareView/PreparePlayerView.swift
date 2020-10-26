@@ -1,38 +1,20 @@
 //
-//  PlayerView.swift
+//  PreparePlayerView.swift
 //  Murder
 //
-//  Created by m.a.c on 2020/7/22.
+//  Created by m.a.c on 2020/10/26.
 //  Copyright © 2020 m.a.c. All rights reserved.
 //
 
 import UIKit
 
-protocol PlayerViewDelegate {
-    func roleSearchButtonTap()
-}
-
-class PlayerView: UIView {
-    
-    var delegate: PlayerViewDelegate?
+class PreparePlayerView: UIView {
 
     var itemModel: GPScriptRoleListModel? {
         didSet {
             
             if (itemModel != nil) {
-                if (itemModel?.head != nil) {
-                    let roleHead = itemModel?.head!
-                    roleImgView.setImageWith(URL(string: roleHead!))
-                }
-                
-                if (itemModel?.scriptRoleName != nil) {
-                    roleNameLabel.text = itemModel?.scriptRoleName!
-                }
-                
-                if itemModel?.describe != nil {
-                    roleIntroduceLabel.text = itemModel?.describe
-                }
-                
+
                 if itemModel?.user?.head != nil {
                     let head = itemModel?.user?.head!
                     playerImgView.setImageWith(URL(string: head!))
@@ -68,25 +50,6 @@ class PlayerView: UIView {
     
     
     @IBOutlet var contentView: UIView!
-    
-    // 角色按钮
-    @IBOutlet weak var roleBtn: UIButton!
-    // 玩家
-    @IBOutlet weak var playerBtn: UIButton!
-    // 滑动小滑块
-    @IBOutlet weak var lineView: UIView!
-    
-    // 角色
-    @IBOutlet weak var roleView: UIView!
-    @IBOutlet weak var roleImgView: UIImageView!
-    // 角色姓名
-    @IBOutlet weak var roleNameLabel: UILabel!
-    // 人物介绍
-    @IBOutlet weak var roleIntroduceLabel: UILabel!
-    
-    // 角色搜查
-    @IBOutlet weak var roleSearchBtn: UIButton!
-    
     // 玩家
     @IBOutlet weak var playerView: UIView!
     // 头像
@@ -110,28 +73,6 @@ class PlayerView: UIView {
     @IBOutlet weak var cancelBtn: UIButton!
     
     
-    @IBAction func roleBtnAction(_ sender: Any) {
-        self.roleBtn.setTitleColor(HexColor(DarkGrayColor), for: .normal)
-        self.playerBtn.setTitleColor(HexColor(LightGrayColor), for: .normal)
-        UIView.animate(withDuration: 0.5) {
-            self.playerView.isHidden = true
-            self.roleView.isHidden = false
-            self.lineView.center.x = self.roleBtn.center.x
-        }
-    }
-    
-    @IBAction func playerBtnAction(_ sender: Any) {
-        self.playerBtn.setTitleColor(HexColor(DarkGrayColor), for: .normal)
-        self.roleBtn.setTitleColor(HexColor(LightGrayColor), for: .normal)
-        UIView.animate(withDuration: 0.5) {
-            self.roleView.isHidden = true
-            self.playerView.isHidden = false
-
-            self.lineView.center.x = self.playerBtn.center.x
-        }
-        
-    }
-    
     
     @IBAction func applyBtnAction(_ sender: Any) {
         addFriend()
@@ -142,16 +83,13 @@ class PlayerView: UIView {
         self.removeFromSuperview()
     }
     
- //初始化时将xib中的view添加进来
+    //初始化时将xib中的view添加进来
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView = loadViewFromNib()
         addSubview(contentView)
         contentView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         addConstraints()
-        
-        playerView.isHidden = true
-        roleView.isHidden = false
         // 初始化
         setUI()
     }
@@ -168,21 +106,12 @@ class PlayerView: UIView {
 }
 
 
-extension PlayerView {
+extension PreparePlayerView {
     private func setUI() {
         // 设置圆角
-        playerBtn.corner(byRoundingCorners: .topRight, radii: 15)
-        roleBtn.corner(byRoundingCorners: .topLeft, radii: 15)
 
-        roleView.layer.cornerRadius = 15
         playerView.layer.cornerRadius = 15
-        
-        lineView.layer.cornerRadius = 1.5
-        
-        // 角色
-        roleNameLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
 
-        roleImgView.layer.cornerRadius = 30
         // 玩家
         playerImgView.layer.cornerRadius = 30
         playerNameLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
@@ -190,11 +119,8 @@ extension PlayerView {
         levelLabel.layer.masksToBounds = true
         IDLabel.layer.cornerRadius = 7.5
         IDLabel.layer.masksToBounds = true
-
+        applyBtn.isHidden  = true
         applyBtn.setGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
-        
-        roleBtn.setTitleColor(HexColor(DarkGrayColor), for: .normal)
-        playerBtn.setTitleColor(HexColor(LightGrayColor), for: .normal)
     }
     
     private func checkUser() {
@@ -233,68 +159,7 @@ extension PlayerView {
 }
 
 
-extension PlayerView {
-    
-//     private func addMgs() {
-        
-    //        // 添加消息
-    //        {
-    //        "type":1, //1文字 2 剧本详情 3 剧本邀请
-    //        "content":"内容",
-    //        "script_id":1,
-    //        "script_name":"剧本名字",
-    //        "script_cover":"剧本封面",
-    //        "script_des":"剧本简介",
-    //        "room_id":"房间id",
-    //        "send_id":"发送者id",
-    //        "target_id":"接受者id",
-    //        "time_ms":"1587009745719"//13位时间戳
-    //        }
-            
-            
-//        let time = getTime()
-//        var dic = [:] as [String : Any?]
-//        dic["content"] = nil
-//        dic["target_id"] = itemModel?.user.userId
-//        dic["send_id"] = UserAccountViewModel.shareInstance.account?.userId
-//        dic["time_ms"] = time
-//
-//        var type = -1
-//        if isShareScript { // 剧本分享
-//            dic["type"] = 2
-//            dic["script_id"] = shareModel?.scriptId
-//            dic["script_name"] = shareModel?.name
-//            dic["script_cover"] = shareModel?.cover
-//            dic["script_des"] = shareModel?.introduction
-//            dic["room_id"] = nil
-//            type = 2
-//        } else { // 剧本邀请
-//            type = 1
-//            dic["type"] = 3
-//            dic["script_id"] = shareModel?.scriptId
-//            dic["script_name"] = shareModel?.name
-//            dic["script_cover"] = shareModel?.cover
-//            dic["script_des"] = shareModel?.introduction
-//            dic["room_id"] = shareModel?.roomId
-//        }
-//
-//        let json = getJSONStringFromDictionary(dictionary: dic as NSDictionary)
-//        // 消息类型【0text1剧本邀请2剧本3好友申请】
-//        addMsgRequest(type: type, receive_id: (friendsModel?.userId)!, content: json) {[weak self] (result, error) in
-//            if error != nil {
-//                return
-//            }
-//            // 取到结果
-//            guard  let resultDic :[String : AnyObject] = result else { return }
-//            if resultDic["code"]!.isEqual(1) {
-//                Log(resultDic["msg"])
-//            }
-//            showToastCenter(msg: resultDic["msg"] as! String)
-//            let nav = self?.findNavController()
-//            nav?.popViewController(animated: true)
-//        }
-//    }
-    
+extension PreparePlayerView {
     // 添加好友
     private func addFriend() {
         let receive_id = itemModel?.user.userId
@@ -315,15 +180,9 @@ extension PlayerView {
             }
         }
     }
-    
-    private func roleSearchBtnAction() {
-        if (delegate != nil) {
-            delegate?.roleSearchButtonTap()
-        }
-    }
 }
 
-extension PlayerView {
+extension PreparePlayerView {
     //加载xib
      func loadViewFromNib() -> UIView {
          let className = type(of: self)

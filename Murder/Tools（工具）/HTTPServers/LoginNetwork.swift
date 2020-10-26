@@ -149,3 +149,22 @@ func findPassword(email: String, password:String, repassword: String, captcha: S
         finished(result as? [String : AnyObject], error)
     }
 }
+
+
+//MARK:- 版本控制
+private let version_index_url = "/api/version/index"
+/** 验证验证码
+* @params [参数名] [类型] [是否必传]
+* client [string]    是    平台【android|ios】
+*/
+func getVersionIndex(finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = version_index_url
+    let parameters = ["client" : "ios"] as [String : AnyObject]
+
+    NetworkTools.shareInstance.request(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+

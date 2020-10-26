@@ -8,7 +8,16 @@
 
 import UIKit
 
+typealias RoleImgViewTapBlock = (ScriptRoleModel)->()
+typealias PlayerImgViewTapBlock = (RoomUserModel)->()
+
 class PrepareRoomCell: UITableViewCell {
+    
+    var roleImgViewTapBlock: RoleImgViewTapBlock?
+    
+    var playerImgViewTapBlock: PlayerImgViewTapBlock?
+    
+    
     
     // 背景视图
     @IBOutlet weak var bgView: UIView!
@@ -153,11 +162,33 @@ extension PrepareRoomCell {
         prepareBtn.addTarget(self, action: #selector(prepareBtnAction), for: .touchUpInside)
         prepareBtn.isHidden = true
         
+        roleImgView.isUserInteractionEnabled = true
+        let roleTap = UITapGestureRecognizer(target: self, action: #selector(roleTapAction))
+        roleImgView.addGestureRecognizer(roleTap)
+        
+        avatarImgView.isUserInteractionEnabled = true
+        let playerTap = UITapGestureRecognizer(target: self, action: #selector(playerTapAction))
+        avatarImgView.addGestureRecognizer(playerTap)
         
     }
 }
 
 extension PrepareRoomCell {
+    
+    @objc func roleTapAction() {
+        if let roleImgViewTapBlock = roleImgViewTapBlock {
+            roleImgViewTapBlock(scriptRoleModel!)
+        }
+    }
+    
+    @objc func playerTapAction() {
+        if let playerImgViewTapBlock = playerImgViewTapBlock {
+//            if roomUserModel != nil {
+//                playerImgViewTapBlock(roomUserModel!)
+//            }
+        }
+    }
+    
     @objc func prepareBtnAction() {
         Log(1222222)
     }

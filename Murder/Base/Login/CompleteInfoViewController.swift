@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class CompleteInfoViewController: UIViewController, UITextFieldDelegate  {
 
@@ -32,6 +33,10 @@ class CompleteInfoViewController: UIViewController, UITextFieldDelegate  {
     
     // 性别
     private var sex: String? = "0"
+    
+    // 当前头像
+    private var currentImage: UIImage?
+    
     // 头像
     private var file: String?
     
@@ -158,15 +163,16 @@ extension CompleteInfoViewController {
     
     //MARK:- 完善信息
     @objc func commonBtnAction() {
-        if file != nil && nicknameTextfield.text != nil{
-            editInfo(head: file!)
+        if currentImage != nil && nicknameTextfield.text != nil{
+            saveImagePath(image: currentImage!)
+            
         }
     }
     
     func editInfo(head: String) {
         let nickname = nicknameTextfield.text!
         editInformation(nickname: String(nickname), head: head, sex: self.sex!) {[weak self] (result, error) in
-            
+            SVProgressHUD.dismiss()
             if error != nil {
                 return
             }
@@ -187,7 +193,7 @@ extension CompleteInfoViewController {
     
     
     private func getInfo() {
-        if file != nil  && sex != nil && nicknameTextfield.text != nil && nicknameTextfield.text != "" {
+        if currentImage != nil  && sex != nil && nicknameTextfield.text != nil && nicknameTextfield.text != "" {
             commonBtn.setOtherGradienButtonColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
             commonBtn.isUserInteractionEnabled = true
 
@@ -265,7 +271,10 @@ extension CompleteInfoViewController: UIImagePickerControllerDelegate & UINaviga
         
         picker.dismiss(animated: true, completion: nil)
         
-        saveImagePath(image: image)
+        
+        currentImage = image
+        
+//        saveImagePath(image: image)
     }
     
     func saveImagePath(image: UIImage) {
@@ -294,9 +303,10 @@ extension CompleteInfoViewController: UIImagePickerControllerDelegate & UINaviga
         //上传图片
         if (fileManager.fileExists(atPath: filePath)){
             //取得NSURL
-            
+            SVProgressHUD.show()
             uploadImgae(imageData: data!,file: newData as AnyObject) { [weak self](result, error) in
                 if error != nil {
+                    SVProgressHUD.dismiss()
                     return
                 }
                 // 取到结果
@@ -308,7 +318,9 @@ extension CompleteInfoViewController: UIImagePickerControllerDelegate & UINaviga
                     attachment_id = resultData["attachment_id"] as! String
                     self?.file = attachment_id
                     
-                    self?.getInfo()
+//                    self?.getInfo()
+                    
+                    self?.editInfo(head: (self?.file!)!)
                 }
 
             }

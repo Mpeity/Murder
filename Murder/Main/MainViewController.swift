@@ -24,6 +24,8 @@ class MainViewController: UITabBarController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupTabbar()
+        
+        updateVersion()
     }
     
     
@@ -36,10 +38,6 @@ class MainViewController: UITabBarController {
         AgoraRtmLogin()
         
         setRedPoint()
-        
-        
-        
-        
         
         let uid = UserAccountViewModel.shareInstance.account?.userId!
         let alias = "alias_\(uid!)"
@@ -213,6 +211,70 @@ extension MainViewController {
                 
                 
                 
+            }
+        }
+    }
+}
+
+
+extension MainViewController {
+    func updateVersion() {
+        //获取当前设备中应用的版本号
+        func getSystemVersion() -> String? {
+            let dic = Bundle.main.infoDictionary
+            let currentVersion = dic?["CFBundleShortVersionString"]
+            return currentVersion as? String
+        }
+        // 版本号专为Int类型
+        func versionExchangeType(version: String) -> Int {
+            
+            let subArr = version.components(separatedBy: CharacterSet.init(charactersIn: "."))
+            if subArr.count > 0 {
+                var value: String = ""
+                for item in subArr {
+                    value.append(item)
+                }
+                return Int(value)!
+            } else {
+                return 0
+            }
+        }
+        
+        getVersionIndex { (result, error) in
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                let resultData = data["result"] as! [String : AnyObject]
+                let model = UpdateVersionModel(fromDictionary: resultData)
+                
+                Log(model.content)
+                
+                
+                var backgroundVerison = 0
+                if model.version == nil {
+                    backgroundVerison = 100
+                } else {
+                    backgroundVerison = versionExchangeType(version: model.version!)
+                }
+
+                //本地的版本号
+                var localVersion = versionExchangeType(version: getSystemVersion()!)
+                if localVersion == 10 {
+                    localVersion = 100
+                }
+                //判断两个版本是否相同
+//                if (localVersion < backgroundVerison) {
+                    let commonView = UpdateVersionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                    commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                    commonView.model = model
+                    UIApplication.shared.keyWindow?.addSubview(commonView)
+//                }else {
+//                    Log("无版本可更新。。")
+//                }
             }
         }
     }

@@ -32,7 +32,7 @@ class ReadScriptViewCell: UITableViewCell {
                     let content = itemModel?.content
                     let myMutableString = try! NSMutableAttributedString(data: (content!.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
                     let range = NSMakeRange(0, myMutableString.length)
-                    myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15.0)], range: range)
+//                    myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15.0)], range: range)
                     textView.attributedText = myMutableString
                 }
                 
