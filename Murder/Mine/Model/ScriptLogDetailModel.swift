@@ -38,13 +38,16 @@ class ScriptRoleResult : NSObject {
 }
 
 
-
 class ScriptLogDetail : NSObject {
 
     var author : String?
+    var commentPeopleText : String?
+    var commentScore : Double?
     var cover : String?
     var roomId : String?
+    var scriptId : Int?
     var scriptName : String?
+    var scriptStar : Int?
     var truthContent : String?
     var truthName : String?
 
@@ -54,9 +57,13 @@ class ScriptLogDetail : NSObject {
      */
     init(fromDictionary dictionary: [String:Any]){
         author = dictionary["author"] as? String
+        commentPeopleText = dictionary["comment_people_text"] as? String
+        commentScore = dictionary["comment_score"] as? Double
         cover = dictionary["cover"] as? String
         roomId = dictionary["room_id"] as? String
+        scriptId = dictionary["script_id"] as? Int
         scriptName = dictionary["script_name"] as? String
+        scriptStar = dictionary["script_star"] as? Int
         truthContent = dictionary["truth_content"] as? String
         truthName = dictionary["truth_name"] as? String
     }
@@ -70,14 +77,26 @@ class ScriptLogDetail : NSObject {
         if author != nil{
             dictionary["author"] = author
         }
+        if commentPeopleText != nil{
+            dictionary["comment_people_text"] = commentPeopleText
+        }
+        if commentScore != nil{
+            dictionary["comment_score"] = commentScore
+        }
         if cover != nil{
             dictionary["cover"] = cover
         }
         if roomId != nil{
             dictionary["room_id"] = roomId
         }
+        if scriptId != nil{
+            dictionary["script_id"] = scriptId
+        }
         if scriptName != nil{
             dictionary["script_name"] = scriptName
+        }
+        if scriptStar != nil{
+            dictionary["script_star"] = scriptStar
         }
         if truthContent != nil{
             dictionary["truth_content"] = truthContent
@@ -87,6 +106,7 @@ class ScriptLogDetail : NSObject {
         }
         return dictionary
     }
+
 }
 
 class ScriptLogDetailUserModel : NSObject {

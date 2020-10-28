@@ -72,6 +72,10 @@ class MainViewController: UITabBarController {
         super.viewWillDisappear(animated)
         
 //        AgoraRtmLogout()
+        
+        userLogout()
+        AgoraRtmLogout()
+        
         timer?.cancel()
         timer = nil
         
@@ -267,14 +271,14 @@ extension MainViewController {
                     localVersion = 100
                 }
                 //判断两个版本是否相同
-//                if (localVersion < backgroundVerison) {
+                if (localVersion < backgroundVerison) {
                     let commonView = UpdateVersionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
                     commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
                     commonView.model = model
                     UIApplication.shared.keyWindow?.addSubview(commonView)
-//                }else {
-//                    Log("无版本可更新。。")
-//                }
+                }else {
+                    Log("无版本可更新。。")
+                }
             }
         }
     }

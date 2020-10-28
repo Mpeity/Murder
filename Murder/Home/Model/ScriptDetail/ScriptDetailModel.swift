@@ -28,6 +28,11 @@ class ScriptDetailModel : NSObject {
     var tag : TagModel?
     var tagId : Int?
     var wordNum : Int?
+    
+    var userScriptStatus : Int?
+    var commentPeopleText : String?
+    var commentScore : Double?
+    var commentStar : Int?
 
 
     /**
@@ -58,6 +63,12 @@ class ScriptDetailModel : NSObject {
         }
         tagId = dictionary["tag_id"] as? Int
         wordNum = dictionary["word_num"] as? Int
+        
+        commentPeopleText = dictionary["comment_people_text"] as? String
+        commentScore = dictionary["comment_score"] as? Double
+        commentStar = dictionary["comment_star"] as? Int
+        userScriptStatus = dictionary["user_script_status"] as? Int
+
     }
 
     /**
@@ -117,6 +128,19 @@ class ScriptDetailModel : NSObject {
         }
         if wordNum != nil{
             dictionary["word_num"] = wordNum
+        }
+        
+        if commentPeopleText != nil{
+            dictionary["comment_people_text"] = commentPeopleText
+        }
+        if commentScore != nil{
+            dictionary["comment_score"] = commentScore
+        }
+        if commentStar != nil{
+            dictionary["comment_star"] = commentStar
+        }
+        if userScriptStatus != nil{
+            dictionary["user_script_status"] = userScriptStatus
         }
         return dictionary
     }

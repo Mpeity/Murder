@@ -13,6 +13,12 @@ let SynopsisViewCellId = "SynopsisViewCellId"
 
 class ScriptDetailsViewController: UIViewController {
     
+    
+    /// 自定义导航栏
+    private lazy var customNavigationBar = UIView()
+    /// 自定义导航栏完全不透明时的偏移量边界(根据需求设定)
+    private let alphaChangeBoundary = FULL_SCREEN_WIDTH * (212 / 375) - 64
+    
     var script_id: Int!
     
     var user_script_text: String? {
@@ -37,6 +43,8 @@ class ScriptDetailsViewController: UIViewController {
     
     private var scriptDetailModel: ScriptDetailModel!
     
+    private var scriptCommentsModel: ScriptCommentsModel?
+    
     private var contentSelected: Bool? = false{
         didSet {
             tableView.reloadData()
@@ -47,57 +55,105 @@ class ScriptDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
-        
+//        navigationController?.view.insertSubview(customNavigationBar, at: 1)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.isHidden = false
+
+//        customNavigationBar.removeFromSuperview()
+//        performSelector(onMainThread: #selector(delayHidden), with: animated, waitUntilDone: false)
+    }
+    
+    @objc func delayHidden(animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
+                
+//        customNavigationBar.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: NAVIGATION_BAR_HEIGHT)
+//        customNavigationBar.backgroundColor = UIColor(hexString: MainColor)?.withAlphaComponent(0)
         
         setUI()
         
-        scriptDetailsFun()
+        loadDataFun()
     }
     
 }
 
 //MARK:- 数据请求
 extension ScriptDetailsViewController {
+    
+    func loadDataFun() {
+        let myQueue:DispatchQueue = DispatchQueue.init(label: "textQueue")
+        let group = DispatchGroup()
+        group.enter() //把该任务添加到组队列中执行
+        myQueue.async(group: group, qos: .default, flags: [], execute: {
+            self.scriptDetailsFun()
+            group.leave()//执行完之后从组队列中移除
+        })
+         group.enter()//把该任务添加到组队列中执行
+        myQueue.async(group: group, qos: .default, flags: [], execute: {
+            self.scriptCommentsFun()
+            group.leave()//执行完之后从组队列中移除
+        })
+
+        //当上面所有的任务执行完之后通知
+        group.notify(queue: .main) {
+            self.tableView.reloadData()
+        }
+    }
+    
+    // MARK: - 获取详情
     func scriptDetailsFun() {
         if script_id != nil {
             SVProgressHUD.show()
-
             scriptDetail(script_id: script_id) { [weak self] (result, error) in
                 SVProgressHUD.dismiss()
-                    if error != nil {
-                        return
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                if resultDic["code"]!.isEqual(1) {
+                    let data = resultDic["data"] as! [String : AnyObject]
+                    let resultData = data["result"] as! [String : AnyObject]
+                    let model = ScriptDetailModel(fromDictionary: resultData)
+                    if model.isHave == 1 {
+                        self?.createBtn.setTitle("ルームを作る", for: .normal)
                     }
-                    // 取到结果
-                    guard  let resultDic :[String : AnyObject] = result else { return }
-                    if resultDic["code"]!.isEqual(1) {
-                        let data = resultDic["data"] as! [String : AnyObject]
-                        let resultData = data["result"] as! [String : AnyObject]
-                        
-                        let model = ScriptDetailModel(fromDictionary: resultData)
-                        if model.isHave == 1 {
-                            self?.createBtn.setTitle("ルームを作る", for: .normal)
-                        }
-                        self?.scriptDetailModel = model
-                        self?.tableHeaderView.model = model
-                        self?.tableView.reloadData()
-                        
-                    } else {
-                        
-                    }
+                    self?.scriptDetailModel = model
+                    self?.tableHeaderView.model = model
+//                    self?.tableView.reloadData()
+                } else {
+                    
                 }
             }
         }
+    }
+    
+    // MARK: - 获取评论
+    func scriptCommentsFun() {
+        if script_id != nil {
+            SVProgressHUD.show()
+            getScriptCommentList(script_id: script_id, page_no: 1, page_size: 15) { [weak self] (result, error) in
+                SVProgressHUD.dismiss()
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                if resultDic["code"]!.isEqual(1) {
+                    let data = resultDic["data"] as! [String : AnyObject]
+                    self?.scriptCommentsModel = ScriptCommentsModel(fromDictionary: data)
+                }
+            }
+        }
+    }
         
 }
 
@@ -133,6 +189,7 @@ extension ScriptDetailsViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(HomeListTableHeaderView.self, forHeaderFooterViewReuseIdentifier: HomeListHeaderViewId)
+        tableView.register(UINib.init(nibName: "CommentsCell", bundle: nil), forCellReuseIdentifier: CommentsCellId)
         
         // 隐藏cell系统分割线
         tableView.separatorStyle = .none;
@@ -154,9 +211,12 @@ extension ScriptDetailsViewController {
     
     
     private func setNavigationBar() {
+        
         let bgView = UIView()
         bgView.backgroundColor = UIColor.clear
         self.view.addSubview(bgView)
+//        customNavigationBar.addSubview(bgView)
+        
         bgView.snp.makeConstraints { (make) in
             make.height.equalTo(44)
             if #available(iOS 11.0, *) {
@@ -208,7 +268,7 @@ extension ScriptDetailsViewController {
 
 extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 4
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -218,6 +278,11 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
                 return 1
             case 1:
                 return 1
+            case 2:
+                return 1
+            case 3:
+                return scriptCommentsModel?.list.count ?? 0
+
             default:
                 return 0
         }
@@ -228,7 +293,6 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
         
         if indexPath.section == 0 {
             // 剧情简介
-            
             let nibView = Bundle.main.loadNibNamed("SynopsisViewCell", owner: nil, options: nil)
             let cell = nibView!.first as! SynopsisViewCell
             if scriptDetailModel != nil {
@@ -249,7 +313,7 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
             }
             return cell
 
-        } else {
+        } else if indexPath.section == 1 {
             
             let cell = RoleIntroductionCell(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: 82))
             if scriptDetailModel != nil {
@@ -257,16 +321,35 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
             }
             cell.selectionStyle = .none
             return cell
+        } else if indexPath.section == 2 {
+            let nibView = Bundle.main.loadNibNamed("CommentsHeaderCell", owner: nil, options: nil)
+            let cell = nibView!.first as! CommentsHeaderCell
+            cell.selectionStyle = .none
+
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: CommentsCellId, for: indexPath) as! CommentsCell
+            let itemModel = scriptCommentsModel?.list[indexPath.row]
+            cell.itemModel = itemModel
+            cell.selectionStyle = .none
+            return cell
         }
     }
     
+    
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = HomeListTableHeaderView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: 60))
+        
         switch section {
         case 0:
             header.titleLabel.text = "物語紹介"
         case 1:
             header.titleLabel.text = "キャラクター紹介"
+        case 2:
+            header.titleLabel.text = "カスタマーレビュー"
+        case 3:
+            return nil
         default:
             break
         }
@@ -289,10 +372,16 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
         if indexPath.section == 0 {
             let height =  getContentHeight()
             return height
+        } else if indexPath.section == 1 {
+            return 82 + 30
+        } else if indexPath.section == 2 {
+            return 80
         } else {
-            return 82
+            return 107
         }
     }
+    
+    
     
     
     
@@ -305,29 +394,14 @@ extension ScriptDetailsViewController {
     
     func getContentHeight() -> CGFloat {
         if scriptDetailModel != nil {
-            let string =  scriptDetailModel!.introduction!            
+            let string =  scriptDetailModel!.introduction!
             
-            let label = UILabel()
-//            label.backgroundColor = UIColor.gray
-//            label.text = string
-//            label.font = UIFont.systemFont(ofSize: 14)
-//            label.textColor = HexColor("#666666")
-//            label.textAlignment = .left
-//            label.numberOfLines = 0
-            
-//            label.lineBreakMode = NSLineBreakMode.byWordWrapping
-//            let size = label.sizeThatFits(CGSize(width: FULL_SCREEN_WIDTH-40, height: CGFloat(MAXFLOAT)))
-//            var height = size.height
-            
-            
-//            guard let news = string.removingPercentEncoding,let data = news.data(using: .unicode) else{return 0}
-//            let att = [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html]
-//            guard let attStr = try? NSMutableAttributedString(data: data, options: att, documentAttributes: nil) else{return 0}
+            guard let news = string.removingPercentEncoding,let data = news.data(using: .unicode) else{return 0}
+            let att = [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html]
+            guard let attStr = try? NSMutableAttributedString(data: data, options: att, documentAttributes: nil) else{return 0}
 //            label.attributedText = attStr
-//            var height:CGFloat = label.attributedText?.boundingRect(with: CGSize(width: FULL_SCREEN_WIDTH-40, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, context: nil).size.height ?? 0
-
             
-            var height = stringSingleHeightWithWidth(text: string, width: FULL_SCREEN_WIDTH-40, font: UIFont.systemFont(ofSize: 16))
+            var height = stringSingleHeightWithWidth(text: attStr.string, width: FULL_SCREEN_WIDTH-40, font: UIFont.systemFont(ofSize: 16))
             
             Log(string)
             
@@ -335,7 +409,7 @@ extension ScriptDetailsViewController {
                 height = 82
             }
             if contentSelected! {
-                return height+70
+                return height+20
             } else {
                 return 82
             }
@@ -411,4 +485,41 @@ extension ScriptDetailsViewController: ShareViewDelegate {
     }
     
     
+}
+
+extension ScriptDetailsViewController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        // navigationBar
+//        let offsetY = scrollView.contentOffset.y
+//        if offsetY >= 0 && offsetY <= alphaChangeBoundary{
+//            customNavigationBar.backgroundColor = UIColor(hexString: MainColor)?.withAlphaComponent(offsetY / alphaChangeBoundary)
+//        }else if offsetY > alphaChangeBoundary {
+//            customNavigationBar.backgroundColor = UIColor(hexString: MainColor)
+//        }else {
+//            customNavigationBar.backgroundColor = UIColor(hexString: MainColor)?.withAlphaComponent(0)
+//        }
+//
+//        if offsetY < 0 {
+//            UIView.animate(withDuration: 0.1, animations: {
+//                self.customNavigationBar.alpha = 0
+//            })
+//
+//        }else{
+//            UIView.animate(withDuration: 0.1, animations: {
+//                self.customNavigationBar.alpha = 1
+//            })
+//        }
+        
+        
+        // sectionHeader不悬停
+        let sectionHeaderHeight: CGFloat  = 60
+          if(scrollView.contentOffset.y <= sectionHeaderHeight && scrollView.contentOffset.y >= 0 ) {
+            scrollView.contentInset = UIEdgeInsets(top: -scrollView.contentOffset.y, left: 0, bottom: 0, right: 0)
+       } else if (scrollView.contentOffset.y >= sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsets(top: -sectionHeaderHeight, left: 0, bottom: 0, right: 0)
+       }
+        
+    }
+
 }

@@ -94,11 +94,14 @@ extension RecordDetailViewController {
             }
         }
         
+        
+        let buttonWidth = (FULL_SCREEN_WIDTH-30-10) * 0.5
+        
         bottomView.addSubview(evaluateBtn)
         evaluateBtn.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(15)
             make.height.equalTo(44)
-            make.width.equalTo(167)
+            make.width.equalTo(buttonWidth)
             make.top.equalToSuperview().offset(8)
         }
         evaluateBtn.layoutIfNeeded()
@@ -109,14 +112,14 @@ extension RecordDetailViewController {
         evaluateBtn.layer.cornerRadius = 22
         evaluateBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         evaluateBtn.addTarget(self, action: #selector(evaluateBtnAction), for: .touchUpInside)
-        evaluateBtn.isHidden = true
+//        evaluateBtn.isHidden = true
         
         
         bottomView.addSubview(truthBtn)
         truthBtn.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(8)
-//            make.width.equalTo(167)
-            make.left.equalToSuperview().offset(15)
+            make.width.equalTo(buttonWidth)
+//            make.left.equalToSuperview().offset(15)
             make.right.equalToSuperview().offset(-15)
             make.height.equalTo(44)
         }
@@ -195,7 +198,10 @@ extension RecordDetailViewController {
     
     // 返回
     @objc func evaluateBtnAction() {
-        showToastCenter(msg: "暂未开通～")
+//        showToastCenter(msg: "暂未开通～")
+        let vc = ScriptCommentsViewController()
+        self.navigationController?.pushViewController(vc, animated: false)
+        
     }
     
     // 查看真相

@@ -26,6 +26,10 @@ class ScriptTableViewCell: UITableViewCell {
     /// 剧本时长
     @IBOutlet weak var timeLabel: UILabel!
     
+    @IBOutlet weak var countLabel: UILabel!
+    
+    @IBOutlet weak var countView: UIView!
+    
     var scriptListModel: ScriptListModel? {
         didSet {
             if scriptListModel?.cover != nil {
@@ -60,6 +64,16 @@ class ScriptTableViewCell: UITableViewCell {
                 tagLabel.text = scriptListModel?.userScriptText!
             } else {
                 tagLabel.isHidden = true
+            }
+            
+            if scriptListModel?.commentScore != nil {
+                let count = "\((scriptListModel?.commentScore!)!)"
+                countLabel.text = count
+            }
+            
+            if scriptListModel?.scriptStar != nil {
+                let starView = StarView(count: CGFloat((scriptListModel?.scriptStar!)!), lineSpace: 0, fullImgName: "home_star_pic_02", halfImgName: "home_star_pic_03", zeroImgName: "home_star_pic_01", sizeWidth: 18.0, sizeHeight: 18.0, frame: CGRect(x: 0, y: 0, width: 90, height: 22))
+                countView.addSubview(starView)
             }
             
         }
@@ -130,6 +144,10 @@ extension ScriptTableViewCell {
         
         // 时长
         timeLabel.textColor = HexColor(LightDarkGrayColor)
+        
+        //
+        countLabel.textColor = HexColor(DarkGrayColor)
+        countLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         
     }
 }

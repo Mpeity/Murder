@@ -9,34 +9,40 @@
 import Foundation
 import UIKit
 
+
 class HomeRoomModel : NSObject {
 
-    @objc var cover : String!
-    var duration : Int!
-    @objc var durationText : String!
-    @objc var nickname : String?
+    var commentScore : Double!
+    var cover : String!
+    var duration : String!
+    var durationText : String!
+    var isPassword : Int!
+    var nickname : String!
     var roomId : Int!
-    @objc var roomPassword : String!
     var scriptId : Int!
-    @objc var scriptName : String!
+    var scriptName : String!
     var scriptRoleNum : Int!
+    var star : Int!
     var userNum : Int!
     var userScriptStatus : Int!
     var userScriptText : String!
-    
+
+
     /**
      * Instantiate the instance using the passed dictionary values to set the properties values
      */
     init(fromDictionary dictionary: [String:Any]){
+        commentScore = dictionary["comment_score"] as? Double
         cover = dictionary["cover"] as? String
-        duration = dictionary["duration"] as? Int
+        duration = dictionary["duration"] as? String
         durationText = dictionary["duration_text"] as? String
+        isPassword = dictionary["is_password"] as? Int
         nickname = dictionary["nickname"] as? String
         roomId = dictionary["room_id"] as? Int
-        roomPassword = dictionary["room_password"] as? String
         scriptId = dictionary["script_id"] as? Int
         scriptName = dictionary["script_name"] as? String
         scriptRoleNum = dictionary["script_role_num"] as? Int
+        star = dictionary["star"] as? Int
         userNum = dictionary["user_num"] as? Int
         userScriptStatus = dictionary["user_script_status"] as? Int
         userScriptText = dictionary["user_script_text"] as? String
@@ -48,6 +54,9 @@ class HomeRoomModel : NSObject {
     func toDictionary() -> [String:Any]
     {
         var dictionary = [String:Any]()
+        if commentScore != nil{
+            dictionary["comment_score"] = commentScore
+        }
         if cover != nil{
             dictionary["cover"] = cover
         }
@@ -57,14 +66,14 @@ class HomeRoomModel : NSObject {
         if durationText != nil{
             dictionary["duration_text"] = durationText
         }
+        if isPassword != nil{
+            dictionary["is_password"] = isPassword
+        }
         if nickname != nil{
             dictionary["nickname"] = nickname
         }
         if roomId != nil{
             dictionary["room_id"] = roomId
-        }
-        if roomPassword != nil{
-            dictionary["room_password"] = roomPassword
         }
         if scriptId != nil{
             dictionary["script_id"] = scriptId
@@ -74,6 +83,9 @@ class HomeRoomModel : NSObject {
         }
         if scriptRoleNum != nil{
             dictionary["script_role_num"] = scriptRoleNum
+        }
+        if star != nil{
+            dictionary["star"] = star
         }
         if userNum != nil{
             dictionary["user_num"] = userNum
@@ -86,15 +98,5 @@ class HomeRoomModel : NSObject {
         }
         return dictionary
     }
-    
-//    // 自定义构造函数
-//    init(dic : [String : AnyObject]) {
-//        super.init()
-//        setValuesForKeys(dic)
-//    }
-//
-//    override func setValue(_ value: Any?, forUndefinedKey key: String) {
-//
-//    }
-
 }
+

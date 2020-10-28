@@ -210,7 +210,7 @@
                                         <constraint firstAttribute="height" constant="44" id="2Rk-Qe-3z4"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <state key="normal" title="捜査" backgroundImage="button_bg">
+                                    <state key="normal" title="調査" backgroundImage="button_bg">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </state>
                                 </button>

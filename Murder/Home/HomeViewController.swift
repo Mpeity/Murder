@@ -530,8 +530,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         commonView.roomModel = model
         
         checkRoomId(room_id: model!.roomId!) {[weak self] (resultData) in
-            
-            
+
             commonView.enterBtnTapBlcok = {[weak self] (param)->() in
                 commonView.removeFromSuperview()
 

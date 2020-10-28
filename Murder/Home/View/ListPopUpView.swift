@@ -53,7 +53,10 @@ class ListPopUpView: UIView {
                 timeLabel.text = roomModel.durationText
             }
             
-            scoreLabel.text = roomModel.durationText
+            if roomModel.commentScore != nil {
+                let count = "レビュー: \(roomModel.commentScore!)"
+                scoreLabel.text = count
+            }
             
         }
     }
@@ -93,10 +96,10 @@ extension ListPopUpView {
         roomIdLabel.textColor = HexColor(LightGrayColor)
         roomIdLabel.font = UIFont.systemFont(ofSize: 11)
         
-        scoreView.isHidden = true
+        scoreView.isHidden = false
         scoreLabel.textColor = HexColor(DarkGrayColor)
         scoreLabel.font = UIFont.systemFont(ofSize: 18)
-        scoreIcon.isHidden = true
+        scoreIcon.isHidden = false
         
         timeLabel.textColor = HexColor(DarkGrayColor)
         timeLabel.font = UIFont.systemFont(ofSize: 18)

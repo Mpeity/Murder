@@ -100,6 +100,23 @@ func scriptDetail(script_id: Int, finished: @escaping(_ reslut: [String: AnyObje
     }
 }
 
+//MARK:- 剧本评论列表
+private let script_comment_list_url = "/api/script/script_comment_list"
+/** 验证验证码
+* @params [参数名] [类型] [是否必传]
+* script_id [int]    是    剧本ID
+* page_no  [int]    是    1
+* page_size [int]    是    15
+*/
+func getScriptCommentList(script_id: Int, page_no: Int, page_size: Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = script_comment_list_url
+    let parameters = ["script_id" : script_id, "page_no" : page_no, "page_size": page_size] as [String : AnyObject]
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
 
 //MARK:- 免费获得剧本
 private let user_get_script_url = "/api/script/user_get_script"

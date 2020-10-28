@@ -22,6 +22,9 @@ class ScriptListModel : NSObject {
     var tag : ScriptTagNameModel?
     var tagId : Int?
     var userScriptText : String?
+    var commentScore : Double?
+    var scriptStar : Int?
+
 
 
     /**
@@ -41,6 +44,10 @@ class ScriptListModel : NSObject {
         }
         tagId = dictionary["tag_id"] as? Int
         userScriptText = dictionary["user_script_text"] as? String
+        commentScore = dictionary["comment_score"] as? Double
+        scriptStar = dictionary["script_star"] as? Int
+
+
     }
 
     /**
@@ -81,6 +88,12 @@ class ScriptListModel : NSObject {
         }
         if userScriptText != nil{
             dictionary["user_script_text"] = userScriptText
+        }
+        if scriptStar != nil{
+            dictionary["script_star"] = scriptStar
+        }
+        if commentScore != nil{
+            dictionary["comment_score"] = commentScore
         }
         return dictionary
     }

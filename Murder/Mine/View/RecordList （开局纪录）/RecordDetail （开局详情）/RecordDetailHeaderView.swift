@@ -20,6 +20,13 @@ class RecordDetailHeaderView: UIView {
     // 名字
     @IBOutlet weak var nameLabel: UILabel!
     
+    @IBOutlet weak var commonStarView: UIView!
+    
+    @IBOutlet weak var contentLabel: UILabel!
+    // 评分
+    @IBOutlet weak var countLabel: UILabel!
+    // 单位
+    @IBOutlet weak var unitLabel: UILabel!
     
     var scriptLogDetail :ScriptLogDetail? {
         didSet {
@@ -54,6 +61,16 @@ extension RecordDetailHeaderView {
         coverImgView.layer.borderColor = UIColor.white.cgColor
         coverImgView.layer.borderWidth = 2
         coverImgView.layer.cornerRadius = 5
+        
+        unitLabel.textColor = HexColor(LightOrangeColor)
+        unitLabel.text = "点"
+        unitLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        
+        countLabel.textColor = HexColor(LightOrangeColor)
+        countLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        
+        contentLabel.textColor = UIColor.white
+        contentLabel.font = UIFont.systemFont(ofSize: 10)
     }
     
     private func refreshUI() {
@@ -68,6 +85,20 @@ extension RecordDetailHeaderView {
         }
         if scriptLogDetail?.roomId != nil {
             roomIdLabel.text = "ルームID：\(scriptLogDetail!.roomId!)"
+        }
+        
+        if scriptLogDetail?.commentPeopleText != nil {
+            contentLabel.text = scriptLogDetail!.commentPeopleText!
+        }
+        
+        if scriptLogDetail?.commentScore != nil {
+            let count = "\(scriptLogDetail!.commentScore!)"
+            countLabel.text = count
+        }
+        
+        if scriptLogDetail?.scriptStar != nil {
+            let starView = StarView(count: CGFloat((scriptLogDetail?.scriptStar!)!), lineSpace: 0, fullImgName: "home_star_pic_02", halfImgName: "home_star_pic_03", zeroImgName: "home_star_pic_01", sizeWidth: 16.0, sizeHeight: 16.0, frame: CGRect(x: 0, y: 0, width: 80, height: 16))
+            commonStarView.addSubview(starView)
         }
     }
 }

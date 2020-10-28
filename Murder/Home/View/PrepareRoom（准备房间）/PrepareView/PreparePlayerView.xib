@@ -34,7 +34,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="300" height="228"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="QiG-XI-DvS">
-                                    <rect key="frame" x="120" y="24" width="60" height="60"/>
+                                    <rect key="frame" x="120" y="50" width="60" height="60"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="60" id="jjv-4E-t4X"/>
                                         <constraint firstAttribute="width" constant="60" id="ka1-jR-iFK"/>
@@ -54,7 +54,7 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ユミ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CB4-te-Jjc">
-                                    <rect key="frame" x="25" y="92" width="250" height="18"/>
+                                    <rect key="frame" x="25" y="118" width="250" height="18"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="18" id="hIG-Dk-DhP"/>
                                     </constraints>
@@ -63,7 +63,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZcF-sI-bxa">
-                                    <rect key="frame" x="90.5" y="118" width="119" height="15"/>
+                                    <rect key="frame" x="90.5" y="144" width="119" height="15"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ny9-ns-a5M">
                                             <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
@@ -117,7 +117,7 @@
                                 <constraint firstItem="ZcF-sI-bxa" firstAttribute="centerX" secondItem="IaZ-Da-yB3" secondAttribute="centerX" id="LZA-tY-piW"/>
                                 <constraint firstItem="ZcF-sI-bxa" firstAttribute="top" secondItem="CB4-te-Jjc" secondAttribute="bottom" constant="8" id="Vvj-An-fzD"/>
                                 <constraint firstAttribute="bottom" secondItem="AkO-tQ-if7" secondAttribute="bottom" constant="15" id="fr8-aZ-vSa"/>
-                                <constraint firstItem="QiG-XI-DvS" firstAttribute="top" secondItem="IaZ-Da-yB3" secondAttribute="top" constant="24" id="ixx-U3-NoJ"/>
+                                <constraint firstItem="QiG-XI-DvS" firstAttribute="top" secondItem="IaZ-Da-yB3" secondAttribute="top" constant="50" id="ixx-U3-NoJ"/>
                                 <constraint firstItem="CB4-te-Jjc" firstAttribute="leading" secondItem="IaZ-Da-yB3" secondAttribute="leading" constant="25" id="j6x-cM-owz"/>
                                 <constraint firstAttribute="trailing" secondItem="CB4-te-Jjc" secondAttribute="trailing" constant="25" id="jfN-E9-hZe"/>
                             </constraints>

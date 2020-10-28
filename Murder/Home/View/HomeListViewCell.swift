@@ -16,9 +16,13 @@ class HomeListViewCell: UITableViewCell {
     
     // 封面
     @IBOutlet weak var coverImgView: UIImageView!
+    // 有料标签 设置button不可点击
+    @IBOutlet weak var tagBtn: UIButton!
     
     // 房间人数 剧本人数  剧本名称
     @IBOutlet weak var infoLabel: UILabel!
+    // 标签视图
+    @IBOutlet weak var tagImgView: UIImageView!
     
     // 房主昵称
     @IBOutlet weak var nicknameLabel: UILabel!
@@ -26,6 +30,10 @@ class HomeListViewCell: UITableViewCell {
     @IBOutlet weak var roomIdLabel: UILabel!
     // 时长
     @IBOutlet weak var timeLabel: UILabel!
+    // 评分
+    @IBOutlet weak var countLabel: UILabel!
+    // 评分星星
+    @IBOutlet weak var countView: UIView!
     
     var roomNum: String = ""
     var peopleNum : String = ""
@@ -58,6 +66,18 @@ class HomeListViewCell: UITableViewCell {
             
             roomIdLabel.text = "ルームID：\(String(roomModel.roomId))"
             timeLabel.text = roomModel.durationText
+            
+            if roomModel.commentScore != nil {
+                let count = "\(roomModel.commentScore!)"
+                countLabel.text = count
+            }
+            
+            if roomModel.star != nil {
+                let starView = StarView(count: CGFloat(roomModel.star!), lineSpace: 0, fullImgName: "home_star_pic_02", halfImgName: "home_star_pic_03", zeroImgName: "home_star_pic_01", sizeWidth: 18.0, sizeHeight: 18.0, frame: CGRect(x: 0, y: 0, width: 90, height: 22))
+                countView.addSubview(starView)
+            }
+            
+            
         }
     }
     
@@ -95,9 +115,10 @@ extension HomeListViewCell {
         timeLabel.textColor = HexColor(LightDarkGrayColor)
         timeLabel.font = UIFont.systemFont(ofSize: 12)
         
+        tagBtn.isHidden = true
+        tagImgView.isHidden = true
         
-
-        
-        
+        countLabel.textColor = HexColor(DarkGrayColor)
+        countLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
     }
 }

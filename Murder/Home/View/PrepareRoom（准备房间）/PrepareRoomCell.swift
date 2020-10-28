@@ -9,7 +9,7 @@
 import UIKit
 
 typealias RoleImgViewTapBlock = (ScriptRoleModel)->()
-typealias PlayerImgViewTapBlock = (RoomUserModel)->()
+typealias PlayerImgViewTapBlock = (RoomUserModel?,ScriptRoleModel?)->()
 
 class PrepareRoomCell: UITableViewCell {
     
@@ -183,9 +183,11 @@ extension PrepareRoomCell {
     
     @objc func playerTapAction() {
         if let playerImgViewTapBlock = playerImgViewTapBlock {
-//            if roomUserModel != nil {
-//                playerImgViewTapBlock(roomUserModel!)
-//            }
+            if roomUserModel != nil {
+                playerImgViewTapBlock(roomUserModel!, nil)
+            } else {
+                playerImgViewTapBlock(nil, scriptRoleModel!)
+            }
         }
     }
     

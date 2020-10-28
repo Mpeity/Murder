@@ -1,0 +1,95 @@
+//
+//  CommentsCell.swift
+//  Murder
+//
+//  Created by m.a.c on 2020/10/27.
+//  Copyright © 2020 m.a.c. All rights reserved.
+//
+
+
+
+import UIKit
+
+class CommentsCell: UITableViewCell {
+    
+    @IBOutlet weak var commonStarView: UIView!
+    @IBOutlet weak var avatarImgView: UIImageView!
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    
+    @IBOutlet weak var timeLabel: UILabel!
+    
+    @IBOutlet weak var usedTimeLabel: UILabel!
+    
+    @IBOutlet weak var commentsLabel: UILabel!
+    
+    var itemModel: ScriptCommentsItemModel? {
+        didSet {
+            guard let itemModel = itemModel else {
+                return
+            }
+            
+            if itemModel.head != nil {
+                avatarImgView.image = UIImage(named: itemModel.head!)
+                
+            }
+            
+            if itemModel.nickname != nil {
+                nameLabel.text = itemModel.nickname!
+            }
+            
+            if itemModel.createTime != nil {
+                timeLabel.text = itemModel.createTimeText!
+            }
+            
+            if itemModel.content != nil {
+                commentsLabel.text = itemModel.content!
+            }
+            
+            if itemModel.durationText != nil {
+                usedTimeLabel.text = itemModel.durationText!
+            }
+   
+            if itemModel.star != nil {
+                let starView = StarView(count: CGFloat(itemModel.star!), lineSpace: 0, fullImgName: "home_star_pic_02", halfImgName: "home_star_pic_03", zeroImgName: "home_star_pic_01", sizeWidth: 16.0, sizeHeight: 16.0, frame: CGRect(x: 0, y: 0, width: 80, height: 16))
+                commonStarView.addSubview(starView)
+            }
+ 
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+        
+        setUI()
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+    
+    
+    
+    
+    
+}
+
+extension CommentsCell {
+    private func setUI() {
+        avatarImgView.layer.cornerRadius = 20
+        avatarImgView.layer.masksToBounds = true
+        
+        nameLabel.textColor = HexColor(DarkGrayColor)
+        nameLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        timeLabel.textColor = HexColor(LightGrayColor)
+        timeLabel.font = UIFont.systemFont(ofSize: 10)
+        
+        usedTimeLabel.textColor = HexColor(LightGrayColor)
+        usedTimeLabel.font = UIFont.systemFont(ofSize: 10)
+        
+        commentsLabel.textColor = HexColor(LightGrayColor)
+        commentsLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+
+    }
+}

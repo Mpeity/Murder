@@ -982,12 +982,18 @@ extension PrepareRoomViewController: UITableViewDelegate, UITableViewDataSource 
             
         }
         
-        cell.playerImgViewTapBlock = {[weak self] (roomUserModel)in
-            let playerView = PreparePlayerView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        cell.playerImgViewTapBlock = {[weak self] (roomUserModel, roleModel)in
             
-            playerView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            if roomUserModel == nil {
+                self?.choiceRole(script_role_id: scriptRoleModel?.scriptRoleId! ?? 0)
+                scriptRoleModel?.hasPlayer = true
+                
+            } else {
+//                let playerView = PreparePlayerView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+//                playerView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+//                self?.view.addSubview(playerView)
+            }
             
-            self?.view.addSubview(playerView)
         }
         cell.roomUserModel = nil
         // 匹配人物选择
@@ -1016,8 +1022,6 @@ extension PrepareRoomViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
         
         let scriptRoleModel = readyRoomModel?.scriptRoleList?[indexPath.row]
         if scriptRoleModel?.hasPlayer ?? false { //已有玩家选择

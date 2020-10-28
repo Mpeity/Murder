@@ -509,8 +509,8 @@
             filePath = "Murder/Home/View/PrepareRoom&#xff08;&#x51c6;&#x5907;&#x623f;&#x95f4;&#xff09;/PrepareRoomViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1113"
-            endingLineNumber = "1113"
+            startingLineNumber = "1117"
+            endingLineNumber = "1117"
             landmarkName = "lockBtnAction(button:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -861,8 +861,8 @@
             filePath = "Murder/Main/MainViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "onlineTime()"
             landmarkType = "7">
          </BreakpointContent>
@@ -886,22 +886,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A9D61A09-9E0D-4C76-83E6-55793B01D267"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Murder/Home/View/Gameplay/View/ReadScript &#xff08;&#x5267;&#x672c;&#x9605;&#x8bfb;&#xff09;/ReadScriptView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "508"
-            endingLineNumber = "508"
-            landmarkName = "scrollViewDidScroll(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "853683FD-6EC1-488A-9C99-CA6811137EF1"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -909,8 +893,8 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2345"
-            endingLineNumber = "2345"
+            startingLineNumber = "2347"
+            endingLineNumber = "2347"
             landmarkName = "roleSearchButtonTap()"
             landmarkType = "7">
          </BreakpointContent>
@@ -918,16 +902,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7CFC2536-720A-4BB5-8C26-348ADAB4B51C"
+            uuid = "D60FB045-C449-4DDF-83E6-124B4A3A6BDC"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Murder/AppDelegate.swift"
+            filePath = "Murder/Home/View/CreateRoom &#xff08;&#x521b;&#x5efa;&#x623f;&#x95f4;&#xff09;/ScriptDetailsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
-            landmarkName = "applicationWillEnterForeground(_:)"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "scriptCommentsFun()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "90460E99-9EED-4B20-A532-46E53E1F8704"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Murder/Home/View/CreateRoom &#xff08;&#x521b;&#x5efa;&#x623f;&#x95f4;&#xff09;/ScriptDetailsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "scriptDetailsFun()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -1010,7 +1010,7 @@ extension GameplayViewController {
         remainingView.addSubview(remainingLabel)
         remainingLabel.textColor = UIColor.white
         remainingLabel.font = UIFont.systemFont(ofSize: 10)
-        let remainingString = "捜査できる回数：\(remainingCount)"
+        let remainingString = "調査できる回数：\(remainingCount)"
         let remainingRanStr = String(remainingCount)
         let remainingAttrstring:NSMutableAttributedString = NSMutableAttributedString(string:remainingString)
         let remainingStr = NSString(string: remainingString)
@@ -1216,7 +1216,7 @@ extension GameplayViewController {
             remainingCount = currentScriptRoleModel!.user!.point!
         }
 //        remainingCount -= 1
-        let remainingString = "捜査できる回数：\(remainingCount)"
+        let remainingString = "調査できる回数：\(remainingCount)"
         let remainingRanStr = String(remainingCount)
         let remainingAttrstring:NSMutableAttributedString = NSMutableAttributedString(string:remainingString)
         let remainingStr = NSString(string: remainingString)
@@ -1227,7 +1227,7 @@ extension GameplayViewController {
 //        if remainingCount == 0 {
 //            CLToastManager.share.cornerRadius = 15
 //            CLToastManager.share.bgColor = HexColor(hex: "#000000", alpha: 0.6)
-//            CLToast.cl_show(msg: "あなたの捜査できる回数はすでになくなりました")
+//            CLToast.cl_show(msg: "あなたの調査できる回数はすでになくなりました")
 //        }
         
         
@@ -1289,7 +1289,7 @@ extension GameplayViewController {
     @objc func emptyBtnAction() {
         CLToastManager.share.cornerRadius = 25
         CLToastManager.share.bgColor = HexColor(hex: "#000000", alpha: 0.6)
-        CLToast.cl_show(msg: "捜査できる手掛かりはありません")
+        CLToast.cl_show(msg: "調査できる手掛かりはありません")
     }
     
     
@@ -1522,7 +1522,9 @@ extension GameplayViewController {
         }
         
         if gamePlayModel?.scriptNodeResult.nodeType == 6 {
-            popRootVC()
+//            popRootVC()
+            let vc = ScriptCommentsViewController()
+            self.navigationController?.pushViewController(vc, animated: false)
             return
         }
         
@@ -2231,7 +2233,7 @@ extension GameplayViewController: WebSocketDelegate {
                         remainingCount = currentScriptRoleModel!.user!.point!
                     }
                     remainingView.isHidden = false
-                    let remainingString = "捜査できる回数：\(remainingCount)"
+                    let remainingString = "調査できる回数：\(remainingCount)"
                     let remainingRanStr = String(remainingCount)
                     let remainingAttrstring:NSMutableAttributedString = NSMutableAttributedString(string:remainingString)
                     let remainingStr = NSString(string: remainingString)
