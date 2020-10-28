@@ -96,15 +96,18 @@ extension ScriptDetailsViewController {
             self.scriptDetailsFun()
             group.leave()//执行完之后从组队列中移除
         })
-         group.enter()//把该任务添加到组队列中执行
+         group.enter()
         myQueue.async(group: group, qos: .default, flags: [], execute: {
             self.scriptCommentsFun()
-            group.leave()//执行完之后从组队列中移除
+            group.leave()
         })
 
         //当上面所有的任务执行完之后通知
-        group.notify(queue: .main) {
-            self.tableView.reloadData()
+        group.notify(queue: DispatchQueue.main) {
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadData()
+            }
+            
         }
     }
     
@@ -128,7 +131,7 @@ extension ScriptDetailsViewController {
                     }
                     self?.scriptDetailModel = model
                     self?.tableHeaderView.model = model
-//                    self?.tableView.reloadData()
+                    self?.tableView.reloadData()
                 } else {
                     
                 }
@@ -268,7 +271,7 @@ extension ScriptDetailsViewController {
 
 extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -279,9 +282,8 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
             case 1:
                 return 1
             case 2:
-                return 1
-            case 3:
-                return scriptCommentsModel?.list.count ?? 0
+                let count = scriptCommentsModel?.list.count ?? 0
+                return count+1
 
             default:
                 return 0
@@ -321,15 +323,38 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
             }
             cell.selectionStyle = .none
             return cell
-        } else if indexPath.section == 2 {
-            let nibView = Bundle.main.loadNibNamed("CommentsHeaderCell", owner: nil, options: nil)
-            let cell = nibView!.first as! CommentsHeaderCell
-            cell.selectionStyle = .none
-
-            return cell
-        } else {
+        }
+//        else if indexPath.section == 2 {
+//            let nibView = Bundle.main.loadNibNamed("CommentsHeaderCell", owner: nil, options: nil)
+//            let cell = nibView!.first as! CommentsHeaderCell
+//            cell.selectionStyle = .none
+//
+//            return cell
+//        }
+        else {
+            if indexPath.row == 0 {
+                let nibView = Bundle.main.loadNibNamed("CommentsHeaderCell", owner: nil, options: nil)
+                let cell = nibView!.first as! CommentsHeaderCell
+                
+                cell.selectionStyle = .none
+                if scriptDetailModel != nil {
+                    cell.userScriptStatus = scriptDetailModel.userScriptStatus
+                    if scriptDetailModel.commentScore != nil {
+                        let count = "\(scriptDetailModel.commentScore!)"
+                        cell.countLabel.text = count
+                    }
+                    if scriptDetailModel.commentStar != nil {
+                        let starView = StarView(count: CGFloat(scriptDetailModel.commentStar!), lineSpace: 0, fullImgName: "pinglun_pic_01", halfImgName: "pinglun_pic_03", zeroImgName: "pinglun_pic_02", sizeWidth: 25.0, sizeHeight: 25.0, frame: CGRect(x: 0, y: 0, width: 125, height: 25))
+                        cell.commonStarView.addSubview(starView)
+                    }
+                    if scriptDetailModel.commentPeopleText != nil {
+                        cell.contentLabel.text = scriptDetailModel.commentPeopleText!
+                    }
+                }
+                return cell
+            }
             let cell = tableView.dequeueReusableCell(withIdentifier: CommentsCellId, for: indexPath) as! CommentsCell
-            let itemModel = scriptCommentsModel?.list[indexPath.row]
+            let itemModel = scriptCommentsModel?.list[indexPath.row-1]
             cell.itemModel = itemModel
             cell.selectionStyle = .none
             return cell
@@ -348,12 +373,10 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
             header.titleLabel.text = "キャラクター紹介"
         case 2:
             header.titleLabel.text = "カスタマーレビュー"
-        case 3:
-            return nil
         default:
             break
         }
-        
+
         return header
     }
     
@@ -374,10 +397,20 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
             return height
         } else if indexPath.section == 1 {
             return 82 + 30
-        } else if indexPath.section == 2 {
-            return 80
         } else {
-            return 107
+            if indexPath.row == 0 {
+                if scriptDetailModel != nil {
+                    if scriptDetailModel.userScriptStatus != 3 {
+                        return 120
+                    } else {
+                        return 80
+                    }
+                }
+                return 80
+                
+            } else {
+                return 107
+            }
         }
     }
     

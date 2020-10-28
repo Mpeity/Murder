@@ -44,10 +44,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A86-gM-Kff">
-                        <rect key="frame" x="299.5" y="24.5" width="90" height="16"/>
-                        <color key="backgroundColor" red="0.99607843139999996" green="0.67843137249999996" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <rect key="frame" x="309.5" y="24.5" width="80" height="16"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="90" id="304-HY-YhV"/>
+                            <constraint firstAttribute="width" constant="80" id="304-HY-YhV"/>
                             <constraint firstAttribute="height" constant="16" id="MNn-lX-97v"/>
                         </constraints>
                     </view>

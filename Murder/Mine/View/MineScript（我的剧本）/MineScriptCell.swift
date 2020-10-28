@@ -20,12 +20,46 @@ class MineScriptCell: UICollectionViewCell {
     
     @IBOutlet weak var tagLabel: UILabel!
     
-    
+    var  itemModel: MineScriptItemModel? {
+        didSet {
+            guard let itemModel = itemModel else {
+                return
+            }
+            
+            if itemModel.cover != nil {
+                let str = itemModel.cover!
+                scriptImgView.setImageWith(URL(string: str), placeholder: UIImage(named: "default_script"))
+            }
+            
+            if itemModel.scriptName != nil {
+                nameLabel.text = itemModel.scriptName!
+            }
+            
+            if itemModel.userScriptText != nil && itemModel.userScriptText != ""  {
+                tagLabel.isHidden = false
+                tagView.isHidden = false
+                tagLabel.text = itemModel.userScriptText!
+            }
+        }
+
+    }
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        setUI()
     }
 
+}
+
+extension MineScriptCell {
+    private func setUI() {
+        tagLabel.isHidden = true
+        tagView.isHidden = true
+        
+        scriptImgView.layer.cornerRadius = 5
+        scriptImgView.layer.masksToBounds = true
+    }
 }

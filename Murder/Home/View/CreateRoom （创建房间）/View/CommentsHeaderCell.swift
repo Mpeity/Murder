@@ -19,13 +19,28 @@ class CommentsHeaderCell: UITableViewCell {
     @IBOutlet weak var contentLabel: UILabel!
     // 头部离底部距离
     @IBOutlet weak var bottomContraint: NSLayoutConstraint!
-    
     // 是否显示剧透
     @IBOutlet weak var commonLabel: UILabel!
     
+    var userScriptStatus: Int? {
+        didSet {
+            if userScriptStatus != nil {
+                if userScriptStatus != 3 {
+                    bottomContraint.constant = 45
+                    commonLabel.isHidden = false
+                } else {
+                    bottomContraint.constant = 5
+                    commonLabel.isHidden = true
+                }
+            }
+        }
+    }
+        
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        setUI()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -56,6 +71,8 @@ extension CommentsHeaderCell {
         commonLabel.text = "ネタバレのあるコメントは公開していません"
         commonLabel.textAlignment = .center
         commonLabel.backgroundColor = HexColor(hex: MainColor, alpha: 0.1)
+        commonLabel.layer.cornerRadius = 5
+        commonLabel.layer.masksToBounds = true
         commonLabel.textColor = HexColor(MainColor)
     }
 }

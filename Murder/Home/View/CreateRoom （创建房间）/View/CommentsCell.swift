@@ -30,8 +30,8 @@ class CommentsCell: UITableViewCell {
             }
             
             if itemModel.head != nil {
-                avatarImgView.image = UIImage(named: itemModel.head!)
-                
+                let str = itemModel.head!
+                avatarImgView.setImageWith(URL(string: str), placeholder: nil)
             }
             
             if itemModel.nickname != nil {
@@ -51,7 +51,7 @@ class CommentsCell: UITableViewCell {
             }
    
             if itemModel.star != nil {
-                let starView = StarView(count: CGFloat(itemModel.star!), lineSpace: 0, fullImgName: "home_star_pic_02", halfImgName: "home_star_pic_03", zeroImgName: "home_star_pic_01", sizeWidth: 16.0, sizeHeight: 16.0, frame: CGRect(x: 0, y: 0, width: 80, height: 16))
+                let starView = StarView(count: CGFloat(itemModel.star!), lineSpace: 0, fullImgName: "pinglun_pic_01", halfImgName: "pinglun_pic_03", zeroImgName: "pinglun_pic_02", sizeWidth: 16.0, sizeHeight: 16.0, frame: CGRect(x: 0, y: 0, width: 80, height: 16))
                 commonStarView.addSubview(starView)
             }
  

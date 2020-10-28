@@ -7,38 +7,138 @@
 //
 
 import UIKit
+import SVProgressHUD
+
+
+enum CommentsFromType {
+    // GamePlay 游戏中    ScriptLog 游戏记录
+    case gamePlay
+    case scriptLog
+}
 
 class ScriptCommentsViewController: UIViewController {
+    
+    // 标题
+    private var titleLabel: UILabel = UILabel()
+    // 返回上一层按钮
+    private var backBtn: UIButton = UIButton()
 
     // 名称
-    var nameLabel: UILabel?
+    private var nameLabel: UILabel?
 
-    var starView: StarView?
+    private var starView: StarView?
     
-    var textBgView: UIView?
+    private var textBgView: UIView?
     
-    var textView: EWTextView?
+    private var textView: EWTextView?
     
-    var tagButton: UIButton?
+    private var tagButton: UIButton?
         
-    var confirmBtn: UIButton?
+    private var confirmBtn: UIButton?
+    
+    // 是 修改评论 否 添加评论
+    private var isEidt: Bool? = false
+    
+    private var leak: Int? = 0
+    
+    private var content: String?
+    
+    private var star: Int? = 0
+    
+    private var scriptCommentModel: ScriptCommentModel?
+
+    
+    var fromType: CommentsFromType?
+    
+    var scriptName: String? {
+        didSet {
+            
+        }
+    }
+    
+    var scriptId: Int? {
+        didSet {
+            
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
+        setNavigationBar()
         setUI()
     }
 
-    
-    
-    
+}
 
+extension ScriptCommentsViewController {
+    private func commentFindFunc() {
+        SVProgressHUD.show()
+        commentFindRequest(script_id: self.scriptId!) {[weak self] (result, error) in
+            SVProgressHUD.dismiss()
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                let result = data["result"] as? [String : AnyObject]
+                let is_comment = data["is_comment"] as? Int
+                
+                if result != nil || is_comment != 0 {
+                    self?.isEidt = true
+                    self?.starView?.isEdit = false
+                    self?.scriptCommentModel = ScriptCommentModel(fromDictionary: result!)
+                    self?.refreshUI()
+                } else {
+                    self?.starView?.isEdit = true
+                }
+            }
+        }
+    }
 }
 
 
 extension ScriptCommentsViewController {
+    private func setNavigationBar() {
+        
+         
+         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBtn)
+         backBtn.setImage(UIImage(named: "back_black"), for: .normal)
+         backBtn.addTarget(self, action: #selector(backBtnAction), for: .touchUpInside)
+         
+         
+         titleLabel.textColor = HexColor(DarkGrayColor)
+         titleLabel.textAlignment = .center
+         titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+         titleLabel.text = "レビュー"
+         navigationItem.titleView = titleLabel
+         
+     }
+    
+    private func refreshUI() {
+        if scriptCommentModel != nil {
+            if scriptCommentModel?.content != nil {
+                textView?.text = scriptCommentModel?.content!
+            }
+            
+            if scriptCommentModel?.leak != nil {
+                if scriptCommentModel?.leak == 1 {
+                    tagButton?.isSelected = true
+                } else {
+                    tagButton?.isSelected = false
+                }
+            }
+            if scriptCommentModel?.star != nil {
+                starView?.newCount = CGFloat((scriptCommentModel?.star)!)
+            }
+        }
+    }
+    
     private func setUI() {
         if nameLabel == nil {
             nameLabel = UILabel()
@@ -53,14 +153,25 @@ extension ScriptCommentsViewController {
                 make.right.equalToSuperview().offset(-15)
                 make.height.equalTo(27)
             })
-            nameLabel?.text = "12222"
+            nameLabel?.text = scriptName
             
         }
         
         if starView == nil {
-            let x = (FULL_SCREEN_WIDTH - 165) * 0.5
-            starView = StarView(count: 9.0, lineSpace: 0, fullImgName: "pinglun_pic_01", halfImgName: "pinglun_pic_03", zeroImgName: "pinglun_pic_02", sizeWidth: 33.0, sizeHeight: 33.0, frame: CGRect(x: x, y: NAVIGATION_BAR_HEIGHT + 58, width: 165, height: 33))
-            self.view.addSubview(starView!)
+            if starView == nil {
+                let x = (FULL_SCREEN_WIDTH - 165) * 0.5
+                starView = StarView(count: 0, lineSpace: 0, fullImgName: "pinglun_pic_01", halfImgName: "pinglun_pic_03", zeroImgName: "pinglun_pic_02", sizeWidth: 33.0, sizeHeight: 33.0, frame: CGRect(x: x, y: NAVIGATION_BAR_HEIGHT + 58, width: 165, height: 33), isEdit: false)
+                self.view.addSubview(starView!)
+            }
+            
+            switch fromType {
+            case .gamePlay:
+                break
+            case .scriptLog:
+                commentFindFunc()
+            default:
+                break
+            }
         }
         
         if textBgView == nil {
@@ -122,8 +233,8 @@ extension ScriptCommentsViewController {
             confirmBtn = UIButton()
             confirmBtn?.setBackgroundImage(UIImage(named: "button_bg"), for: .normal)
             confirmBtn?.setTitle("提出", for: .normal)
+            confirmBtn?.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)
             self.view.addSubview(confirmBtn!)
-            
             confirmBtn?.snp.makeConstraints({ (make) in
                 make.height.equalTo(50)
                 make.left.equalToSuperview().offset(15)
@@ -146,16 +257,52 @@ extension ScriptCommentsViewController {
         button.isSelected = !button.isSelected
         if button.isSelected == true {
             tagButton?.isSelected = true
+            leak = 1
         } else {
             tagButton?.isSelected = false
+            leak = 0
         }
         
     }
     
-//    @objc func tagButtonAction() {
-//
-//    }
+    @objc func confirmBtnAction() {
+        content = textView?.text
+        star = starView?.getStar()
+        
+        if isEidt == true {
+            editCommentRequest(script_id: self.scriptId!, leak: self.leak!, content: self.content, star: self.star!) {[weak self] (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                
+                if resultDic["code"]!.isEqual(1) {
+                    showToastCenter(msg: resultDic["msg"] as! String)
+                    self?.backBtnAction()
+                }
+            }
+        } else {
+            addCommentRequest(script_id: self.scriptId!, leak: self.leak!, content: self.content, star: self.star!) {[weak self] (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                
+                if resultDic["code"]!.isEqual(1) {
+                    showToastCenter(msg: resultDic["msg"] as! String)
+                    self?.backBtnAction()
+                }
+            }
+        }
+    }
     
+    //MARK: - 返回按钮
+    @objc func backBtnAction() {
+        
+        self.navigationController?.popViewController(animated: true)
+    }
     
     
 }
@@ -174,4 +321,8 @@ extension ScriptCommentsViewController: UITextViewDelegate {
        }
        return true
    }
+}
+
+extension ScriptCommentsViewController {
+    
 }

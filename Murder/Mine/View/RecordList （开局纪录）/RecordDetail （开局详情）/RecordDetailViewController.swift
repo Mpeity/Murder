@@ -200,6 +200,9 @@ extension RecordDetailViewController {
     @objc func evaluateBtnAction() {
 //        showToastCenter(msg: "暂未开通～")
         let vc = ScriptCommentsViewController()
+        vc.fromType = .scriptLog
+        vc.scriptName = scriptLogDetailModel?.script?.scriptName
+        vc.scriptId = scriptLogDetailModel?.script?.scriptId
         self.navigationController?.pushViewController(vc, animated: false)
         
     }

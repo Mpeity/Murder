@@ -17,7 +17,7 @@ class MineViewController: UIViewController, UITableViewDelegate, UITableViewData
     private var tableHeaderView : MineTableHeaderView = MineTableHeaderView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: 190+STATUS_BAR_HEIGHT))
     
     // 开局记录 / 反馈 / 设置
-    var dataArray: Array = [["imgName":"mine_aboutus","title":"公演履歴"],["imgName":"mine_ feedback","title":"投稿について"],["imgName":"mine_set","title":"設置"]]
+    var dataArray: Array = [["imgName":"mine_script","title":"マイシナリオ"],["imgName":"mine_aboutus","title":"公演履歴"],["imgName":"mine_ feedback","title":"投稿について"],["imgName":"mine_set","title":"設置"]]
     
     
     override func viewDidLoad() {
@@ -96,13 +96,16 @@ extension MineViewController {
         let index = indexPath.row
         switch index {
         case 0:
+            let mineScriptVC = MineScriptViewController()
+            self.navigationController?.pushViewController(mineScriptVC, animated: true)
+        case 1:
             let recordVC = RecordListViewController()
             self.navigationController?.pushViewController(recordVC, animated: true)
-        case 1:
+        case 2:
             let vc = ContributeWebViewController()
             self.navigationController?.pushViewController(vc, animated: true)
             break
-        case 2:
+        case 3:
             let settingVC = SettingViewController()
             self.navigationController?.pushViewController(settingVC, animated: true)
         default:

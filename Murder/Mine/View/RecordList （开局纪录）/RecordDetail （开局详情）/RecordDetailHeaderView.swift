@@ -97,7 +97,7 @@ extension RecordDetailHeaderView {
         }
         
         if scriptLogDetail?.scriptStar != nil {
-            let starView = StarView(count: CGFloat((scriptLogDetail?.scriptStar!)!), lineSpace: 0, fullImgName: "home_star_pic_02", halfImgName: "home_star_pic_03", zeroImgName: "home_star_pic_01", sizeWidth: 16.0, sizeHeight: 16.0, frame: CGRect(x: 0, y: 0, width: 80, height: 16))
+            let starView = StarView(count: CGFloat((scriptLogDetail?.scriptStar!)!), lineSpace: 0, fullImgName: "pinglun_pic_01", halfImgName: "pinglun_pic_03", zeroImgName: "pinglun_pic_02", sizeWidth: 16.0, sizeHeight: 16.0, frame: CGRect(x: 0, y: 0, width: 80, height: 16))
             commonStarView.addSubview(starView)
         }
     }

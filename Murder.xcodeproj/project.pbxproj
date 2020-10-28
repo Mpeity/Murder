@@ -233,6 +233,8 @@
 		98B4A1D924D41445007CE295 /* ShareScriptCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B4A1D824D41445007CE295 /* ShareScriptCard.swift */; };
 		98B4A1DB24D41458007CE295 /* ShareScriptCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98B4A1DA24D41458007CE295 /* ShareScriptCard.xib */; };
 		98B819DF2549705600A24B68 /* ScriptCommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B819DE2549705600A24B68 /* ScriptCommentsModel.swift */; };
+		98B819E32549A70B00A24B68 /* MineScriptModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B819E22549A70B00A24B68 /* MineScriptModel.swift */; };
+		98B819E72549E80900A24B68 /* ScriptCommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B819E62549E80900A24B68 /* ScriptCommentModel.swift */; };
 		98C8D2AC24CD8028006C76D0 /* MineTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98C8D2AB24CD8028006C76D0 /* MineTableHeaderView.xib */; };
 		98C8D2AF24CDA0F1006C76D0 /* RecordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C8D2AE24CDA0F1006C76D0 /* RecordListViewController.swift */; };
 		98C8D2B224CDA115006C76D0 /* RecordListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C8D2B024CDA115006C76D0 /* RecordListViewCell.swift */; };
@@ -565,6 +567,8 @@
 		98B4A1D824D41445007CE295 /* ShareScriptCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareScriptCard.swift; sourceTree = "<group>"; };
 		98B4A1DA24D41458007CE295 /* ShareScriptCard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareScriptCard.xib; sourceTree = "<group>"; };
 		98B819DE2549705600A24B68 /* ScriptCommentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptCommentsModel.swift; sourceTree = "<group>"; };
+		98B819E22549A70B00A24B68 /* MineScriptModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineScriptModel.swift; sourceTree = "<group>"; };
+		98B819E62549E80900A24B68 /* ScriptCommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptCommentModel.swift; sourceTree = "<group>"; };
 		98C8D2AB24CD8028006C76D0 /* MineTableHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MineTableHeaderView.xib; sourceTree = "<group>"; };
 		98C8D2AE24CDA0F1006C76D0 /* RecordListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordListViewController.swift; sourceTree = "<group>"; };
 		98C8D2B024CDA115006C76D0 /* RecordListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordListViewCell.swift; sourceTree = "<group>"; };
@@ -917,6 +921,8 @@
 				9866C16624E4E2EB00810516 /* MineModel.swift */,
 				986DFDCF24F8EA98005F2C8A /* ScriptLogModel.swift */,
 				986DFDD124F8F115005F2C8A /* ScriptLogDetailModel.swift */,
+				98B819E22549A70B00A24B68 /* MineScriptModel.swift */,
+				98B819E62549E80900A24B68 /* ScriptCommentModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1926,6 +1932,7 @@
 				98CA02A224C52922009EF0ED /* TitleButton.swift in Sources */,
 				98F746D324EFBFA60035BDA1 /* GPSettlementModel.swift in Sources */,
 				98663A7024FC9C7E007726A5 /* UserFindModel.swift in Sources */,
+				98B819E72549E80900A24B68 /* ScriptCommentModel.swift in Sources */,
 				983FD1AA24D2AA3D0041D79E /* ScriptTableHeaderCell.swift in Sources */,
 				98D8A35224DC043900469923 /* AgoraStatus.swift in Sources */,
 				988A76602546ABB60082C2BB /* PrepareRoleView.swift in Sources */,
@@ -2016,6 +2023,7 @@
 				9868A31E24C95F5A009FD8F4 /* ReadScriptViewCell.swift in Sources */,
 				98038F5924D7BB7E00CBCEE7 /* PrepareRoomShareView.swift in Sources */,
 				988A76682546ABDC0082C2BB /* PreparePlayerView.swift in Sources */,
+				98B819E32549A70B00A24B68 /* MineScriptModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

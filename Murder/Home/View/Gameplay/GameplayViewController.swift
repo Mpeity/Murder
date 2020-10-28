@@ -1524,6 +1524,9 @@ extension GameplayViewController {
         if gamePlayModel?.scriptNodeResult.nodeType == 6 {
 //            popRootVC()
             let vc = ScriptCommentsViewController()
+            vc.fromType = .gamePlay
+            vc.scriptName = gamePlayModel?.script.scriptName
+            vc.scriptId = gamePlayModel?.script.scriptId
             self.navigationController?.pushViewController(vc, animated: false)
             return
         }
