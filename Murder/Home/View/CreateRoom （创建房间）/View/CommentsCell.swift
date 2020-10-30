@@ -42,18 +42,30 @@ class CommentsCell: UITableViewCell {
                 timeLabel.text = itemModel.createTimeText!
             }
             
-            if itemModel.content != nil {
-                commentsLabel.text = itemModel.content!
-            }
+            
             
             if itemModel.durationText != nil {
                 usedTimeLabel.text = itemModel.durationText!
+            }
+            
+            if itemModel.content != nil {
+                commentsLabel.text = itemModel.content!
+                var height = itemModel.content!.ga_heightForComment(fontSize: 14, width: FULL_SCREEN_WIDTH-30)
+                height = height + 93
+                if height > 107.0 {
+                } else {
+                    height = 107
+                }
+                
+                itemModel.cellHeight = height
             }
    
             if itemModel.star != nil {
                 let starView = StarView(count: CGFloat(itemModel.star!), lineSpace: 0, fullImgName: "pinglun_pic_01", halfImgName: "pinglun_pic_03", zeroImgName: "pinglun_pic_02", sizeWidth: 16.0, sizeHeight: 16.0, frame: CGRect(x: 0, y: 0, width: 80, height: 16))
                 commonStarView.addSubview(starView)
             }
+            
+            
  
         }
     }
@@ -90,6 +102,6 @@ extension CommentsCell {
         
         commentsLabel.textColor = HexColor(LightGrayColor)
         commentsLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-
+        commentsLabel.numberOfLines = 0
     }
 }

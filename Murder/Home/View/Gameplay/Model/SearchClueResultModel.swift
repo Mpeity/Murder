@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class SearchClueResultModel : NSObject {
 
     var attachment : String?
@@ -18,6 +17,7 @@ class SearchClueResultModel : NSObject {
     var isOpen : Int?
     var name : String?
     var scriptClueId : Int?
+    var scriptPlaceId : Int?
 
 
     /**
@@ -31,6 +31,7 @@ class SearchClueResultModel : NSObject {
         isOpen = dictionary["is_open"] as? Int
         name = dictionary["name"] as? String
         scriptClueId = dictionary["script_clue_id"] as? Int
+        scriptPlaceId = dictionary["script_place_id"] as? Int
     }
 
     /**
@@ -60,6 +61,11 @@ class SearchClueResultModel : NSObject {
         if scriptClueId != nil{
             dictionary["script_clue_id"] = scriptClueId
         }
+        if scriptPlaceId != nil{
+            dictionary["script_place_id"] = scriptPlaceId
+        }
         return dictionary
     }
+
 }
+

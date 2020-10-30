@@ -324,13 +324,6 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
             cell.selectionStyle = .none
             return cell
         }
-//        else if indexPath.section == 2 {
-//            let nibView = Bundle.main.loadNibNamed("CommentsHeaderCell", owner: nil, options: nil)
-//            let cell = nibView!.first as! CommentsHeaderCell
-//            cell.selectionStyle = .none
-//
-//            return cell
-//        }
         else {
             if indexPath.row == 0 {
                 let nibView = Bundle.main.loadNibNamed("CommentsHeaderCell", owner: nil, options: nil)
@@ -407,8 +400,12 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
                     }
                 }
                 return 80
-                
             } else {
+                if scriptCommentsModel != nil && scriptCommentsModel?.list != nil {
+                    let itemModel = scriptCommentsModel?.list[indexPath.row-1]
+                    return itemModel?.cellHeight ?? 0
+                }
+                
                 return 107
             }
         }

@@ -22,7 +22,7 @@ class HomeRoomModel : NSObject {
     var scriptId : Int!
     var scriptName : String!
     var scriptRoleNum : Int!
-    var star : Int!
+    var scriptStar : Int!
     var userNum : Int!
     var userScriptStatus : Int!
     var userScriptText : String!
@@ -42,7 +42,7 @@ class HomeRoomModel : NSObject {
         scriptId = dictionary["script_id"] as? Int
         scriptName = dictionary["script_name"] as? String
         scriptRoleNum = dictionary["script_role_num"] as? Int
-        star = dictionary["star"] as? Int
+        scriptStar = dictionary["script_star"] as? Int
         userNum = dictionary["user_num"] as? Int
         userScriptStatus = dictionary["user_script_status"] as? Int
         userScriptText = dictionary["user_script_text"] as? String
@@ -84,8 +84,8 @@ class HomeRoomModel : NSObject {
         if scriptRoleNum != nil{
             dictionary["script_role_num"] = scriptRoleNum
         }
-        if star != nil{
-            dictionary["star"] = star
+        if scriptStar != nil{
+            dictionary["script_star"] = scriptStar
         }
         if userNum != nil{
             dictionary["user_num"] = userNum

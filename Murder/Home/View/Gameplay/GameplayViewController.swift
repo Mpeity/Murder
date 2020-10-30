@@ -1208,10 +1208,7 @@ extension GameplayViewController {
     @objc func searchBtnAction(button: UIButton) {
         
         let script_place_id = button.tag
-        gameSearch(script_place_id: script_place_id)
-        
-
-        
+        gameSearch(script_place_id: script_place_id, clue_type: 0)
         if currentScriptRoleModel?.user?.point != nil {
             remainingCount = currentScriptRoleModel!.user!.point!
         }
@@ -1234,11 +1231,11 @@ extension GameplayViewController {
     }
     
     // 搜证
-    func gameSearch(script_place_id: Int) {
+    func gameSearch(script_place_id: Int, clue_type: Int) {
         script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
                 SVProgressHUD.show()
 
-        searchClueRequest(room_id: room_id, script_place_id: script_place_id, script_clue_id: nil, script_node_id: script_node_id!) {[weak self] (result, error) in
+        searchClueRequest(clue_type: clue_type, room_id: room_id, script_place_id: script_place_id, script_clue_id: nil, script_node_id: script_node_id!, script_role_id: currentScriptRoleModel!.scriptRoleId!) {[weak self] (result, error) in
             SVProgressHUD.dismiss()
             if error != nil {
                 return
@@ -1256,6 +1253,8 @@ extension GameplayViewController {
                 threadCardView.script_place_id = script_place_id
                 threadCardView.room_id = self!.room_id
                 threadCardView.script_node_id = self!.script_node_id
+                threadCardView.script_role_id = self?.currentScriptRoleModel!.scriptRoleId!
+                threadCardView.clue_type = clue_type
                 
                 threadCardView.clueResultModel = clueResultModel
                 threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
@@ -1267,9 +1266,43 @@ extension GameplayViewController {
         }
     }
     
+    // MARK: - 搜证
+    func gameRoleSearch(clue_type: Int, script_role_id: Int, source_script_role_id: Int) {
+        script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
+        SVProgressHUD.show()
+        searchRoleClueRequest(clue_type: clue_type, room_id: room_id, script_role_id: script_role_id, source_script_role_id: source_script_role_id, script_clue_id: nil, script_node_id: script_node_id!) {[weak self] (result, error) in
+            SVProgressHUD.dismiss()
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                let resultData = data["search_clue_result"] as! [String : AnyObject]
+                let clueResultModel = SearchClueResultModel(fromDictionary: resultData)
+                
+                let threadCardView = ThreadCardDetailView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+//                threadCardView.script_id = self?.script_id
+//                threadCardView.clueResultModel = clueResultModel
+//                threadCardView.script_place_id = script_place_id
+//                threadCardView.room_id = self!.room_id
+//                threadCardView.script_node_id = self!.script_node_id
+                threadCardView.clue_type = clue_type
+                
+                threadCardView.clueResultModel = clueResultModel
+                threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                self?.view.addSubview(threadCardView)
+
+            } else {
+                
+            }
+        }
+    }
+    
     // 公开
     func publicClue(model :SearchClueResultModel, script_place_id: Int) {
-        clueOpenRequest(room_id: room_id, script_clue_id: model.scriptClueId!, script_place_id:script_place_id, script_node_id: script_node_id!) { (result, error) in
+        clueOpenRequest(clue_type: 0, room_id: room_id, script_clue_id: model.scriptClueId!, script_place_id:script_place_id, script_node_id: script_node_id!) { (result, error) in
             if error != nil {
                 return
             }
@@ -1490,7 +1523,7 @@ extension GameplayViewController {
         
 
         
-        if gamePlayModel?.scriptNodeResult.nodeType != 5 {
+        if gamePlayModel?.scriptNodeResult.nodeType != 5 && (gamePlayModel?.scriptNodeResult.nodeType)! < 6 {
             commonBtn.setGradienButtonColor(start: "#999999", end: "#999999", cornerRadius: 19)
             commonBtn.isUserInteractionEnabled = false
         }
@@ -1896,7 +1929,11 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
         
         
         let playerView = PlayerView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+        playerView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
+        playerView.script_role_id = currentScriptRoleModel?.scriptRoleId
+        playerView.room_id = gamePlayModel?.room.roomId
         playerView.itemModel = model
+        playerView.script_id = gamePlayModel?.script.scriptId
         playerView.delegate = self
         playerView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
         self.view.addSubview(playerView)
@@ -2347,7 +2384,9 @@ extension GameplayViewController: WebSocketDelegate {
 // MARL: - PlayerDelegate
 extension GameplayViewController: PlayerViewDelegate {
     func roleSearchButtonTap() {
+//        gameSearch(script_place_id: script_place_id, clue_type: 0)
         
+//        gameRoleSearch(clue_type: 1, script_role_id: <#T##Int#>, source_script_role_id: <#T##Int#>)
     }
 }
 

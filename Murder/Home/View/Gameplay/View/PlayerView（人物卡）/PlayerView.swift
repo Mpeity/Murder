@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 protocol PlayerViewDelegate {
     func roleSearchButtonTap()
@@ -15,7 +16,15 @@ protocol PlayerViewDelegate {
 class PlayerView: UIView {
     
     var delegate: PlayerViewDelegate?
-
+    
+    var script_node_id: Int?
+    
+    var room_id: Int?
+    
+    var script_role_id: Int?
+    
+    var script_id: Int?
+    
     var itemModel: GPScriptRoleListModel? {
         didSet {
             
@@ -31,6 +40,27 @@ class PlayerView: UIView {
                 
                 if itemModel?.describe != nil {
                     roleIntroduceLabel.text = itemModel?.describe
+                }
+                
+                if itemModel?.searchOver != nil {
+                    if itemModel?.user?.userId == UserAccountViewModel.shareInstance.account?.userId {
+                        roleSearchBtn.isHidden = true
+                    } else {
+                        roleSearchBtn.isHidden = false
+                    }
+                    if itemModel?.searchOver == 0 { // 可搜
+                        roleSearchBtn.isUserInteractionEnabled = true
+                        roleSearchBtn.setTitle("捜査", for: .normal)
+                        roleSearchBtn.setTitleColor(UIColor.white, for: .normal)
+                        roleSearchBtn.setBackgroundImage(UIImage(named: "button_bg"), for: .normal)
+                    } else {
+                        roleSearchBtn.backgroundColor = HexColor("#CACACA")
+                        roleSearchBtn.setBackgroundImage(UIImage(color: HexColor("#EEEEEE")), for: .normal)
+                        roleSearchBtn.isUserInteractionEnabled = false
+                        roleSearchBtn.setTitleColor(HexColor(LightGrayColor), for: .normal)
+                        roleSearchBtn.setTitle("なし", for: .normal)
+                    }
+                        
                 }
                 
                 if itemModel?.user?.head != nil {
@@ -195,6 +225,9 @@ extension PlayerView {
         
         roleBtn.setTitleColor(HexColor(DarkGrayColor), for: .normal)
         playerBtn.setTitleColor(HexColor(LightGrayColor), for: .normal)
+        roleSearchBtn.layer.cornerRadius = 22
+        roleSearchBtn.layer.masksToBounds = true
+        roleSearchBtn.addTarget(self, action: #selector(roleSearchBtnAction), for: .touchUpInside)
     }
     
     private func checkUser() {
@@ -316,9 +349,46 @@ extension PlayerView {
         }
     }
     
-    private func roleSearchBtnAction() {
-        if (delegate != nil) {
-            delegate?.roleSearchButtonTap()
+    @objc private func roleSearchBtnAction() {
+        gameRoleSearch(clue_type: 1)
+//        if (delegate != nil) {
+//            delegate?.roleSearchButtonTap()
+//        }
+    }
+    
+    // 搜证
+    func gameRoleSearch(clue_type: Int) {
+        SVProgressHUD.show()
+        searchRoleClueRequest(clue_type: clue_type, room_id: room_id!, script_role_id: script_role_id!, source_script_role_id:itemModel!.scriptRoleId!, script_clue_id: nil, script_node_id: script_node_id!) {[weak self] (result, error) in
+            SVProgressHUD.dismiss()
+            if error != nil {
+                return
+            }
+            // 取到结果
+            guard  let resultDic :[String : AnyObject] = result else { return }
+            if resultDic["code"]!.isEqual(1) {
+                let data = resultDic["data"] as! [String : AnyObject]
+                let resultData = data["search_clue_result"] as! [String : AnyObject]
+                let clueResultModel = SearchClueResultModel(fromDictionary: resultData)
+                
+                let threadCardView = ThreadCardDetailView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+
+                threadCardView.clue_type = clue_type
+                threadCardView.room_id = self?.room_id
+                threadCardView.script_node_id = self?.script_node_id
+                threadCardView.script_role_id = self?.script_role_id
+                threadCardView.source_script_role_id = self?.itemModel!.scriptRoleId!
+                threadCardView.script_id = self?.script_id
+
+                threadCardView.clueResultModel = clueResultModel
+                threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                
+                self?.contentView = nil
+                self?.removeFromSuperview()
+                UIApplication.shared.keyWindow?.addSubview(threadCardView)
+            } else {
+                
+            }
         }
     }
 }

@@ -42,15 +42,19 @@ class ThreadCardView: UIView {
     
     var script_clue_id: Int?
     
+    var clue_type: Int?
+    
     var clueListModel :ClueListModel? {
         didSet {
             if clueListModel != nil {
                 script_node_id = clueListModel?.scriptNodeId
                 script_place_id = clueListModel?.scriptPlaceId
                 script_clue_id = clueListModel?.scriptClueId
-                if clueListModel?.attachment != nil {
-                    imgView.setImageWith(URL(string: (clueListModel?.attachment!)!))
-                }
+                
+//                if clueListModel?.attachment != nil {
+//                    imgView.setImageWith(URL(string: (clueListModel?.attachment!)!))
+//                }
+                
                 if clueListModel?.isGoing == 1 { // 可深入
                     deepBtn.layer.cornerRadius = 22
                     deepBtn.setTitleColor(UIColor.white, for: .normal)
@@ -92,7 +96,7 @@ class ThreadCardView: UIView {
         if clueResultModel?.isGoing == 1 { // 可深入
 //            deepBtnActionBlock?(clueResultModel!)
             
-            searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: script_clue_id, script_node_id: script_node_id!) {[weak self] (result, error) in
+            searchClueRequest(clue_type: clue_type!, room_id: room_id!, script_place_id: script_place_id!, script_clue_id: script_clue_id, script_node_id: script_node_id!, script_role_id: 0) {[weak self] (result, error) in
                 if error != nil {
                     return
                 }
@@ -116,7 +120,7 @@ class ThreadCardView: UIView {
     // 公开按钮
     @IBAction func publicBtnAction(_ sender: Any) {
         
-        clueOpenRequest(room_id: room_id!, script_clue_id: script_clue_id!, script_place_id: script_place_id!, script_node_id: script_node_id!) { (result, error) in
+        clueOpenRequest(clue_type: 0, room_id: room_id!, script_clue_id: script_clue_id!, script_place_id: script_place_id!, script_node_id: script_node_id!) { (result, error) in
             if error != nil {
                 return
             }

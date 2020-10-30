@@ -70,6 +70,11 @@ class ScriptCommentsViewController: UIViewController {
         setNavigationBar()
         setUI()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = false
+    }
 
 }
 
@@ -164,14 +169,16 @@ extension ScriptCommentsViewController {
                 self.view.addSubview(starView!)
             }
             
-            switch fromType {
-            case .gamePlay:
-                break
-            case .scriptLog:
-                commentFindFunc()
-            default:
-                break
-            }
+//            switch fromType {
+//            case .gamePlay:
+//                starView?.isEdit = true
+//                break
+//            case .scriptLog:
+//                commentFindFunc()
+//            default:
+//                break
+//            }
+            commentFindFunc()
         }
         
         if textBgView == nil {

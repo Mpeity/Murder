@@ -31,6 +31,9 @@ class GPScriptRoleListModel : NSObject {
     var scriptRoleName : String?
     var secretTalkId : Int?
     var user : GPScriptRoleUserModel!
+    
+    var searchOver : Int?
+
 
     /**
      * Instantiate the instance using the passed dictionary values to set the properties values
@@ -99,6 +102,9 @@ class GPScriptRoleListModel : NSObject {
         if let userData = dictionary["user"] as? [String:Any]{
             user = GPScriptRoleUserModel(fromDictionary: userData)
         }
+        
+        searchOver = dictionary["search_over"] as? Int
+
     }
 
 
@@ -172,6 +178,11 @@ class GPScriptRoleListModel : NSObject {
         if user != nil{
             dictionary["user"] = user.toDictionary()
         }
+        
+        if searchOver != nil{
+            dictionary["search_over"] = searchOver
+        }
+        
         return dictionary
     }
 

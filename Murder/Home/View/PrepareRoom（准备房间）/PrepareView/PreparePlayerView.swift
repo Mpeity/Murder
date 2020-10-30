@@ -10,36 +10,36 @@ import UIKit
 
 class PreparePlayerView: UIView {
 
-    var itemModel: GPScriptRoleListModel? {
+    var itemModel: RoomUserModel? {
         didSet {
             
             if (itemModel != nil) {
 
-                if itemModel?.user?.head != nil {
-                    let head = itemModel?.user?.head!
+                if itemModel?.head != nil {
+                    let head = itemModel?.head!
                     playerImgView.setImageWith(URL(string: head!))
                 }
                 
-                if itemModel?.user?.nickname != nil {
-                    playerNameLabel.text = itemModel?.user?.nickname!
+                if itemModel?.nickname != nil {
+                    playerNameLabel.text = itemModel?.nickname!
                 }
                 
                 var image : UIImage!
-                if itemModel?.user?.sex == 1 {
+                if itemModel?.sex == 1 {
                     image = UIImage(named: "sex_man")
-                } else if itemModel?.user?.sex == 2 {
+                } else if itemModel?.sex == 2 {
                     image = UIImage(named: "sex_woman")
                 } else {
                     
                 }
                 sexImgView.image = image
 
-                if itemModel?.user?.level != nil {
-                    levelLabel.text = itemModel?.user?.level
+                if itemModel?.level != nil {
+                    levelLabel.text = itemModel?.level
                 }
                 
-                if itemModel?.user?.userId != nil {
-                    let id = itemModel?.user?.userId!
+                if itemModel?.userId != nil {
+                    let id = itemModel?.userId!
                     IDLabel.text = "ID:\(String(id!))"
                 }
                 checkUser()
@@ -124,7 +124,7 @@ extension PreparePlayerView {
     }
     
     private func checkUser() {
-        let user_id = itemModel?.user.userId
+        let user_id = itemModel?.userId
         if user_id != nil {
             userFindRequest(user_id: user_id!) {[weak self] (result, error) in
                 if error != nil {
@@ -162,7 +162,7 @@ extension PreparePlayerView {
 extension PreparePlayerView {
     // 添加好友
     private func addFriend() {
-        let receive_id = itemModel?.user.userId
+        let receive_id = itemModel?.userId
         applyFriendRequest(receive_id: receive_id!) {[weak self] (result, error) in
             if error != nil {
                 return

@@ -989,9 +989,10 @@ extension PrepareRoomViewController: UITableViewDelegate, UITableViewDataSource 
                 scriptRoleModel?.hasPlayer = true
                 
             } else {
-//                let playerView = PreparePlayerView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-//                playerView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-//                self?.view.addSubview(playerView)
+                let playerView = PreparePlayerView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                playerView.itemModel = roomUserModel
+                playerView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                self?.view.addSubview(playerView)
             }
             
         }

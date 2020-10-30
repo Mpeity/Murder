@@ -72,8 +72,8 @@ class HomeListViewCell: UITableViewCell {
                 countLabel.text = count
             }
             
-            if roomModel.star != nil {
-                let starView = StarView(count: CGFloat(roomModel.star!), lineSpace: 0, fullImgName: "home_star_pic_02", halfImgName: "home_star_pic_03", zeroImgName: "home_star_pic_01", sizeWidth: 18.0, sizeHeight: 18.0, frame: CGRect(x: 0, y: 0, width: 90, height: 22))
+            if roomModel.scriptStar != nil {
+                let starView = StarView(count: CGFloat(roomModel.scriptStar!), lineSpace: 0, fullImgName: "home_star_pic_02", halfImgName: "home_star_pic_03", zeroImgName: "home_star_pic_01", sizeWidth: 18.0, sizeHeight: 18.0, frame: CGRect(x: 0, y: 0, width: 90, height: 22))
                 countView.addSubview(starView)
             }
             

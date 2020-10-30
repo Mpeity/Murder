@@ -26,11 +26,16 @@ class ThreadNewCardView: UIView {
     // 关闭
     private var cancelBtn: UIButton! = UIButton(frame: CGRect.zero)
     
+    var room_id: Int?
+
+    // 地点
     var script_place_id: Int?
         
-    var room_id: Int?
-        
-    var script_node_id: Int?
+    var script_node_id: Int? {
+        didSet {
+            
+        }
+    }
         
     var script_clue_id: Int?
     
@@ -39,6 +44,15 @@ class ThreadNewCardView: UIView {
             
         }
     }
+    
+    // 搜身
+    var script_role_id: Int?
+    
+    var source_script_role_id: Int?
+    
+    var clue_type: Int?
+    
+    var child_id: Int?
 
       
     // 列表
@@ -76,7 +90,9 @@ class ThreadNewCardView: UIView {
     var clueResultModel: SearchClueResultModel? {
         didSet {
             if clueResultModel != nil {
-                script_clue_id = clueResultModel?.childId
+                script_clue_id = clueResultModel?.scriptClueId
+                child_id = clueResultModel?.childId
+                
                 let imagePath = getImagePathWith(attachmentId: (clueResultModel?.attachmentId!)!)
 
                 if imagePath != nil {
@@ -100,10 +116,40 @@ class ThreadNewCardView: UIView {
     
     // 深入按钮
     @objc func deepBtnAction(_ sender: Any) {
+        
+        if clue_type! == 1 { // 搜身
+            if (clueResultModel != nil && clueResultModel?.isGoing == 1) || (clueListModel != nil && clueListModel?.isGoing == 1) { // 可深入
+                SVProgressHUD.show()
+
+                searchRoleClueRequest(clue_type: clue_type!, room_id: room_id!, script_role_id: script_role_id!, source_script_role_id: source_script_role_id!, script_clue_id: script_clue_id!, script_node_id: script_node_id!) {[weak self] (result, error) in
+                    SVProgressHUD.dismiss()
+                    if error != nil {
+                        return
+                    }
+                    // 取到结果
+                    guard  let resultDic :[String : AnyObject] = result else { return }
+                    if resultDic["code"]!.isEqual(1) {
+                        let data = resultDic["data"] as! [String : AnyObject]
+                        let resultData = data["search_clue_result"] as! [String : AnyObject]
+                        
+                        let model = SearchClueResultModel(fromDictionary: resultData)
+                        self?.clueResultModel = model
+                        
+                    } else {
+                        
+                    }
+                }
+            } else {
+                self.removeFromSuperview()
+            }
+            
+            return
+        }
+        
         if (clueResultModel != nil && clueResultModel?.isGoing == 1) || (clueListModel != nil && clueListModel?.isGoing == 1) { // 可深入
             SVProgressHUD.show()
 
-            searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: script_clue_id, script_node_id: script_node_id!) {[weak self] (result, error) in
+            searchClueRequest(clue_type: clue_type!, room_id: room_id!, script_place_id: script_place_id!, script_clue_id: script_clue_id, script_node_id: script_node_id!, script_role_id: script_role_id!) {[weak self] (result, error) in
                 SVProgressHUD.dismiss()
                 if error != nil {
                     return
@@ -129,23 +175,46 @@ class ThreadNewCardView: UIView {
     // 公开按钮
     @objc func publicBtnAction(_ sender: Any) {
         
-        clueOpenRequest(room_id: room_id!, script_clue_id: script_clue_id!, script_place_id: script_place_id!, script_node_id: script_node_id!) { (result, error) in
-            if error != nil {
-                return
+        if clue_type == 0 { // 搜地图 {
+            clueOpenRequest(clue_type: 0, room_id: room_id!, script_clue_id: script_clue_id!, script_place_id: script_place_id!, script_node_id: script_node_id!) { (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                if resultDic["code"]!.isEqual(1) {
+                    let data = resultDic["msg"] as! String
+                    showToastCenter(msg: data)
+                    
+                } else {
+                    
+                }
             }
-            // 取到结果
-            guard  let resultDic :[String : AnyObject] = result else { return }
-            if resultDic["code"]!.isEqual(1) {
-                let data = resultDic["msg"] as! String
-                showToastCenter(msg: data)
-                
-            } else {
-                
+            
+        } else {
+            
+            Log(room_id)
+            Log(script_clue_id)
+            Log(source_script_role_id)
+            Log(script_node_id)
+            
+            clueRoleOpenRequest(clue_type: 1, room_id: room_id!, script_clue_id: script_clue_id!, source_script_role_id: source_script_role_id!, script_node_id: script_node_id!) { (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                if resultDic["code"]!.isEqual(1) {
+                    let data = resultDic["msg"] as! String
+                    showToastCenter(msg: data)
+                } else {
+                    
+                }
             }
+            
         }
         
         self.removeFromSuperview()
-        
     }
     
     // 关闭按钮

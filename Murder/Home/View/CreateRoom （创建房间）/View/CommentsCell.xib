@@ -60,10 +60,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Spj-Ms-CWe">
-                        <rect key="frame" x="15" y="94" width="373" height="15"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="15" id="xL3-Hd-a7e"/>
-                        </constraints>
+                        <rect key="frame" x="15" y="75" width="373" height="34"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -92,6 +89,7 @@
                     <constraint firstAttribute="trailing" secondItem="A86-gM-Kff" secondAttribute="trailing" constant="13.5" id="nyr-tE-UNt"/>
                     <constraint firstItem="7G2-Dh-O3n" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="oRN-fc-p2s"/>
                     <constraint firstItem="mK0-A9-Cyn" firstAttribute="leading" secondItem="Spj-Ms-CWe" secondAttribute="leading" id="qgP-ww-UBD"/>
+                    <constraint firstItem="Spj-Ms-CWe" firstAttribute="top" secondItem="7G2-Dh-O3n" secondAttribute="bottom" constant="15" id="tah-Ek-9et"/>
                     <constraint firstItem="Spj-Ms-CWe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="tmF-EG-wc2"/>
                 </constraints>
             </tableViewCellContentView>

@@ -258,24 +258,49 @@ func gameIngRequest(room_id: Int, script_node_id: Int, finished: @escaping(_ res
 }
 
 
-//MARK:- 搜证
+//MARK:- 搜证|搜头像
 private let search_clue_url = "/api/game/search_clue"
 /** 注册接口
  * @params [参数名] [类型] [是否必传]
+ * clue_type [int]    是    搜证类型【0搜地点1搜身】
  * room_id [int]    是    房间ID
  * script_place_id [int]    是    地点ID
  * script_clue_id [int]      否  线索ID【可深入线索时查看】
  * script_node_id [int]    是    游戏节点ID
  */
-func searchClueRequest(room_id: Int, script_place_id: Int, script_clue_id: Int?,script_node_id: Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+func searchClueRequest(clue_type: Int,room_id: Int, script_place_id: Int, script_clue_id: Int?,script_node_id: Int, script_role_id: Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
     
     let urlString = search_clue_url
     var parameters = [:] as [String : AnyObject]
     if script_clue_id != nil {
-        parameters = ["room_id" : room_id, "script_place_id": script_place_id, "script_clue_id" : script_clue_id, "script_node_id" : script_node_id] as [String : AnyObject]
+        parameters = ["clue_type": clue_type, "room_id" : room_id, "script_place_id": script_place_id, "script_clue_id" : script_clue_id, "script_node_id" : script_node_id, "script_role_id": script_role_id] as [String : AnyObject]
     } else {
-        parameters = ["room_id" : room_id, "script_place_id": script_place_id, "script_node_id" : script_node_id] as [String : AnyObject]
+        parameters = ["clue_type": clue_type, "room_id" : room_id, "script_place_id": script_place_id, "script_node_id" : script_node_id, "script_role_id": script_role_id] as [String : AnyObject]
     }
+    
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+//MARK:- 搜头像
+/** 注册接口
+ * @params [参数名] [类型] [是否必传]
+ * clue_type [int]    是    搜证类型【0搜地点1搜身】
+ * script_node_id [int]    是    节点ID
+ * script_role_id [int]    是    搜索角色ID
+ * source_script_role_id复制 [int]    是    被搜角色ID
+ * script_clue_id [int]      否  线索ID【可深入线索时查看
+ */
+func searchRoleClueRequest(clue_type: Int,room_id: Int, script_role_id: Int, source_script_role_id: Int?, script_clue_id: Int?, script_node_id: Int, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    let urlString = search_clue_url
+    var parameters = [:] as [String : AnyObject]
+    if script_clue_id != nil {
+        parameters = ["clue_type": clue_type, "room_id" : room_id, "script_role_id": script_role_id, "source_script_role_id" : source_script_role_id, "script_clue_id" : script_clue_id, "script_node_id" : script_node_id] as [String : AnyObject]
+    } else {
+        parameters = ["clue_type": clue_type, "room_id" : room_id, "script_role_id": script_role_id, "source_script_role_id" : source_script_role_id, "script_node_id" : script_node_id] as [String : AnyObject]
+    }
+
     
     NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
@@ -351,16 +376,33 @@ func gameSettlementRequest(room_id: Int, finished: @escaping(_ reslut: [String: 
 
 //MARK:- 线索公开
 private let clue_open_url = "/api/game/clue_open"
-/** 注册接口
+/** 接口
  * @params [参数名] [类型] [是否必传]
  * script_clue_id [int]    是    线索ID
  * script_place_id [int]    是    地点ID
  * room_id [int]    是    房间ID
  * script_node_id [int]    是    游戏节点ID
+ * clue_type  [int]    是    线索类型【0地点线索1搜身线索】
  */
-func clueOpenRequest(room_id: Int, script_clue_id: Int, script_place_id : Int, script_node_id: Int,  finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+func clueOpenRequest(clue_type: Int, room_id: Int, script_clue_id: Int, script_place_id : Int, script_node_id: Int,  finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
     let urlString = clue_open_url
-    let parameters = ["room_id" : room_id, "script_clue_id" : script_clue_id, "script_place_id" : script_place_id, "script_node_id": script_node_id] as [String : AnyObject]
+    let parameters = ["clue_type": clue_type, "room_id" : room_id, "script_clue_id" : script_clue_id, "script_place_id" : script_place_id, "script_node_id": script_node_id] as [String : AnyObject]
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+/** 搜身线索公开
+ * @params [参数名] [类型] [是否必传]
+ * script_clue_id [int]    是    线索ID
+ * source_script_role_id [int]    是
+ * room_id [int]    是    房间ID
+ * script_node_id [int]    是    游戏节点ID
+ *
+ */
+func clueRoleOpenRequest(clue_type: Int, room_id: Int, script_clue_id: Int, source_script_role_id : Int, script_node_id: Int,  finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    let urlString = clue_open_url
+    let parameters = ["clue_type": clue_type, "room_id" : room_id, "script_clue_id" : script_clue_id, "source_script_role_id" : source_script_role_id, "script_node_id": script_node_id] as [String : AnyObject]
     NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }

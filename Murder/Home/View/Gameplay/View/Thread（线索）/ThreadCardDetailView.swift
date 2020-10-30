@@ -41,15 +41,27 @@ class ThreadCardDetailView: UIView {
     var child_id: Int?
     
     var script_id: Int?
+    
+    var clue_type: Int?
+    
+    // 搜身
+    var script_role_id: Int?
+    
+    var source_script_role_id: Int?
       
     // 列表
     var clueListModel :ClueListModel? {
         didSet {
             if clueListModel != nil {
-                script_place_id = clueListModel?.scriptPlaceId
-                script_clue_id = clueListModel?.scriptClueId
+                if clueListModel!.clueType == 0  { // 地点
+                    script_place_id = clueListModel?.scriptPlaceId
+                } else {
+                    source_script_role_id = clueListModel?.sourceScriptRoleId
+                }
                 child_id = clueListModel?.childId
-                
+                script_clue_id = clueListModel?.scriptClueId
+                script_role_id = clueListModel?.scriptRoleId
+                clue_type = clueListModel?.clueType
                 
                 let imagePath = getImagePathWith(attachmentId: (clueListModel?.attachmentId!)!)
                 
@@ -102,43 +114,79 @@ class ThreadCardDetailView: UIView {
     // 深入按钮
     @objc func deepBtnAction(_ sender: Any) {
 //        script_clue_id = clueResultModel?.childId
+        
         if (clueResultModel != nil && clueResultModel?.isGoing == 1) || (clueListModel != nil && clueListModel?.isGoing == 1) { // 可深入
             SVProgressHUD.show()
+            
+            if clue_type == 0 { // 搜地图
+                searchClueRequest(clue_type: 0, room_id: room_id!, script_place_id: script_place_id!, script_clue_id: child_id!, script_node_id: script_node_id!, script_role_id: script_role_id!) {[weak self] (result, error) in
+                    SVProgressHUD.dismiss()
+                    if error != nil {
+                        return
+                    }
+                    // 取到结果
+                    guard  let resultDic :[String : AnyObject] = result else { return }
+                    if resultDic["code"]!.isEqual(1) {
+                        let data = resultDic["data"] as! [String : AnyObject]
+                        let resultData = data["search_clue_result"] as! [String : AnyObject]
+                        
+                        self!.hide()
+                        
+                        let model = SearchClueResultModel(fromDictionary: resultData)
+                        let threadCardView = ThreadNewCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                        
+                        threadCardView.script_id = self?.script_id
+                        threadCardView.script_place_id = self?.script_place_id
+                        threadCardView.room_id = self!.room_id
+                        threadCardView.script_node_id = self!.script_node_id
+                        threadCardView.script_role_id = self?.script_role_id
 
-            searchClueRequest(room_id: room_id!, script_place_id: script_place_id!, script_clue_id: child_id!, script_node_id: script_node_id!) {[weak self] (result, error) in
-                SVProgressHUD.dismiss()
-                if error != nil {
-                    return
+                        threadCardView.clueResultModel = model
+
+                        
+                        threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                        UIApplication.shared.keyWindow?.addSubview(threadCardView)
+                        
+                    } else {
+                        
+                    }
                 }
-                // 取到结果
-                guard  let resultDic :[String : AnyObject] = result else { return }
-                if resultDic["code"]!.isEqual(1) {
-                    let data = resultDic["data"] as! [String : AnyObject]
-                    let resultData = data["search_clue_result"] as! [String : AnyObject]
-                    
-                    self!.hide()
-                    
-                    let model = SearchClueResultModel(fromDictionary: resultData)
-//                    self?.clueResultModel = model
-                    
-                    let threadCardView = ThreadNewCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-                    
-                    
-                    threadCardView.script_id = self?.script_id
-                    threadCardView.script_place_id = self?.script_place_id
-                    threadCardView.room_id = self!.room_id
-                    threadCardView.script_node_id = self!.script_node_id
-                    
-                    threadCardView.clueResultModel = model
+            } else {
+                searchRoleClueRequest(clue_type: 1, room_id: room_id!, script_role_id: script_role_id!, source_script_role_id: source_script_role_id!, script_clue_id: child_id!, script_node_id: script_node_id!) {[weak self] (result, error) in
+                    SVProgressHUD.dismiss()
+                    if error != nil {
+                        return
+                    }
+                    // 取到结果
+                    guard  let resultDic :[String : AnyObject] = result else { return }
+                    if resultDic["code"]!.isEqual(1) {
+                        let data = resultDic["data"] as! [String : AnyObject]
+                        let resultData = data["search_clue_result"] as! [String : AnyObject]
+                        
+                        self!.hide()
+                        
+                        let model = SearchClueResultModel(fromDictionary: resultData)
+                        let threadCardView = ThreadNewCardView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+                        threadCardView.clue_type = self?.clue_type
+                        threadCardView.script_id = self?.script_id
+                        threadCardView.script_role_id = self?.script_role_id
+                        threadCardView.script_node_id = self?.script_node_id
+                        threadCardView.room_id = self!.room_id
+                        threadCardView.source_script_role_id = self!.source_script_role_id
+                        threadCardView.clueResultModel = model
 
+                        threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+                        UIApplication.shared.keyWindow?.addSubview(threadCardView)
+                        
+                    } else {
+                        
+                    }
                     
-                    threadCardView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-                    UIApplication.shared.keyWindow?.addSubview(threadCardView)
-                    
-                } else {
                     
                 }
             }
+
+            
         } else {
             self.removeFromSuperview()
         }
@@ -147,22 +195,43 @@ class ThreadCardDetailView: UIView {
     // 公开按钮
     @objc func publicBtnAction(_ sender: Any) {
         
-        clueOpenRequest(room_id: room_id!, script_clue_id: script_clue_id!, script_place_id: script_place_id!, script_node_id: script_node_id!) { (result, error) in
-            if error != nil {
-                return
+        if clue_type == 0 { // 搜地图 {
+            clueOpenRequest(clue_type: 0, room_id: room_id!, script_clue_id: script_clue_id!, script_place_id: script_place_id!, script_node_id: script_node_id!) { (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                if resultDic["code"]!.isEqual(1) {
+                    let data = resultDic["msg"] as! String
+                    showToastCenter(msg: data)
+                    
+                } else {
+                    
+                }
             }
-            // 取到结果
-            guard  let resultDic :[String : AnyObject] = result else { return }
-            if resultDic["code"]!.isEqual(1) {
-                let data = resultDic["msg"] as! String
-                showToastCenter(msg: data)
-                
-            } else {
-                
+            
+        } else {
+            clueRoleOpenRequest(clue_type: 1, room_id: room_id!, script_clue_id: script_clue_id!, source_script_role_id: source_script_role_id!, script_node_id: script_node_id!) { (result, error) in
+                if error != nil {
+                    return
+                }
+                // 取到结果
+                guard  let resultDic :[String : AnyObject] = result else { return }
+                if resultDic["code"]!.isEqual(1) {
+                    let data = resultDic["msg"] as! String
+                    showToastCenter(msg: data)
+                } else {
+                    
+                }
             }
+            
         }
         
         self.removeFromSuperview()
+
+        
+        
         
 //        publicBtnActionBlock?(clueResultModel!)
     }

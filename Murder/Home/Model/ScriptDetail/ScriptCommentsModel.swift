@@ -43,6 +43,8 @@ class ScriptCommentsModel : NSObject {
 }
 
 class ScriptCommentsItemModel : NSObject {
+    
+    var cellHeight: CGFloat?
 
     var content : String?
     var createTime : Int?

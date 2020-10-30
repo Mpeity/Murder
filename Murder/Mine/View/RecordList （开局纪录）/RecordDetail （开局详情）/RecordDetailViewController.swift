@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 
 let RecordDetailCellId = "RecordDetailCellId"
@@ -56,7 +57,10 @@ class RecordDetailViewController: UIViewController, UITableViewDelegate, UITable
 //MARK:- 数据请求
 extension RecordDetailViewController {
     func loadData() {
+        SVProgressHUD.show()
         roomLogInfoRequest(room_id: room_id!) {[weak self] (result, error) in
+            SVProgressHUD.dismiss()
+
             if error != nil {
                 return
             }

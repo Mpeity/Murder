@@ -344,7 +344,7 @@ func stringSizeWithString(text: String?, width: CGFloat, font: UIFont) -> CGSize
     // 文本高度
     let attributedStr = NSMutableAttributedString(string: text)
     let paragaraphStryle = NSMutableParagraphStyle()
-//    paragaraphStryle.lineSpacing = 5
+    paragaraphStryle.lineSpacing = 5
     attributedStr.addAttributes([NSAttributedString.Key.paragraphStyle : paragaraphStryle], range: NSMakeRange(0, (text as NSString).length))
     // 生成一个统一计算文本高度的Label
     let stringLabel = UILabel()

@@ -9,14 +9,121 @@
 import Foundation
 
 
+//class ClueListModel : NSObject {
+//
+//
+//    var cellHeight: CGFloat?
+//
+//    var attachmentId : String?
+//    var attachment : String?
+//    var childId : Int?
+//    var isGoing : Int?
+//    var isOpen : Int?
+//    var isPrivate : Int?
+//    var isRead : Int?
+//    var scriptClueDetail : String?
+//    var scriptClueId : Int?
+//    var scriptClueName : String?
+//    var scriptNodeId : Int?
+//    var scriptPlaceId : Int?
+//    var scriptPlaceName : String?
+//    var scriptRoleId : Int?
+//    var userId : Int?
+//    var userOpen : Int?
+//
+//
+//    /**
+//     * Instantiate the instance using the passed dictionary values to set the properties values
+//     */
+//    init(fromDictionary dictionary: [String:Any]){
+//        attachmentId = dictionary["attachment_id"] as? String
+//
+//        attachment = dictionary["attachment"] as? String
+//        childId = dictionary["child_id"] as? Int
+//        isGoing = dictionary["is_going"] as? Int
+//        isOpen = dictionary["is_open"] as? Int
+//        isPrivate = dictionary["is_private"] as? Int
+//        isRead = dictionary["is_read"] as? Int
+//        scriptClueDetail = dictionary["script_clue_detail"] as? String
+//        scriptClueId = dictionary["script_clue_id"] as? Int
+//        scriptClueName = dictionary["script_clue_name"] as? String
+//        scriptNodeId = dictionary["script_node_id"] as? Int
+//        scriptPlaceId = dictionary["script_place_id"] as? Int
+//        scriptPlaceName = dictionary["script_place_name"] as? String
+//        scriptRoleId = dictionary["script_role_id"] as? Int
+//        userId = dictionary["user_id"] as? Int
+//        userOpen = dictionary["user_open"] as? Int
+//    }
+//
+//    /**
+//     * Returns all the available property values in the form of [String:Any] object where the key is the approperiate json key and the value is the value of the corresponding property
+//     */
+//    func toDictionary() -> [String:Any]
+//    {
+//        var dictionary = [String:Any]()
+//        if attachmentId != nil{
+//            dictionary["attachment_id"] = attachmentId
+//        }
+//
+//        if attachment != nil{
+//            dictionary["attachment"] = attachment
+//        }
+//        if childId != nil{
+//            dictionary["child_id"] = childId
+//        }
+//        if isGoing != nil{
+//            dictionary["is_going"] = isGoing
+//        }
+//        if isOpen != nil{
+//            dictionary["is_open"] = isOpen
+//        }
+//        if isPrivate != nil{
+//            dictionary["is_private"] = isPrivate
+//        }
+//        if isRead != nil{
+//            dictionary["is_read"] = isRead
+//        }
+//        if scriptClueDetail != nil{
+//            dictionary["script_clue_detail"] = scriptClueDetail
+//        }
+//        if scriptClueId != nil{
+//            dictionary["script_clue_id"] = scriptClueId
+//        }
+//        if scriptClueName != nil{
+//            dictionary["script_clue_name"] = scriptClueName
+//        }
+//        if scriptNodeId != nil{
+//            dictionary["script_node_id"] = scriptNodeId
+//        }
+//        if scriptPlaceId != nil{
+//            dictionary["script_place_id"] = scriptPlaceId
+//        }
+//        if scriptPlaceName != nil{
+//            dictionary["script_place_name"] = scriptPlaceName
+//        }
+//        if scriptRoleId != nil{
+//            dictionary["script_role_id"] = scriptRoleId
+//        }
+//        if userId != nil{
+//            dictionary["user_id"] = userId
+//        }
+//        if userOpen != nil{
+//            dictionary["user_open"] = userOpen
+//        }
+//        return dictionary
+//    }
+//
+//}
+
 class ClueListModel : NSObject {
     
-    
     var cellHeight: CGFloat?
+
 
     var attachmentId : String?
     var attachment : String?
     var childId : Int?
+    var clueType : Int?
     var isGoing : Int?
     var isOpen : Int?
     var isPrivate : Int?
@@ -26,8 +133,10 @@ class ClueListModel : NSObject {
     var scriptClueName : String?
     var scriptNodeId : Int?
     var scriptPlaceId : Int?
-    var scriptPlaceName : String?
+    var scriptPlaceName : Int?
     var scriptRoleId : Int?
+    var sourceScriptRoleId : Int?
+    var userGoing : Int?
     var userId : Int?
     var userOpen : Int?
 
@@ -37,9 +146,9 @@ class ClueListModel : NSObject {
      */
     init(fromDictionary dictionary: [String:Any]){
         attachmentId = dictionary["attachment_id"] as? String
-
         attachment = dictionary["attachment"] as? String
         childId = dictionary["child_id"] as? Int
+        clueType = dictionary["clue_type"] as? Int
         isGoing = dictionary["is_going"] as? Int
         isOpen = dictionary["is_open"] as? Int
         isPrivate = dictionary["is_private"] as? Int
@@ -49,8 +158,10 @@ class ClueListModel : NSObject {
         scriptClueName = dictionary["script_clue_name"] as? String
         scriptNodeId = dictionary["script_node_id"] as? Int
         scriptPlaceId = dictionary["script_place_id"] as? Int
-        scriptPlaceName = dictionary["script_place_name"] as? String
+        scriptPlaceName = dictionary["script_place_name"] as? Int
         scriptRoleId = dictionary["script_role_id"] as? Int
+        sourceScriptRoleId = dictionary["source_script_role_id"] as? Int
+        userGoing = dictionary["user_going"] as? Int
         userId = dictionary["user_id"] as? Int
         userOpen = dictionary["user_open"] as? Int
     }
@@ -64,12 +175,11 @@ class ClueListModel : NSObject {
         if attachmentId != nil{
             dictionary["attachment_id"] = attachmentId
         }
-        
-        if attachment != nil{
-            dictionary["attachment"] = attachment
-        }
         if childId != nil{
             dictionary["child_id"] = childId
+        }
+        if clueType != nil{
+            dictionary["clue_type"] = clueType
         }
         if isGoing != nil{
             dictionary["is_going"] = isGoing
@@ -104,11 +214,20 @@ class ClueListModel : NSObject {
         if scriptRoleId != nil{
             dictionary["script_role_id"] = scriptRoleId
         }
+        if sourceScriptRoleId != nil{
+            dictionary["source_script_role_id"] = sourceScriptRoleId
+        }
+        if userGoing != nil{
+            dictionary["user_going"] = userGoing
+        }
         if userId != nil{
             dictionary["user_id"] = userId
         }
         if userOpen != nil{
             dictionary["user_open"] = userOpen
+        }
+        if attachment != nil{
+            dictionary["attachment"] = attachment
         }
         return dictionary
     }

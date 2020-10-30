@@ -74,5 +74,6 @@ extension CommentsHeaderCell {
         commonLabel.layer.cornerRadius = 5
         commonLabel.layer.masksToBounds = true
         commonLabel.textColor = HexColor(MainColor)
+        commonLabel.font = UIFont.systemFont(ofSize: 12)
     }
 }
