@@ -139,9 +139,12 @@ extension PreparePlayerView {
                     let userFindModel = UserFindModel(fromDictionary: resultData)
                     // 是否是朋友 1是 0否
                     if (userFindModel.userId == UserAccountViewModel.shareInstance.account?.userId) || (userFindModel.isFriend != nil &&  userFindModel.isFriend == 1) {
-                        self?.applyBtn.isHidden = true
+                        
+//                        self?.applyBtn.isHidden = true
+                        
                     } else {
-                        self?.applyBtn.isHidden = false
+                        
+//                        self?.applyBtn.isHidden = false
                         
                         if userFindModel.isApply == 1 { // 已申请
                             self!.applyBtn.gradientClearLayerColor(cornerRadius: 22)

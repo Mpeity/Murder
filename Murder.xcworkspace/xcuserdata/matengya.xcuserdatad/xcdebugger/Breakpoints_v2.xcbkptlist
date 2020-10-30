@@ -397,8 +397,8 @@
             filePath = "Murder/Home/View/Gameplay/View/PlayerView&#xff08;&#x4eba;&#x7269;&#x5361;&#xff09;/PlayerView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
             landmarkName = "checkUser()"
             landmarkType = "7">
          </BreakpointContent>
@@ -749,8 +749,8 @@
             filePath = "Murder/Home/View/Gameplay/GameplayViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2387"
-            endingLineNumber = "2387"
+            startingLineNumber = "2392"
+            endingLineNumber = "2392"
             landmarkName = "roleSearchButtonTap()"
             landmarkType = "7">
          </BreakpointContent>

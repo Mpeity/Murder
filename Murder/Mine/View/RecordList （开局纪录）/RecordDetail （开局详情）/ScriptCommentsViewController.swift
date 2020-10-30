@@ -285,8 +285,10 @@ extension ScriptCommentsViewController {
                 guard  let resultDic :[String : AnyObject] = result else { return }
                 
                 if resultDic["code"]!.isEqual(1) {
-                    showToastCenter(msg: resultDic["msg"] as! String)
-                    self?.backBtnAction()
+                    showToastCenter(msg: "提出しました")
+
+//                    showToastCenter(msg: resultDic["msg"] as! String)
+//                    self?.backBtnAction()
                 }
             }
         } else {
@@ -298,8 +300,10 @@ extension ScriptCommentsViewController {
                 guard  let resultDic :[String : AnyObject] = result else { return }
                 
                 if resultDic["code"]!.isEqual(1) {
-                    showToastCenter(msg: resultDic["msg"] as! String)
-                    self?.backBtnAction()
+                    showToastCenter(msg: "提出しました")
+
+//                    showToastCenter(msg: resultDic["msg"] as! String)
+//                    self?.backBtnAction()
                 }
             }
         }
@@ -307,7 +311,6 @@ extension ScriptCommentsViewController {
     
     //MARK: - 返回按钮
     @objc func backBtnAction() {
-        
         self.navigationController?.popViewController(animated: true)
     }
     

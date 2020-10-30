@@ -1932,6 +1932,11 @@ extension GameplayViewController: UICollectionViewDelegate, UICollectionViewData
         playerView.script_node_id = gamePlayModel?.scriptNodeResult.scriptNodeId
         playerView.script_role_id = currentScriptRoleModel?.scriptRoleId
         playerView.room_id = gamePlayModel?.room.roomId
+        if gamePlayModel?.scriptNodeResult.nodeType == 4 {
+            model.hideSearchOver = false
+        } else {
+            model.hideSearchOver = true
+        }
         playerView.itemModel = model
         playerView.script_id = gamePlayModel?.script.scriptId
         playerView.delegate = self

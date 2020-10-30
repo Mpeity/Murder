@@ -33,6 +33,9 @@ class GPScriptRoleListModel : NSObject {
     var user : GPScriptRoleUserModel!
     
     var searchOver : Int?
+    
+    // 是否隐藏搜身按钮
+    var hideSearchOver: Bool?
 
 
     /**

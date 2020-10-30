@@ -8,6 +8,11 @@
 
 import UIKit
 import SVProgressHUD
+import MJRefresh
+
+private let Page_Size = 15
+
+
 
 let SynopsisViewCellId = "SynopsisViewCellId"
 
@@ -17,9 +22,13 @@ class ScriptDetailsViewController: UIViewController {
     /// 自定义导航栏
     private lazy var customNavigationBar = UIView()
     /// 自定义导航栏完全不透明时的偏移量边界(根据需求设定)
-    private let alphaChangeBoundary = FULL_SCREEN_WIDTH * (212 / 375) - 64
+    
+    private let alphaChangeBoundary = FULL_SCREEN_WIDTH * (212 / 375) - NAVIGATION_BAR_HEIGHT
     
     var script_id: Int!
+    
+    private var page_no = 1
+
     
     var user_script_text: String? {
         didSet {
@@ -62,8 +71,8 @@ class ScriptDetailsViewController: UIViewController {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.isHidden = false
 
-//        customNavigationBar.removeFromSuperview()
-//        performSelector(onMainThread: #selector(delayHidden), with: animated, waitUntilDone: false)
+        customNavigationBar.removeFromSuperview()
+        performSelector(onMainThread: #selector(delayHidden), with: animated, waitUntilDone: false)
     }
     
     @objc func delayHidden(animated: Bool) {
@@ -74,13 +83,9 @@ class ScriptDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-                
-//        customNavigationBar.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: NAVIGATION_BAR_HEIGHT)
-//        customNavigationBar.backgroundColor = UIColor(hexString: MainColor)?.withAlphaComponent(0)
-        
         setUI()
         
-        loadDataFun()
+//        loadDataFun()
     }
     
 }
@@ -142,28 +147,91 @@ extension ScriptDetailsViewController {
     // MARK: - 获取评论
     func scriptCommentsFun() {
         if script_id != nil {
-            SVProgressHUD.show()
-            getScriptCommentList(script_id: script_id, page_no: 1, page_size: 15) { [weak self] (result, error) in
-                SVProgressHUD.dismiss()
+            getScriptCommentList(script_id: script_id, page_no: page_no, page_size: Page_Size) { [weak self] (result, error) in
                 if error != nil {
+                    self?.tableView.mj_header.endRefreshing()
+                    self?.tableView.mj_footer.endRefreshing()
                     return
                 }
+                
                 // 取到结果
                 guard  let resultDic :[String : AnyObject] = result else { return }
+                
                 if resultDic["code"]!.isEqual(1) {
                     let data = resultDic["data"] as! [String : AnyObject]
-                    self?.scriptCommentsModel = ScriptCommentsModel(fromDictionary: data)
+                    let model = ScriptCommentsModel(fromDictionary: data)
+
+                    if self?.page_no == 1 {
+                        self?.scriptCommentsModel = model
+                    } else {
+                        self?.scriptCommentsModel?.list?.append(contentsOf: model.list!)
+                    }
+                    self?.tableView.reloadData()
+
+
+                    if model.list?.count ?? 0 < Page_Size { // 最后一页
+                        //如果提醒他没有更多的数据了
+                        self?.tableView.mj_header.endRefreshing()
+                        self?.tableView.mj_footer.endRefreshing()
+                        
+                        if self?.page_no != 1 {
+                            self?.tableView.mj_footer.endRefreshingWithNoMoreData()
+                        }
+                        return
+                    }
+                    
+                    self?.tableView.mj_header.endRefreshing()
+                    self?.tableView.mj_footer.endRefreshing()
+                    
+                } else {
+                    self?.tableView.mj_header.endRefreshing()
+                    self?.tableView.mj_footer.endRefreshing()
                 }
             }
         }
     }
-        
+    
+    @objc private func loadMore() {
+        page_no += 1
+        scriptCommentsFun()
+    }
+    
+    @objc private func loadRefresh() {
+        page_no = 1
+        loadDataFun()
+    }
 }
 
 
 extension ScriptDetailsViewController {
-    private func setUI() {
+    
+    
+    private func setupHeaderView() {
+        let header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(loadRefresh))
+        header?.backgroundColor = UIColor.white
+        header?.lastUpdatedTimeLabel.isHidden = true  // 隐藏时间
+        header?.stateLabel.isHidden = true // 隐藏文字
+        header?.isAutomaticallyChangeAlpha = true //自动更改透明度
         
+        // 设置tableview的header
+        tableView.mj_header = header
+        
+        // 进入刷新状态
+        tableView.mj_header.beginRefreshing()
+    }
+    
+    private func setupFooterView() {
+        
+        let footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(loadMore))
+        footer?.setTitle("", for: .idle)
+        footer?.setTitle("ローディング中...", for: .refreshing)
+        footer?.setTitle("~ 以上です ~", for: .noMoreData)
+        footer?.stateLabel.font = UIFont.systemFont(ofSize: 12)
+        footer?.stateLabel.textColor = HexColor("#999999")
+        tableView.mj_footer = footer
+    }
+    
+    private func setUI() {
 
         self.view.addSubview(createBtn)
         createBtn.snp.makeConstraints { (make) in
@@ -186,6 +254,8 @@ extension ScriptDetailsViewController {
         createBtn.setTitleColor(UIColor.white, for: .normal)
         createBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         createBtn.addTarget(self, action: #selector(createBtnAction), for: .touchUpInside)
+        
+        
         tableHeaderView = CreateRoomHeaderView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: STATUS_BAR_HEIGHT + 190))
         
         
@@ -197,7 +267,6 @@ extension ScriptDetailsViewController {
         // 隐藏cell系统分割线
         tableView.separatorStyle = .none;
         tableView.sectionHeaderHeight = 63
-        tableView.sectionFooterHeight = 0
         tableView.backgroundColor = UIColor.white
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
@@ -208,18 +277,32 @@ extension ScriptDetailsViewController {
         
         tableView.tableHeaderView = tableHeaderView
         
-        
         setNavigationBar()
+
+        setupHeaderView()
+        setupFooterView()
     }
     
     
     private func setNavigationBar() {
         
+//        let navView = UIView()
+//        navView.backgroundColor = UIColor(patternImage: UIImage(named: "mine_header_bg")!)
+//        self.view.addSubview(navView)
+//
+//        navView.snp.makeConstraints { (make) in
+//            make.top.equalToSuperview()
+//            make.height.equalTo(NAVIGATION_BAR_HEIGHT)
+//            make.left.right.equalToSuperview()
+//        }
+        
+        customNavigationBar.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: NAVIGATION_BAR_HEIGHT)
+        customNavigationBar.backgroundColor = UIColor(patternImage: UIImage(named: "mine_header_bg")!)
+        self.view.addSubview(customNavigationBar)
+        
         let bgView = UIView()
         bgView.backgroundColor = UIColor.clear
         self.view.addSubview(bgView)
-//        customNavigationBar.addSubview(bgView)
-        
         bgView.snp.makeConstraints { (make) in
             make.height.equalTo(44)
             if #available(iOS 11.0, *) {
@@ -521,25 +604,25 @@ extension ScriptDetailsViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         // navigationBar
-//        let offsetY = scrollView.contentOffset.y
-//        if offsetY >= 0 && offsetY <= alphaChangeBoundary{
-//            customNavigationBar.backgroundColor = UIColor(hexString: MainColor)?.withAlphaComponent(offsetY / alphaChangeBoundary)
-//        }else if offsetY > alphaChangeBoundary {
-//            customNavigationBar.backgroundColor = UIColor(hexString: MainColor)
-//        }else {
-//            customNavigationBar.backgroundColor = UIColor(hexString: MainColor)?.withAlphaComponent(0)
-//        }
-//
-//        if offsetY < 0 {
-//            UIView.animate(withDuration: 0.1, animations: {
-//                self.customNavigationBar.alpha = 0
-//            })
-//
-//        }else{
-//            UIView.animate(withDuration: 0.1, animations: {
-//                self.customNavigationBar.alpha = 1
-//            })
-//        }
+        let offsetY = scrollView.contentOffset.y
+        if offsetY >= 0 && offsetY <= alphaChangeBoundary{
+            customNavigationBar.backgroundColor = UIColor(patternImage: UIImage(named: "mine_header_bg")!).withAlphaComponent(offsetY / alphaChangeBoundary)
+        }else if offsetY > alphaChangeBoundary {
+            customNavigationBar.backgroundColor = UIColor(patternImage: UIImage(named: "mine_header_bg")!)
+        }else {
+            customNavigationBar.backgroundColor = UIColor(patternImage: UIImage(named: "mine_header_bg")!).withAlphaComponent(0)
+        }
+
+        if offsetY < 0 {
+            UIView.animate(withDuration: 0.1, animations: {
+                self.customNavigationBar.alpha = 0
+            })
+
+        }else{
+            UIView.animate(withDuration: 0.1, animations: {
+                self.customNavigationBar.alpha = 1
+            })
+        }
         
         
         // sectionHeader不悬停

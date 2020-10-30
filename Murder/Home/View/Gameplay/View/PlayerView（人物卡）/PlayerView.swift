@@ -14,89 +14,7 @@ protocol PlayerViewDelegate {
 }
 
 class PlayerView: UIView {
-    
-    var delegate: PlayerViewDelegate?
-    
-    var script_node_id: Int?
-    
-    var room_id: Int?
-    
-    var script_role_id: Int?
-    
-    var script_id: Int?
-    
-    var itemModel: GPScriptRoleListModel? {
-        didSet {
-            
-            if (itemModel != nil) {
-                if (itemModel?.head != nil) {
-                    let roleHead = itemModel?.head!
-                    roleImgView.setImageWith(URL(string: roleHead!))
-                }
-                
-                if (itemModel?.scriptRoleName != nil) {
-                    roleNameLabel.text = itemModel?.scriptRoleName!
-                }
-                
-                if itemModel?.describe != nil {
-                    roleIntroduceLabel.text = itemModel?.describe
-                }
-                
-                if itemModel?.searchOver != nil {
-                    if itemModel?.user?.userId == UserAccountViewModel.shareInstance.account?.userId {
-                        roleSearchBtn.isHidden = true
-                    } else {
-                        roleSearchBtn.isHidden = false
-                    }
-                    if itemModel?.searchOver == 0 { // 可搜
-                        roleSearchBtn.isUserInteractionEnabled = true
-                        roleSearchBtn.setTitle("捜査", for: .normal)
-                        roleSearchBtn.setTitleColor(UIColor.white, for: .normal)
-                        roleSearchBtn.setBackgroundImage(UIImage(named: "button_bg"), for: .normal)
-                    } else {
-                        roleSearchBtn.backgroundColor = HexColor("#CACACA")
-                        roleSearchBtn.setBackgroundImage(UIImage(color: HexColor("#EEEEEE")), for: .normal)
-                        roleSearchBtn.isUserInteractionEnabled = false
-                        roleSearchBtn.setTitleColor(HexColor(LightGrayColor), for: .normal)
-                        roleSearchBtn.setTitle("なし", for: .normal)
-                    }
-                        
-                }
-                
-                if itemModel?.user?.head != nil {
-                    let head = itemModel?.user?.head!
-                    playerImgView.setImageWith(URL(string: head!))
-                }
-                
-                if itemModel?.user?.nickname != nil {
-                    playerNameLabel.text = itemModel?.user?.nickname!
-                }
-                
-                var image : UIImage!
-                if itemModel?.user?.sex == 1 {
-                    image = UIImage(named: "sex_man")
-                } else if itemModel?.user?.sex == 2 {
-                    image = UIImage(named: "sex_woman")
-                } else {
-                    
-                }
-                sexImgView.image = image
 
-                if itemModel?.user?.level != nil {
-                    levelLabel.text = itemModel?.user?.level
-                }
-                
-                if itemModel?.user?.userId != nil {
-                    let id = itemModel?.user?.userId!
-                    IDLabel.text = "ID:\(String(id!))"
-                }
-                checkUser()
-
-            }
-        }
-    }
-    
-    
     @IBOutlet var contentView: UIView!
     
     // 角色按钮
@@ -138,6 +56,97 @@ class PlayerView: UIView {
     
     // 取消按钮
     @IBOutlet weak var cancelBtn: UIButton!
+    
+    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    
+    var delegate: PlayerViewDelegate?
+    
+    var script_node_id: Int?
+    
+    var room_id: Int?
+    
+    var script_role_id: Int?
+    
+    var script_id: Int?
+    
+    var itemModel: GPScriptRoleListModel? {
+        didSet {
+            
+            if (itemModel != nil) {
+                if (itemModel?.head != nil) {
+                    let roleHead = itemModel?.head!
+                    roleImgView.setImageWith(URL(string: roleHead!))
+                }
+                
+                if (itemModel?.scriptRoleName != nil) {
+                    roleNameLabel.text = itemModel?.scriptRoleName!
+                }
+                
+                if itemModel?.describe != nil {
+                    roleIntroduceLabel.text = itemModel?.describe
+                }
+                
+                if itemModel?.hideSearchOver == false {
+                    heightConstraint.constant = 318
+                    if itemModel?.searchOver != nil {
+                        if itemModel?.searchOver == 0 { // 可搜
+                            roleSearchBtn.isUserInteractionEnabled = true
+                            roleSearchBtn.setTitle("捜査", for: .normal)
+                            roleSearchBtn.setTitleColor(UIColor.white, for: .normal)
+                            roleSearchBtn.setBackgroundImage(UIImage(named: "button_bg"), for: .normal)
+                        } else {
+                            roleSearchBtn.backgroundColor = HexColor("#CACACA")
+                            roleSearchBtn.setBackgroundImage(UIImage(color: HexColor("#EEEEEE")), for: .normal)
+                            roleSearchBtn.isUserInteractionEnabled = false
+                            roleSearchBtn.setTitleColor(HexColor(LightGrayColor), for: .normal)
+                            roleSearchBtn.setTitle("なし", for: .normal)
+                        }
+                            
+                    }
+                } else {
+                    heightConstraint.constant = 280
+                    roleSearchBtn.isHidden = true
+                }
+                
+                if itemModel?.user?.userId == UserAccountViewModel.shareInstance.account?.userId {
+                    roleSearchBtn.isHidden = true
+                    heightConstraint.constant = 280
+                }
+                
+                
+                
+                if itemModel?.user?.head != nil {
+                    let head = itemModel?.user?.head!
+                    playerImgView.setImageWith(URL(string: head!))
+                }
+                
+                if itemModel?.user?.nickname != nil {
+                    playerNameLabel.text = itemModel?.user?.nickname!
+                }
+                
+                var image : UIImage!
+                if itemModel?.user?.sex == 1 {
+                    image = UIImage(named: "sex_man")
+                } else if itemModel?.user?.sex == 2 {
+                    image = UIImage(named: "sex_woman")
+                } else {
+                    
+                }
+                sexImgView.image = image
+
+                if itemModel?.user?.level != nil {
+                    levelLabel.text = itemModel?.user?.level
+                }
+                
+                if itemModel?.user?.userId != nil {
+                    let id = itemModel?.user?.userId!
+                    IDLabel.text = "ID:\(String(id!))"
+                }
+                checkUser()
+
+            }
+        }
+    }
     
     
     @IBAction func roleBtnAction(_ sender: Any) {

@@ -529,6 +529,10 @@
 		988A76632546ABC90082C2BB /* PrepareRoleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrepareRoleView.xib; sourceTree = "<group>"; };
 		988A76672546ABDC0082C2BB /* PreparePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparePlayerView.swift; sourceTree = "<group>"; };
 		988A766B2546ABE70082C2BB /* PreparePlayerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreparePlayerView.xib; sourceTree = "<group>"; };
+		988B8001254BB1E200308B3D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ../ja.lproj/Message.strings; sourceTree = "<group>"; };
+		988B8002254BB1E200308B3D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ../ja.lproj/Home.strings; sourceTree = "<group>"; };
+		988B8003254BB1E300308B3D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
+		988B8004254BB1E300308B3D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		988D4D5924CC7A7100C4B979 /* MessageListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListCell.swift; sourceTree = "<group>"; };
 		988D4D5A24CC7A7100C4B979 /* MessageListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageListCell.xib; sourceTree = "<group>"; };
 		988D4D5E24CC856100C4B979 /* MineListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineListCell.swift; sourceTree = "<group>"; };
@@ -1610,6 +1614,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = 04C3A9C024C18089001DD90D;
 			productRefGroup = 04C3A9CA24C18089001DD90D /* Products */;
@@ -2063,6 +2068,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				0451A36C24C1AB8700E69085 /* Base */,
+				988B8002254BB1E200308B3D /* ja */,
 			);
 			name = Home.storyboard;
 			sourceTree = "<group>";
@@ -2071,6 +2077,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				0451A37124C1AD0700E69085 /* Base */,
+				988B8001254BB1E200308B3D /* ja */,
 			);
 			name = Message.storyboard;
 			sourceTree = "<group>";
@@ -2079,6 +2086,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				04C3A9D324C18089001DD90D /* Base */,
+				988B8003254BB1E300308B3D /* ja */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -2087,6 +2095,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				04C3A9D824C1808D001DD90D /* Base */,
+				988B8004254BB1E300308B3D /* ja */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -2098,6 +2107,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -2158,6 +2168,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -2217,7 +2228,7 @@
 				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.0.7;
+				CURRENT_PROJECT_VERSION = 1.0.1.1;
 				DEVELOPMENT_TEAM = 5LAYXCMLMG;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2230,7 +2241,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codery.Murder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "murder-Development";
@@ -2250,7 +2261,7 @@
 				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.0.7;
+				CURRENT_PROJECT_VERSION = 1.0.1.1;
 				DEVELOPMENT_TEAM = 5LAYXCMLMG;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2263,7 +2274,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codery.Murder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "murder-Development";

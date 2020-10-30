@@ -11,13 +11,13 @@ import UIKit
 
 class StarView: UIView {
     
-    var fullImgName: String!
-    var halfImgName: String!
-    var zeroImgName: String!
-    var count: CGFloat!
-    var sizeHeight: CGFloat!
-    var sizeWidth: CGFloat!
-    var lineSpace: CGFloat!
+    private var fullImgName: String!
+    private var halfImgName: String!
+    private var zeroImgName: String!
+    private var count: CGFloat!
+    private var sizeHeight: CGFloat!
+    private var sizeWidth: CGFloat!
+    private var lineSpace: CGFloat!
     
     var isEdit: Bool!
     
@@ -129,6 +129,7 @@ extension StarView {
                     make.width.equalTo(sizeWidth)
                     make.centerY.equalToSuperview()
                 }
+                fullIndex += 1
             }
             
             
@@ -175,7 +176,8 @@ extension StarView {
             self.addSubview(commonView!)
             commonView?.frame = self.bounds
         }
-        createSubviews(count: self.count)
+        let count = self.count!
+        createSubviews(count: count)
     }
     
     

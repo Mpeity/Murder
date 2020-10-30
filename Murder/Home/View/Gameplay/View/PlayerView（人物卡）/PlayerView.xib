@@ -15,6 +15,7 @@
                 <outlet property="applyBtn" destination="XW8-a8-rfc" id="szM-Z1-gqo"/>
                 <outlet property="cancelBtn" destination="KhW-Yh-qD3" id="Oct-8U-NmW"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="JuD-WV-uCZ"/>
+                <outlet property="heightConstraint" destination="9ei-sl-3QS" id="pl2-Sn-XJk"/>
                 <outlet property="levelLabel" destination="hnk-AW-4eT" id="Rcj-Zc-JlE"/>
                 <outlet property="lineView" destination="ig5-vb-ZAd" id="WdP-nh-HWD"/>
                 <outlet property="playerBtn" destination="AaC-ao-knA" id="rMP-zv-Gf9"/>
@@ -224,7 +225,6 @@
                                 <constraint firstAttribute="trailing" secondItem="g8T-IL-gRX" secondAttribute="trailing" constant="25" id="KrY-SL-yeV"/>
                                 <constraint firstAttribute="bottom" secondItem="g8T-IL-gRX" secondAttribute="bottom" constant="12" id="N1k-6W-t6V"/>
                                 <constraint firstItem="NGZ-Za-6V1" firstAttribute="top" secondItem="K1m-GF-UOk" secondAttribute="top" constant="29" id="Ncb-mk-In6"/>
-                                <constraint firstItem="g8T-IL-gRX" firstAttribute="top" relation="greaterThanOrEqual" secondItem="NDV-8A-hXo" secondAttribute="bottom" constant="15" id="QG3-sI-pAg"/>
                                 <constraint firstItem="kJa-AQ-zox" firstAttribute="leading" secondItem="K1m-GF-UOk" secondAttribute="leading" constant="15" id="X20-rg-agf"/>
                                 <constraint firstAttribute="trailing" secondItem="kJa-AQ-zox" secondAttribute="trailing" constant="15" id="ad1-3m-Can"/>
                                 <constraint firstItem="g8T-IL-gRX" firstAttribute="leading" secondItem="K1m-GF-UOk" secondAttribute="leading" constant="25" id="dlN-I6-LLb"/>
