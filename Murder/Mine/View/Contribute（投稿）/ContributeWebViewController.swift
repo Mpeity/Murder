@@ -50,7 +50,7 @@ class ContributeWebViewController: UIViewController, WKNavigationDelegate{
         
        
         // 加载 url
-        let urlRequest = URLRequest(url: URL(string: "https://mousha.mx5918.com/static/h5/contribution.html")!)
+        let urlRequest = URLRequest(url: URL(string: "http://m.madami.ltd/nd.jsp?mid=302&id=4&groupId=0")!)
         webView.load(urlRequest)
     }
     
