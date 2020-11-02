@@ -47,8 +47,11 @@ extension RoleCollectionViewCell {
         
         roleImgView.layoutIfNeeded()
         roleImgView.viewWithCorner(byRoundingCorners: [UIRectCorner.bottomLeft,UIRectCorner.topLeft], radii: 5)
+        nameLabel.backgroundColor = UIColor.clear
+        introductionLabel.backgroundColor = UIColor.clear
+        bgView.viewWithCorner(byRoundingCorners: [UIRectCorner.bottomRight], radii: 5)
+        bgView.viewWithCorner(byRoundingCorners: UIRectCorner.topRight, radii: 5)
         bgView.layoutIfNeeded()
-        bgView.viewWithCorner(byRoundingCorners: [[.bottomRight,.topRight]], radii: 5)
 //        setCornersRadius(bgView, radius: 5, roundingCorners: [.bottomRight,.topRight])
         bgView.backgroundColor = HexColor("F5F5F5")
     }

@@ -63,7 +63,7 @@ class UpdateVersionView: UIView {
 //                myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15.0)], range: range)
                 
                 
-                let size = stringSizeWithString(text: myMutableString.string, width: (FULL_SCREEN_WIDTH-75*2), font: UIFont.systemFont(ofSize: 14))
+                let size = stringSizeWithString(text: myMutableString.string, width: (FULL_SCREEN_WIDTH-75*2), font: UIFont.systemFont(ofSize: 14), lineSpacing: 22)
 
                 viewHeight = Double(imgHeight!  + size.height + 109 + 50)
                 let top = (FULL_SCREEN_HEIGHT - CGFloat(viewHeight))*0.4

@@ -190,7 +190,7 @@ extension MessageTextCell {
 //            let height = rightTextLabel.text?.ga_heightForComment(fontSize: 15, width: width)
             
             let font = UIFont.systemFont(ofSize: 15)
-            let height = stringSingleHeightWithWidth(text: rightTextLabel.text!, width: width, font: font)
+            let height = stringSingleHeightWithWidth(text: rightTextLabel.text!, width: width, font: font, lineSpacing: 5.0)
             cellHeight = height
             
             Log("height===\(height ?? 0)")

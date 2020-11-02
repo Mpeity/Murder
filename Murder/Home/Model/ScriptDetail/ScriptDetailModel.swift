@@ -10,7 +10,7 @@ import Foundation
 
 class ScriptDetailModel : NSObject {
     
-     var roomId: Int?
+    var roomId: Int?
 
     var author : String?
     var cover : String?

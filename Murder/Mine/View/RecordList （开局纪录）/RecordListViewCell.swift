@@ -44,7 +44,7 @@ class RecordListViewCell: UITableViewCell {
                 startTimeLabel.text = "開始時間：" + itemModel.gameStartTime
             }
             if itemModel.spentTimeText != nil {
-                timeLabel.text = "所要時間：" + itemModel.spentTimeText
+                timeLabel.text = "プレイ時間：" + itemModel.spentTimeText
             }
             
             if itemModel.scriptName != nil {

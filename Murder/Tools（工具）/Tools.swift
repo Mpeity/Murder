@@ -336,7 +336,7 @@ func labelWidth(text: String, height: CGFloat, fontSize: CGFloat) -> CGFloat {
 /**
  * 计算 文本的高度
  */
-func stringSizeWithString(text: String?, width: CGFloat, font: UIFont) -> CGSize {
+func stringSizeWithString(text: String?, width: CGFloat, font: UIFont, lineSpacing: CGFloat) -> CGSize {
     
     guard let text = text else {
         return CGSize.zero
@@ -344,7 +344,7 @@ func stringSizeWithString(text: String?, width: CGFloat, font: UIFont) -> CGSize
     // 文本高度
     let attributedStr = NSMutableAttributedString(string: text)
     let paragaraphStryle = NSMutableParagraphStyle()
-    paragaraphStryle.lineSpacing = 5
+     paragaraphStryle.lineSpacing = lineSpacing
     attributedStr.addAttributes([NSAttributedString.Key.paragraphStyle : paragaraphStryle], range: NSMakeRange(0, (text as NSString).length))
     // 生成一个统一计算文本高度的Label
     let stringLabel = UILabel()
@@ -355,9 +355,9 @@ func stringSizeWithString(text: String?, width: CGFloat, font: UIFont) -> CGSize
 
 }
 
-func stringSingleHeightWithWidth(text: String?, width: CGFloat, font: UIFont) -> CGFloat {
+func stringSingleHeightWithWidth(text: String?, width: CGFloat, font: UIFont, lineSpacing: CGFloat) -> CGFloat {
     // 文本高度
-    let size = stringSizeWithString(text: text, width: width, font: font)
+    let size = stringSizeWithString(text: text, width: width, font: font, lineSpacing: lineSpacing)
     return size.height
 }
 

@@ -92,7 +92,7 @@ class RoleIntroductionCell:UITableViewCell, UICollectionViewDelegate, UICollecti
 
 extension RoleIntroductionCell {
     private func setUI() {
-        self.addSubview(collectionView)
+        self.contentView.addSubview(collectionView)
         collectionView.register(UINib(nibName: "RoleCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: RoleCollectionViewCellId)
         collectionView.delegate = self
         collectionView.dataSource = self

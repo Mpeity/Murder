@@ -30,23 +30,16 @@ class SynopsisViewCell: UITableViewCell {
             
 
             let myMutableString = try! NSMutableAttributedString(data: (content.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
-//            let range = NSMakeRange(0, myMutableString.length)
+            let range = NSMakeRange(0, myMutableString.length)
 //            myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: HexColor("#666666"), range: range)
-//            myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14.0)], range: range)
-            
-            guard let news = content.removingPercentEncoding,let data = news.data(using: .unicode) else{return}
-            let att = [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html]
-            guard let attStr = try? NSMutableAttributedString(data: data, options: att, documentAttributes: nil) else{return}
+            myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14.0)], range: range)
+            contentTextView.attributedText = myMutableString
+
+//            guard let news = content.removingPercentEncoding,let data = news.data(using: .unicode) else{return}
+//            let att = [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html]
+//            guard let attStr = try? NSMutableAttributedString(data: data, options: att, documentAttributes: nil) else{return}
 //            contentLabel.attributedText = attStr
-
-            
-//            contentTextView.backgroundColor = UIColor.red
-            
-            contentTextView.attributedText = attStr
-            
-//            contentTextView.attributedText = myMutableString
-
-            
+  
         }
     }
     

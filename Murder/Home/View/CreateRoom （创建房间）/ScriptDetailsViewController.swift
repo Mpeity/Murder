@@ -259,6 +259,8 @@ extension ScriptDetailsViewController {
         tableHeaderView = CreateRoomHeaderView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: STATUS_BAR_HEIGHT + 190))
         
         
+//        tableView.frame = CGRect(x: 0, y: -STATUS_BAR_HEIGHT, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT-HOME_INDICATOR_HEIGHT-createBtn.bounds.size.height-10)
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(HomeListTableHeaderView.self, forHeaderFooterViewReuseIdentifier: HomeListHeaderViewId)
@@ -268,13 +270,14 @@ extension ScriptDetailsViewController {
         tableView.separatorStyle = .none;
         tableView.sectionHeaderHeight = 63
         tableView.backgroundColor = UIColor.white
+
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(-STATUS_BAR_HEIGHT)
             make.left.right.equalToSuperview()
             make.bottom.equalTo(createBtn.snp.top).offset(-10)
         }
-        
+                
         tableView.tableHeaderView = tableHeaderView
         
         setNavigationBar()
@@ -297,7 +300,9 @@ extension ScriptDetailsViewController {
 //        }
         
         customNavigationBar.frame = CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: NAVIGATION_BAR_HEIGHT)
-        customNavigationBar.backgroundColor = UIColor(patternImage: UIImage(named: "mine_header_bg")!)
+//        customNavigationBar.backgroundColor = UIColor(patternImage: UIImage(named: "mine_header_bg")!)
+        
+        customNavigationBar.backgroundColor = HexColor(MainColor)
         self.view.addSubview(customNavigationBar)
         
         let bgView = UIView()
@@ -509,20 +514,24 @@ extension ScriptDetailsViewController {
         if scriptDetailModel != nil {
             let string =  scriptDetailModel!.introduction!
             
-            guard let news = string.removingPercentEncoding,let data = news.data(using: .unicode) else{return 0}
-            let att = [NSAttributedString.DocumentReadingOptionKey.documentType:NSAttributedString.DocumentType.html]
-            guard let attStr = try? NSMutableAttributedString(data: data, options: att, documentAttributes: nil) else{return 0}
-//            label.attributedText = attStr
+            let myMutableString = try! NSMutableAttributedString(data: (string.data(using: String.Encoding.unicode))!, options: [NSMutableAttributedString.DocumentReadingOptionKey.documentType:NSMutableAttributedString.DocumentType.html], documentAttributes: nil)
+            let range = NSMakeRange(0, myMutableString.length)
+            myMutableString.addAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14.0)], range: range)
             
-            var height = stringSingleHeightWithWidth(text: attStr.string, width: FULL_SCREEN_WIDTH-40, font: UIFont.systemFont(ofSize: 16))
+            var height1 = stringSingleHeightWithWidth(text: myMutableString.string, width: FULL_SCREEN_WIDTH-40, font: UIFont.systemFont(ofSize: 14), lineSpacing: 20)
+            var height = stringSingleHeightWithWidth(text: string, width: FULL_SCREEN_WIDTH-40, font: UIFont.systemFont(ofSize: 14), lineSpacing: 20)
             
-            Log(string)
+            Log(myMutableString)
+            Log("1111111111111")
+            Log(height)
+            Log(height1)
+            Log(myMutableString.string)
             
             if height < 82 {
                 height = 82
             }
             if contentSelected! {
-                return height+20
+                return height
             } else {
                 return 82
             }
@@ -606,11 +615,12 @@ extension ScriptDetailsViewController {
         // navigationBar
         let offsetY = scrollView.contentOffset.y
         if offsetY >= 0 && offsetY <= alphaChangeBoundary{
-            customNavigationBar.backgroundColor = UIColor(patternImage: UIImage(named: "mine_header_bg")!).withAlphaComponent(offsetY / alphaChangeBoundary)
+            customNavigationBar.backgroundColor = HexColor(MainColor).withAlphaComponent(offsetY / alphaChangeBoundary)
+
         }else if offsetY > alphaChangeBoundary {
-            customNavigationBar.backgroundColor = UIColor(patternImage: UIImage(named: "mine_header_bg")!)
+            customNavigationBar.backgroundColor = HexColor(MainColor).withAlphaComponent(offsetY / alphaChangeBoundary)
         }else {
-            customNavigationBar.backgroundColor = UIColor(patternImage: UIImage(named: "mine_header_bg")!).withAlphaComponent(0)
+            customNavigationBar.backgroundColor = HexColor(MainColor).withAlphaComponent(0)
         }
 
         if offsetY < 0 {
@@ -626,12 +636,12 @@ extension ScriptDetailsViewController {
         
         
         // sectionHeader不悬停
-        let sectionHeaderHeight: CGFloat  = 60
-          if(scrollView.contentOffset.y <= sectionHeaderHeight && scrollView.contentOffset.y >= 0 ) {
-            scrollView.contentInset = UIEdgeInsets(top: -scrollView.contentOffset.y, left: 0, bottom: 0, right: 0)
-       } else if (scrollView.contentOffset.y >= sectionHeaderHeight) {
-        scrollView.contentInset = UIEdgeInsets(top: -sectionHeaderHeight, left: 0, bottom: 0, right: 0)
-       }
+//        let sectionHeaderHeight: CGFloat  = 60
+//          if(scrollView.contentOffset.y <= sectionHeaderHeight && scrollView.contentOffset.y >= 0 ) {
+//            scrollView.contentInset = UIEdgeInsets(top: -scrollView.contentOffset.y, left: 0, bottom: 0, right: 0)
+//       } else if (scrollView.contentOffset.y >= sectionHeaderHeight) {
+//        scrollView.contentInset = UIEdgeInsets(top: -sectionHeaderHeight, left: 0, bottom: 0, right: 0)
+//       }
         
     }
 

@@ -559,7 +559,7 @@ extension SendMessageViewController: UITextFieldDelegate {
             width = FULL_SCREEN_WIDTH - 170
 //            height = content.ga_heightForComment(fontSize: 15, width: width)
             let font = UIFont.systemFont(ofSize: 15)
-            height = stringSingleHeightWithWidth(text: content, width: width, font: font)
+            height = stringSingleHeightWithWidth(text: content, width: width, font: font, lineSpacing: 5.0)
             height += 80
         }
         

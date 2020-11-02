@@ -45,7 +45,7 @@ class CommentsCell: UITableViewCell {
             
             
             if itemModel.durationText != nil {
-                usedTimeLabel.text = "所用時間：\(itemModel.durationText!)"
+                usedTimeLabel.text = "プレイ時間：\(itemModel.durationText!)"
             }
             
             if itemModel.content != nil {
