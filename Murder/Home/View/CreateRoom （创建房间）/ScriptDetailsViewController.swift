@@ -446,7 +446,7 @@ extension ScriptDetailsViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = HomeListTableHeaderView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: 60))
-        
+        header.font = 18.0
         switch section {
         case 0:
             header.titleLabel.text = "物語紹介"
@@ -521,11 +521,11 @@ extension ScriptDetailsViewController {
             var height1 = stringSingleHeightWithWidth(text: myMutableString.string, width: FULL_SCREEN_WIDTH-40, font: UIFont.systemFont(ofSize: 14), lineSpacing: 20)
             var height = stringSingleHeightWithWidth(text: string, width: FULL_SCREEN_WIDTH-40, font: UIFont.systemFont(ofSize: 14), lineSpacing: 20)
             
-            Log(myMutableString)
-            Log("1111111111111")
-            Log(height)
-            Log(height1)
-            Log(myMutableString.string)
+//            Log(myMutableString)
+//            Log("1111111111111")
+//            Log(height)
+//            Log(height1)
+//            Log(myMutableString.string)
             
             if height < 82 {
                 height = 82

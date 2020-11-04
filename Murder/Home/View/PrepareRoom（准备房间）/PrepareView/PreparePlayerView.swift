@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class PreparePlayerView: UIView {
 
@@ -126,7 +127,9 @@ extension PreparePlayerView {
     private func checkUser() {
         let user_id = itemModel?.userId
         if user_id != nil {
+            SVProgressHUD.show()
             userFindRequest(user_id: user_id!) {[weak self] (result, error) in
+                SVProgressHUD.dismiss()
                 if error != nil {
                     return
                 }
@@ -140,11 +143,11 @@ extension PreparePlayerView {
                     // 是否是朋友 1是 0否
                     if (userFindModel.userId == UserAccountViewModel.shareInstance.account?.userId) || (userFindModel.isFriend != nil &&  userFindModel.isFriend == 1) {
                         
-//                        self?.applyBtn.isHidden = true
+                        self?.applyBtn.isHidden = true
                         
                     } else {
                         
-//                        self?.applyBtn.isHidden = false
+                        self?.applyBtn.isHidden = false
                         
                         if userFindModel.isApply == 1 { // 已申请
                             self!.applyBtn.gradientClearLayerColor(cornerRadius: 22)

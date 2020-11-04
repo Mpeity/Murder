@@ -23,6 +23,8 @@ class RoleIntroductionCell:UITableViewCell, UICollectionViewDelegate, UICollecti
         
     }
     
+    var roleIntroductionView: RoleIntroductionView?
+    
     private lazy var collectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
@@ -82,12 +84,16 @@ class RoleIntroductionCell:UITableViewCell, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //         弹出 人物介绍弹框
-        let commonView = RoleIntroductionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
-        commonView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-        commonView.roleModel = role[indexPath.item]
-        UIApplication.shared.keyWindow?.addSubview(commonView)
+        if roleIntroductionView == nil {
+            roleIntroductionView = RoleIntroductionView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            roleIntroductionView!.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            roleIntroductionView!.role = role
+            roleIntroductionView?.isHidden = true
+            UIApplication.shared.keyWindow?.addSubview(roleIntroductionView!)
+        }
+        roleIntroductionView?.isHidden = false
+        roleIntroductionView?.selectIndexPath = indexPath
     }
-
 }
 
 extension RoleIntroductionCell {

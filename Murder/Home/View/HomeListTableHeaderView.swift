@@ -11,6 +11,12 @@ import UIKit
 class HomeListTableHeaderView: UITableViewHeaderFooterView {
     
     public lazy var titleLabel:UILabel = UILabel()
+    
+    var font: CGFloat? {
+        didSet {
+            titleLabel.font = UIFont.systemFont(ofSize: font!, weight: .bold)
+        }
+    }
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -41,10 +47,6 @@ class HomeListTableHeaderView: UITableViewHeaderFooterView {
             make.left.equalTo(15)
             make.centerY.equalTo(titleLabel.snp.centerY)
         }
-        
-
-        
-        
     }
     
     required init?(coder: NSCoder) {

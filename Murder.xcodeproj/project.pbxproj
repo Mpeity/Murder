@@ -89,6 +89,8 @@
 		98649DEB24CEDAB2005AA9C3 /* ScriptDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98649DEA24CEDAB2005AA9C3 /* ScriptDetailsViewController.swift */; };
 		98649DEE24CEDB65005AA9C3 /* CreateRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98649DEC24CEDB65005AA9C3 /* CreateRoomViewController.swift */; };
 		98649DEF24CEDB65005AA9C3 /* CreateRoomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98649DED24CEDB65005AA9C3 /* CreateRoomViewController.xib */; };
+		9865820925510BFA0035DB09 /* RoleIntroductionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9865820725510BFA0035DB09 /* RoleIntroductionViewCell.swift */; };
+		9865820A25510BFA0035DB09 /* RoleIntroductionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9865820825510BFA0035DB09 /* RoleIntroductionViewCell.xib */; };
 		98663A6E24FC8A59007726A5 /* FriendsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98663A6D24FC8A59007726A5 /* FriendsModel.swift */; };
 		98663A7024FC9C7E007726A5 /* UserFindModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98663A6F24FC9C7E007726A5 /* UserFindModel.swift */; };
 		98663A7224FCAFE0007726A5 /* FriendsApplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98663A7124FCAFE0007726A5 /* FriendsApplyModel.swift */; };
@@ -416,6 +418,8 @@
 		98649DEA24CEDAB2005AA9C3 /* ScriptDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptDetailsViewController.swift; sourceTree = "<group>"; };
 		98649DEC24CEDB65005AA9C3 /* CreateRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoomViewController.swift; sourceTree = "<group>"; };
 		98649DED24CEDB65005AA9C3 /* CreateRoomViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateRoomViewController.xib; sourceTree = "<group>"; };
+		9865820725510BFA0035DB09 /* RoleIntroductionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleIntroductionViewCell.swift; sourceTree = "<group>"; };
+		9865820825510BFA0035DB09 /* RoleIntroductionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoleIntroductionViewCell.xib; sourceTree = "<group>"; };
 		98663A6D24FC8A59007726A5 /* FriendsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsModel.swift; sourceTree = "<group>"; };
 		98663A6F24FC9C7E007726A5 /* UserFindModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFindModel.swift; sourceTree = "<group>"; };
 		98663A7124FCAFE0007726A5 /* FriendsApplyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsApplyModel.swift; sourceTree = "<group>"; };
@@ -1051,6 +1055,8 @@
 				981AA8202547CD9800FFA89C /* CommentsViewCell.swift */,
 				986C340E2549606E007FD6D6 /* CommentsHeaderCell.swift */,
 				986C340F2549606E007FD6D6 /* CommentsHeaderCell.xib */,
+				9865820725510BFA0035DB09 /* RoleIntroductionViewCell.swift */,
+				9865820825510BFA0035DB09 /* RoleIntroductionViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1677,6 +1683,7 @@
 				986D9EBD24F392D2005E6B03 /* VoteAnswerCell.xib in Resources */,
 				983FD1A824D27CE40041D79E /* ApplyFriendsListCell.xib in Resources */,
 				986C34112549606E007FD6D6 /* CommentsHeaderCell.xib in Resources */,
+				9865820A25510BFA0035DB09 /* RoleIntroductionViewCell.xib in Resources */,
 				986D9EC124F39650005E6B03 /* VoteCommonCell.xib in Resources */,
 				9866D44F251A1B770017D9F2 /* BlackFriendsView.xib in Resources */,
 				98321BC7251356DE0074082C /* UserAgreementViewController.xib in Resources */,
@@ -2003,6 +2010,7 @@
 				986C34102549606E007FD6D6 /* CommentsHeaderCell.swift in Sources */,
 				9866D44D251A1B650017D9F2 /* BlackFriendsView.swift in Sources */,
 				9871EB3E24E41E3B006464A4 /* ScriptListModel.swift in Sources */,
+				9865820925510BFA0035DB09 /* RoleIntroductionViewCell.swift in Sources */,
 				9866D446251A121A0017D9F2 /* FriendReportViewController.swift in Sources */,
 				986A540D24EB796D004140F3 /* ImageDownloader.swift in Sources */,
 				98B26A7024F1401400671202 /* GameUserClueListModel.swift in Sources */,
@@ -2228,7 +2236,7 @@
 				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.0.1.1;
+				CURRENT_PROJECT_VERSION = 1.0.3.0;
 				DEVELOPMENT_TEAM = 5LAYXCMLMG;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2241,7 +2249,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codery.Murder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "murder-Development";
@@ -2261,7 +2269,7 @@
 				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.0.1.1;
+				CURRENT_PROJECT_VERSION = 1.0.3.0;
 				DEVELOPMENT_TEAM = 5LAYXCMLMG;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2274,7 +2282,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codery.Murder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "murder-Development";
