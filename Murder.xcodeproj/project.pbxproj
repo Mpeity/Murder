@@ -194,6 +194,8 @@
 		98820FBF24CACCF50005EBDD /* QuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98820FBE24CACCF50005EBDD /* QuestionView.xib */; };
 		98820FC224CACF6B0005EBDD /* QuestionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98820FC024CACF6B0005EBDD /* QuestionViewCell.swift */; };
 		98820FC324CACF6B0005EBDD /* QuestionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98820FC124CACF6B0005EBDD /* QuestionViewCell.xib */; };
+		98884AF92552A96800D5C776 /* PrepareOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98884AF82552A96800D5C776 /* PrepareOrderView.swift */; };
+		98884AFD2552A97700D5C776 /* PrepareOrderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98884AFC2552A97700D5C776 /* PrepareOrderView.xib */; };
 		988A76602546ABB60082C2BB /* PrepareRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988A765F2546ABB60082C2BB /* PrepareRoleView.swift */; };
 		988A76642546ABC90082C2BB /* PrepareRoleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 988A76632546ABC90082C2BB /* PrepareRoleView.xib */; };
 		988A76682546ABDC0082C2BB /* PreparePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988A76672546ABDC0082C2BB /* PreparePlayerView.swift */; };
@@ -531,6 +533,8 @@
 		98820FC024CACF6B0005EBDD /* QuestionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewCell.swift; sourceTree = "<group>"; };
 		98820FC124CACF6B0005EBDD /* QuestionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionViewCell.xib; sourceTree = "<group>"; };
 		9882884A2505F6A3003B5C78 /* Murder-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Murder-Bridging-Header.h"; sourceTree = "<group>"; };
+		98884AF82552A96800D5C776 /* PrepareOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareOrderView.swift; sourceTree = "<group>"; };
+		98884AFC2552A97700D5C776 /* PrepareOrderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrepareOrderView.xib; sourceTree = "<group>"; };
 		988A765F2546ABB60082C2BB /* PrepareRoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareRoleView.swift; sourceTree = "<group>"; };
 		988A76632546ABC90082C2BB /* PrepareRoleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrepareRoleView.xib; sourceTree = "<group>"; };
 		988A76672546ABDC0082C2BB /* PreparePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparePlayerView.swift; sourceTree = "<group>"; };
@@ -1169,6 +1173,8 @@
 				988A76632546ABC90082C2BB /* PrepareRoleView.xib */,
 				988A76672546ABDC0082C2BB /* PreparePlayerView.swift */,
 				988A766B2546ABE70082C2BB /* PreparePlayerView.xib */,
+				98884AF82552A96800D5C776 /* PrepareOrderView.swift */,
+				98884AFC2552A97700D5C776 /* PrepareOrderView.xib */,
 			);
 			path = PrepareView;
 			sourceTree = "<group>";
@@ -1702,6 +1708,7 @@
 				98CA02C024C5A4E9009EF0ED /* ResetPasswordsViewController.xib in Resources */,
 				983FD1A224D2571B0041D79E /* InputTextView.xib in Resources */,
 				98C8D2B324CDA115006C76D0 /* RecordListViewCell.xib in Resources */,
+				98884AFD2552A97700D5C776 /* PrepareOrderView.xib in Resources */,
 				98C8D2BA24CDAA45006C76D0 /* RecordDetailViewCell.xib in Resources */,
 				0451A37424C1AD9700E69085 /* Mine.storyboard in Resources */,
 				98B4A1DB24D41458007CE295 /* ShareScriptCard.xib in Resources */,
@@ -2026,6 +2033,7 @@
 				9873BE32250EFC87007C0263 /* mxUIViewExtension.swift in Sources */,
 				98F08BFD24E23A3D0033DFBA /* HomeUserModel.swift in Sources */,
 				98321BC32513129D0074082C /* ContributeWebViewController.swift in Sources */,
+				98884AF92552A96800D5C776 /* PrepareOrderView.swift in Sources */,
 				9873BE21250D1B80007C0263 /* PlacePopMenuView.swift in Sources */,
 				98B26A7424F2479500671202 /* ScriptQuestionListModel.swift in Sources */,
 				98A268C324D9148D004B9D53 /* VoteResultViewCell.swift in Sources */,
@@ -2242,7 +2250,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0.3.0;
 				DEVELOPMENT_TEAM = 5LAYXCMLMG;
@@ -2260,7 +2268,7 @@
 				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codery.Murder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "murder-distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "murder-Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "Murder-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -2275,7 +2283,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Murder/Murder.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0.3.0;
 				DEVELOPMENT_TEAM = 5LAYXCMLMG;
@@ -2293,7 +2301,7 @@
 				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codery.Murder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "murder-distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "murder-Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "Murder-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

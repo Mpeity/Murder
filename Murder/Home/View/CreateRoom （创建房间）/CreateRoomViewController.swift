@@ -48,6 +48,9 @@ class CreateRoomViewController: UIViewController {
     @IBOutlet weak var createBtn: UIButton!
     
     @IBOutlet weak var createBtnWidth: NSLayoutConstraint!
+    
+    var orderTimeView: OrderTimeView?
+    
     var titleLabel: UILabel = UILabel()
     
     var leftBtn: UIButton = UIButton()
@@ -167,6 +170,16 @@ extension CreateRoomViewController {
 //        createBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
         createBtn.setBackgroundImage(UIImage(named: "button_bg"), for: .normal)
         createBtn.addTarget(self, action: #selector(createBtnAction), for: .touchUpInside)
+        
+        
+        if orderTimeView == nil {
+            orderTimeView = OrderTimeView(frame: CGRect(x: 0, y: 0, width: FULL_SCREEN_WIDTH, height: FULL_SCREEN_HEIGHT))
+            orderTimeView?.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
+            orderTimeView?.delegate = self
+            UIApplication.shared.keyWindow?.addSubview(orderTimeView!)
+            orderTimeView?.isHidden = true
+
+        }
 
     }
 }
@@ -192,9 +205,7 @@ extension CreateRoomViewController {
     
     /// 设置密码
     @objc func setTimeTap() {
-//        textInputView.textFieldView.text = nil
-//        textInputView.textFieldView.becomeFirstResponder()
-//        self.view.addSubview(textInputView)
+        orderTimeView?.isHidden = false
     }
     
     
@@ -248,5 +259,11 @@ extension CreateRoomViewController: InputTextViewDelegate, UITextFieldDelegate  
         UIView.animate(withDuration: duration) {
             self.textInputView.layoutIfNeeded()
         }
+    }
+}
+
+extension CreateRoomViewController: OrderTimeViewDelegate {
+    func comfirmBtnAction() {
+        orderTimeView?.isHidden = true
     }
 }

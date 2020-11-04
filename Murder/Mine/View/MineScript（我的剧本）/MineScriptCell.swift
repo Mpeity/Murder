@@ -2,7 +2,7 @@
 //  MineScriptCell.swift
 //  Murder
 //
-//  Created by 马滕亚 on 2020/10/26.
+//  Created by m.a.c on 2020/10/26.
 //  Copyright © 2020 m.a.c. All rights reserved.
 //
 

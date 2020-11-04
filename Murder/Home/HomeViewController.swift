@@ -174,9 +174,6 @@ extension HomeViewController {
                                 self?.onLookerGotoVC()
                             }
                         }
-                        
-                        
-                        
                     } else {
                     
                         self?.scriptSourceModel = ScriptSourceModel(fromDictionary: data)
@@ -549,11 +546,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         }
-        
-        
-
     }
-    
 }
 
 extension HomeViewController: InputTextViewDelegate  {

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PrepareOrderView" customModule="Murder" customModuleProvider="target">
+            <connections>
+                <outlet property="commonView" destination="hUc-8Z-hsT" id="r6g-WP-fFI"/>
+                <outlet property="confirmBtn" destination="xOO-0x-bX1" id="WGT-Ej-c3e"/>
+                <outlet property="contentLabel" destination="cm7-iY-xjS" id="wrk-wI-eWb"/>
+                <outlet property="contentView" destination="X7p-Rc-lRb" id="szS-5g-lBy"/>
+                <outlet property="tipLabel" destination="ozT-qz-p5n" id="kSr-2G-CvF"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="X7p-Rc-lRb">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hUc-8Z-hsT">
+                    <rect key="frame" x="37.5" y="254" width="339" height="200"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xOO-0x-bX1">
+                            <rect key="frame" x="25" y="136" width="289" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="fhq-2d-DDu"/>
+                            </constraints>
+                            <state key="normal" title="確認" backgroundImage="button_bg">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XXXX（时间）「XXXX」（剧本名） " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cm7-iY-xjS">
+                            <rect key="frame" x="18" y="40" width="303" height="20.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="を予約しました、予定時間の5分ほど 前に入室してください。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozT-qz-p5n">
+                            <rect key="frame" x="18" y="70.5" width="303" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="ozT-qz-p5n" firstAttribute="top" secondItem="cm7-iY-xjS" secondAttribute="bottom" constant="10" id="8uQ-cQ-eLN"/>
+                        <constraint firstAttribute="trailing" secondItem="xOO-0x-bX1" secondAttribute="trailing" constant="25" id="Qgz-jD-kmc"/>
+                        <constraint firstAttribute="height" constant="200" id="SPh-Fi-uab"/>
+                        <constraint firstAttribute="trailing" secondItem="ozT-qz-p5n" secondAttribute="trailing" constant="18" id="Wi1-WO-mcr"/>
+                        <constraint firstItem="xOO-0x-bX1" firstAttribute="leading" secondItem="hUc-8Z-hsT" secondAttribute="leading" constant="25" id="a2t-LM-uxF"/>
+                        <constraint firstItem="cm7-iY-xjS" firstAttribute="leading" secondItem="hUc-8Z-hsT" secondAttribute="leading" constant="18" id="c0d-5u-ON8"/>
+                        <constraint firstItem="cm7-iY-xjS" firstAttribute="top" secondItem="hUc-8Z-hsT" secondAttribute="top" constant="40" id="d2g-RY-C2V"/>
+                        <constraint firstAttribute="bottom" secondItem="xOO-0x-bX1" secondAttribute="bottom" constant="20" id="pj7-Ko-1C4"/>
+                        <constraint firstItem="ozT-qz-p5n" firstAttribute="leading" secondItem="hUc-8Z-hsT" secondAttribute="leading" constant="18" id="rBN-wa-95S"/>
+                        <constraint firstAttribute="trailing" secondItem="cm7-iY-xjS" secondAttribute="trailing" constant="18" id="vXk-Vv-Uew"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <integer key="value" value="15"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="MnP-Ws-p9u"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="MnP-Ws-p9u" firstAttribute="trailing" secondItem="hUc-8Z-hsT" secondAttribute="trailing" constant="37.5" id="Bxq-3S-FzW"/>
+                <constraint firstItem="hUc-8Z-hsT" firstAttribute="leading" secondItem="MnP-Ws-p9u" secondAttribute="leading" constant="37.5" id="cvq-zl-oTn"/>
+                <constraint firstItem="hUc-8Z-hsT" firstAttribute="centerX" secondItem="X7p-Rc-lRb" secondAttribute="centerX" id="elC-P0-SEO"/>
+                <constraint firstItem="hUc-8Z-hsT" firstAttribute="top" secondItem="MnP-Ws-p9u" secondAttribute="top" constant="210" id="j8e-FB-arM"/>
+            </constraints>
+            <point key="canvasLocation" x="137.68115942028987" y="101.78571428571428"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="button_bg" width="142.5" height="49.5"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

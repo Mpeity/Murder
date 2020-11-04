@@ -2,7 +2,7 @@
 //  MineScriptModel.swift
 //  Murder
 //
-//  Created by 马滕亚 on 2020/10/28.
+//  Created by m.a.c on 2020/10/28.
 //  Copyright © 2020 m.a.c. All rights reserved.
 //
 
