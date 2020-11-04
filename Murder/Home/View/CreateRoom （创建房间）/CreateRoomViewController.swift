@@ -30,6 +30,14 @@ class CreateRoomViewController: UIViewController {
     @IBOutlet weak var coverImgView: UIImageView!
     // 名字
     @IBOutlet weak var nameLabel: UILabel!
+    // 设置预约时间
+    @IBOutlet weak var setTimeView: UIView!
+    @IBOutlet weak var timeTipLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    
+    
+    
+    // 设置密码视图
     @IBOutlet weak var setpwView: UIView!
     // 房间密码
     @IBOutlet weak var tipLabel: UILabel!
@@ -148,6 +156,14 @@ extension CreateRoomViewController {
         passwordLabel.textColor = HexColor(LightGrayColor)
         passwordLabel.font = UIFont.systemFont(ofSize: 14)
         
+        
+        let timeTap = UITapGestureRecognizer(target: self, action: #selector(setTimeTap))
+        setTimeView.addGestureRecognizer(timeTap)
+        
+        timeLabel.textColor = HexColor(LightGrayColor)
+        timeLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        
 //        createBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 25)
         createBtn.setBackgroundImage(UIImage(named: "button_bg"), for: .normal)
         createBtn.addTarget(self, action: #selector(createBtnAction), for: .touchUpInside)
@@ -173,6 +189,14 @@ extension CreateRoomViewController {
         textInputView.textFieldView.becomeFirstResponder()
         self.view.addSubview(textInputView)
     }
+    
+    /// 设置密码
+    @objc func setTimeTap() {
+//        textInputView.textFieldView.text = nil
+//        textInputView.textFieldView.becomeFirstResponder()
+//        self.view.addSubview(textInputView)
+    }
+    
     
     
 }
