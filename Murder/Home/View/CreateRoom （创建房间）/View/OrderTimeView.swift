@@ -37,6 +37,8 @@ class OrderTimeView: UIView {
         
         // 设置UI
         setUI()
+        
+        loadData()
     }
     
     required init?(coder: NSCoder) {
@@ -65,6 +67,14 @@ extension OrderTimeView {
         
         
         comfirmBtn.addTarget(self, action: #selector(comfirmBtnTap), for: .touchUpInside)
+    }
+}
+
+extension OrderTimeView {
+    private func loadData() {
+        subscribeDatesRequest { (result, error) in
+            
+        }
     }
 }
 

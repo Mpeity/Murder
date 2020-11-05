@@ -2,7 +2,7 @@
 //  PrepareOrderView.swift
 //  Murder
 //
-//  Created by 马滕亚 on 2020/11/4.
+//  Created by m.a.c on 2020/11/4.
 //  Copyright © 2020 m.a.c. All rights reserved.
 //
 
@@ -43,13 +43,14 @@ class PrepareOrderView: UIView {
 extension PrepareOrderView {
     private func setUI() {
         contentView.backgroundColor = HexColor(hex: "#020202", alpha: 0.5)
-
-    
+        contentLabel.textColor = HexColor(LightOrangeColor)
+        contentLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        tipLabel.textColor = HexColor(DarkGrayColor)
+        tipLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         
+        confirmBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         confirmBtn.gradientColor(start: "#3522F2", end: "#934BFE", cornerRadius: 22)
         confirmBtn.addTarget(self, action: #selector(confirmBtnAction), for: .touchUpInside)
-        
-        
     }
     
     private func hideView() {

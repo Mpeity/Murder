@@ -196,6 +196,8 @@
 		98820FC324CACF6B0005EBDD /* QuestionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98820FC124CACF6B0005EBDD /* QuestionViewCell.xib */; };
 		98884AF92552A96800D5C776 /* PrepareOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98884AF82552A96800D5C776 /* PrepareOrderView.swift */; };
 		98884AFD2552A97700D5C776 /* PrepareOrderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98884AFC2552A97700D5C776 /* PrepareOrderView.xib */; };
+		9889E81C25539BB2007D05B5 /* HomeOrderListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9889E81A25539BB2007D05B5 /* HomeOrderListViewCell.swift */; };
+		9889E81D25539BB2007D05B5 /* HomeOrderListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9889E81B25539BB2007D05B5 /* HomeOrderListViewCell.xib */; };
 		988A76602546ABB60082C2BB /* PrepareRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988A765F2546ABB60082C2BB /* PrepareRoleView.swift */; };
 		988A76642546ABC90082C2BB /* PrepareRoleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 988A76632546ABC90082C2BB /* PrepareRoleView.xib */; };
 		988A76682546ABDC0082C2BB /* PreparePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988A76672546ABDC0082C2BB /* PreparePlayerView.swift */; };
@@ -282,6 +284,7 @@
 		98D857A42552497200662F4A /* OrderTimeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98D857A32552497200662F4A /* OrderTimeView.xib */; };
 		98D8A35024DBEE4100469923 /* AgoraRtcKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 98772D0A24DBE72C00C1C125 /* AgoraRtcKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		98D8A35224DC043900469923 /* AgoraStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D8A35124DC043900469923 /* AgoraStatus.swift */; };
+		98D99B0D2553909B008011D4 /* HomeScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D99B0C2553909B008011D4 /* HomeScrollView.swift */; };
 		98D9C8E324F5F9B30058DD45 /* GradienButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D9C8E224F5F9B30058DD45 /* GradienButton.swift */; };
 		98D9C8E524F645310058DD45 /* DSWebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D9C8E424F645310058DD45 /* DSWebSocket.swift */; };
 		98F08BF724E237EE0033DFBA /* HomeBannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F08BF624E237ED0033DFBA /* HomeBannerModel.swift */; };
@@ -535,6 +538,8 @@
 		9882884A2505F6A3003B5C78 /* Murder-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Murder-Bridging-Header.h"; sourceTree = "<group>"; };
 		98884AF82552A96800D5C776 /* PrepareOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareOrderView.swift; sourceTree = "<group>"; };
 		98884AFC2552A97700D5C776 /* PrepareOrderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrepareOrderView.xib; sourceTree = "<group>"; };
+		9889E81A25539BB2007D05B5 /* HomeOrderListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeOrderListViewCell.swift; sourceTree = "<group>"; };
+		9889E81B25539BB2007D05B5 /* HomeOrderListViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeOrderListViewCell.xib; sourceTree = "<group>"; };
 		988A765F2546ABB60082C2BB /* PrepareRoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareRoleView.swift; sourceTree = "<group>"; };
 		988A76632546ABC90082C2BB /* PrepareRoleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrepareRoleView.xib; sourceTree = "<group>"; };
 		988A76672546ABDC0082C2BB /* PreparePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparePlayerView.swift; sourceTree = "<group>"; };
@@ -625,6 +630,7 @@
 		98D8579F2552495A00662F4A /* OrderTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTimeView.swift; sourceTree = "<group>"; };
 		98D857A32552497200662F4A /* OrderTimeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderTimeView.xib; sourceTree = "<group>"; };
 		98D8A35124DC043900469923 /* AgoraStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgoraStatus.swift; sourceTree = "<group>"; };
+		98D99B0C2553909B008011D4 /* HomeScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScrollView.swift; sourceTree = "<group>"; };
 		98D9C8E224F5F9B30058DD45 /* GradienButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradienButton.swift; sourceTree = "<group>"; };
 		98D9C8E424F645310058DD45 /* DSWebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSWebSocket.swift; sourceTree = "<group>"; };
 		98F08BF624E237ED0033DFBA /* HomeBannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBannerModel.swift; sourceTree = "<group>"; };
@@ -1110,11 +1116,14 @@
 				98CA029424C5267E009EF0ED /* Gameplay */,
 				98A79B2D24D1052100ECBD2A /* PrepareRoom（准备房间） */,
 				98649DCC24CE783A005AA9C3 /* CreateRoom （创建房间） */,
+				9889E81A25539BB2007D05B5 /* HomeOrderListViewCell.swift */,
+				9889E81B25539BB2007D05B5 /* HomeOrderListViewCell.xib */,
 				98820FA024CA6DA90005EBDD /* HomeListViewCell.swift */,
 				98820FA124CA6DA90005EBDD /* HomeListViewCell.xib */,
 				98820FA424CA71D30005EBDD /* HomeListHeaderView.swift */,
 				98820FA624CA71E00005EBDD /* HomeListHeaderView.xib */,
 				98820FA824CA80B60005EBDD /* HomeListTableHeaderView.swift */,
+				98D99B0C2553909B008011D4 /* HomeScrollView.swift */,
 				98649DC824CE64A7005AA9C3 /* ListPopUpView.swift */,
 				98649DCA24CE64B1005AA9C3 /* ListPopUpView.xib */,
 			);
@@ -1711,6 +1720,7 @@
 				98884AFD2552A97700D5C776 /* PrepareOrderView.xib in Resources */,
 				98C8D2BA24CDAA45006C76D0 /* RecordDetailViewCell.xib in Resources */,
 				0451A37424C1AD9700E69085 /* Mine.storyboard in Resources */,
+				9889E81D25539BB2007D05B5 /* HomeOrderListViewCell.xib in Resources */,
 				98B4A1DB24D41458007CE295 /* ShareScriptCard.xib in Resources */,
 				98820FB424CA98050005EBDD /* ThreadRightCell.xib in Resources */,
 				98CA02BC24C5A44D009EF0ED /* CompleteInfoViewController.xib in Resources */,
@@ -1964,6 +1974,7 @@
 				988A76602546ABB60082C2BB /* PrepareRoleView.swift in Sources */,
 				98663A6E24FC8A59007726A5 /* FriendsModel.swift in Sources */,
 				987D7F562511D225007F847D /* GotoMessageViewController.swift in Sources */,
+				98D99B0D2553909B008011D4 /* HomeScrollView.swift in Sources */,
 				983FD1A724D27CE40041D79E /* ApplyFriendsListCell.swift in Sources */,
 				9866D4402519F42C0017D9F2 /* EidtFirendsView.swift in Sources */,
 				9866C16724E4E2EB00810516 /* MineModel.swift in Sources */,
@@ -1985,6 +1996,7 @@
 				9868A33224C9A765009FD8F4 /* BillingInfoViewCell.swift in Sources */,
 				98A79B3424D148CB00ECBD2A /* PrepareRoomCell.swift in Sources */,
 				986B8904251AE018002920BD /* ReportImgsView.swift in Sources */,
+				9889E81C25539BB2007D05B5 /* HomeOrderListViewCell.swift in Sources */,
 				98820FAF24CA97F30005EBDD /* ThreadLeftCell.swift in Sources */,
 				98770357251DABB000A3DCE5 /* MyLabel.swift in Sources */,
 				9844204A24EE0FDA001A0D7C /* GPScriptNodeResultModel.swift in Sources */,

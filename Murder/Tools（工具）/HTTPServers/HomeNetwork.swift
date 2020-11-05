@@ -137,6 +137,8 @@ func getScriptRequest(script_id: Int, finished: @escaping(_ reslut: [String: Any
 private let add_room_url = "/api/room/add_room"
 /** 验证验证码
 * @params [参数名] [类型] [是否必传]
+* room_type[int]    是    字段新增-房间类型【0普通1预约】
+* appointment_date复制 [string]  是 预约时间【预约房必填字段】格式:2020-11-05 00:00
 * script_id [int]    是    剧本ID
 * room_password [string]    否    4未纯数字密码
 */
@@ -150,6 +152,42 @@ func addRoomRequest(script_id: Int, hasPassword: Bool, room_password: String, fi
         parameters = ["script_id" : script_id] as [String : AnyObject]
     }
     NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+        finished(result as? [String : AnyObject], error)
+    }
+}
+
+
+//func addRoomRequest(room_type: Int,script_id: Int,appointment_date: String?, hasPassword: Bool, room_password: String, finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+//
+//    let urlString = add_room_url
+//    var parameters = [String : AnyObject]()
+//    if room_type == 0 {
+//        if hasPassword {
+//            parameters = ["room_type":room_type, "script_id" : script_id, "room_password": room_password] as [String : AnyObject]
+//        } else {
+//            parameters = ["room_type":room_type, "script_id" : script_id] as [String : AnyObject]
+//        }
+//    } else {
+//        if hasPassword {
+//            parameters = ["room_type":room_type, "script_id" : script_id, "room_password": room_password] as [String : AnyObject]
+//        } else {
+//            parameters = ["room_type":room_type, "script_id" : script_id] as [String : AnyObject]
+//        }
+//    }
+//    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: parameters) { (result, error) in
+//        finished(result as? [String : AnyObject], error)
+//    }
+//}
+
+//MARK:- 时间选择器-时间数据
+private let subscribe_dates_url = "/api/subscribe/subscribe_dates"
+/** 验证验证码
+* @params [参数名] [类型] [是否必传]
+*/
+func subscribeDatesRequest(finished: @escaping(_ reslut: [String: AnyObject]?, _ error: Error?) -> ()) {
+    
+    let urlString = subscribe_dates_url
+    NetworkTools.shareInstance.requestWithToken(urlString: urlString, method: .POST, parameters: nil) { (result, error) in
         finished(result as? [String : AnyObject], error)
     }
 }

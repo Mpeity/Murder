@@ -16,6 +16,8 @@ class HomeListTableHeaderView: UITableViewHeaderFooterView {
         didSet {
             titleLabel.font = UIFont.systemFont(ofSize: font!, weight: .bold)
         }
+        
+        
     }
 
     override init(reuseIdentifier: String?) {
